@@ -20,7 +20,7 @@
     "Barcelona Declaration"
   ],
   "custom": {
-    "code:codeRepository": "https://github.com/surf-ori/spii-1b-maturity-assessment-tool",
+    "code:codeRepository": "https://github.com/surf-ori/spii-1b-principles-alignment-tool",
     "code:programmingLanguage": [{"id": "javascript", "title": {"en": "JavaScript"}}],
     "code:developmentStatus": {"id": "active", "title": {"en": "Active"}}
   }

@@ -1,6 +1,6 @@
 # Agents
 
-This repo hosts both the maturity assessment tool's app code (see `CLAUDE.md` for its
+This repo hosts both the Principles Alignment Tool's app code (see `CLAUDE.md` for its
 architecture) and SPII deliverable 1B's feedback tracker. The checklist below concerns the
 tracker only.
 

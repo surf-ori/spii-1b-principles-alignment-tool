@@ -1,6 +1,6 @@
 # Open Science Infrastructure Self-Assessment Tool
 
-SPII deliverable 1B, Tool for: Maturity Assessment Tool. Part of the [SPII overview](https://surf-ori.github.io/spii-overview/).
+SPII deliverable 1B, Tool for: Principles Alignment Tool. Part of the [SPII overview](https://surf-ori.github.io/spii-overview/).
 This repository hosts both the tool itself and its feedback/issue tracker.
 
 A self-assessment tool for Open Science infrastructures. Name your
@@ -9,16 +9,16 @@ one or more assessment frameworks as compliant / making progress / not
 compliant with optional notes, then export the result.
 
 Seven frameworks are included today, each as its own JSON file under
-[`data/frameworks/`](https://github.com/surf-ori/spii-1b-maturity-assessment-tool/tree/main/data/frameworks/) — edit them directly to tweak
+[`data/frameworks/`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/tree/main/data/frameworks/) — edit them directly to tweak
 principles, criteria, or copy, no code changes needed:
 
-- **SPII v0.1** (draft, [`spii.json`](https://github.com/surf-ori/spii-1b-maturity-assessment-tool/blob/main/data/frameworks/spii.json)) — 19
+- **SPII v0.1** (draft, [`spii.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/spii.json)) — 19
   principles across Openness, Autonomy, Sustainability, Interoperability,
   and Researcher-centric.
 - **[Principles of Open Scholarly Infrastructure (POSI) v2.0](https://openscholarlyinfrastructure.org/)**
-  ([`posi.json`](https://github.com/surf-ori/spii-1b-maturity-assessment-tool/blob/main/data/frameworks/posi.json)) — 20 principles across
+  ([`posi.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/posi.json)) — 20 principles across
   Governance, Sustainability, and Insurance.
-- **GORC v1.1 Assessment** (draft, [`gorc.json`](https://github.com/surf-ori/spii-1b-maturity-assessment-tool/blob/main/data/frameworks/gorc.json))
+- **GORC v1.1 Assessment** (draft, [`gorc.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/gorc.json))
   — 55 principles adapting the Research Data Alliance's [Global Open
   Research Commons (GORC) International Model, version
   1.1](https://doi.org/10.15497/RDA00119) (2024), an aspirational (not
@@ -28,18 +28,18 @@ principles, criteria, or copy, no code changes needed:
   Participation & Access, Sustainability, Engagement, Human Capacity,
   Interoperability, Standards & Conventions, ICT Infrastructure, Services &
   Tools, and Research Objects.
-- **FAIR v1.0** (draft, [`fair.json`](https://github.com/surf-ori/spii-1b-maturity-assessment-tool/blob/main/data/frameworks/fair.json))
+- **FAIR v1.0** (draft, [`fair.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/fair.json))
   — 15 principles transcribing the [FAIR Guiding
   Principles](https://www.gofair.foundation/fair-principles) (Wilkinson et
   al., 2016) verbatim: Findable, Accessible, Interoperable, and Reusable,
   covering both data and metadata.
-- **BD v1.0** (draft, [`bd.json`](https://github.com/surf-ori/spii-1b-maturity-assessment-tool/blob/main/data/frameworks/bd.json))
+- **BD v1.0** (draft, [`bd.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/bd.json))
   — 8 principles adapting the four commitments of the [Barcelona
   Declaration on Open Research Information](https://www.barcelona-declaration.org)
   (2024): making openness the default, working with open-enabling services
   and systems, supporting infrastructure sustainability, and coordinating
   collective action.
-- **OSR v0.1** (draft, [`osr.json`](https://github.com/surf-ori/spii-1b-maturity-assessment-tool/blob/main/data/frameworks/osr.json)) — 25
+- **OSR v0.1** (draft, [`osr.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/osr.json)) — 25
   principles adapting Jeroen Bosman and Jeroen Sondervan's [open science
   resilience model](https://upstream.force11.org/the-resilience-of-open-science-in-times-of-crisis/),
   related to the International Science Council's [*Protecting Science in
@@ -47,7 +47,7 @@ principles, criteria, or copy, no code changes needed:
   concern (funding, infrastructure, academic freedom, safety,
   disinformation), each scored across five resilience types (prevention,
   protection, resistance, withstanding, repair).
-- **7GPRI v1.0** (draft, [`7gpri.json`](https://github.com/surf-ori/spii-1b-maturity-assessment-tool/blob/main/data/frameworks/7gpri.json))
+- **7GPRI v1.0** (draft, [`7gpri.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/7gpri.json))
   — 7 principles adapting the Dutch Taskforce on Responsible Management of
   Research Information and Data's [Seven Guiding Principles for Open
   Research Information](https://www.universiteitenvannederland.nl/files/documenten/Nieuwsberichten/Guiding%20Principles%20on%20Management%20of%20Research%20Information%20and%20Data_11May.pdf)
@@ -81,20 +81,20 @@ principles, criteria, or copy, no code changes needed:
 
 ## Usage
 
-Also live at **[surf-ori.github.io/spii-1b-maturity-assessment-tool](https://surf-ori.github.io/spii-1b-maturity-assessment-tool/)**
+Also live at **[surf-ori.github.io/spii-1b-principles-alignment-tool](https://surf-ori.github.io/spii-1b-principles-alignment-tool/)**
 (GitHub Pages, served from this repo's `main` branch — no separate deploy
 step). Or serve the directory with any static file server (for example
 `python3 -m http.server`) and open `index.html` over http(s); there is
 nothing to install or build beyond that. **Opening `index.html` directly
 as a `file://` page no longer works** — the seven built-in frameworks are
-loaded from [`data/frameworks/`](https://github.com/surf-ori/spii-1b-maturity-assessment-tool/tree/main/data/frameworks/) via `fetch()` at
+loaded from [`data/frameworks/`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/tree/main/data/frameworks/) via `fetch()` at
 startup, and browsers block that kind of request from a `file://` page;
 you'll see a clear on-page message explaining this instead of a blank
 page. The top bar's Import/Export menus cover loading and saving a report
 or a custom framework by hand; "About" and "Changelog", also in the top
 bar, open as dialogs.
 
-[`data/examples/`](https://github.com/surf-ori/spii-1b-maturity-assessment-tool/tree/main/data/examples/) has three example POSI assessment reports based
+[`data/examples/`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/tree/main/data/examples/) has three example POSI assessment reports based
 on published self-assessments from real infrastructures (OpenAIRE,
 OpenAlex, HAL+/CCSD) — linked from the About dialog as one-click loads
 against the live site (see below), or load one by hand via "Import
@@ -142,13 +142,13 @@ two ways to contribute it, both landing on this same repository:
 
 - **Open a new issue** — attach the downloaded file to a new issue.
 - **Propose it as a file (pull request)** — drop the downloaded file onto GitHub's "new file"
-  page under [`data/reports/`](https://github.com/surf-ori/spii-1b-maturity-assessment-tool/tree/main/data/reports/). If you don't have write access (the common case), GitHub
+  page under [`data/reports/`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/tree/main/data/reports/). If you don't have write access (the common case), GitHub
   forks the repo for you and opens the pull request automatically — no manual fork needed.
 
 Either way, the report (including any name, description, or notes you've entered) becomes
 **public** once you submit it — the dialog says so before you pick an option. A curator reviews
 submissions the same way as other feedback before they're merged in; see
-[`data/reports/README.md`](https://github.com/surf-ori/spii-1b-maturity-assessment-tool/blob/main/data/reports/README.md) for the filename convention.
+[`data/reports/README.md`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/reports/README.md) for the filename convention.
 
 ## Citing
 
