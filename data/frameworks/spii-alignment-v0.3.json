@@ -25,7 +25,8 @@
             "level-2": "Data and content is described with metadata. Data and content is findable.",
             "level-3": "Data and content is well described, findable and accessible with restrictions.",
             "level-4": "Data and content is well described, findable and accessible to everyone."
-          }
+          },
+          "improvementAction": "Add metadata and open access to the infrastructure's own outputs and hosted content, moving from restricted access toward full FAIR-style openness."
         },
         {
           "id": "sa-transparent-processes",
@@ -36,7 +37,8 @@
             "level-2": "There is some guidelines on the process.",
             "level-3": "All steps in a process are described, recorded when executed and made available with restrictions.",
             "level-4": "All steps in a process are well described, recorded when executed and made publicly available."
-          }
+          },
+          "improvementAction": "Document each operational process, record when steps are executed, and publish that record openly rather than keeping it internal."
         },
         {
           "id": "sa-open-source",
@@ -47,7 +49,8 @@
             "level-2": "Some core parts are using open source software.",
             "level-3": "Mostly open source software is used. Some open source software is contributed back to the community.",
             "level-4": "Full engagement in an open source community."
-          }
+          },
+          "improvementAction": "Replace proprietary components with open source alternatives where possible, and start contributing improvements back to the projects the infrastructure depends on."
         },
         {
           "id": "sa-open-to-new-ideas",
@@ -58,7 +61,8 @@
             "level-2": "Ad-hoc improvements",
             "level-3": "An innovation process is in place",
             "level-4": "Continously innovating"
-          }
+          },
+          "improvementAction": "Set up a lightweight process for collecting, evaluating, and acting on improvement ideas, rather than only making changes ad hoc."
         },
         {
           "id": "sa-open-to-participation",
@@ -80,7 +84,8 @@
             "level-2": "Governance is shared by multiple parties, and there is an advisory board or similar to represent the community.",
             "level-3": "The governance is in the hands of a consortium or board that represents well the main stakeholders and user groups.",
             "level-4": "Full community participation in the governance through mechanisms like elections and self governance."
-          }
+          },
+          "improvementAction": "Broaden governance beyond a single party — start with an advisory board, then move toward a representative consortium or board, and eventually community elections."
         },
         {
           "id": "sa-clear-responsibilities",
@@ -96,7 +101,8 @@
             "level-2": "The infrastructure provides an API for most functionalities.",
             "level-3": "It is possible to gradually migrate to another solution, e.g. adheres to open standards for integrations and data formats.",
             "level-4": "A full exit plan has been developed and there is a number of realistic alternatives."
-          }
+          },
+          "improvementAction": "Adopt open standards for integrations and data formats, and draft an exit plan naming realistic alternative suppliers or solutions."
         }
       ]
     },
@@ -112,7 +118,8 @@
             "level-1": "There is no funding at the moment and for the foreseeable future.",
             "level-2": "There is time-limited funding, e.g. through a one-off grant or donation.",
             "level-3": "There is for a number of years funding, e.g. through memberships and recurrent grants."
-          }
+          },
+          "improvementAction": "Move from one-off or time-limited funding toward multi-year, recurring commitments such as memberships or structural grants."
         },
         {
           "id": "sa-human-capacity-available",
@@ -123,7 +130,8 @@
             "level-2": "One hero is keeping the lights on, but there is no backup.",
             "level-3": "Somewhat staffed",
             "level-4": "Dedicated resourcing"
-          }
+          },
+          "improvementAction": "Build staffing capacity beyond a single dependent maintainer, moving toward dedicated, budgeted resourcing for the infrastructure."
         },
         {
           "id": "sa-legal-policy-compliant",
@@ -134,7 +142,8 @@
             "level-2": "Major gaps",
             "level-3": "Bases covered",
             "level-4": "Audited or certified"
-          }
+          },
+          "improvementAction": "Assess the infrastructure's legal and policy compliance systematically, close identified gaps, and work toward independent audit or certification."
         },
         {
           "id": "sa-resilient",
@@ -145,7 +154,8 @@
             "level-2": "Major gaps",
             "level-3": "Bases covered",
             "level-4": "Can weather a hurricane"
-          }
+          },
+          "improvementAction": "Identify single points of failure and address the most significant gaps first, working toward resilience that can withstand major disruptions."
         },
         {
           "id": "sa-institutionally-embedded",
@@ -167,7 +177,8 @@
             "level-2": "Uses other systems",
             "level-3": "Two-way connected",
             "level-4": "Part of flourishing ecosystem"
-          }
+          },
+          "improvementAction": "Add integrations with other relevant systems, starting with one-way data exchange and working toward two-way, standards-based connections."
         },
         {
           "id": "sa-seamless-user-experience",
