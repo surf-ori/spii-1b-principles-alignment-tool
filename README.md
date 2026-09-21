@@ -14,10 +14,10 @@ Eight frameworks are included today, each as its own JSON file under
 [`data/frameworks/`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/tree/main/data/frameworks/) — edit them directly to tweak
 principles, criteria, or copy, no code changes needed:
 
-- **SPII v0.1** (draft, [`spii.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/spii.json)) — 19
+- **SPII v0.1** (draft, [`spii-v0.1.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/spii-v0.1.json)) — 19
   principles across Openness, Autonomy, Sustainability, Interoperability,
   and Researcher-centric.
-- **SPII Maturity Matrix v0.3** (draft, [`spii-maturity.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/spii-maturity.json))
+- **SPII Maturity Matrix v0.3** (draft, [`spii-alignment-v0.3.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/spii-alignment-v0.3.json))
   — 17 subprinciples across Openness, Autonomy, Sustainable, and Researcher
   centric, transcribed verbatim from a table Till Bey shared by email
   (CC-BY licensed). Scored on a four-level maturity scale (Level 1–4,
@@ -25,9 +25,9 @@ principles, criteria, or copy, no code changes needed:
   compliant/progress/non-compliant; six subprinciples have no level
   descriptions yet.
 - **[Principles of Open Scholarly Infrastructure (POSI) v2.0](https://openscholarlyinfrastructure.org/)**
-  ([`posi.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/posi.json)) — 20 principles across
+  ([`posi-v2.0.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/posi-v2.0.json)) — 20 principles across
   Governance, Sustainability, and Insurance.
-- **GORC v1.1 Assessment** (draft, [`gorc.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/gorc.json))
+- **GORC v1.1 Assessment** (draft, [`gorc-v1.1.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/gorc-v1.1.json))
   — 55 principles adapting the Research Data Alliance's [Global Open
   Research Commons (GORC) International Model, version
   1.1](https://doi.org/10.15497/RDA00119) (2024), an aspirational (not
@@ -37,18 +37,18 @@ principles, criteria, or copy, no code changes needed:
   Participation & Access, Sustainability, Engagement, Human Capacity,
   Interoperability, Standards & Conventions, ICT Infrastructure, Services &
   Tools, and Research Objects.
-- **FAIR v1.0** (draft, [`fair.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/fair.json))
+- **FAIR v1.0** (draft, [`fair-v1.0.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/fair-v1.0.json))
   — 15 principles transcribing the [FAIR Guiding
   Principles](https://www.gofair.foundation/fair-principles) (Wilkinson et
   al., 2016) verbatim: Findable, Accessible, Interoperable, and Reusable,
   covering both data and metadata.
-- **BD v1.0** (draft, [`bd.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/bd.json))
+- **BD v1.0** (draft, [`bd-v1.0.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/bd-v1.0.json))
   — 8 principles adapting the four commitments of the [Barcelona
   Declaration on Open Research Information](https://www.barcelona-declaration.org)
   (2024): making openness the default, working with open-enabling services
   and systems, supporting infrastructure sustainability, and coordinating
   collective action.
-- **OSR v0.1** (draft, [`osr.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/osr.json)) — 25
+- **OSR v0.1** (draft, [`osr-v0.1.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/osr-v0.1.json)) — 25
   principles adapting Jeroen Bosman and Jeroen Sondervan's [open science
   resilience model](https://upstream.force11.org/the-resilience-of-open-science-in-times-of-crisis/),
   related to the International Science Council's [*Protecting Science in
@@ -56,7 +56,7 @@ principles, criteria, or copy, no code changes needed:
   concern (funding, infrastructure, academic freedom, safety,
   disinformation), each scored across five resilience types (prevention,
   protection, resistance, withstanding, repair).
-- **7GPRI v1.0** (draft, [`7gpri.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/7gpri.json))
+- **7GPRI v1.0** (draft, [`7gpri-v1.0.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/7gpri-v1.0.json))
   — 7 principles adapting the Dutch Taskforce on Responsible Management of
   Research Information and Data's [Seven Guiding Principles for Open
   Research Information](https://www.universiteitenvannederland.nl/files/documenten/Nieuwsberichten/Guiding%20Principles%20on%20Management%20of%20Research%20Information%20and%20Data_11May.pdf)
@@ -95,7 +95,7 @@ Also live at **[surf-ori.github.io/spii-1b-principles-alignment-tool](https://su
 step). Or serve the directory with any static file server (for example
 `python3 -m http.server`) and open `index.html` over http(s); there is
 nothing to install or build beyond that. **Opening `index.html` directly
-as a `file://` page no longer works** — the seven built-in frameworks are
+as a `file://` page no longer works** — the eight built-in frameworks are
 loaded from [`data/frameworks/`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/tree/main/data/frameworks/) via `fetch()` at
 startup, and browsers block that kind of request from a `file://` page;
 you'll see a clear on-page message explaining this instead of a blank
@@ -125,7 +125,7 @@ report and/or a custom framework automatically from query parameters:
 
 ### Linking directly to a framework
 
-`index.html#gorc` (or any framework id — `spii`, `spii-maturity`, `posi`, `gorc`, `fair`, `bd`, `osr`, `7gpri`, matched
+`index.html#gorc` (or any framework id — `spii`, `spii-alignment`, `posi`, `gorc`, `fair`, `bd`, `osr`, `7gpri`, matched
 case-insensitively) opens straight to that framework's tab, with its sidebar section expanded
 and every other framework's section collapsed. Selecting a framework tab in the app updates the
 URL the same way, so the address bar always reflects which framework is open and can be shared

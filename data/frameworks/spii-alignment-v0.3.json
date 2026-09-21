@@ -1,5 +1,5 @@
 {
-  "id": "spii-maturity",
+  "id": "spii-alignment",
   "title": "SPII Maturity Matrix v0.3 (draft)",
   "shortName": "SPII Maturity",
   "description": "An early, four-level draft maturity matrix for the SPII values and principles (v0.3), transcribed verbatim from a table Till Bey shared by email on 2026-09-21. Distinct from the SPII v0.1 framework above: this one scores each subprinciple on a four-step maturity scale rather than compliant/progress/non-compliant, and six of its seventeen subprinciples have no level descriptions yet.",
@@ -17,7 +17,7 @@
       "sourceUrl": "https://github.com/surf-ori/spii-1a-values-and-principles/blob/main/data/maturity-matrix-v0.3.pdf",
       "principles": [
         {
-          "id": "sm-results-openly-available",
+          "id": "sa-results-openly-available",
           "title": "Results openly available",
           "text": "Results refers to any output created by the infrastructure itself (the software running the infrastructure) or stored in it (e.g. datasets, content).",
           "criteria": {
@@ -28,7 +28,7 @@
           }
         },
         {
-          "id": "sm-transparent-processes",
+          "id": "sa-transparent-processes",
           "title": "Transparent processes",
           "text": "No explanatory text provided in the source matrix yet.",
           "criteria": {
@@ -39,7 +39,7 @@
           }
         },
         {
-          "id": "sm-open-source",
+          "id": "sa-open-source",
           "title": "Open source",
           "text": "No explanatory text provided in the source matrix yet.",
           "criteria": {
@@ -50,7 +50,7 @@
           }
         },
         {
-          "id": "sm-open-to-new-ideas",
+          "id": "sa-open-to-new-ideas",
           "title": "Open to new ideas",
           "text": "No explanatory text provided in the source matrix yet.",
           "criteria": {
@@ -61,7 +61,7 @@
           }
         },
         {
-          "id": "sm-open-to-participation",
+          "id": "sa-open-to-participation",
           "title": "Open to participation",
           "text": "No explanatory text provided in the source matrix yet. This subprinciple has no level descriptions yet either."
         }
@@ -72,7 +72,7 @@
       "sourceUrl": "https://github.com/surf-ori/spii-1a-values-and-principles/blob/main/data/maturity-matrix-v0.3.pdf",
       "principles": [
         {
-          "id": "sm-community-governed",
+          "id": "sa-community-governed",
           "title": "Community governed",
           "text": "No explanatory text provided in the source matrix yet.",
           "criteria": {
@@ -83,12 +83,12 @@
           }
         },
         {
-          "id": "sm-clear-responsibilities",
+          "id": "sa-clear-responsibilities",
           "title": "Clear responsibilities",
           "text": "No explanatory text provided in the source matrix yet. This subprinciple has no level descriptions yet either."
         },
         {
-          "id": "sm-reduced-dependence-single-supplier",
+          "id": "sa-reduced-dependence-single-supplier",
           "title": "Reduced dependence on single supplier",
           "text": "Also see the Digital Autonomy Assessment Framework (utrechtuniversity.github.io/digital-autonomy-assessment-tool) for further guidance.",
           "criteria": {
@@ -105,7 +105,7 @@
       "sourceUrl": "https://github.com/surf-ori/spii-1a-values-and-principles/blob/main/data/maturity-matrix-v0.3.pdf",
       "principles": [
         {
-          "id": "sm-financially-secure",
+          "id": "sa-financially-secure",
           "title": "Financially secure",
           "text": "No explanatory text provided in the source matrix yet.",
           "criteria": {
@@ -115,7 +115,7 @@
           }
         },
         {
-          "id": "sm-human-capacity-available",
+          "id": "sa-human-capacity-available",
           "title": "Human capacity available",
           "text": "No explanatory text provided in the source matrix yet.",
           "criteria": {
@@ -126,7 +126,7 @@
           }
         },
         {
-          "id": "sm-legal-policy-compliant",
+          "id": "sa-legal-policy-compliant",
           "title": "Legal and policy compliant",
           "text": "No explanatory text provided in the source matrix yet.",
           "criteria": {
@@ -137,7 +137,7 @@
           }
         },
         {
-          "id": "sm-resilient",
+          "id": "sa-resilient",
           "title": "Resilient",
           "text": "No explanatory text provided in the source matrix yet.",
           "criteria": {
@@ -148,7 +148,7 @@
           }
         },
         {
-          "id": "sm-institutionally-embedded",
+          "id": "sa-institutionally-embedded",
           "title": "Institutionally embedded",
           "text": "No explanatory text provided in the source matrix yet. This subprinciple has no level descriptions yet either."
         }
@@ -159,7 +159,7 @@
       "sourceUrl": "https://github.com/surf-ori/spii-1a-values-and-principles/blob/main/data/maturity-matrix-v0.3.pdf",
       "principles": [
         {
-          "id": "sm-interconnected",
+          "id": "sa-interconnected",
           "title": "Interconnected",
           "text": "No explanatory text provided in the source matrix yet.",
           "criteria": {
@@ -170,17 +170,17 @@
           }
         },
         {
-          "id": "sm-seamless-user-experience",
+          "id": "sa-seamless-user-experience",
           "title": "Seamless user-experience",
           "text": "No explanatory text provided in the source matrix yet. This subprinciple has no level descriptions yet either."
         },
         {
-          "id": "sm-accessible-to-all",
+          "id": "sa-accessible-to-all",
           "title": "Accessible to all",
           "text": "No explanatory text provided in the source matrix yet. This subprinciple has no level descriptions yet either."
         },
         {
-          "id": "sm-recognition-and-rewards",
+          "id": "sa-recognition-and-rewards",
           "title": "Recognition and rewards",
           "text": "No explanatory text provided in the source matrix yet. This subprinciple has no level descriptions yet either."
         }

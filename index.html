@@ -785,7 +785,7 @@
                 return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
             }
 
-            const BUILTIN_FRAMEWORK_FILES = ["data/frameworks/spii.json", "data/frameworks/spii-maturity.json", "data/frameworks/posi.json", "data/frameworks/gorc.json", "data/frameworks/fair.json", "data/frameworks/bd.json", "data/frameworks/osr.json", "data/frameworks/7gpri.json"];
+            const BUILTIN_FRAMEWORK_FILES = ["data/frameworks/spii-v0.1.json", "data/frameworks/spii-alignment-v0.3.json", "data/frameworks/posi-v2.0.json", "data/frameworks/gorc-v1.1.json", "data/frameworks/fair-v1.0.json", "data/frameworks/bd-v1.0.json", "data/frameworks/osr-v0.1.json", "data/frameworks/7gpri-v1.0.json"];
 
             async function load_builtin_frameworks() {
                 const loaded = await Promise.all(
@@ -1720,7 +1720,7 @@
             // (worst first, best last) and key each principle's `criteria` by those
             // same ids instead of compliant/progress/"non-compliant". A framework with
             // its own `levels` renders as numbered circles colored red (worst) to green
-            // (best) instead of the tick/clock/cross icons — see data/frameworks/spii-maturity.json
+            // (best) instead of the tick/clock/cross icons — see data/frameworks/spii-alignment-v0.3.json
             // for a working 4-level example.
             const FRAMEWORK_TEMPLATE = {
                 id: "my-framework",
