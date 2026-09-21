@@ -1,0 +1,190 @@
+{
+  "id": "spii-maturity",
+  "title": "SPII Maturity Matrix v0.3 (draft)",
+  "shortName": "SPII Maturity",
+  "description": "An early, four-level draft maturity matrix for the SPII values and principles (v0.3), transcribed verbatim from a table Till Bey shared by email on 2026-09-21. Distinct from the SPII v0.1 framework above: this one scores each subprinciple on a four-step maturity scale rather than compliant/progress/non-compliant, and six of its seventeen subprinciples have no level descriptions yet.",
+  "aboutHtml": "<p>This is the SPII project's own draft maturity matrix (version 0.3, CC-BY licensed, Till Bey), scoring each subprinciple on a four-level maturity scale from Level 1 (least mature) to Level 4 (most mature) rather than the compliant/progress/non-compliant scale every other framework here uses.</p><p>It groups seventeen subprinciples under four values: Openness, Autonomy, Sustainable, and Researcher centric. This is still an early, unfinished draft: six subprinciples (Open to participation, Clear responsibilities, Institutionally embedded, Seamless user-experience, Accessible to all, Recognition and rewards) have no level descriptions at all yet, and several others are only partly filled in — those show as plain numbered circles with no rubric text underneath, rather than being left out of the framework entirely.</p><p>Full source, provenance notes, and the original PDF: <a href=\"https://github.com/surf-ori/spii-1a-values-and-principles/blob/main/data/README.md\">spii-1a-values-and-principles/data/README.md</a>.</p>",
+  "draft": true,
+  "levels": [
+    { "id": "level-1", "label": "Level 1" },
+    { "id": "level-2", "label": "Level 2" },
+    { "id": "level-3", "label": "Level 3" },
+    { "id": "level-4", "label": "Level 4" }
+  ],
+  "sections": [
+    {
+      "section": "Openness",
+      "sourceUrl": "https://github.com/surf-ori/spii-1a-values-and-principles/blob/main/data/maturity-matrix-v0.3.pdf",
+      "principles": [
+        {
+          "id": "sm-results-openly-available",
+          "title": "Results openly available",
+          "text": "Results refers to any output created by the infrastructure itself (the software running the infrastructure) or stored in it (e.g. datasets, content).",
+          "criteria": {
+            "level-1": "Data and content is not available.",
+            "level-2": "Data and content is described with metadata. Data and content is findable.",
+            "level-3": "Data and content is well described, findable and accessible with restrictions.",
+            "level-4": "Data and content is well described, findable and accessible to everyone."
+          }
+        },
+        {
+          "id": "sm-transparent-processes",
+          "title": "Transparent processes",
+          "text": "No explanatory text provided in the source matrix yet.",
+          "criteria": {
+            "level-1": "There is no documentation of what is happening or supposed to happen.",
+            "level-2": "There is some guidelines on the process.",
+            "level-3": "All steps in a process are described, recorded when executed and made available with restrictions.",
+            "level-4": "All steps in a process are well described, recorded when executed and made publicly available."
+          }
+        },
+        {
+          "id": "sm-open-source",
+          "title": "Open source",
+          "text": "No explanatory text provided in the source matrix yet.",
+          "criteria": {
+            "level-1": "Only proprietary software is used.",
+            "level-2": "Some core parts are using open source software.",
+            "level-3": "Mostly open source software is used. Some open source software is contributed back to the community.",
+            "level-4": "Full engagement in an open source community."
+          }
+        },
+        {
+          "id": "sm-open-to-new-ideas",
+          "title": "Open to new ideas",
+          "text": "No explanatory text provided in the source matrix yet.",
+          "criteria": {
+            "level-1": "At a stand still",
+            "level-2": "Ad-hoc improvements",
+            "level-3": "An innovation process is in place",
+            "level-4": "Continously innovating"
+          }
+        },
+        {
+          "id": "sm-open-to-participation",
+          "title": "Open to participation",
+          "text": "No explanatory text provided in the source matrix yet. This subprinciple has no level descriptions yet either."
+        }
+      ]
+    },
+    {
+      "section": "Autonomy",
+      "sourceUrl": "https://github.com/surf-ori/spii-1a-values-and-principles/blob/main/data/maturity-matrix-v0.3.pdf",
+      "principles": [
+        {
+          "id": "sm-community-governed",
+          "title": "Community governed",
+          "text": "No explanatory text provided in the source matrix yet.",
+          "criteria": {
+            "level-1": "Decisions are made by a single party, without clear possibility for the community to participate.",
+            "level-2": "Governance is shared by multiple parties, and there is an advisory board or similar to represent the community.",
+            "level-3": "The governance is in the hands of a consortium or board that represents well the main stakeholders and user groups.",
+            "level-4": "Full community participation in the governance through mechanisms like elections and self governance."
+          }
+        },
+        {
+          "id": "sm-clear-responsibilities",
+          "title": "Clear responsibilities",
+          "text": "No explanatory text provided in the source matrix yet. This subprinciple has no level descriptions yet either."
+        },
+        {
+          "id": "sm-reduced-dependence-single-supplier",
+          "title": "Reduced dependence on single supplier",
+          "text": "Also see the Digital Autonomy Assessment Framework (utrechtuniversity.github.io/digital-autonomy-assessment-tool) for further guidance.",
+          "criteria": {
+            "level-1": "The infrastructure uses mainly proprietary software.",
+            "level-2": "The infrastructure provides an API for most functionalities.",
+            "level-3": "It is possible to gradually migrate to another solution, e.g. adheres to open standards for integrations and data formats.",
+            "level-4": "A full exit plan has been developed and there is a number of realistic alternatives."
+          }
+        }
+      ]
+    },
+    {
+      "section": "Sustainable",
+      "sourceUrl": "https://github.com/surf-ori/spii-1a-values-and-principles/blob/main/data/maturity-matrix-v0.3.pdf",
+      "principles": [
+        {
+          "id": "sm-financially-secure",
+          "title": "Financially secure",
+          "text": "No explanatory text provided in the source matrix yet.",
+          "criteria": {
+            "level-1": "There is no funding at the moment and for the foreseeable future.",
+            "level-2": "There is time-limited funding, e.g. through a one-off grant or donation.",
+            "level-3": "There is for a number of years funding, e.g. through memberships and recurrent grants."
+          }
+        },
+        {
+          "id": "sm-human-capacity-available",
+          "title": "Human capacity available",
+          "text": "No explanatory text provided in the source matrix yet.",
+          "criteria": {
+            "level-1": "No one is working on this infrastructure for a forseeable time.",
+            "level-2": "One hero is keeping the lights on, but there is no backup.",
+            "level-3": "Somewhat staffed",
+            "level-4": "Dedicated resourcing"
+          }
+        },
+        {
+          "id": "sm-legal-policy-compliant",
+          "title": "Legal and policy compliant",
+          "text": "No explanatory text provided in the source matrix yet.",
+          "criteria": {
+            "level-1": "Unknown",
+            "level-2": "Major gaps",
+            "level-3": "Bases covered",
+            "level-4": "Audited or certified"
+          }
+        },
+        {
+          "id": "sm-resilient",
+          "title": "Resilient",
+          "text": "No explanatory text provided in the source matrix yet.",
+          "criteria": {
+            "level-1": "Falls over at the first breeze",
+            "level-2": "Major gaps",
+            "level-3": "Bases covered",
+            "level-4": "Can weather a hurricane"
+          }
+        },
+        {
+          "id": "sm-institutionally-embedded",
+          "title": "Institutionally embedded",
+          "text": "No explanatory text provided in the source matrix yet. This subprinciple has no level descriptions yet either."
+        }
+      ]
+    },
+    {
+      "section": "Researcher centric",
+      "sourceUrl": "https://github.com/surf-ori/spii-1a-values-and-principles/blob/main/data/maturity-matrix-v0.3.pdf",
+      "principles": [
+        {
+          "id": "sm-interconnected",
+          "title": "Interconnected",
+          "text": "No explanatory text provided in the source matrix yet.",
+          "criteria": {
+            "level-1": "This infrastructure has non integrations with others, and makes it difficult to even exchange data.",
+            "level-2": "Uses other systems",
+            "level-3": "Two-way connected",
+            "level-4": "Part of flourishing ecosystem"
+          }
+        },
+        {
+          "id": "sm-seamless-user-experience",
+          "title": "Seamless user-experience",
+          "text": "No explanatory text provided in the source matrix yet. This subprinciple has no level descriptions yet either."
+        },
+        {
+          "id": "sm-accessible-to-all",
+          "title": "Accessible to all",
+          "text": "No explanatory text provided in the source matrix yet. This subprinciple has no level descriptions yet either."
+        },
+        {
+          "id": "sm-recognition-and-rewards",
+          "title": "Recognition and rewards",
+          "text": "No explanatory text provided in the source matrix yet. This subprinciple has no level descriptions yet either."
+        }
+      ]
+    }
+  ]
+}

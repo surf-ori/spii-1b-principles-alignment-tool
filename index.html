@@ -307,9 +307,10 @@
                 transform: scale(0.98);
             }
 
-            .status-card.selected[data-status="compliant"] { border-color: var(--compliant); }
-            .status-card.selected[data-status="progress"] { border-color: var(--warning); }
-            .status-card.selected[data-status="non-compliant"] { border-color: var(--destructive); }
+            /* --status-accent is set inline per card (level_color()) so this
+               works for both the legacy 3-status frameworks and any framework
+               with its own N-level scale, without one CSS rule per status id. */
+            .status-card.selected { border-color: var(--status-accent, var(--border)); }
 
             .status-card:focus-visible {
                 outline: 2px solid var(--focus-ring);
@@ -507,9 +508,7 @@
                 color: var(--primary);
             }
 
-            .status-card[data-status="compliant"] .status-icon { color: var(--compliant); }
-            .status-card[data-status="progress"] .status-icon { color: var(--warning); }
-            .status-card[data-status="non-compliant"] .status-icon { color: var(--destructive); }
+            .status-card .status-icon { color: var(--status-accent, currentColor); }
 
             [role="tablist"] {
                 margin-bottom: var(--space-4);
@@ -545,7 +544,7 @@
                 flex-shrink: 0;
                 align-self: center;
                 margin-right: var(--space-2);
-                color: var(--border);
+                color: var(--status-accent, var(--border));
             }
 
             .nav-status-icon svg {
@@ -553,10 +552,6 @@
                 width: 16px;
                 height: 16px;
             }
-
-            .nav-status-icon[data-status="compliant"] { color: var(--compliant); }
-            .nav-status-icon[data-status="progress"] { color: var(--warning); }
-            .nav-status-icon[data-status="non-compliant"] { color: var(--destructive); }
 
             @media print {
                 [role="tablist"] {
@@ -665,6 +660,7 @@
 
             const CHANGELOG_HTML =
                 "<dl>" +
+                '<dt>2026-09-21</dt><dd>Added the SPII Maturity Matrix v0.3 framework (draft), transcribed verbatim from a table Till Bey shared by email — 17 subprinciples across Openness, Autonomy, Sustainable, and Researcher centric, six with no level descriptions yet. It is the first framework here scored on a four-level maturity scale rather than compliant/progress/non-compliant, shown as numbered circles colored red (Level 1) to green (Level 4) instead of the tick/clock/cross icons. Frameworks can now declare their own ordered <code>levels</code> array of any length instead of the built-in three; every other framework here is unaffected and keeps rendering exactly as before.</dd>' +
                 '<dt>2026-09-21</dt><dd>Renamed from “Maturity Assessment Tool” to “Principles Alignment Tool” as SPII deliverable 1B’s public-facing name, following feedback from the SPII Stuurgroep that the old name read as too technical. The repository itself was renamed to match — <a href="https://github.com/surf-ori/spii-1b-principles-alignment-tool">github.com/surf-ori/spii-1b-principles-alignment-tool</a>, now live at <a href="https://surf-ori.github.io/spii-1b-principles-alignment-tool/">surf-ori.github.io/spii-1b-principles-alignment-tool</a> — carrying over its full git history and open issues. The old repository name now redirects: GitHub forwards <code>github.com</code> links automatically, and a small skeleton repo left at the old name forwards the GitHub Pages URL, which does not redirect on its own. This tool’s own on-page title, “Open Science Infrastructure Self-Assessment Tool”, set in the 2026-08-27 entry below, is unchanged — only the SPII deliverable label changed.</dd>' +
                 '<dt>2026-09-17</dt><dd>Added a "Back to spii-overview" link in a thin bar above the top nav, linking to <a href="https://surf-ori.github.io/spii-overview/">surf-ori.github.io/spii-overview</a>. Kept outside <code>nav[data-topnav]</code> entirely rather than added as another item in it, since that element already has a documented history of overflowing on narrow phones (see the 2026-09-15 entry below) — a new sibling bar avoided touching that logic at all. Hidden during PDF export/printing alongside the rest of the page chrome.</dd>' +
                 '<dt>2026-09-17</dt><dd>Added a seventh framework, the 7GPRI v1.0 Assessment (draft) — an adaptation of the Dutch Taskforce on Responsible Management of Research Information and Data’s <a href="https://www.universiteitenvannederland.nl/files/documenten/Nieuwsberichten/Guiding%20Principles%20on%20Management%20of%20Research%20Information%20and%20Data_11May.pdf">Seven Guiding Principles for Open Research Information</a> (February 2022). 7 principles — trusted and transparent provenance, openness of metadata, openness of algorithms, enduring access and availability, open standards and interoperability, open collaboration with third parties, and academic sovereignty through governance — each principle’s quoted requirement transcribed verbatim; the compliant/progress/non-compliant criteria and improvement actions are this tool’s own, since the source document addresses knowledge institutions’ contracts rather than providing a per-infrastructure rubric.</dd>' +
@@ -697,6 +693,68 @@
                 unanswered: '<svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="10" r="8.5" /></svg>',
             };
 
+            // A framework normally scores each principle compliant/progress/non-compliant
+            // (LEGACY_LEVELS, the three tick/clock/cross icons above). A framework can
+            // instead declare its own ordered `levels: [{id, label}, ...]` — worst first,
+            // best last — for a longer ordinal scale (e.g. a 4-step maturity matrix).
+            // is_legacy_levels()/principle_levels_for() are the single place that decides
+            // which of the two a given framework uses; every renderer below (status
+            // cards, sidebar dot, badge ring) goes through level_icon_markup()/
+            // level_color() rather than touching ICONS/STATUS_COLOR_VAR directly, so a
+            // framework's declared `levels` is the only thing that needs to change to
+            // support a new scale shape.
+            const LEGACY_LEVELS = [
+                { id: "compliant", label: "Compliant" },
+                { id: "progress", label: "Making progress" },
+                { id: "non-compliant", label: "Not compliant" },
+            ];
+
+            function is_legacy_levels(framework) {
+                return !(Array.isArray(framework.levels) && framework.levels.length);
+            }
+
+            function principle_levels_for(framework) {
+                return is_legacy_levels(framework) ? LEGACY_LEVELS : framework.levels;
+            }
+
+            function numbered_circle_icon(n) {
+                return (
+                    '<svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6">' +
+                    '<circle cx="10" cy="10" r="8.5" />' +
+                    '<text x="10" y="10.5" text-anchor="middle" dominant-baseline="central" font-size="9" stroke="none" fill="currentColor">' + n + "</text>" +
+                    "</svg>"
+                );
+            }
+
+            function level_icon_markup(framework, statusId) {
+                if (!statusId) return ICONS.unanswered;
+                if (is_legacy_levels(framework)) return ICONS[statusId] || ICONS.unanswered;
+                const idx = framework.levels.findIndex((l) => l.id === statusId);
+                return idx === -1 ? ICONS.unanswered : numbered_circle_icon(idx + 1);
+            }
+
+            // Red (worst) to green (best) across an ordinal scale of any length, via HSL
+            // hue interpolation (0 = red, ~130 = green) so it passes through orange/yellow
+            // rather than wrapping the "wrong way" through purple.
+            function level_gradient_color(idx, count) {
+                if (count <= 1) return "hsl(140 55% 42%)";
+                const hue = Math.round((idx / (count - 1)) * 130);
+                return "hsl(" + hue + " 65% 45%)";
+            }
+
+            function level_color(framework, statusId) {
+                if (!statusId) return "#cccccc";
+                if (is_legacy_levels(framework)) return status_color(statusId);
+                const idx = framework.levels.findIndex((l) => l.id === statusId);
+                return idx === -1 ? "#cccccc" : level_gradient_color(idx, framework.levels.length);
+            }
+
+            // Oat's 12-column grid: as many equal columns as there are levels, e.g. 3
+            // levels -> col-4 (unchanged legacy layout), 4 levels -> col-3.
+            function grid_col_class(count) {
+                return "col-" + Math.max(1, Math.min(12, Math.round(12 / count)));
+            }
+
             const ACTIVITY_ICONS = {
                 Discover: '<circle cx="8" cy="8" r="5" /><path d="M15.5 15.5L11.8 11.8" stroke-linecap="round" />',
                 Hypothesise: '<path d="M10 2.5a5 5 0 00-3 9c.6.5 1 1.3 1 2.1V15h4v-1.4c0-.8.4-1.6 1-2.1a5 5 0 00-3-9z" stroke-linejoin="round" /><path d="M8 17.5h4M8.5 15h3" stroke-linecap="round" />',
@@ -727,7 +785,7 @@
                 return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
             }
 
-            const BUILTIN_FRAMEWORK_FILES = ["data/frameworks/spii.json", "data/frameworks/posi.json", "data/frameworks/gorc.json", "data/frameworks/fair.json", "data/frameworks/bd.json", "data/frameworks/osr.json", "data/frameworks/7gpri.json"];
+            const BUILTIN_FRAMEWORK_FILES = ["data/frameworks/spii.json", "data/frameworks/spii-maturity.json", "data/frameworks/posi.json", "data/frameworks/gorc.json", "data/frameworks/fair.json", "data/frameworks/bd.json", "data/frameworks/osr.json", "data/frameworks/7gpri.json"];
 
             async function load_builtin_frameworks() {
                 const loaded = await Promise.all(
@@ -761,6 +819,10 @@
                 if (!obj || typeof obj !== "object") return false;
                 if (typeof obj.id !== "string" || !obj.id) return false;
                 if (typeof obj.title !== "string" || !obj.title) return false;
+                if (obj.levels !== undefined) {
+                    if (!Array.isArray(obj.levels) || obj.levels.length < 2) return false;
+                    if (!obj.levels.every((l) => l && typeof l.id === "string" && l.id && typeof l.label === "string" && l.label)) return false;
+                }
                 if (!Array.isArray(obj.sections) || obj.sections.length === 0) return false;
                 return obj.sections.every((section) => {
                     if (!section || typeof section.section !== "string" || !section.section) return false;
@@ -787,14 +849,31 @@
                 };
             }
 
-            function compute_summary(state, frameworkId) {
+            function compute_summary(state, frameworkId, framework) {
                 const entries = Object.values(state.frameworks[frameworkId] || {});
                 const scored = entries.filter((e) => e.status !== null);
+                if (framework && !is_legacy_levels(framework)) {
+                    const levels = framework.levels;
+                    const maxIdx = levels.length - 1;
+                    const counts = levels.map((l) => scored.filter((e) => e.status === l.id).length);
+                    const avgIdx = scored.length
+                        ? scored.reduce((sum, e) => sum + Math.max(0, levels.findIndex((l) => l.id === e.status)), 0) / scored.length
+                        : 0;
+                    return {
+                        legacy: false,
+                        levels,
+                        counts,
+                        scoredCount: scored.length,
+                        totalCount: entries.length,
+                        percentMature: maxIdx > 0 ? Math.round((avgIdx / maxIdx) * 100) : 0,
+                    };
+                }
                 const compliant = scored.filter((e) => e.status === "compliant").length;
                 const progress = scored.filter((e) => e.status === "progress").length;
                 const nonCompliant = scored.filter((e) => e.status === "non-compliant").length;
                 const percentCompliant = scored.length ? Math.round((compliant / scored.length) * 100) : 0;
                 return {
+                    legacy: true,
                     compliant,
                     progress,
                     nonCompliant,
@@ -1032,7 +1111,7 @@
             function tab_label_text(tabId, baseLabel) {
                 const framework = all_frameworks().find((f) => f.id === tabId);
                 if (!framework) return baseLabel;
-                const summary = compute_summary(state, framework.id);
+                const summary = compute_summary(state, framework.id, framework);
                 return baseLabel + " (" + summary.scoredCount + "/" + summary.totalCount + " scored)";
             }
 
@@ -1186,9 +1265,11 @@
                 const icon = document.createElement("span");
                 icon.className = "nav-status-icon";
                 icon.id = "nav-status-icon-" + frameworkId + "-" + principle.id;
-                const status = state.frameworks[frameworkId][principle.id].status || "unanswered";
-                icon.dataset.status = status;
-                icon.innerHTML = ICONS[status];
+                const framework = all_frameworks().find((f) => f.id === frameworkId);
+                const status = state.frameworks[frameworkId][principle.id].status;
+                icon.dataset.status = status || "unanswered";
+                icon.innerHTML = level_icon_markup(framework, status);
+                if (status) icon.style.setProperty("--status-accent", level_color(framework, status));
                 a.appendChild(icon);
                 a.appendChild(document.createTextNode(principle.title));
                 a.addEventListener("click", (e) => {
@@ -1426,27 +1507,28 @@
                 text.textContent = principle.text;
                 details.appendChild(text);
 
+                const framework = all_frameworks().find((f) => f.id === frameworkId);
+                const levels = principle_levels_for(framework);
+                const colClass = grid_col_class(levels.length);
+
                 const cards = document.createElement("div");
                 cards.className = "row";
                 cards.setAttribute("role", "group");
                 cards.setAttribute("aria-label", principle.title + " maturity status");
-                [
-                    { status: "compliant", label: "Compliant" },
-                    { status: "progress", label: "Making progress" },
-                    { status: "non-compliant", label: "Not compliant" },
-                ].forEach((option) => {
+                levels.forEach((option) => {
                     const card = document.createElement("article");
-                    card.className = "card col-4 status-card";
-                    card.dataset.status = option.status;
+                    card.className = "card " + colClass + " status-card";
+                    card.dataset.status = option.id;
                     card.setAttribute("role", "button");
                     card.setAttribute("tabindex", "0");
-                    card.setAttribute("aria-pressed", state.frameworks[frameworkId][principle.id].status === option.status ? "true" : "false");
-                    if (state.frameworks[frameworkId][principle.id].status === option.status) {
-                        card.classList.add("selected");
-                    }
+                    const isSelected = state.frameworks[frameworkId][principle.id].status === option.id;
+                    card.setAttribute("aria-pressed", isSelected ? "true" : "false");
+                    if (isSelected) card.classList.add("selected");
+                    card.style.setProperty("--status-accent", level_color(framework, option.id));
+
                     const icon = document.createElement("span");
                     icon.className = "status-icon";
-                    icon.innerHTML = ICONS[option.status];
+                    icon.innerHTML = level_icon_markup(framework, option.id);
                     card.appendChild(icon);
 
                     const label = document.createElement("p");
@@ -1454,10 +1536,10 @@
                     label.textContent = option.label;
                     card.appendChild(label);
 
-                    if (principle.criteria && principle.criteria[option.status]) {
+                    if (principle.criteria && principle.criteria[option.id]) {
                         const criteriaText = document.createElement("p");
                         criteriaText.className = "status-criteria";
-                        criteriaText.textContent = principle.criteria[option.status];
+                        criteriaText.textContent = principle.criteria[option.id];
                         card.appendChild(criteriaText);
                     }
 
@@ -1532,21 +1614,30 @@
             function update_principle_status_icon(frameworkId, principleId, status) {
                 const icon = document.getElementById("nav-status-icon-" + frameworkId + "-" + principleId);
                 if (!icon) return;
-                const key = status || "unanswered";
-                icon.dataset.status = key;
-                icon.innerHTML = ICONS[key];
+                const framework = all_frameworks().find((f) => f.id === frameworkId);
+                icon.dataset.status = status || "unanswered";
+                icon.innerHTML = level_icon_markup(framework, status);
+                if (status) icon.style.setProperty("--status-accent", level_color(framework, status));
+                else icon.style.removeProperty("--status-accent");
             }
 
             function update_summary() {
                 all_frameworks().forEach((framework) => {
-                    const summary = compute_summary(state, framework.id);
+                    const summary = compute_summary(state, framework.id, framework);
                     const heading = document.getElementById("summary-heading-" + framework.id);
                     const counts = document.getElementById("summary-counts-" + framework.id);
                     if (heading && counts) {
-                        heading.textContent = "Overall: " + summary.percentCompliant + "% compliant";
-                        counts.textContent =
-                            summary.compliant + " compliant · " + summary.progress + " making progress · " +
-                            summary.nonCompliant + " not compliant (" + summary.scoredCount + "/" + summary.totalCount + " scored)";
+                        if (summary.legacy) {
+                            heading.textContent = "Overall: " + summary.percentCompliant + "% compliant";
+                            counts.textContent =
+                                summary.compliant + " compliant · " + summary.progress + " making progress · " +
+                                summary.nonCompliant + " not compliant (" + summary.scoredCount + "/" + summary.totalCount + " scored)";
+                        } else {
+                            heading.textContent = "Overall: " + summary.percentMature + "% average maturity";
+                            counts.textContent =
+                                summary.levels.map((l, i) => summary.counts[i] + " " + l.label).join(" · ") +
+                                " (" + summary.scoredCount + "/" + summary.totalCount + " scored)";
+                        }
                     }
                     const tab = document.getElementById("tab-" + framework.id);
                     if (tab) tab.textContent = tab_label_text(framework.id, framework.title);
@@ -1577,14 +1668,15 @@
             }
 
             function build_save_report_dialog_html(state, framework, filename) {
-                const summary = compute_summary(state, framework.id);
+                const summary = compute_summary(state, framework.id, framework);
                 const name = state.name || "Unnamed infrastructure";
                 const issueTitle = encodeURIComponent("Assessment report: " + name + " (" + framework.shortName + ")");
                 const issueBody = encodeURIComponent(
                     "**Infrastructure:** " + name + "\n" +
                     "**Framework:** " + framework.title + "\n" +
                     "**Assessed on:** " + (state.assessedOn || "") + "\n" +
-                    "**Score:** " + summary.percentCompliant + "% compliant (" + summary.scoredCount + "/" + summary.totalCount + " scored)\n\n" +
+                    "**Score:** " + (summary.legacy ? summary.percentCompliant + "% compliant" : summary.percentMature + "% average maturity") +
+                    " (" + summary.scoredCount + "/" + summary.totalCount + " scored)\n\n" +
                     "Drag the downloaded `" + filename + "` file into this box to attach it.\n"
                 );
                 const issueUrl = "https://github.com/" + REPORT_TRACKER_REPO + "/issues/new?title=" + issueTitle + "&body=" + issueBody + "&labels=assessment-report";
@@ -1622,6 +1714,14 @@
                 reader.readAsText(file);
             }
 
+            // This template uses the default 3-status compliant/progress/non-compliant
+            // scale (LEGACY_LEVELS). To use a different ordinal scale instead — any
+            // length, not just 3 — add a top-level `levels: [{id, label}, ...]` array
+            // (worst first, best last) and key each principle's `criteria` by those
+            // same ids instead of compliant/progress/"non-compliant". A framework with
+            // its own `levels` renders as numbered circles colored red (worst) to green
+            // (best) instead of the tick/clock/cross icons — see data/frameworks/spii-maturity.json
+            // for a working 4-level example.
             const FRAMEWORK_TEMPLATE = {
                 id: "my-framework",
                 title: "My Framework v1.0",
@@ -1847,7 +1947,7 @@
                     const offsets = ring_segment_offsets(ring.radius, section.principles.length);
                     section.principles.forEach((principle, i) => {
                         const status = state.frameworks[framework.id][principle.id].status;
-                        const color = status_color(status);
+                        const color = level_color(framework, status);
                         const off = offsets[i];
                         circles +=
                             '<circle cx="' + center + '" cy="' + ringCenterY + '" r="' + ring.radius +
@@ -1856,10 +1956,10 @@
                             '" transform="rotate(-90 ' + center + " " + ringCenterY + ')" />';
                     });
                 });
-                const summary = compute_summary(state, framework.id);
+                const summary = compute_summary(state, framework.id, framework);
                 const name = escape_xml(state.name || "Unnamed infrastructure");
                 const date = escape_xml(state.assessedOn || "");
-                const badgeTitle = escape_xml(framework.shortName + " Compliance");
+                const badgeTitle = escape_xml(framework.shortName + (summary.legacy ? " Compliance" : " Maturity"));
                 const activityIconSize = 14;
                 const activityIconGap = 3;
                 const activityItems = selected_activity_items(state);
@@ -1882,7 +1982,7 @@
                     '<rect width="' + width + '" height="' + height + '" fill="white" />' +
                     '<text x="' + center + '" y="24" text-anchor="middle" font-size="12" font-family="&quot;Outfit&quot;, sans-serif" font-weight="bold">' + badgeTitle + "</text>" +
                     circles +
-                    '<text x="' + center + '" y="' + (ringCenterY + 7) + '" text-anchor="middle" font-size="26" font-family="&quot;Outfit&quot;, sans-serif" font-weight="bold">' + summary.percentCompliant + "%</text>" +
+                    '<text x="' + center + '" y="' + (ringCenterY + 7) + '" text-anchor="middle" font-size="26" font-family="&quot;Outfit&quot;, sans-serif" font-weight="bold">' + (summary.legacy ? summary.percentCompliant : summary.percentMature) + "%</text>" +
                     '<text x="' + center + '" y="232" text-anchor="middle" font-size="11" font-family="&quot;Outfit&quot;, sans-serif">' + name + "</text>" +
                     activityIcons +
                     '<text x="' + center + '" y="272" text-anchor="middle" font-size="10" font-family="&quot;Outfit&quot;, sans-serif">' + date + "</text>" +
@@ -1900,23 +2000,37 @@
 
             function build_badge_hovercard_html(state) {
                 const framework = all_frameworks().find((f) => f.id === activeFrameworkId);
-                const summary = compute_summary(state, framework.id);
+                const summary = compute_summary(state, framework.id, framework);
                 const name = state.name || "Unnamed infrastructure";
                 let html = "<strong>" + escape_xml(name) + "</strong>";
                 html += "<div>Assessed " + escape_xml(state.assessedOn) + "</div>";
-                html += "<div>" + escape_xml(framework.shortName) + " overall: " + summary.percentCompliant + "%</div>";
-                framework.sections.forEach((section) => {
-                    let compliant = 0;
-                    let progress = 0;
-                    let nonCompliant = 0;
-                    section.principles.forEach((principle) => {
-                        const status = state.frameworks[framework.id][principle.id].status;
-                        if (status === "compliant") compliant++;
-                        else if (status === "progress") progress++;
-                        else if (status === "non-compliant") nonCompliant++;
+                if (summary.legacy) {
+                    html += "<div>" + escape_xml(framework.shortName) + " overall: " + summary.percentCompliant + "%</div>";
+                    framework.sections.forEach((section) => {
+                        let compliant = 0;
+                        let progress = 0;
+                        let nonCompliant = 0;
+                        section.principles.forEach((principle) => {
+                            const status = state.frameworks[framework.id][principle.id].status;
+                            if (status === "compliant") compliant++;
+                            else if (status === "progress") progress++;
+                            else if (status === "non-compliant") nonCompliant++;
+                        });
+                        html += "<div>" + escape_xml(section.section) + ": " + compliant + "✓ " + progress + "◐ " + nonCompliant + "✗</div>";
                     });
-                    html += "<div>" + escape_xml(section.section) + ": " + compliant + "✓ " + progress + "◐ " + nonCompliant + "✗</div>";
-                });
+                } else {
+                    html += "<div>" + escape_xml(framework.shortName) + " overall maturity: " + summary.percentMature + "%</div>";
+                    framework.sections.forEach((section) => {
+                        const counts = framework.levels.map(() => 0);
+                        section.principles.forEach((principle) => {
+                            const status = state.frameworks[framework.id][principle.id].status;
+                            const idx = status ? framework.levels.findIndex((l) => l.id === status) : -1;
+                            if (idx !== -1) counts[idx]++;
+                        });
+                        const parts = counts.map((c, i) => c + "×L" + (i + 1)).join(" ");
+                        html += "<div>" + escape_xml(section.section) + ": " + parts + "</div>";
+                    });
+                }
                 return html;
             }
 

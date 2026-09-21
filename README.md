@@ -5,16 +5,25 @@ This repository hosts both the tool itself and its feedback/issue tracker.
 
 A self-assessment tool for Open Science infrastructures. Name your
 infrastructure, classify the activities it supports, and score it against
-one or more assessment frameworks as compliant / making progress / not
-compliant with optional notes, then export the result.
+one or more assessment frameworks — most frameworks here score compliant /
+making progress / not compliant, but a framework can instead define its
+own ordinal scale (see the SPII Maturity Matrix below) — with optional
+notes, then export the result.
 
-Seven frameworks are included today, each as its own JSON file under
+Eight frameworks are included today, each as its own JSON file under
 [`data/frameworks/`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/tree/main/data/frameworks/) — edit them directly to tweak
 principles, criteria, or copy, no code changes needed:
 
 - **SPII v0.1** (draft, [`spii.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/spii.json)) — 19
   principles across Openness, Autonomy, Sustainability, Interoperability,
   and Researcher-centric.
+- **SPII Maturity Matrix v0.3** (draft, [`spii-maturity.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/spii-maturity.json))
+  — 17 subprinciples across Openness, Autonomy, Sustainable, and Researcher
+  centric, transcribed verbatim from a table Till Bey shared by email
+  (CC-BY licensed). Scored on a four-level maturity scale (Level 1–4,
+  shown as numbered circles colored red to green) instead of
+  compliant/progress/non-compliant; six subprinciples have no level
+  descriptions yet.
 - **[Principles of Open Scholarly Infrastructure (POSI) v2.0](https://openscholarlyinfrastructure.org/)**
   ([`posi.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/posi.json)) — 20 principles across
   Governance, Sustainability, and Insurance.
@@ -116,7 +125,7 @@ report and/or a custom framework automatically from query parameters:
 
 ### Linking directly to a framework
 
-`index.html#gorc` (or any framework id — `spii`, `posi`, `gorc`, `fair`, `bd`, `osr`, `7gpri`, matched
+`index.html#gorc` (or any framework id — `spii`, `spii-maturity`, `posi`, `gorc`, `fair`, `bd`, `osr`, `7gpri`, matched
 case-insensitively) opens straight to that framework's tab, with its sidebar section expanded
 and every other framework's section collapsed. Selecting a framework tab in the app updates the
 URL the same way, so the address bar always reflects which framework is open and can be shared
