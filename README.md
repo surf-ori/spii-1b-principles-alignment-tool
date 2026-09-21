@@ -7,7 +7,7 @@ A self-assessment tool for Open Science infrastructures. Name your
 infrastructure, classify the activities it supports, and score it against
 one or more assessment frameworks — most frameworks here score compliant /
 making progress / not compliant, but a framework can instead define its
-own ordinal scale (see the SPII Maturity Matrix below) — with optional
+own ordinal scale (see SPII Alignment below) — with optional
 notes, then export the result.
 
 Eight frameworks are included today, each as its own JSON file under
@@ -17,7 +17,7 @@ principles, criteria, or copy, no code changes needed:
 - **SPII v0.1** (draft, [`spii-v0.1.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/spii-v0.1.json)) — 19
   principles across Openness, Autonomy, Sustainability, Interoperability,
   and Researcher-centric.
-- **SPII Maturity Matrix v0.3** (draft, [`spii-alignment-v0.3.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/spii-alignment-v0.3.json))
+- **SPII Alignment v0.3** (draft, [`spii-alignment-v0.3.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/spii-alignment-v0.3.json))
   — 17 subprinciples across Openness, Autonomy, Sustainable, and Researcher
   centric, transcribed verbatim from a table Till Bey shared by email
   (CC-BY licensed). Scored on a four-level maturity scale (Level 1–4,

@@ -660,7 +660,7 @@
 
             const CHANGELOG_HTML =
                 "<dl>" +
-                '<dt>2026-09-21</dt><dd>Added the SPII Maturity Matrix v0.3 framework (draft), transcribed verbatim from a table Till Bey shared by email — 17 subprinciples across Openness, Autonomy, Sustainable, and Researcher centric, six with no level descriptions yet. It is the first framework here scored on a four-level maturity scale rather than compliant/progress/non-compliant, shown as numbered circles colored red (Level 1) to green (Level 4) instead of the tick/clock/cross icons. Frameworks can now declare their own ordered <code>levels</code> array of any length instead of the built-in three; every other framework here is unaffected and keeps rendering exactly as before.</dd>' +
+                '<dt>2026-09-21</dt><dd>Added the SPII Alignment v0.3 framework (draft), transcribed verbatim from a table Till Bey shared by email — 17 subprinciples across Openness, Autonomy, Sustainable, and Researcher centric, six with no level descriptions yet. It is the first framework here scored on a four-level maturity scale rather than compliant/progress/non-compliant, shown as numbered circles colored red (Level 1) to green (Level 4) instead of the tick/clock/cross icons. Frameworks can now declare their own ordered <code>levels</code> array of any length instead of the built-in three; every other framework here is unaffected and keeps rendering exactly as before.</dd>' +
                 '<dt>2026-09-21</dt><dd>Renamed from “Maturity Assessment Tool” to “Principles Alignment Tool” as SPII deliverable 1B’s public-facing name, following feedback from the SPII Stuurgroep that the old name read as too technical. The repository itself was renamed to match — <a href="https://github.com/surf-ori/spii-1b-principles-alignment-tool">github.com/surf-ori/spii-1b-principles-alignment-tool</a>, now live at <a href="https://surf-ori.github.io/spii-1b-principles-alignment-tool/">surf-ori.github.io/spii-1b-principles-alignment-tool</a> — carrying over its full git history and open issues. The old repository name now redirects: GitHub forwards <code>github.com</code> links automatically, and a small skeleton repo left at the old name forwards the GitHub Pages URL, which does not redirect on its own. This tool’s own on-page title, “Open Science Infrastructure Self-Assessment Tool”, set in the 2026-08-27 entry below, is unchanged — only the SPII deliverable label changed.</dd>' +
                 '<dt>2026-09-17</dt><dd>Added a "Back to spii-overview" link in a thin bar above the top nav, linking to <a href="https://surf-ori.github.io/spii-overview/">surf-ori.github.io/spii-overview</a>. Kept outside <code>nav[data-topnav]</code> entirely rather than added as another item in it, since that element already has a documented history of overflowing on narrow phones (see the 2026-09-15 entry below) — a new sibling bar avoided touching that logic at all. Hidden during PDF export/printing alongside the rest of the page chrome.</dd>' +
                 '<dt>2026-09-17</dt><dd>Added a seventh framework, the 7GPRI v1.0 Assessment (draft) — an adaptation of the Dutch Taskforce on Responsible Management of Research Information and Data’s <a href="https://www.universiteitenvannederland.nl/files/documenten/Nieuwsberichten/Guiding%20Principles%20on%20Management%20of%20Research%20Information%20and%20Data_11May.pdf">Seven Guiding Principles for Open Research Information</a> (February 2022). 7 principles — trusted and transparent provenance, openness of metadata, openness of algorithms, enduring access and availability, open standards and interoperability, open collaboration with third parties, and academic sovereignty through governance — each principle’s quoted requirement transcribed verbatim; the compliant/progress/non-compliant criteria and improvement actions are this tool’s own, since the source document addresses knowledge institutions’ contracts rather than providing a per-infrastructure rubric.</dd>' +
@@ -1633,7 +1633,7 @@
                                 summary.compliant + " compliant · " + summary.progress + " making progress · " +
                                 summary.nonCompliant + " not compliant (" + summary.scoredCount + "/" + summary.totalCount + " scored)";
                         } else {
-                            heading.textContent = "Overall: " + summary.percentMature + "% average maturity";
+                            heading.textContent = "Overall: " + summary.percentMature + "% average score";
                             counts.textContent =
                                 summary.levels.map((l, i) => summary.counts[i] + " " + l.label).join(" · ") +
                                 " (" + summary.scoredCount + "/" + summary.totalCount + " scored)";
@@ -1675,7 +1675,7 @@
                     "**Infrastructure:** " + name + "\n" +
                     "**Framework:** " + framework.title + "\n" +
                     "**Assessed on:** " + (state.assessedOn || "") + "\n" +
-                    "**Score:** " + (summary.legacy ? summary.percentCompliant + "% compliant" : summary.percentMature + "% average maturity") +
+                    "**Score:** " + (summary.legacy ? summary.percentCompliant + "% compliant" : summary.percentMature + "% average score") +
                     " (" + summary.scoredCount + "/" + summary.totalCount + " scored)\n\n" +
                     "Drag the downloaded `" + filename + "` file into this box to attach it.\n"
                 );
@@ -1959,7 +1959,7 @@
                 const summary = compute_summary(state, framework.id, framework);
                 const name = escape_xml(state.name || "Unnamed infrastructure");
                 const date = escape_xml(state.assessedOn || "");
-                const badgeTitle = escape_xml(framework.shortName + (summary.legacy ? " Compliance" : " Maturity"));
+                const badgeTitle = escape_xml(framework.shortName + (summary.legacy ? " Compliance" : " Score"));
                 const activityIconSize = 14;
                 const activityIconGap = 3;
                 const activityItems = selected_activity_items(state);
@@ -2019,7 +2019,7 @@
                         html += "<div>" + escape_xml(section.section) + ": " + compliant + "✓ " + progress + "◐ " + nonCompliant + "✗</div>";
                     });
                 } else {
-                    html += "<div>" + escape_xml(framework.shortName) + " overall maturity: " + summary.percentMature + "%</div>";
+                    html += "<div>" + escape_xml(framework.shortName) + " overall: " + summary.percentMature + "%</div>";
                     framework.sections.forEach((section) => {
                         const counts = framework.levels.map(() => 0);
                         section.principles.forEach((principle) => {
