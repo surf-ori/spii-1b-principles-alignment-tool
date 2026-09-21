@@ -14,16 +14,17 @@ Eight frameworks are included today, each as its own JSON file under
 [`data/frameworks/`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/tree/main/data/frameworks/) — edit them directly to tweak
 principles, criteria, or copy, no code changes needed:
 
-- **SPII v0.1** (draft, [`spii-v0.1.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/spii-v0.1.json)) — 19
-  principles across Openness, Autonomy, Sustainability, Interoperability,
-  and Researcher-centric.
 - **SPII Alignment v0.3** (draft, [`spii-alignment-v0.3.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/spii-alignment-v0.3.json))
   — 17 subprinciples across Openness, Autonomy, Sustainable, and Researcher
   centric, transcribed verbatim from a table Till Bey shared by email
-  (CC-BY licensed). Scored on a four-level maturity scale (Level 1–4,
-  shown as numbered circles colored red to green) instead of
+  (CC-BY licensed), scoring the same territory as deliverable 1A's
+  published values and principles on a four-level maturity scale (Level
+  1–4, shown as numbered circles colored red to green) instead of
   compliant/progress/non-compliant; six subprinciples have no level
-  descriptions yet.
+  descriptions yet. The default tab on load.
+- **SPII v0.1** (draft, [`spii-v0.1.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/spii-v0.1.json)) — 19
+  principles across Openness, Autonomy, Sustainability, Interoperability,
+  and Researcher-centric.
 - **[Principles of Open Scholarly Infrastructure (POSI) v2.0](https://openscholarlyinfrastructure.org/)**
   ([`posi-v2.0.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/posi-v2.0.json)) — 20 principles across
   Governance, Sustainability, and Insurance.
