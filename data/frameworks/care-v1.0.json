@@ -1,0 +1,166 @@
+{
+  "id": "care",
+  "title": "CARE v1.0 Assessment",
+  "shortName": "CARE",
+  "description": "A draft framework adapting the CARE Principles for Indigenous Data Governance (Global Indigenous Data Alliance, 2019) — four principles, Collective Benefit, Authority to Control, Responsibility, and Ethics, asserting Indigenous Peoples' rights and interests in the data ecosystems that describe them, their lands, and their knowledge. Complements FAIR's focus on data reusability with a people- and purpose-oriented lens.",
+  "aboutHtml": "<p>The <a href=\"https://www.gida-global.org/careprinciples\">CARE Principles for Indigenous Data Governance</a> were developed by the <a href=\"https://www.gida-global.org/\">Global Indigenous Data Alliance (GIDA)</a> and first published in 2019. They assert that Indigenous Peoples' rights and interests must be recognized in the data ecosystems that concern them, their lands, resources, and knowledge — complementing the FAIR principles, which focus on the technical reusability of data, with an explicit people- and purpose-oriented lens: <strong>C</strong>ollective Benefit, <strong>A</strong>uthority to Control, <strong>R</strong>esponsibility, and <strong>E</strong>thics.</p><p>This is not an official assessment instrument — the four principles and their twelve sub-principles have no scoring mechanism of their own. Each sub-principle's <code>text</code> closely adapts GIDA's own published wording; the compliant/progress/non-compliant criteria and improvement actions are this tool's own attempt to operationalise them for an Open Science infrastructure (or the organisation behind it) to self-assess against. CARE is named, alongside FAIR, under \"open infrastructures\" in the UNL Open Science Agenda (<a href=\"https://doi.org/10.5281/zenodo.10362465\">doi.org/10.5281/zenodo.10362465</a>).</p><p>Cite as: Carroll, S.R., Garba, I., Figueroa-Rodríguez, O.L., Holbrook, J., Lovett, R., Materechera, S., Parsons, M., Raseroka, K., Rodriguez-Lonebear, D., Rowe, R., Sara, R., Walker, J.D., Anderson, J., &amp; Hudson, M. (2020). The CARE Principles for Indigenous Data Governance. <em>Data Science Journal</em>, 19(1), 43. <a href=\"https://doi.org/10.5334/dsj-2020-043\">https://doi.org/10.5334/dsj-2020-043</a>.</p>",
+  "draft": true,
+  "sections": [
+    {
+      "section": "Collective Benefit",
+      "sourceUrl": "https://www.gida-global.org/careprinciples",
+      "principles": [
+        {
+          "id": "care-inclusive-development",
+          "title": "For inclusive development and innovation",
+          "text": "Data ecosystems shall be designed and function in ways that enable Indigenous Peoples to derive benefit from the data.",
+          "criteria": {
+            "compliant": "The infrastructure is designed and operated so that Indigenous Peoples and communities represented in or served by its data can derive tangible benefit from it — for example through inclusion in development, innovation, or capacity-building activities the infrastructure enables.",
+            "progress": "Some consideration has been given to how Indigenous Peoples might benefit from the infrastructure's data, but this is not yet built into its design or governance.",
+            "non-compliant": "The infrastructure's design gives no consideration to whether or how Indigenous Peoples represented in its data could benefit from it."
+          },
+          "improvementAction": "Identify which of the infrastructure's datasets concern Indigenous Peoples, lands, or knowledge, and consult with the relevant communities on how the infrastructure's design could support benefit to them."
+        },
+        {
+          "id": "care-improved-governance",
+          "title": "For improved governance and citizen engagement",
+          "text": "Data shall support Indigenous Peoples' data governance and their capacity to engage with data ecosystems, and to inform and shape the strategic outcomes that affect them.",
+          "criteria": {
+            "compliant": "Indigenous Peoples represented in the infrastructure's data have a documented role in its governance — for example a governance seat, a formal engagement process, or a data-sharing agreement giving them a say in how their data is used.",
+            "progress": "Indigenous Peoples are consulted informally or on an ad hoc basis, but have no documented or structural role in the infrastructure's governance.",
+            "non-compliant": "Indigenous Peoples represented in the data have no role, formal or informal, in the infrastructure's governance."
+          },
+          "improvementAction": "Establish a documented mechanism — a governance seat, an advisory role, or a data-sharing agreement — for Indigenous Peoples represented in the infrastructure's data to engage with and shape its governance."
+        },
+        {
+          "id": "care-equitable-outcomes",
+          "title": "For equitable outcomes",
+          "text": "Data shall support Indigenous Peoples' pursuit of equitable outcomes from and in the use of Indigenous data and data about Indigenous Peoples, lands, and resources.",
+          "criteria": {
+            "compliant": "The infrastructure actively monitors and supports equitable outcomes for Indigenous Peoples from the use of data about them, their lands, or their resources — for example through benefit-sharing arrangements, capacity building, or restrictions on uses that could disadvantage them.",
+            "progress": "Awareness exists that data use could produce inequitable outcomes for Indigenous Peoples, but no concrete measures are in place.",
+            "non-compliant": "No consideration is given to whether the use of Indigenous data produces equitable outcomes for the Indigenous Peoples it concerns."
+          },
+          "improvementAction": "Assess whether current or likely uses of the infrastructure's Indigenous-related data could produce inequitable outcomes, and put safeguards or benefit-sharing measures in place where needed."
+        }
+      ]
+    },
+    {
+      "section": "Authority to Control",
+      "sourceUrl": "https://www.gida-global.org/careprinciples",
+      "principles": [
+        {
+          "id": "care-recognizing-rights",
+          "title": "Recognizing rights and interests",
+          "text": "Indigenous Peoples' rights and interests in Indigenous data must be recognized and their authority to control such data be empowered. Indigenous data governance enables Indigenous Peoples and governing bodies to determine how Indigenous Peoples, lands, resources, and knowledges are represented and identified within data.",
+          "criteria": {
+            "compliant": "The infrastructure formally recognizes Indigenous Peoples' rights and interests in data about themselves, their lands, resources, and knowledge, and gives Indigenous governing bodies authority over how these are represented and identified in its data.",
+            "progress": "Indigenous rights and interests are acknowledged in principle, but Indigenous governing bodies have no actual authority over how they are represented in the infrastructure's data.",
+            "non-compliant": "The infrastructure does not recognize Indigenous Peoples' rights and interests in data about themselves, their lands, resources, or knowledge."
+          },
+          "improvementAction": "Adopt a policy recognizing Indigenous Peoples' rights and interests in relevant data, and establish a mechanism giving Indigenous governing bodies authority over how they are represented and identified."
+        },
+        {
+          "id": "care-data-for-governance",
+          "title": "Data for governance",
+          "text": "Indigenous Peoples have the right to data that are relevant to their peoples and territories and that enable them to link and use data for the benefit of their communities.",
+          "criteria": {
+            "compliant": "Indigenous Peoples and communities have a documented right to access data relevant to their peoples and territories held by the infrastructure, and can obtain and use it for their own governance purposes.",
+            "progress": "Some access to relevant data is possible, but there is no documented right or straightforward process for Indigenous Peoples to obtain it.",
+            "non-compliant": "Indigenous Peoples and communities have no meaningful way to access data relevant to their peoples and territories held by the infrastructure."
+          },
+          "improvementAction": "Document a clear right and process for Indigenous Peoples and communities to access and use data relevant to their peoples and territories."
+        },
+        {
+          "id": "care-governance-of-data",
+          "title": "Governance of data",
+          "text": "Indigenous Peoples' rights and interests must be the primary consideration in the governance of data. Indigenous data governance includes the involvement of Indigenous Peoples, agencies, and organizations in the creation, interpretation, and utility of the data.",
+          "criteria": {
+            "compliant": "Indigenous Peoples' rights and interests are a primary, documented consideration in how the infrastructure governs the relevant data, with Indigenous Peoples, agencies, or organizations actually involved in its creation, interpretation, and use.",
+            "progress": "Indigenous rights and interests are considered in data governance decisions, but Indigenous Peoples, agencies, or organizations have no active involvement in the data's creation, interpretation, or use.",
+            "non-compliant": "Indigenous Peoples' rights and interests are not a consideration in how the relevant data is governed, and no Indigenous involvement exists in its creation, interpretation, or use."
+          },
+          "improvementAction": "Involve Indigenous Peoples, agencies, or organizations directly in the governance, interpretation, and use of the relevant data, not only as a stated principle but as an active practice."
+        }
+      ]
+    },
+    {
+      "section": "Responsibility",
+      "sourceUrl": "https://www.gida-global.org/careprinciples",
+      "principles": [
+        {
+          "id": "care-positive-relationships",
+          "title": "For positive relationships",
+          "text": "Those working with Indigenous data have a responsibility to share how those data are used to support Indigenous Peoples' self-determination and collective benefit, maintaining accurate, respectful representation and relationships that support Indigenous data sovereignty.",
+          "criteria": {
+            "compliant": "The infrastructure shares how Indigenous-related data is used to support Indigenous self-determination and collective benefit, and maintains documented, ongoing relationships with the communities the data concerns.",
+            "progress": "Some relationship or communication exists with relevant communities, but is inconsistent, undocumented, or one-off rather than ongoing.",
+            "non-compliant": "No relationship exists with the Indigenous communities whose data the infrastructure holds or uses, and there is no communication about how their data is used."
+          },
+          "improvementAction": "Establish and document an ongoing relationship with each Indigenous community whose data the infrastructure holds, including regular communication about how their data is used."
+        },
+        {
+          "id": "care-expanding-capability",
+          "title": "For expanding capability and capacity",
+          "text": "There must be capability and capacity building within data governance, so that Indigenous Peoples, individuals, and institutions can benefit from, and participate in, the derivation of value from Indigenous data, through knowledge/skills transfer and investment in Indigenous data infrastructure and governance.",
+          "criteria": {
+            "compliant": "The infrastructure actively builds capability and capacity within Indigenous Peoples, individuals, and institutions to participate in and benefit from the data it holds — for example through knowledge/skills transfer or investment in Indigenous data infrastructure and governance.",
+            "progress": "Some capability-building activity exists, but is limited, informal, or not sustained.",
+            "non-compliant": "No capability or capacity building activity is directed at Indigenous Peoples, individuals, or institutions in relation to the infrastructure's data."
+          },
+          "improvementAction": "Fund or support a capability-building activity — training, a secondment, or joint infrastructure investment — with an Indigenous community, individual, or institution connected to the data the infrastructure holds."
+        },
+        {
+          "id": "care-indigenous-languages",
+          "title": "For Indigenous languages and worldviews",
+          "text": "The distinct and diverse languages and worldviews of Indigenous Peoples must be recognized and supported, with data structures and applications, wherever possible, developed to reflect Indigenous categories, hierarchies, and structures.",
+          "criteria": {
+            "compliant": "The infrastructure's data structures, categories, and applications support the distinct languages, worldviews, and knowledge structures of the Indigenous Peoples the data concerns, wherever feasible.",
+            "progress": "Indigenous languages and worldviews are acknowledged, but the infrastructure's data structures and applications have not been adapted to reflect them.",
+            "non-compliant": "The infrastructure's data structures and applications give no consideration to Indigenous languages, worldviews, or knowledge structures."
+          },
+          "improvementAction": "Consult with the relevant Indigenous communities on how the infrastructure's data structures, categories, or applications could better reflect their languages and worldviews, and implement feasible changes."
+        }
+      ]
+    },
+    {
+      "section": "Ethics",
+      "sourceUrl": "https://www.gida-global.org/careprinciples",
+      "principles": [
+        {
+          "id": "care-minimizing-harm",
+          "title": "For minimizing harm and maximizing benefit",
+          "text": "Ethical review processes must consider the benefits and harms to Indigenous Peoples, both in the present and based on justified predictions about potential future use and reuse of data, with Indigenous Peoples' judgement central to assessing risks and benefits.",
+          "criteria": {
+            "compliant": "The infrastructure's ethical review processes explicitly weigh potential harms and benefits to Indigenous Peoples, including plausible future uses of the data, with Indigenous judgement central to that assessment.",
+            "progress": "Ethical review considers potential harms and benefits generally, but does not specifically involve Indigenous Peoples' judgement or consider Indigenous-specific risks.",
+            "non-compliant": "No ethical review process considers potential harms or benefits to Indigenous Peoples from the infrastructure's data."
+          },
+          "improvementAction": "Add an explicit Indigenous-harms-and-benefits assessment, informed by Indigenous judgement, to the infrastructure's ethical review process."
+        },
+        {
+          "id": "care-justice",
+          "title": "For justice",
+          "text": "Indigenous Peoples' rights and wellbeing should be the primary concern at all stages of the data life cycle and across the data ecosystem, including attention to whether data or its use reinforces historical or structural injustice.",
+          "criteria": {
+            "compliant": "Indigenous Peoples' rights and wellbeing are an explicit, primary consideration at every stage of the infrastructure's data lifecycle, including active attention to whether the data or its use could reinforce historical or structural injustice.",
+            "progress": "Indigenous rights and wellbeing are considered at some stages of the data lifecycle, but not consistently or as a primary concern throughout.",
+            "non-compliant": "Indigenous Peoples' rights and wellbeing are not a consideration in the infrastructure's data lifecycle."
+          },
+          "improvementAction": "Review the full data lifecycle — collection, storage, use, and reuse — for points where Indigenous rights, wellbeing, or historical injustice should be an explicit, documented consideration."
+        },
+        {
+          "id": "care-future-use",
+          "title": "For future use",
+          "text": "Data governance should be responsive to the changing and evolving needs of the data source community, with metadata documenting the data's origins, ownership, and any limitations or obligations regarding its appropriate future use.",
+          "criteria": {
+            "compliant": "The infrastructure's data governance responds to the evolving needs of the data source community, and metadata documents the data's origins, ownership, and any limitations or obligations on appropriate future use.",
+            "progress": "Some metadata documents provenance or ownership, but obligations or limitations on appropriate future use are not consistently recorded, and governance does not actively track the source community's evolving needs.",
+            "non-compliant": "No metadata documents the data's origins, ownership, or limitations on future use, and governance does not account for the source community's evolving needs."
+          },
+          "improvementAction": "Add provenance, ownership, and use-limitation fields to the infrastructure's metadata standard for Indigenous-related data, and establish a periodic check-in with the source community on evolving needs."
+        }
+      ]
+    }
+  ]
+}

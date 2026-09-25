@@ -660,6 +660,7 @@
 
             const CHANGELOG_HTML =
                 "<dl>" +
+                '<dt>2026-09-25</dt><dd>Added a ninth framework, the CARE v1.0 Assessment (draft) — an adaptation of the <a href="https://www.gida-global.org/careprinciples">CARE Principles for Indigenous Data Governance</a> (Global Indigenous Data Alliance, 2019; Carroll et al., <a href="https://doi.org/10.5334/dsj-2020-043">Data Science Journal</a>, 2020). 12 sub-principles across four sections — Collective Benefit, Authority to Control, Responsibility, Ethics — complementing FAIR’s focus on data reusability with a people- and purpose-oriented lens asserting Indigenous Peoples’ rights and interests in the data ecosystems that concern them. Added at the bottom of the framework order, per the SPII team’s reference to CARE (alongside FAIR) under “open infrastructures” in the <a href="https://doi.org/10.5281/zenodo.10362465">UNL Open Science Agenda</a>.</dd>' +
                 '<dt>2026-09-21</dt><dd>Added "To improve:" suggestions (<code>improvementAction</code>) to SPII Alignment v0.3’s eleven subprinciples that already have level criteria, matching every other framework here. The six subprinciples with no level descriptions yet (Open to participation, Clear responsibilities, Institutionally embedded, Seamless user-experience, Accessible to all, Recognition and rewards) are left without one, same as they’re left without criteria.</dd>' +
                 '<dt>2026-09-21</dt><dd>Each section’s "Source:" link for SPII Alignment v0.3 now points at the <a href="https://github.com/surf-ori/spii-1a-values-and-principles">spii-1a-values-and-principles</a> repository instead of the archived PDF directly — more durable, and more context than a single file.</dd>' +
                 '<dt>2026-09-21</dt><dd>Moved SPII Alignment v0.3 to the front of the framework order — it is now the default tab on a fresh load. Its "About" text now explains where it comes from: SPII’s July 1, 2026 national consultation and the resulting <a href="https://surf-ori.github.io/spii-1a-values-and-principles/#outcome">deliverable 1A values and principles</a> published July 8, 2026, and the earlier, pre-consultation draft matrix this one grew out of.</dd>' +
@@ -788,7 +789,7 @@
                 return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
             }
 
-            const BUILTIN_FRAMEWORK_FILES = ["data/frameworks/spii-alignment-v0.3.json", "data/frameworks/spii-v0.1.json", "data/frameworks/posi-v2.0.json", "data/frameworks/gorc-v1.1.json", "data/frameworks/fair-v1.0.json", "data/frameworks/bd-v1.0.json", "data/frameworks/osr-v0.1.json", "data/frameworks/7gpri-v1.0.json"];
+            const BUILTIN_FRAMEWORK_FILES = ["data/frameworks/spii-alignment-v0.3.json", "data/frameworks/spii-v0.1.json", "data/frameworks/posi-v2.0.json", "data/frameworks/gorc-v1.1.json", "data/frameworks/fair-v1.0.json", "data/frameworks/bd-v1.0.json", "data/frameworks/osr-v0.1.json", "data/frameworks/7gpri-v1.0.json", "data/frameworks/care-v1.0.json"];
 
             async function load_builtin_frameworks() {
                 const loaded = await Promise.all(
