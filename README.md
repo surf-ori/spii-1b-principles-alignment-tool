@@ -21,7 +21,8 @@ principles, criteria, or copy, no code changes needed:
   Science NL's infrastructure call), not a new version of POSI; the
   overlap analysis behind it is on the [deliverable 1A
   page](https://surf-ori.github.io/spii-1a-values-and-principles/#posi-plus).
-  The default tab on load.
+  First in the framework list, right after the infrastructure-description
+  tab.
 - **SPII Alignment v0.3** (draft, [`spii-alignment-v0.3.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/spii-alignment-v0.3.json))
   — 17 subprinciples across Openness, Autonomy, Sustainable, and Researcher
   centric, transcribed verbatim from a table Till Bey shared by email
