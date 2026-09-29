@@ -10,10 +10,18 @@ making progress / not compliant, but a framework can instead define its
 own ordinal scale (see SPII Alignment below) — with optional
 notes, then export the result.
 
-Nine frameworks are included today, each as its own JSON file under
+Ten frameworks are included today, each as its own JSON file under
 [`data/frameworks/`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/tree/main/data/frameworks/) — edit them directly to tweak
 principles, criteria, or copy, no code changes needed:
 
+- **POSI+ v0.5** (draft, [`posi+spii-v0.5.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/posi%2Bspii-v0.5.json))
+  — POSI v2.0's 20 principles quoted verbatim, followed by 17 SPII
+  principles POSI does not already cover, all on a four-level maturity
+  scale. POSI+ is a name for the Dutch Open Science context (SPII and Open
+  Science NL's infrastructure call), not a new version of POSI; the
+  overlap analysis behind it is on the [deliverable 1A
+  page](https://surf-ori.github.io/spii-1a-values-and-principles/#posi-plus).
+  The default tab on load.
 - **SPII Alignment v0.3** (draft, [`spii-alignment-v0.3.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/spii-alignment-v0.3.json))
   — 17 subprinciples across Openness, Autonomy, Sustainable, and Researcher
   centric, transcribed verbatim from a table Till Bey shared by email
@@ -21,7 +29,7 @@ principles, criteria, or copy, no code changes needed:
   published values and principles on a four-level maturity scale (Level
   1–4, shown as numbered circles colored red to green) instead of
   compliant/progress/non-compliant; six subprinciples have no level
-  descriptions yet. The default tab on load.
+  descriptions yet.
 - **SPII v0.1** (draft, [`spii-v0.1.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/spii-v0.1.json)) — 19
   principles across Openness, Autonomy, Sustainability, Interoperability,
   and Researcher-centric.
@@ -87,8 +95,8 @@ principles, criteria, or copy, no code changes needed:
   unanswered) next to every principle in the sidebar navigation, so you can
   see progress at a glance without opening each section.
 - **Bring your own framework** — import a custom assessment framework
-  (JSON) at runtime alongside SPII, POSI, GORC, FAIR, BD, OSR, 7GPRI, and
-  CARE, download a template to help author one, and export whichever
+  (JSON) at runtime alongside POSI+, SPII, POSI, GORC, FAIR, BD, OSR, 7GPRI,
+  and CARE, download a template to help author one, and export whichever
   frameworks are currently loaded.
 - **Export as JSON** — download your results and reload them later to
   continue or revise an assessment.
@@ -105,7 +113,7 @@ Also live at **[surf-ori.github.io/spii-1b-principles-alignment-tool](https://su
 step). Or serve the directory with any static file server (for example
 `python3 -m http.server`) and open `index.html` over http(s); there is
 nothing to install or build beyond that. **Opening `index.html` directly
-as a `file://` page no longer works** — the nine built-in frameworks are
+as a `file://` page no longer works** — the ten built-in frameworks are
 loaded from [`data/frameworks/`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/tree/main/data/frameworks/) via `fetch()` at
 startup, and browsers block that kind of request from a `file://` page;
 you'll see a clear on-page message explaining this instead of a blank
@@ -135,7 +143,7 @@ report and/or a custom framework automatically from query parameters:
 
 ### Linking directly to a framework
 
-`index.html#gorc` (or any framework id — `spii`, `spii-alignment`, `posi`, `gorc`, `fair`, `bd`, `osr`, `7gpri`, `care`, matched
+`index.html#gorc` (or any framework id — `posi-plus`, `spii`, `spii-alignment`, `posi`, `gorc`, `fair`, `bd`, `osr`, `7gpri`, `care`, matched
 case-insensitively) opens straight to that framework's tab, with its sidebar section expanded
 and every other framework's section collapsed. Selecting a framework tab in the app updates the
 URL the same way, so the address bar always reflects which framework is open and can be shared
