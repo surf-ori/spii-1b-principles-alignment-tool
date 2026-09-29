@@ -1,0 +1,520 @@
+{
+  "id": "posi-plus",
+  "title": "POSI+ v0.5 (draft)",
+  "shortName": "POSI+",
+  "description": "POSI v2.0 with SPII additions, for the Dutch Open Science context: POSI’s twenty principles verbatim, followed by seventeen SPII principles POSI does not cover, all scored on a four-level maturity scale.",
+  "aboutHtml": "<p><strong>POSI+</strong> is a name for the Dutch Open Science context — SPII’s reference model and Open Science NL’s infrastructure call — for the <a href=\"https://openscholarlyinfrastructure.org/\">Principles of Open Scholarly Infrastructure</a> (POSI v2.0) plus the SPII principles that POSI does not already cover. It is not a new version of POSI and is not published or endorsed by the POSI Adopters.</p><p>The first three sections are POSI’s own Governance, Sustainability and Insurance, with all twenty principles quoted verbatim, so an existing POSI self-assessment stays valid as the first part of a POSI+ one. The five sections marked <em>SPII+</em> hold seventeen additions from SPII deliverable 1A’s <a href=\"https://surf-ori.github.io/spii-1a-values-and-principles/#outcome\">values and principles</a> (July 8, 2026) and its <a href=\"https://surf-ori.github.io/spii-1a-values-and-principles/#original-maturity-matrix\">v0.3 maturity matrix</a>. How each SPII idea was matched against POSI — covered, partly covered, or missing — is set out in the <a href=\"https://surf-ori.github.io/spii-1a-values-and-principles/#posi-plus\">POSI+ v0.5 overlap analysis</a>, and the background (the SPII principles subgroup’s September 2026 decision to build on POSI rather than beside it) in <a href=\"https://surf-ori.github.io/spii-1a-values-and-principles/#how-these-were-formed\">the 1A story</a>.</p><p>Every principle is scored on four levels: Level 1, nothing done; Level 2, a start; Level 3, established — roughly where a POSI “met” lands; Level 4, the vision, deliberately ambitious. A three-point POSI self-assessment reads onto Levels 1–3. Three POSI principles are close to yes-or-no (Cannot lobby; Revenue generated from services, not data; Patent non-assertion): for those, Level 3 is simply “met” and Levels 2 and 4 are thin by nature.</p><p>This is draft v0.5, drafted with AI (Claude) and pending review by the SPII team. See the <a href=\"https://surf-ori.github.io/spii-1a-values-and-principles/#posi-plus-maturity-matrix\">maturity matrix</a> on the 1A page for which level texts build on the v0.3 matrix.</p><p>POSI text: POSI Adopters (2025), <em>The Principles of Open Scholarly Infrastructure</em>, <a href=\"https://doi.org/10.14454/G8WV-VM65\">https://doi.org/10.14454/G8WV-VM65</a>.</p>",
+  "draft": true,
+  "levels": [
+    {
+      "id": "level-1",
+      "label": "Level 1"
+    },
+    {
+      "id": "level-2",
+      "label": "Level 2"
+    },
+    {
+      "id": "level-3",
+      "label": "Level 3"
+    },
+    {
+      "id": "level-4",
+      "label": "Level 4"
+    }
+  ],
+  "sections": [
+    {
+      "section": "Governance",
+      "sourceUrl": "https://openscholarlyinfrastructure.org/#governance",
+      "principles": [
+        {
+          "id": "posi-coverage",
+          "title": "Coverage across the scholarly enterprise",
+          "text": "Research transcends disciplines, geography, institutions, and stakeholders. Organisations and the infrastructure they run need to reflect this.",
+          "criteria": {
+            "level-1": "The infrastructure serves a single institution, discipline or stakeholder group, and its governance does not consider others.",
+            "level-2": "The infrastructure is used beyond its original community, but its services and governance still mainly reflect that one group.",
+            "level-3": "Services and governance are documented as open to all disciplines, regions and stakeholder types that rely on the infrastructure.",
+            "level-4": "Coverage across disciplines, regions and stakeholders is published and reviewed with the community, and gaps are actively closed."
+          },
+          "improvementAction": "Map which disciplines, regions and stakeholder groups rely on the infrastructure, and publish where its services or governance do not yet reach them."
+        },
+        {
+          "id": "posi-stakeholder-governed",
+          "title": "Stakeholder governed",
+          "text": "A board-governed organisation drawn from the stakeholder community builds confidence that the organisation will make decisions driven by community consensus and a balance of interests.",
+          "criteria": {
+            "level-1": "Decisions are made by a single party, with no clear way for the community to take part.",
+            "level-2": "Governance is shared by several parties, and an advisory board or similar body represents the community.",
+            "level-3": "A consortium or board representing the main stakeholders and user groups holds decision-making power under documented rules.",
+            "level-4": "The community takes full part in governance through elections and self-governance, and the governance model is published and reviewed."
+          },
+          "improvementAction": "Move from an advisory role to a governing board drawn from the main stakeholder and user groups, with a documented way for the community to elect its members."
+        },
+        {
+          "id": "posi-non-discriminatory",
+          "title": "Non-discriminatory participation or membership",
+          "text": "We see the best option to be an “opt-in” approach with principles of non-discrimination and inclusivity, where any relevant group may express an interest and should be welcome. Representation in governance must reflect the character of the community or membership.",
+          "criteria": {
+            "level-1": "There is no route for new organisations or groups to join the infrastructure or be represented in its governance.",
+            "level-2": "New participants can join on request, but criteria are informal and representation mainly reflects the founding members.",
+            "level-3": "Documented opt-in membership criteria are open to any relevant group, and governance seats reflect the membership.",
+            "level-4": "Participation is open, non-discriminatory and reviewed with the community, and under-represented groups, regions and disciplines are actively invited."
+          },
+          "improvementAction": "Publish opt-in membership criteria that any relevant group can meet, and check whether governance seats reflect the membership."
+        },
+        {
+          "id": "posi-transparent-governance",
+          "title": "Transparent governance",
+          "text": "To foster trust, the processes and policies for governing the organisation and selecting representatives to governance groups should be transparent (within the constraints of privacy laws).",
+          "criteria": {
+            "level-1": "How the infrastructure is governed and how representatives are chosen is not documented.",
+            "level-2": "Some governance information, such as board membership, is published, but selection processes and decisions are not.",
+            "level-3": "Governance policies, selection processes and decisions are documented and published, within the constraints of privacy law.",
+            "level-4": "Governance policies, selection processes, minutes and decisions are published, and the community is invited to review and challenge them."
+          },
+          "improvementAction": "Document and publish how governance representatives are selected and how decisions are made, not only who sits on the board."
+        },
+        {
+          "id": "posi-cannot-lobby",
+          "title": "Cannot lobby",
+          "text": "Infrastructure organisations should not lobby for regulatory change to cement their own positions or narrow self-interest. However, an infrastructure organisation’s role is to support its community, and this can include advocating for policy changes.",
+          "criteria": {
+            "level-1": "The organisation's position on lobbying is unknown, or it lobbies for rules that protect its own position.",
+            "level-2": "The organisation does not lobby for its own position, but has no stated policy on it.",
+            "level-3": "A published policy commits the organisation not to lobby for narrow self-interest, while allowing advocacy for its community.",
+            "level-4": "The published policy is reviewed by the governing body, and advocacy positions are developed with and published to the community."
+          },
+          "improvementAction": "Publish a short policy that separates advocacy for the community from lobbying for the organisation's own position."
+        },
+        {
+          "id": "posi-living-will",
+          "title": "Living will",
+          "text": "To build trust, organisations should establish and communicate clear commitments regarding their long-term stewardship responsibilities, including the principles by which assets, data, resources, services, and staff would be responsibly transferred to a successor or the organisation or service wound down. The commitments should address future governance, with defined criteria for acceptable successor organisations. This should include continued alignment with POSI and any legal or structural constraints.",
+          "criteria": {
+            "level-1": "There is no plan for what happens to assets, data, services and staff if the infrastructure winds down.",
+            "level-2": "Wind-down or transfer has been discussed internally, but no plan is documented.",
+            "level-3": "A living will is documented and published, describing how assets, data, services and staff would transfer to a successor or be wound down.",
+            "level-4": "The published living will names criteria for successors, is reviewed regularly with the community, and is backed by reserves and archive agreements."
+          },
+          "improvementAction": "Write and publish a living will that covers the transfer of assets, data, services and staff, including criteria for an acceptable successor."
+        },
+        {
+          "id": "posi-regular-review",
+          "title": "Regular review of purpose and community value",
+          "text": "Organisations and services should regularly review their relevance, effectiveness, and the level of community support to determine whether their continued operation is necessary. If no longer needed, they should take responsible steps to transition or wind down operations in consultation with the community and in alignment with their living will.",
+          "criteria": {
+            "level-1": "The infrastructure's relevance and community support are never formally reviewed.",
+            "level-2": "Relevance is discussed now and then, usually prompted by a funding decision or a crisis.",
+            "level-3": "The governing body reviews relevance, effectiveness and community support on a documented schedule, and records the outcome.",
+            "level-4": "Reviews involve the community, their outcomes are published, and they have led to change, transition or a responsible wind-down where needed."
+          },
+          "improvementAction": "Put a periodic review of relevance and community support on the governing body's agenda, and record its outcome."
+        }
+      ]
+    },
+    {
+      "section": "Sustainability",
+      "sourceUrl": "https://openscholarlyinfrastructure.org/#sustainability",
+      "principles": [
+        {
+          "id": "posi-transparent-operations",
+          "title": "Transparent operations",
+          "text": "To enable organisational accountability and openness, the operating policies and procedures, detailed financials, sustainability models, fees, strategic and product roadmaps, organisational charts, and other appropriate operational information should be made openly available (within the constraints of privacy laws). Information should be available for investigation and reuse by the community.",
+          "criteria": {
+            "level-1": "Operating policies, financials, fees and roadmaps are not published.",
+            "level-2": "Some operational information, such as fees or an annual report, is published, but detailed financials and roadmaps are not.",
+            "level-3": "Operating policies, detailed financials, fees, sustainability model, roadmaps and organisational chart are published, within the constraints of privacy law.",
+            "level-4": "All of this is published in reusable formats, kept current, and the community can question and reuse it."
+          },
+          "improvementAction": "Publish detailed financials, fees and strategic and product roadmaps alongside the operating policies, in a form the community can reuse."
+        },
+        {
+          "id": "posi-time-limited-funds",
+          "title": "Time-limited funds are used only for time-limited activities",
+          "text": "Operations should be supported by sustainable revenue sources, whereas time-limited funds are used only for time-limited activities. Depending on grants to fund ongoing and/or long-term operations fully makes organisations fragile and distracts from maintaining core infrastructure.",
+          "criteria": {
+            "level-1": "There is no funding now or for the foreseeable future.",
+            "level-2": "There is only time-limited funding, such as a one-off grant or donation, and it also pays for ongoing operations.",
+            "level-3": "Multi-year funding is in place, for example through memberships and recurrent grants, and core operations are budgeted separately from projects.",
+            "level-4": "Core operations run on recurring revenue such as memberships or service fees, and time-limited funds pay only for time-limited activities."
+          },
+          "improvementAction": "Separate core operating costs from project costs, and move core operations onto recurring revenue such as memberships or service fees."
+        },
+        {
+          "id": "posi-generate-surplus",
+          "title": "Goal to generate surplus",
+          "text": "It is not enough to merely survive; organisations and services have to be able to adapt and change. Organisations and services that define long-term sustainability based only on recovering costs risk becoming brittle and stagnant. To weather economic, social and technological volatility, organisations and services need financial resources beyond immediate operating costs.",
+          "criteria": {
+            "level-1": "The infrastructure does not recover its operating costs.",
+            "level-2": "Operating costs are roughly covered, but nothing is left to adapt, innovate or absorb setbacks.",
+            "level-3": "Revenue exceeds operating costs by a planned margin, and the governing body decides how the surplus is used.",
+            "level-4": "A published surplus policy funds renewal and innovation, and the use of surplus is reported to the community."
+          },
+          "improvementAction": "Set a target to generate a surplus above operating costs, and agree how the governing body will decide on its use."
+        },
+        {
+          "id": "posi-financial-reserves",
+          "title": "Establish and maintain financial reserves guided by policy",
+          "text": "Organisations and services should have a clear policy on maintaining financial reserves, including the purpose, minimum and maximum level, and governance of these funds. The actual level of reserves should be determined and periodically reviewed by the governing body, ensuring that resources are available to support Living Will implementation, including an orderly wind-down, transition to a successor, or response to major unforeseen events. A financial reserve policy might include how funds will be held, under what circumstances they will be used, and how much would be necessary for an adequate wind-down or transfer of assets, given the complexity of the organisation’s infrastructure.",
+          "criteria": {
+            "level-1": "There are no financial reserves separate from operating funds.",
+            "level-2": "Some reserves exist, but there is no policy on their purpose, level or use.",
+            "level-3": "A reserves policy sets purpose, minimum and maximum level and governance, and the governing body reviews it periodically.",
+            "level-4": "Reserves meet the policy level, are sized to fund an orderly wind-down or transfer, and the policy and actual level are published."
+          },
+          "improvementAction": "Adopt a reserves policy stating purpose, minimum and maximum levels and governance, sized to cover an orderly wind-down."
+        },
+        {
+          "id": "posi-mission-consistent-revenue",
+          "title": "Mission-consistent revenue generation",
+          "text": "Revenue sources should be evaluated against the infrastructure’s mission and not run counter to the aims of the organisation or service.",
+          "criteria": {
+            "level-1": "Revenue sources are not assessed against the mission.",
+            "level-2": "Mission fit is considered informally for large revenue decisions.",
+            "level-3": "A documented process checks every revenue source against the mission, and the governing body approves new sources.",
+            "level-4": "The revenue model and its mission check are published, and the community is consulted before new types of revenue are introduced."
+          },
+          "improvementAction": "Document a mission check for revenue sources, and have the governing body approve any new type of revenue."
+        },
+        {
+          "id": "posi-revenue-not-data",
+          "title": "Revenue generated from services, not data",
+          "text": "Data related to the running of the scholarly infrastructure should be community property. Appropriate revenue sources might include value-added services, consulting, API Service Level Agreements, or membership fees.",
+          "criteria": {
+            "level-1": "Revenue depends on selling or restricting access to data about running the infrastructure.",
+            "level-2": "Some of that data is community property, but part of the revenue still depends on restricting access to it.",
+            "level-3": "Data about running the infrastructure is community property, and revenue comes from services, memberships or service level agreements.",
+            "level-4": "This is written into published policy and contracts, and the data stays community property after any transfer to a successor."
+          },
+          "improvementAction": "Identify revenue that depends on restricting data, and replace it with revenue from services, memberships or service level agreements."
+        },
+        {
+          "id": "posi-volunteer-labour",
+          "title": "Volunteer labour",
+          "text": "Organisations that rely on volunteers and their labour should recognise this as a valuable resource for the organisation’s long-term viability, and factor it into sustainability planning and risk management.",
+          "criteria": {
+            "level-1": "Volunteer contributions are not tracked or considered in planning.",
+            "level-2": "Volunteers are known and thanked, but their labour is not part of sustainability planning or risk management.",
+            "level-3": "Volunteer labour is documented, recognised, and included in sustainability planning and risk management.",
+            "level-4": "Volunteers are supported with onboarding and credit, their contributions are publicly acknowledged, and planning covers the loss of key volunteers."
+          },
+          "improvementAction": "Record which work depends on volunteers, and include it in sustainability planning and risk management."
+        },
+        {
+          "id": "posi-transition-planning",
+          "title": "Transition planning",
+          "text": "Organisations that are heavily dependent on a limited number of individuals should take steps to reduce their dependence on these individuals, including via transition and succession planning, so that the organisation is not at risk of collapse in the event of their departure.",
+          "criteria": {
+            "level-1": "No one is working on the infrastructure, now or for the foreseeable future.",
+            "level-2": "One person keeps the infrastructure running, with no backup and little documented knowledge.",
+            "level-3": "A small team shares the work, key knowledge is documented, and each critical role has a named backup.",
+            "level-4": "Dedicated, funded staff cover all key roles with succession plans, so no single departure puts operations at risk."
+          },
+          "improvementAction": "Document the knowledge held by key individuals and name a backup for each critical role, as a first step toward succession planning."
+        }
+      ]
+    },
+    {
+      "section": "Insurance",
+      "sourceUrl": "https://openscholarlyinfrastructure.org/#insurance",
+      "principles": [
+        {
+          "id": "posi-open-source",
+          "title": "Open source",
+          "text": "All software and non-physical assets required to run the infrastructure should be available under an open-source licence. This does not include other software that may be involved with running the organisation.",
+          "criteria": {
+            "level-1": "The infrastructure runs on proprietary software, and its own code is not released.",
+            "level-2": "Some core components are open source, or part of the infrastructure's own code is released under an open-source licence.",
+            "level-3": "The infrastructure mostly uses open-source components, and all software needed to run it is released under an open-source licence.",
+            "level-4": "The infrastructure leads an active open-source community, with contributing developers from other organisations and active users, and contributes back to components it uses."
+          },
+          "improvementAction": "Release all software needed to run the infrastructure under an open-source licence, and invite developers from other organisations to contribute."
+        },
+        {
+          "id": "posi-open-secure-data",
+          "title": "Ensure open and secure data accessibility within legal and ethical constraints",
+          "text": "To support potential forking or replication, infrastructure should aim to make all relevant data openly available, following best practices such as applying a CC0 waiver where appropriate. This must be balanced with compliance with privacy, data protection, and security requirements. Organisations should have a clear policy outlining how private or sensitive data will be handled—particularly in the event of a transfer to another organisation—to ensure continuity, legal compliance, and responsible stewardship.",
+          "criteria": {
+            "level-1": "Data needed to replicate the infrastructure is not openly available, and there is no policy for private or sensitive data.",
+            "level-2": "Some relevant data is openly available, but licences are unclear and private or sensitive data is handled informally.",
+            "level-3": "All relevant data is available under an open licence such as CC0 where appropriate, with a documented policy for private and sensitive data.",
+            "level-4": "Openly licensed data is released regularly, and the sensitive-data policy, including handling on transfer, is published and externally reviewed."
+          },
+          "improvementAction": "Apply an open licence such as CC0 to all relevant data, and document how private and sensitive data is handled, including on transfer."
+        },
+        {
+          "id": "posi-available-preserved",
+          "title": "Available and preserved",
+          "text": "It is not enough that content, data, and software be “open” if there is no practical way to obtain them. These resources should be made easily available with clear public documentation about where they are and how to access them, as well as an open licence where possible. It is not enough that “open” resources are available. In line with the Living Will, it is essential to deposit content, data, and software with at least one trusted third-party digital archive.",
+          "criteria": {
+            "level-1": "There is no practical, documented way to obtain the content, data and software.",
+            "level-2": "Content, data and software can be obtained on request or in part, and nothing is deposited in an external archive.",
+            "level-3": "Content, data and software are easy to obtain with public documentation, and are deposited with at least one trusted third-party archive.",
+            "level-4": "Regular deposits go to more than one trusted archive, and restoring the infrastructure from them has been tested."
+          },
+          "improvementAction": "Publish where and how to obtain content, data and software, and deposit them with a trusted third-party archive."
+        },
+        {
+          "id": "posi-patent-non-assertion",
+          "title": "Patent non-assertion",
+          "text": "The organisation should commit to a patent non-assertion policy or covenant. The organisation may obtain patents to protect its own operations, but not use them to prevent the community from replicating the infrastructure.",
+          "criteria": {
+            "level-1": "The organisation's position on patents is unknown, or it uses patents to stop others replicating the infrastructure.",
+            "level-2": "The organisation holds no patents that restrict replication, but has made no formal commitment.",
+            "level-3": "The organisation has published a patent non-assertion policy or covenant.",
+            "level-4": "The published covenant is legally binding, survives any transfer to a successor, and is referenced in the living will."
+          },
+          "improvementAction": "Publish a patent non-assertion policy or covenant, so the community can replicate the infrastructure without legal risk."
+        },
+        {
+          "id": "posi-interoperability-standards",
+          "title": "Prioritise interoperability and open standards to ensure continuity and resilience",
+          "text": "Infrastructures should adopt and support widely accepted open standards—both formal and de facto—to ensure that systems, data, and services can be replicated, migrated, or integrated with minimal disruption without the use of proprietary extensions or software. Where relevant, organisations should document dependencies on standards.",
+          "criteria": {
+            "level-1": "The infrastructure relies on proprietary formats and interfaces, and its dependencies on standards are not documented.",
+            "level-2": "Open standards are supported for some core data and interfaces, alongside proprietary extensions.",
+            "level-3": "Widely accepted open standards are used for data, metadata and interfaces without proprietary extensions, and dependencies on standards are documented.",
+            "level-4": "The infrastructure helps develop the open standards it uses, and migration or integration based on them has been demonstrated."
+          },
+          "improvementAction": "Document which standards the infrastructure depends on, and replace proprietary formats or extensions with widely accepted open standards."
+        }
+      ]
+    },
+    {
+      "section": "SPII+ Openness",
+      "sourceUrl": "https://surf-ori.github.io/spii-1a-values-and-principles/#posi-plus",
+      "principles": [
+        {
+          "id": "spii-transparent-processes-provenance",
+          "title": "Transparent processes and provenance",
+          "text": "The origin, custody and changes of data, content, software and decisions in the infrastructure can be traced. The steps of its processes are documented and recorded when executed, as open as possible and as restricted as necessary.",
+          "criteria": {
+            "level-1": "The infrastructure's processes are not documented, and where its data and decisions come from cannot be traced.",
+            "level-2": "Some processes have guidelines, but steps are not recorded when executed, so provenance can only partly be traced.",
+            "level-3": "All process steps are described and recorded when executed, and this provenance record is available with restrictions.",
+            "level-4": "All process steps are described and recorded when executed, and the provenance record is publicly available and reused by others."
+          },
+          "improvementAction": "Describe the key processes step by step, and start recording provenance when they run, so origin and changes can be traced."
+        },
+        {
+          "id": "spii-results-openly-available",
+          "title": "Findable and accessible results",
+          "text": "Results — any output created by the infrastructure itself or stored in it, such as datasets and content — are described with open metadata, and are findable and accessible through open interfaces (APIs), as open as possible and as restricted as necessary.",
+          "criteria": {
+            "level-1": "Data and content held by the infrastructure are not available to others.",
+            "level-2": "Data and content are described with metadata and are findable, but not yet accessible.",
+            "level-3": "Data and content are well described with open metadata, findable, and accessible through an open API with restrictions.",
+            "level-4": "Data and content are well described, findable, and accessible to everyone through open APIs under open licences."
+          },
+          "improvementAction": "Describe stored data and content with open metadata, and expose it through an open API so it becomes findable and accessible."
+        },
+        {
+          "id": "spii-open-to-new-ideas",
+          "title": "Open to new ideas",
+          "text": "The infrastructure keeps improving: it has a way to collect, weigh and act on new ideas from its users, staff and the wider community.",
+          "criteria": {
+            "level-1": "The infrastructure is not being developed further, and there is no way to propose new ideas.",
+            "level-2": "Improvements happen ad hoc and depend on individuals; suggestions from users are not tracked.",
+            "level-3": "A documented process collects, prioritises and acts on ideas from users and staff, and the resulting roadmap is published.",
+            "level-4": "The community co-creates the roadmap, ideas are tracked in the open, and improvements are shared with and adopted by other infrastructures."
+          },
+          "improvementAction": "Set up a documented way to collect and prioritise ideas from users, and publish the resulting roadmap."
+        },
+        {
+          "id": "spii-security-by-design",
+          "title": "Security by design and knowledge security",
+          "text": "Security and knowledge security are built into the infrastructure's design and operation, so that openness is restricted only where necessary and access to sensitive data, software and services is managed responsibly.",
+          "criteria": {
+            "level-1": "Security and knowledge security risks are not assessed, and no one is responsible for them.",
+            "level-2": "Basic security measures are in place, but risk assessments are ad hoc and knowledge security is not considered.",
+            "level-3": "A named role owns security, risks including knowledge security are assessed on a documented schedule, and access is managed centrally.",
+            "level-4": "Security is independently audited or certified, security is part of every design decision, and incidents and lessons are shared with peer infrastructures."
+          },
+          "improvementAction": "Name a role responsible for security, and run a documented risk assessment that includes knowledge security."
+        }
+      ]
+    },
+    {
+      "section": "SPII+ Autonomy",
+      "sourceUrl": "https://surf-ori.github.io/spii-1a-values-and-principles/#posi-plus",
+      "principles": [
+        {
+          "id": "spii-digital-sovereignty",
+          "title": "Digital sovereignty",
+          "text": "Control over the infrastructure's data, software and decisions stays with the academic community. Critical components are chosen through value-driven procurement, preferably from a public or community-governed stack, and make-or-buy decisions weigh agency against total cost of ownership and risk.",
+          "criteria": {
+            "level-1": "It is unknown who controls the infrastructure's critical data, software and hosting, or under which terms.",
+            "level-2": "Critical components and their providers are known, but control rests with external parties whose terms the community cannot influence.",
+            "level-3": "Critical components are assessed for sovereignty risks, procurement applies documented public values, and control over data and decisions stays with the community.",
+            "level-4": "Critical components run on a public or community-governed stack, and the infrastructure helps build and maintain that shared stack for others."
+          },
+          "improvementAction": "List the infrastructure's critical components and who controls them, and add public values and sovereignty risks to procurement criteria."
+        },
+        {
+          "id": "spii-reduced-dependence-single-supplier",
+          "title": "Reduced dependence on a single supplier",
+          "text": "The infrastructure avoids lock-in to a single supplier: contracts include exit clauses, and it can migrate to realistic alternatives. See also the Digital Autonomy Assessment Framework (utrechtuniversity.github.io/digital-autonomy-assessment-tool).",
+          "criteria": {
+            "level-1": "The infrastructure depends mainly on proprietary software from one supplier, with no known way out.",
+            "level-2": "The infrastructure provides an API for most functions, so data and functionality can be reached outside the supplier's own tools.",
+            "level-3": "Gradual migration to another solution is possible, because integrations and data formats follow open standards and contracts include exit clauses.",
+            "level-4": "A documented exit plan exists, several realistic alternatives are known, and the plan is reviewed regularly."
+          },
+          "improvementAction": "Add exit clauses to supplier contracts, and draft an exit plan that names realistic alternatives."
+        },
+        {
+          "id": "spii-clear-responsibilities",
+          "title": "Clear responsibilities",
+          "text": "It is clear who is responsible for the infrastructure's operation, its decisions and their consequences, both within the organisation and between the partners that jointly run or fund it.",
+          "criteria": {
+            "level-1": "It is not documented who is responsible for operating the infrastructure or for its decisions.",
+            "level-2": "Responsibilities are known informally within the team, but not documented or agreed with partners.",
+            "level-3": "Responsibilities for operation, decisions and incidents are documented and agreed with all partners, with a named owner for each.",
+            "level-4": "Responsibilities are published and reviewed regularly with partners and users, and users know whom to contact for any issue."
+          },
+          "improvementAction": "Document who owns operation, decisions and incident handling, and agree this with every partner that runs or funds the infrastructure."
+        },
+        {
+          "id": "spii-fit-for-purpose",
+          "title": "Fit for the community's purpose",
+          "text": "The infrastructure fits the specific needs, norms and workflows of the research communities and disciplines it serves, and those communities help decide what fit for purpose means.",
+          "criteria": {
+            "level-1": "The needs of the research communities the infrastructure serves have not been identified.",
+            "level-2": "Community needs are known informally, through a few users or anecdotal feedback.",
+            "level-3": "The needs of each discipline served are documented, gathered with the community, and used to set priorities.",
+            "level-4": "Served communities co-decide priorities, fit is evaluated regularly, and discipline-specific solutions are shared for reuse in other domains."
+          },
+          "improvementAction": "Gather and document the specific needs of each discipline the infrastructure serves, and use them to set priorities."
+        }
+      ]
+    },
+    {
+      "section": "SPII+ Sustainability",
+      "sourceUrl": "https://surf-ori.github.io/spii-1a-values-and-principles/#posi-plus",
+      "principles": [
+        {
+          "id": "spii-legal-policy-compliant",
+          "title": "Legal and policy compliance",
+          "text": "The infrastructure meets applicable legal requirements, such as privacy, copyright and accessibility law, and the policies of the institutions it serves.",
+          "criteria": {
+            "level-1": "Which laws and institutional policies apply to the infrastructure, and whether it meets them, is unknown.",
+            "level-2": "Applicable laws and policies are identified, but compliance has major gaps.",
+            "level-3": "Compliance with applicable laws and institutional policies is documented, with a named owner and no known major gaps.",
+            "level-4": "Compliance is audited or certified by an independent party, and the results are published."
+          },
+          "improvementAction": "Make an inventory of the laws and institutional policies that apply, and document where the infrastructure does not yet comply."
+        },
+        {
+          "id": "spii-resilient",
+          "title": "Operational resilience",
+          "text": "The infrastructure can withstand and recover from disruption — technical failure, cyber incidents, loss of funding or staff, or geopolitical events — and is maintained continuously.",
+          "criteria": {
+            "level-1": "Single points of failure are unknown, and there are no backups, maintenance plan or recovery procedure.",
+            "level-2": "Backups and basic maintenance exist, but major single points of failure remain and recovery has not been tested.",
+            "level-3": "Risks are assessed, maintenance is scheduled, and a documented recovery plan has been tested.",
+            "level-4": "Recovery from major disruption is rehearsed regularly, critical components are redundant, and lessons are shared with peer infrastructures."
+          },
+          "improvementAction": "Identify single points of failure, and write and test a recovery plan for the most critical ones."
+        },
+        {
+          "id": "spii-institutionally-embedded",
+          "title": "Institutionally embedded",
+          "text": "The infrastructure is embedded in the strategy, policies and budgets of the institutions that host or use it, rather than depending on individual champions or projects.",
+          "criteria": {
+            "level-1": "No institution has the infrastructure in its strategy, policies or budget.",
+            "level-2": "The infrastructure depends on individual champions or a project within one or more institutions.",
+            "level-3": "Participating institutions include the infrastructure in their policies and multi-year budgets, with a named contact at each.",
+            "level-4": "The infrastructure is part of institutional and national strategy, and institutions jointly steer and fund it as shared infrastructure."
+          },
+          "improvementAction": "Get the infrastructure into the policies and multi-year budget of its host institution, with a named institutional contact."
+        }
+      ]
+    },
+    {
+      "section": "SPII+ Interoperability",
+      "sourceUrl": "https://surf-ori.github.io/spii-1a-values-and-principles/#posi-plus",
+      "principles": [
+        {
+          "id": "spii-interconnected",
+          "title": "Interconnected",
+          "text": "The infrastructure connects to other infrastructures, nationally and internationally, using persistent identifiers (PIDs) and two-way exchange, so that information flows without manual re-entry.",
+          "criteria": {
+            "level-1": "The infrastructure has no integrations with other systems, and even exchanging data with them is difficult.",
+            "level-2": "The infrastructure takes in data from other systems and uses some persistent identifiers, but sends nothing back.",
+            "level-3": "Two-way connections with key national and international infrastructures are in place, using persistent identifiers for people, organisations and outputs.",
+            "level-4": "The infrastructure is part of a flourishing ecosystem: others build on its connections, and it helps maintain shared identifier and exchange services."
+          },
+          "improvementAction": "Adopt persistent identifiers for people, organisations and outputs, and set up a two-way connection with a key partner infrastructure."
+        },
+        {
+          "id": "spii-semantic-organisational-interoperability",
+          "title": "Semantic and organisational interoperability",
+          "text": "Shared vocabularies, ontologies and agreements let the infrastructure's data and processes be understood consistently across organisations and communities.",
+          "criteria": {
+            "level-1": "The infrastructure uses its own local terms and definitions, and they are not documented.",
+            "level-2": "Local terms are documented, and some widely used vocabularies are adopted for core fields.",
+            "level-3": "Widely used, openly published vocabularies and ontologies are used for data and metadata, and mappings from local terms are published.",
+            "level-4": "The infrastructure helps maintain shared vocabularies with its community, and agreements with partners make processes work across organisations."
+          },
+          "improvementAction": "Replace local terms for core fields with widely used, openly published vocabularies, and publish the mapping."
+        },
+        {
+          "id": "spii-legal-interoperability",
+          "title": "Legal interoperability",
+          "text": "Clear, compatible terms of use and licences let data, software and content be legally reused and combined across systems.",
+          "criteria": {
+            "level-1": "Terms of use and licences are missing or unclear, so reuse is legally uncertain.",
+            "level-2": "Terms of use exist, but licences differ per resource or are incompatible with those of partner infrastructures.",
+            "level-3": "Standard, machine-readable open licences and clear terms of use apply to all resources, compatible with those of key partners.",
+            "level-4": "Licences and terms are harmonised with partner infrastructures, and the infrastructure contributes to shared legal frameworks for reuse."
+          },
+          "improvementAction": "Apply standard open licences to all resources, and check that they are compatible with the terms of key partner infrastructures."
+        }
+      ]
+    },
+    {
+      "section": "SPII+ Researcher-centric",
+      "sourceUrl": "https://surf-ori.github.io/spii-1a-values-and-principles/#posi-plus",
+      "principles": [
+        {
+          "id": "spii-seamless-user-experience",
+          "title": "Seamless user experience",
+          "text": "The infrastructure is designed around researchers' actual workflows, so that they can reach their goals with little friction across the systems they use.",
+          "criteria": {
+            "level-1": "Users' workflows and needs are not known, and there is no way for users to give feedback.",
+            "level-2": "Users can give feedback, and some usability problems are fixed ad hoc.",
+            "level-3": "User research and usability testing are part of development, and the service fits the main research workflows it supports.",
+            "level-4": "Researchers co-design the service, user experience is measured and published, and the service works seamlessly with neighbouring systems in the research journey."
+          },
+          "improvementAction": "Run usability tests with researchers on the main workflows, and make user research a standard step in development."
+        },
+        {
+          "id": "spii-accessible-to-all",
+          "title": "Accessible to all",
+          "text": "Everyone who needs the infrastructure can use it — across institutions, countries and roles, including citizen scientists and people with disabilities — with identity and access management that does not exclude them.",
+          "criteria": {
+            "level-1": "Access is limited to one institution's users, and accessibility for people with disabilities has not been considered.",
+            "level-2": "Users from other institutions can get access on request, and some accessibility issues are addressed.",
+            "level-3": "Federated login gives access across institutions, citizen scientists have an access route, and the service meets the Web Content Accessibility Guidelines (WCAG).",
+            "level-4": "Access for all relevant users, including citizen scientists, is independently checked, and remaining barriers are reviewed with user groups."
+          },
+          "improvementAction": "Offer federated login and an access route for citizen scientists, and test the service against the Web Content Accessibility Guidelines (WCAG)."
+        },
+        {
+          "id": "spii-recognition-and-rewards",
+          "title": "Recognition and rewards",
+          "text": "Contributions made through or to the infrastructure — data, software, curation, review, maintenance — are visible, citable and recognised in academic evaluation and careers.",
+          "criteria": {
+            "level-1": "Contributions made through or to the infrastructure are not visible or attributed.",
+            "level-2": "Some contributions are acknowledged, for example in release notes, but cannot be cited or linked to people.",
+            "level-3": "Contributions are citable and linked to contributors through persistent identifiers such as ORCID, so they can count in evaluation.",
+            "level-4": "Contributions feed into institutional recognition and rewards frameworks, and the infrastructure helps shape how such work is valued."
+          },
+          "improvementAction": "Make contributions citable, and link them to contributors' persistent identifiers such as ORCID."
+        }
+      ]
+    }
+  ]
+}
