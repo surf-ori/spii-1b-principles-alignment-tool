@@ -24,12 +24,12 @@ principles, criteria, or copy, no code changes needed:
   four-level scale and SPII additions of POSI+SPII with POSI's authors and
   the POSI community, aiming for a mandate for POSI to adopt them
   officially, on a global scale.
-- **POSI+SPII merged v0.5** (draft, [`posi+spii-v0.5.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/posi%2Bspii-v0.5.json))
+- **POSI+SPII merged v0.5** (draft, [`posi+spii-merged-v0.5.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/posi%2Bspii-merged-v0.5.json))
   — a proposal for discussion with the POSI community: POSI v2.0's 20
   principles quoted verbatim, followed by 17 SPII principles POSI does not
   already cover, all on a four-level maturity scale. Not an official
   framework; the overlap analysis behind it is on the [deliverable 1A
-  page](https://surf-ori.github.io/spii-1a-values-and-principles/#posi-plus).
+  page](https://surf-ori.github.io/spii-1a-values-and-principles/#posi-spii).
 - **SPII Alignment v0.3** (draft, [`spii-alignment-v0.3.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/spii-alignment-v0.3.json))
   — 17 subprinciples across Openness, Autonomy, Sustainable, and Researcher
   centric, transcribed verbatim from a table Till Bey shared by email
@@ -148,7 +148,7 @@ report and/or a custom framework automatically from query parameters:
 
 ### Linking directly to a framework
 
-`index.html#gorc` (or any framework id — `posi-plus`, `spii`, `spii-alignment`, `posi`, `gorc`, `fair`, `bd`, `osr`, `7gpri`, `care`, matched
+`index.html#gorc` (or any framework id — `posi-spii`, `spii`, `spii-alignment`, `posi`, `gorc`, `fair`, `bd`, `osr`, `7gpri`, `care`, matched
 case-insensitively) opens straight to that framework's tab, with its sidebar section expanded
 and every other framework's section collapsed. Selecting a framework tab in the app updates the
 URL the same way, so the address bar always reflects which framework is open and can be shared
