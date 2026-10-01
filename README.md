@@ -14,15 +14,22 @@ Ten frameworks are included today, each as its own JSON file under
 [`data/frameworks/`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/tree/main/data/frameworks/) — edit them directly to tweak
 principles, criteria, or copy, no code changes needed:
 
-- **POSI+ v0.5** (draft, [`posi+spii-v0.5.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/posi%2Bspii-v0.5.json))
-  — POSI v2.0's 20 principles quoted verbatim, followed by 17 SPII
-  principles POSI does not already cover, all on a four-level maturity
-  scale. POSI+ is a name for the Dutch Open Science context (SPII and Open
-  Science NL's infrastructure call), not a new version of POSI; the
-  overlap analysis behind it is on the [deliverable 1A
+- **[Principles of Open Scholarly Infrastructure (POSI) v2.0](https://openscholarlyinfrastructure.org/)**
+  ([`posi-v2.0.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/posi-v2.0.json)) — 20 principles across
+  Governance, Sustainability, and Insurance. **The official, approved
+  assessment framework** (marked with a seal icon in the tool), first in
+  the framework list, right after the infrastructure-description tab. On
+  October 1, 2026, SPII's values and principles working group decided to
+  use POSI v2.0 as the official framework, and to show and discuss the
+  four-level scale and SPII additions of POSI+SPII with POSI's authors and
+  the POSI community, aiming for a mandate for POSI to adopt them
+  officially, on a global scale.
+- **POSI+SPII merged v0.5** (draft, [`posi+spii-v0.5.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/posi%2Bspii-v0.5.json))
+  — a proposal for discussion with the POSI community: POSI v2.0's 20
+  principles quoted verbatim, followed by 17 SPII principles POSI does not
+  already cover, all on a four-level maturity scale. Not an official
+  framework; the overlap analysis behind it is on the [deliverable 1A
   page](https://surf-ori.github.io/spii-1a-values-and-principles/#posi-plus).
-  First in the framework list, right after the infrastructure-description
-  tab.
 - **SPII Alignment v0.3** (draft, [`spii-alignment-v0.3.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/spii-alignment-v0.3.json))
   — 17 subprinciples across Openness, Autonomy, Sustainable, and Researcher
   centric, transcribed verbatim from a table Till Bey shared by email
@@ -34,9 +41,6 @@ principles, criteria, or copy, no code changes needed:
 - **SPII v0.1** (draft, [`spii-v0.1.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/spii-v0.1.json)) — 19
   principles across Openness, Autonomy, Sustainability, Interoperability,
   and Researcher-centric.
-- **[Principles of Open Scholarly Infrastructure (POSI) v2.0](https://openscholarlyinfrastructure.org/)**
-  ([`posi-v2.0.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/posi-v2.0.json)) — 20 principles across
-  Governance, Sustainability, and Insurance.
 - **GORC v1.1 Assessment** (draft, [`gorc-v1.1.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/gorc-v1.1.json))
   — 55 principles adapting the Research Data Alliance's [Global Open
   Research Commons (GORC) International Model, version
@@ -96,7 +100,7 @@ principles, criteria, or copy, no code changes needed:
   unanswered) next to every principle in the sidebar navigation, so you can
   see progress at a glance without opening each section.
 - **Bring your own framework** — import a custom assessment framework
-  (JSON) at runtime alongside POSI+, SPII, POSI, GORC, FAIR, BD, OSR, 7GPRI,
+  (JSON) at runtime alongside POSI, POSI+SPII, SPII, GORC, FAIR, BD, OSR, 7GPRI,
   and CARE, download a template to help author one, and export whichever
   frameworks are currently loaded.
 - **Export as JSON** — download your results and reload them later to

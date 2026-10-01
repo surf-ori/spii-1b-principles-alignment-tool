@@ -539,6 +539,20 @@
                align-self the icon stretches to match wrapped multi-line
                text (flexbox's default align-items: stretch), flattening it
                into an oval instead of staying a fixed-size circle. */
+            /* Marks a framework with "approved": true in its JSON. */
+            .approved-icon {
+                display: inline-block;
+                flex-shrink: 0;
+                align-self: center;
+                margin-right: var(--space-2);
+                color: var(--compliant);
+                vertical-align: middle;
+            }
+
+            .approved-icon svg {
+                display: block;
+            }
+
             .nav-status-icon {
                 display: inline-block;
                 flex-shrink: 0;
@@ -660,7 +674,8 @@
 
             const CHANGELOG_HTML =
                 "<dl>" +
-                '<dt>2026-09-29</dt><dd>Added POSI+ v0.5 (draft), now first in the framework list, right after the infrastructure-description tab the tool opens on: <a href="https://openscholarlyinfrastructure.org/">POSI v2.0</a>’s twenty principles quoted verbatim, followed by seventeen SPII principles POSI does not already cover, all on the four-level scale introduced with SPII Alignment v0.3. POSI+ is a name for the Dutch Open Science context — SPII and Open Science NL’s infrastructure call — not a new version of POSI. The overlap analysis behind it, and the SPII principles subgroup’s reasons for building on POSI rather than beside it, are on the <a href="https://surf-ori.github.io/spii-1a-values-and-principles/#posi-plus">deliverable 1A page</a>. Drafted with AI and pending review by the SPII team.</dd>' +
+                '<dt>2026-10-01</dt><dd>POSI v2.0 is now the official, approved assessment framework in this tool, per a decision by SPII’s values and principles working group: it is first in the framework list and marked with a seal icon. The draft “POSI+” is renamed “POSI+SPII merged v0.5”; its four-level scale and SPII additions will be shown to and discussed with POSI’s authors and the POSI community, aiming for a mandate for POSI to adopt them officially, on a global scale. Also fixed “(draft)” appearing twice in the sidebar for frameworks whose title already says so.</dd>' +
+                '<dt>2026-09-29</dt><dd>Added POSI+SPII v0.5 (draft, then called POSI+), now first in the framework list, right after the infrastructure-description tab the tool opens on: <a href="https://openscholarlyinfrastructure.org/">POSI v2.0</a>’s twenty principles quoted verbatim, followed by seventeen SPII principles POSI does not already cover, all on the four-level scale introduced with SPII Alignment v0.3. POSI+SPII is a name for the Dutch Open Science context — SPII and Open Science NL’s infrastructure call — not a new version of POSI. The overlap analysis behind it, and the SPII principles subgroup’s reasons for building on POSI rather than beside it, are on the <a href="https://surf-ori.github.io/spii-1a-values-and-principles/#posi-plus">deliverable 1A page</a>. Drafted with AI and pending review by the SPII team.</dd>' +
                 '<dt>2026-09-25</dt><dd>Added a ninth framework, the CARE v1.0 Assessment (draft) — an adaptation of the <a href="https://www.gida-global.org/careprinciples">CARE Principles for Indigenous Data Governance</a> (Global Indigenous Data Alliance, 2019; Carroll et al., <a href="https://doi.org/10.5334/dsj-2020-043">Data Science Journal</a>, 2020). 12 sub-principles across four sections — Collective Benefit, Authority to Control, Responsibility, Ethics — complementing FAIR’s focus on data reusability with a people- and purpose-oriented lens asserting Indigenous Peoples’ rights and interests in the data ecosystems that concern them. Added at the bottom of the framework order, per the SPII team’s reference to CARE (alongside FAIR) under “open infrastructures” in the <a href="https://doi.org/10.5281/zenodo.10362465">UNL Open Science Agenda</a>.</dd>' +
                 '<dt>2026-09-21</dt><dd>Added "To improve:" suggestions (<code>improvementAction</code>) to SPII Alignment v0.3’s eleven subprinciples that already have level criteria, matching every other framework here. The six subprinciples with no level descriptions yet (Open to participation, Clear responsibilities, Institutionally embedded, Seamless user-experience, Accessible to all, Recognition and rewards) are left without one, same as they’re left without criteria.</dd>' +
                 '<dt>2026-09-21</dt><dd>Each section’s "Source:" link for SPII Alignment v0.3 now points at the <a href="https://github.com/surf-ori/spii-1a-values-and-principles">spii-1a-values-and-principles</a> repository instead of the archived PDF directly — more durable, and more context than a single file.</dd>' +
@@ -790,7 +805,7 @@
                 return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
             }
 
-            const BUILTIN_FRAMEWORK_FILES = ["data/frameworks/posi+spii-v0.5.json", "data/frameworks/spii-alignment-v0.3.json", "data/frameworks/spii-v0.1.json", "data/frameworks/posi-v2.0.json", "data/frameworks/gorc-v1.1.json", "data/frameworks/fair-v1.0.json", "data/frameworks/bd-v1.0.json", "data/frameworks/osr-v0.1.json", "data/frameworks/7gpri-v1.0.json", "data/frameworks/care-v1.0.json"];
+            const BUILTIN_FRAMEWORK_FILES = ["data/frameworks/posi-v2.0.json", "data/frameworks/posi+spii-v0.5.json", "data/frameworks/spii-alignment-v0.3.json", "data/frameworks/spii-v0.1.json", "data/frameworks/gorc-v1.1.json", "data/frameworks/fair-v1.0.json", "data/frameworks/bd-v1.0.json", "data/frameworks/osr-v0.1.json", "data/frameworks/7gpri-v1.0.json", "data/frameworks/care-v1.0.json"];
 
             async function load_builtin_frameworks() {
                 const loaded = await Promise.all(
@@ -1203,6 +1218,18 @@
                 target.scrollIntoView({ block: "start" });
             }
 
+            const APPROVED_ICON = '<svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><polygon points="10.00,1.40 11.81,3.24 14.30,2.55 14.95,5.05 17.45,5.70 16.76,8.19 18.60,10.00 16.76,11.81 17.45,14.30 14.95,14.95 14.30,17.45 11.81,16.76 10.00,18.60 8.19,16.76 5.70,17.45 5.05,14.95 2.55,14.30 3.24,11.81 1.40,10.00 3.24,8.19 2.55,5.70 5.05,5.05 5.70,2.55 8.19,3.24" stroke-linejoin="round" /><path d="M6.8 10.2l2.2 2.2 4.2-4.6" stroke-linecap="round" stroke-linejoin="round" /></svg>';
+
+            function approved_icon_element() {
+                const span = document.createElement("span");
+                span.className = "approved-icon";
+                span.setAttribute("role", "img");
+                span.setAttribute("aria-label", "Approved assessment framework");
+                span.title = "Approved assessment framework";
+                span.innerHTML = APPROVED_ICON;
+                return span;
+            }
+
             function render_sidebar_nav() {
                 const nav = document.getElementById("sidebar-nav");
                 nav.innerHTML = "";
@@ -1218,7 +1245,9 @@
                     const summary = document.createElement("summary");
                     const a = document.createElement("a");
                     a.href = "#framework-" + framework.id;
-                    a.textContent = framework.title + (framework.draft ? " (draft)" : "");
+                    const showDraftSuffix = framework.draft && !/\(draft\)/i.test(framework.title);
+                    a.textContent = framework.title + (showDraftSuffix ? " (draft)" : "");
+                    if (framework.approved) a.prepend(approved_icon_element());
                     summary.appendChild(a);
                     a.addEventListener("click", (e) => {
                         e.preventDefault();
@@ -1361,6 +1390,7 @@
                 }
                 const h2 = document.createElement("h2");
                 h2.textContent = framework.title;
+                if (framework.approved) h2.prepend(approved_icon_element());
                 section.appendChild(h2);
 
                 const desc = document.createElement("p");
