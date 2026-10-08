@@ -692,6 +692,7 @@
 
             const CHANGELOG_HTML =
                 "<dl>" +
+                '<dt>2026-10-08</dt><dd>Fixed importing an assessment report for a framework with its own levels (POSI+SPII, SPII Alignment, or a custom one): the scores were silently dropped on load — only the notes survived — because import only recognised compliant / making progress / not compliant. A status is now checked against the framework’s own scale.</dd>' +
                 '<dt>2026-10-07</dt><dd>Added a concept beyond Open Science infrastructure self-assessment: a draft <strong>CRIS Tender v0.1</strong> framework (15 sections, 138 principles, scored compliant / making progress / not compliant, each with a <code>priority</code> and <code>knockOut</code> field) based on the public 2026 European tender of Maastricht University for a CRIS with repository function (<a href="https://app.mercell.com/tender/1548230057/Current-Research-Information-System-(CRIS)-with-repository-function">Mercell</a>), plus an example assessment of MORIS+ (SURF’s Modular Open Research Information System, extended for universities and UMCs) combined with BROCCOLI (SURF’s Open Research Information hub), scoring all 138 principles. The framework is deliberately not one of the built-in frameworks: it is loaded at runtime via <code>?framework=</code>. <a href="https://surf-ori.github.io/spii-1b-principles-alignment-tool/?framework=data/frameworks/cris-tender-v0.1.json&amp;report=data/examples/moris-broccoli-cris-tender-assessment-2026.json#cris-tender">Open the CRIS tender framework with the MORIS+ and BROCCOLI example</a>. It is a concept for discussion, not a validated product assessment, and both files were drafted with AI assistance (Claude) and are pending review. Also fixed: a <code>#framework</code> hash naming a framework loaded via <code>?framework=</code> now opens that framework’s tab instead of the infrastructure-description tab, and a section without a <code>sourceUrl</code> no longer shows “Source: undefined”, and a framework’s plain-text <code>description</code> can now contain <code>[label](https://…)</code> links (built as DOM nodes, http(s) only), which the CRIS Tender description uses for its source tender instead of a bare URL. Also fixed on phones: a long unbreakable string in a framework (a bare URL in a description, a “Source:” link) or a long tab label no longer makes the page wider than the screen, where it was clipped on the right — this already affected POSI v2.0 and others at 375 px.</dd>' +
                 '<dt>2026-10-01</dt><dd>POSI v2.0 is now the official, approved assessment framework in this tool, per a decision by SPII’s values and principles working group: it is first in the framework list and marked with a seal icon. The draft “POSI+” is renamed “POSI+SPII merged v0.5”; its four-level scale and SPII additions will be shown to and discussed with POSI’s authors and the POSI community, aiming for a mandate for POSI to adopt them officially, on a global scale. Also fixed “(draft)” appearing twice in the sidebar for frameworks whose title already says so.</dd>' +
                 '<dt>2026-09-29</dt><dd>Added POSI+SPII v0.5 (draft, then called POSI+), now first in the framework list, right after the infrastructure-description tab the tool opens on: <a href="https://openscholarlyinfrastructure.org/">POSI v2.0</a>’s twenty principles quoted verbatim, followed by seventeen SPII principles POSI does not already cover, all on the four-level scale introduced with SPII Alignment v0.3. POSI+SPII is a name for the Dutch Open Science context — SPII and Open Science NL’s infrastructure call — not a new version of POSI. The overlap analysis behind it, and the SPII principles subgroup’s reasons for building on POSI rather than beside it, are on the <a href="https://surf-ori.github.io/spii-1a-values-and-principles/#posi-spii">deliverable 1A page</a>. Drafted with AI and pending review by the SPII team.</dd>' +
@@ -960,13 +961,18 @@
                     });
                 }
                 if (loaded.frameworks && typeof loaded.frameworks === "object") {
+                    const knownFrameworks = FRAMEWORKS.concat(fresh.customFrameworks);
                     Object.keys(fresh.frameworks).forEach((frameworkId) => {
                         const loadedFramework = loaded.frameworks[frameworkId];
                         if (!loadedFramework || typeof loadedFramework !== "object") return;
+                        // A status is valid only if it is one of this framework's own level ids
+                        // (compliant/progress/non-compliant, or the framework's `levels`).
+                        const framework = knownFrameworks.find((f) => f.id === frameworkId);
+                        const validStatuses = (framework ? principle_levels_for(framework) : LEGACY_LEVELS).map((level) => level.id);
                         Object.keys(fresh.frameworks[frameworkId]).forEach((id) => {
                             const entry = loadedFramework[id];
                             if (entry && typeof entry === "object") {
-                                fresh.frameworks[frameworkId][id].status = ["compliant", "progress", "non-compliant"].includes(entry.status) ? entry.status : null;
+                                fresh.frameworks[frameworkId][id].status = validStatuses.includes(entry.status) ? entry.status : null;
                                 fresh.frameworks[frameworkId][id].notes = typeof entry.notes === "string" ? entry.notes : "";
                             }
                         });
