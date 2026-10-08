@@ -515,6 +515,14 @@
                 flex-wrap: wrap;
             }
 
+            /* A long tab label ("CRIS Tender v0.1 Assessment (draft) (138/138
+               scored)") is nowrap in Oat and wider than a phone; let it wrap
+               once it would exceed the tab strip. No change while it fits. */
+            [role="tablist"] [role="tab"] {
+                max-width: 100%;
+                white-space: normal;
+            }
+
             [role="tabpanel"] {
                 background-color: var(--card);
                 color: var(--card-foreground);
@@ -539,6 +547,15 @@
                align-self the icon stretches to match wrapped multi-line
                text (flexbox's default align-items: stretch), flattening it
                into an oval instead of staying a fixed-size circle. */
+            /* Long unbreakable strings (a bare URL in a framework's description, a
+               "Source:" link) otherwise force #app wider than a phone viewport
+               (500px at 375px), which body's overflow-x: hidden then clips. Oat sets
+               overflow-wrap: break-word on p itself, so inheriting is not enough. */
+            [role="tabpanel"],
+            [role="tabpanel"] * {
+                overflow-wrap: anywhere;
+            }
+
             /* Marks a framework with "approved": true in its JSON. */
             .approved-icon {
                 display: inline-block;
@@ -670,10 +687,12 @@
                 '<li><a href="https://surf-ori.github.io/spii-1b-principles-alignment-tool/?report=data/examples/openalex-posi-assessment-report-2026.json#posi">OpenAlex (2026)</a></li>' +
                 '<li><a href="https://surf-ori.github.io/spii-1b-principles-alignment-tool/?report=data/examples/hal-posi-assessment-report-2024.json#posi">HAL+ / CCSD (2024)</a></li>' +
                 "</ul>" +
+                '<p>A concept beyond Open Science infrastructure self-assessment: the same tool can compare Current Research Information System (CRIS) solutions against a generic tender framework, based on the public 2026 European tender of Maastricht University (<a href="https://app.mercell.com/tender/1548230057/Current-Research-Information-System-(CRIS)-with-repository-function">Mercell</a>). <a href="https://surf-ori.github.io/spii-1b-principles-alignment-tool/?framework=data/frameworks/cris-tender-v0.1.json&amp;report=data/examples/moris-broccoli-cris-tender-assessment-2026.json#cris-tender">CRIS tender framework with a concept assessment of MORIS+ and BROCCOLI (2026)</a>. This is a concept for discussion, not a validated product assessment; the framework and the example were drafted with AI assistance (Claude) and are pending review.</p>' +
                 "<p>Source code: <a href=\"https://github.com/surf-ori/spii-1b-principles-alignment-tool\">github.com/surf-ori/spii-1b-principles-alignment-tool</a>. Built by Till Bey (SURF), Maurice Vanderfeesten (Vrije Universiteit Amsterdam &amp; SURF), and Sander Bosch (Vrije Universiteit Amsterdam). See <a href=\"CITATION.cff\">CITATION.cff</a> for full author identifiers.</p>";
 
             const CHANGELOG_HTML =
                 "<dl>" +
+                '<dt>2026-10-07</dt><dd>Added a concept beyond Open Science infrastructure self-assessment: a draft <strong>CRIS Tender v0.1</strong> framework (15 sections, 138 principles, scored compliant / making progress / not compliant, each with a <code>priority</code> and <code>knockOut</code> field) based on the public 2026 European tender of Maastricht University for a CRIS with repository function (<a href="https://app.mercell.com/tender/1548230057/Current-Research-Information-System-(CRIS)-with-repository-function">Mercell</a>), plus an example assessment of MORIS+ (SURF’s Modular Open Research Information System, extended for universities and UMCs) combined with BROCCOLI (SURF’s Open Research Information hub), scoring all 138 principles. The framework is deliberately not one of the built-in frameworks: it is loaded at runtime via <code>?framework=</code>. <a href="https://surf-ori.github.io/spii-1b-principles-alignment-tool/?framework=data/frameworks/cris-tender-v0.1.json&amp;report=data/examples/moris-broccoli-cris-tender-assessment-2026.json#cris-tender">Open the CRIS tender framework with the MORIS+ and BROCCOLI example</a>. It is a concept for discussion, not a validated product assessment, and both files were drafted with AI assistance (Claude) and are pending review. Also fixed: a <code>#framework</code> hash naming a framework loaded via <code>?framework=</code> now opens that framework’s tab instead of the infrastructure-description tab, and a section without a <code>sourceUrl</code> no longer shows “Source: undefined”. Also fixed on phones: a long unbreakable string in a framework (a bare URL in a description, a “Source:” link) or a long tab label no longer makes the page wider than the screen, where it was clipped on the right — this already affected POSI v2.0 and others at 375 px.</dd>' +
                 '<dt>2026-10-01</dt><dd>POSI v2.0 is now the official, approved assessment framework in this tool, per a decision by SPII’s values and principles working group: it is first in the framework list and marked with a seal icon. The draft “POSI+” is renamed “POSI+SPII merged v0.5”; its four-level scale and SPII additions will be shown to and discussed with POSI’s authors and the POSI community, aiming for a mandate for POSI to adopt them officially, on a global scale. Also fixed “(draft)” appearing twice in the sidebar for frameworks whose title already says so.</dd>' +
                 '<dt>2026-09-29</dt><dd>Added POSI+SPII v0.5 (draft, then called POSI+), now first in the framework list, right after the infrastructure-description tab the tool opens on: <a href="https://openscholarlyinfrastructure.org/">POSI v2.0</a>’s twenty principles quoted verbatim, followed by seventeen SPII principles POSI does not already cover, all on the four-level scale introduced with SPII Alignment v0.3. POSI+SPII is a name for the Dutch Open Science context — SPII and Open Science NL’s infrastructure call — not a new version of POSI. The overlap analysis behind it, and the SPII principles subgroup’s reasons for building on POSI rather than beside it, are on the <a href="https://surf-ori.github.io/spii-1a-values-and-principles/#posi-spii">deliverable 1A page</a>. Drafted with AI and pending review by the SPII team.</dd>' +
                 '<dt>2026-09-25</dt><dd>Added a ninth framework, the CARE v1.0 Assessment (draft) — an adaptation of the <a href="https://www.gida-global.org/careprinciples">CARE Principles for Indigenous Data Governance</a> (Global Indigenous Data Alliance, 2019; Carroll et al., <a href="https://doi.org/10.5334/dsj-2020-043">Data Science Journal</a>, 2020). 12 sub-principles across four sections — Collective Benefit, Authority to Control, Responsibility, Ethics — complementing FAIR’s focus on data reusability with a people- and purpose-oriented lens asserting Indigenous Peoples’ rights and interests in the data ecosystems that concern them. Added at the bottom of the framework order, per the SPII team’s reference to CARE (alongside FAIR) under “open infrastructures” in the <a href="https://doi.org/10.5281/zenodo.10362465">UNL Open Science Agenda</a>.</dd>' +
@@ -1516,9 +1535,11 @@
                 const h3 = document.createElement("h3");
                 h3.textContent = section.section;
                 el.appendChild(h3);
-                const sourceNote = document.createElement("p");
-                sourceNote.innerHTML = 'Source: <a href="' + section.sourceUrl + '">' + section.sourceUrl + "</a>";
-                el.appendChild(sourceNote);
+                if (typeof section.sourceUrl === "string" && section.sourceUrl) {
+                    const sourceNote = document.createElement("p");
+                    sourceNote.innerHTML = 'Source: <a href="' + section.sourceUrl + '">' + section.sourceUrl + "</a>";
+                    el.appendChild(sourceNote);
+                }
                 section.principles.forEach((principle) => {
                     el.appendChild(render_principle(principle, frameworkId));
                 });
@@ -1857,7 +1878,7 @@
                 const reportUrl = params.get("report");
                 if (!frameworkUrl && !reportUrl) return;
 
-                Promise.all([
+                return Promise.all([
                     frameworkUrl ? fetch_json_url(frameworkUrl, "framework") : Promise.resolve(null),
                     reportUrl ? fetch_json_url(reportUrl, "report") : Promise.resolve(null),
                 ]).then(([frameworkData, reportData]) => {
@@ -2270,6 +2291,11 @@
                 state = initial_state();
                 render();
                 await load_from_url_params();
+                // A runtime-loaded framework (?framework=...) only exists once
+                // load_from_url_params() has added it, so a hash naming it
+                // (e.g. "#cris-tender") could not be matched above; check again.
+                const lateHashFrameworkId = framework_id_from_hash();
+                if (lateHashFrameworkId && lateHashFrameworkId !== activeTabId) switch_tab(lateHashFrameworkId);
             }
             window.addEventListener("hashchange", () => {
                 const hashFrameworkId = framework_id_from_hash();

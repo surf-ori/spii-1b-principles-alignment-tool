@@ -1,0 +1,1894 @@
+{
+  "id": "cris-tender",
+  "title": "CRIS Tender v0.1 Assessment (draft)",
+  "shortName": "CRIS Tender",
+  "description": "A draft generic framework for assessing CRIS solutions with a repository function, based on the public European tender of Maastricht University (2026) for a CRIS with repository function, with knock-out, weighted and award criteria. Source tender: https://app.mercell.com/tender/1548230057/Current-Research-Information-System-(CRIS)-with-repository-function",
+  "aboutHtml": "<p><strong>CRIS Tender v0.1 (draft)</strong> is a generic assessment framework for procuring a Current Research Information System (CRIS) with a repository function. It is based on the public European tender of Maastricht University (UM) and Maastricht University Medical Centre+ (MUMC+) for a CRIS with repository function, published in 2026 on Mercell: <a href=\"https://app.mercell.com/tender/1548230057/Current-Research-Information-System-(CRIS)-with-repository-function\">Current Research Information System (CRIS) with repository function</a>. The framework draws on the full set of tender documents in the request for tenders (programme of requirements, non-functional requirements, plan of approach, suitability requirements and price schedule). Institution-specific details (source systems, keyword schemes, volumes and dates) have been made generic, so other institutions can reuse it to compare solutions, align their own tenders and discuss shared requirements.</p><p><strong>Priorities.</strong> Every principle names a priority. <em>Must</em> marks a knock-out requirement in the source tender: an offer that does not meet it is excluded. <em>Should</em> and <em>Could</em> mark scored requirements with a higher (7 points or more) or lower weight. <em>Award criterion</em> marks the qualitative plans and the price, which are scored rather than pass or fail. The priority is also stored as a machine-readable <code>priority</code> and <code>knockOut</code> field on each principle.</p><p><strong>Weighting in the source tender.</strong> Roughly 30% plan of approach, 20% price, 40% functional requirements and 10% non-functional requirements, with a minimum quality score of 65%. The initial contract term was four years with optional extensions up to ten years, and a separate, yearly renewable term for the repository function to keep the option of moving to a dedicated open access repository.</p><p><strong>Scoring.</strong> Compliant means fully supported in the standard product or by configuration. Making progress means partly supported, requiring custom development, or on a dated roadmap. Not compliant means not supported. For the plans, the three levels map onto the 0 to 10 marking scale of the source tender. The “To improve” note gives the evidence to ask a supplier for.</p><p>This is a concept (v0.1), drafted with AI assistance (Claude) and pending review by SURF and the institutions involved. It is not an official SURF or UKB instrument.</p>",
+  "draft": true,
+  "sections": [
+    {
+      "section": "Supplier suitability",
+      "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
+      "principles": [
+        {
+          "id": "sup-references",
+          "title": "Relevant references",
+          "text": "The supplier can show at least one recent reference (within the last three years) for supplying, implementing and maintaining a CRIS, and one for a repository function, at a research institution of comparable size. Experience of subcontractors only counts if they are deployed on this contract. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: recent, verifiable references for both a CRIS and a repository function at comparable institutions.",
+            "progress": "Partly supported: recent, verifiable references for both a CRIS and a repository function at comparable institutions works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: recent, verifiable references for both a CRIS and a repository function at comparable institutions. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Request one reference per competency with a client contact person who may be called to verify it."
+        },
+        {
+          "id": "sup-financial",
+          "title": "Financial and economic strength",
+          "text": "The supplier has no known claims or required investments that put its continuity at risk, its latest audit opinion contains no going-concern paragraph, and it is adequately insured (professional and third-party liability) for the full contract term. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: financial continuity, a clean audit opinion and adequate insurance.",
+            "progress": "Partly supported: financial continuity, a clean audit opinion and adequate insurance works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: financial continuity, a clean audit opinion and adequate insurance. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Request the latest audit opinion and proof of insurance from the provisionally selected supplier."
+        },
+        {
+          "id": "sup-eligibility",
+          "title": "Eligibility and exclusion grounds",
+          "text": "The supplier is registered in the relevant trade or professional register, signatories are authorised to represent it, no exclusion grounds apply (European Single Procurement Document), and applicable EU sanctions do not apply to the supplier or its subcontractors. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: registration, authority to sign, absence of exclusion grounds and sanctions compliance.",
+            "progress": "Partly supported: registration, authority to sign, absence of exclusion grounds and sanctions compliance works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: registration, authority to sign, absence of exclusion grounds and sanctions compliance. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Request the ESPD, trade register extract, power of attorney where relevant, and a sanctions statement."
+        }
+      ]
+    },
+    {
+      "section": "General platform",
+      "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
+      "principles": [
+        {
+          "id": "gp-central-platform",
+          "title": "Centralised research information platform",
+          "text": "The solution provides a centralised platform for storing research-related information entities. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: a single platform for all research information entities.",
+            "progress": "Partly supported: a single platform for all research information entities works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: a single platform for all research information entities. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for an overview of the entity model and how entities are stored and related."
+        },
+        {
+          "id": "gp-content-types",
+          "title": "Broad range of content types",
+          "text": "The solution stores, manages and exchanges high-quality, machine-readable metadata for a broad range of content types, including research outputs (articles, books, chapters, reviews, working papers), datasets, software, activities, prizes and awards, press and media mentions, grant applications, grants, projects and facilities or equipment, each with its own (sub)types and metadata fields. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: all listed content types with their (sub)types and metadata fields.",
+            "progress": "Partly supported: all listed content types with their (sub)types and metadata fields works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: all listed content types with their (sub)types and metadata fields. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for the content type catalogue with the metadata fields per (sub)type."
+        },
+        {
+          "id": "gp-controlled-vocabularies",
+          "title": "Adjustable controlled vocabularies",
+          "text": "The solution supports adjustable controlled vocabularies for metadata fields, including non-bibliographic ones such as staff type, organisation type, job title and licence type. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: administrator-managed controlled vocabularies for bibliographic and non-bibliographic fields.",
+            "progress": "Partly supported: administrator-managed controlled vocabularies for bibliographic and non-bibliographic fields works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: administrator-managed controlled vocabularies for bibliographic and non-bibliographic fields. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for a demonstration of adding and changing a vocabulary value without vendor involvement."
+        },
+        {
+          "id": "gp-journal-classification",
+          "title": "Journal filtering on custom classifications",
+          "text": "The solution supports filtering of journals based on custom (institutional) classifications. Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: filtering journals on custom classifications.",
+            "progress": "Partly supported: filtering journals on custom classifications works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: filtering journals on custom classifications."
+          },
+          "improvementAction": "Ask for a demonstration of filtering journals by an institutional classification."
+        },
+        {
+          "id": "gp-roles-access",
+          "title": "Role and organisation based access",
+          "text": "The solution provides role- and organisation-based access, controlled by system administrators, defining which content may be accessed and which tasks may be executed. The supplier can show which roles exist and which rights belong to each. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: configurable roles with organisation-scoped rights.",
+            "progress": "Partly supported: configurable roles with organisation-scoped rights works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: configurable roles with organisation-scoped rights. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for a short video showing which roles can be assigned and which rights are attached to each."
+        },
+        {
+          "id": "gp-bulk-operations",
+          "title": "Validated bulk operations",
+          "text": "The solution supports bulk import, export and metadata updates (for example XML, JSON or database ingest), with validation mechanisms that guard data quality during these bulk operations. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: bulk import, export and update with validation.",
+            "progress": "Partly supported: bulk import, export and update with validation works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: bulk import, export and update with validation. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for documentation of the bulk formats and the validation and error reporting they provide."
+        },
+        {
+          "id": "gp-search",
+          "title": "Flexible and advanced search",
+          "text": "The solution supports flexible search, filtering and sorting across all core entities, including full-text search, Boolean operators and cross-entity search. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: full-text, Boolean and cross-entity search with filtering and sorting.",
+            "progress": "Partly supported: full-text, Boolean and cross-entity search with filtering and sorting works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: full-text, Boolean and cross-entity search with filtering and sorting. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for a demonstration of a Boolean full-text search across several entity types."
+        },
+        {
+          "id": "gp-visibility",
+          "title": "Configurable record visibility",
+          "text": "The solution supports configurable visibility levels for records (for example public, internal, restricted). Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: configurable visibility levels per record.",
+            "progress": "Partly supported: configurable visibility levels per record works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: configurable visibility levels per record. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask which visibility levels exist and how they propagate to API, portal and exports."
+        },
+        {
+          "id": "gp-validation-workflows",
+          "title": "Configurable validation workflows",
+          "text": "The solution supports configurable validation workflows and approval statuses on all entities. The supplier describes how and to what extent workflows can be configured, for example for publications, journals and activities. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: configurable validation workflows and approval statuses on all entity types.",
+            "progress": "Partly supported: configurable validation workflows and approval statuses on all entity types works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: configurable validation workflows and approval statuses on all entity types. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for a written description (about two pages) of workflow configuration for publications, journals and activities."
+        },
+        {
+          "id": "gp-multilingual",
+          "title": "Multilingual titles",
+          "text": "The solution supports multilingual metadata for titles. Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: titles in more than one language.",
+            "progress": "Partly supported: titles in more than one language works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: titles in more than one language."
+          },
+          "improvementAction": "Ask how translated titles are stored, displayed and exported."
+        },
+        {
+          "id": "gp-notifications",
+          "title": "Notifications, messaging and comments",
+          "text": "The solution supports configurable notifications and messaging to users, including sending comments about an entity to its users and editors. Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: configurable notifications and comments on entities.",
+            "progress": "Partly supported: configurable notifications and comments on entities works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: configurable notifications and comments on entities."
+          },
+          "improvementAction": "Ask for an overview of notification triggers and how comments reach users and editors."
+        },
+        {
+          "id": "gp-task-overviews",
+          "title": "Task overviews for operational users",
+          "text": "The solution provides configurable task overviews for operational users such as validators and editors. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: configurable task overviews for operational roles.",
+            "progress": "Partly supported: configurable task overviews for operational roles works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: configurable task overviews for operational roles."
+          },
+          "improvementAction": "Ask for a demonstration of a validator's task overview and how it is configured."
+        },
+        {
+          "id": "gp-responsible-ai",
+          "title": "Responsible AI-assisted enrichment and discovery",
+          "text": "The solution supports responsible, transparent AI-assisted metadata enrichment and semantic discovery, with human control over what is accepted. Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: AI-assisted enrichment and semantic discovery under human control.",
+            "progress": "Partly supported: AI-assisted enrichment and semantic discovery under human control works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: AI-assisted enrichment and semantic discovery under human control."
+          },
+          "improvementAction": "Ask which models are used, where they run, what data they see and how suggestions are reviewed."
+        }
+      ]
+    },
+    {
+      "section": "Research information management",
+      "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
+      "principles": [
+        {
+          "id": "rim-linking",
+          "title": "Linking related entities",
+          "text": "The solution supports linking between related scholarly entities such as publications, datasets, software, projects and activities. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: typed relations between all scholarly entities.",
+            "progress": "Partly supported: typed relations between all scholarly entities works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: typed relations between all scholarly entities. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for the relation model and a demonstration of linking a dataset and software to a publication and project."
+        },
+        {
+          "id": "rim-configurable-metadata",
+          "title": "Configurable fields, classifications and keyword schemes",
+          "text": "The solution supports configurable metadata fields, custom classifications and multiple institution-specific keyword schemes (for example institutional, discipline-specific, national-evaluation and open access keywords) alongside controlled vocabularies. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: configurable fields, custom classifications and multiple keyword schemes.",
+            "progress": "Partly supported: configurable fields, custom classifications and multiple keyword schemes works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: configurable fields, custom classifications and multiple keyword schemes. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask how many keyword schemes can run side by side and who can maintain them."
+        },
+        {
+          "id": "rim-deduplication",
+          "title": "Duplicate detection and merging",
+          "text": "The solution detects duplicate records and entities using DOI, ORCID, title matching and person and organisation names and identifiers, and supports merging and resolution workflows for duplicates. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: duplicate detection on identifiers and names, plus merge workflows.",
+            "progress": "Partly supported: duplicate detection on identifiers and names, plus merge workflows works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: duplicate detection on identifiers and names, plus merge workflows. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for a demonstration of a duplicate being flagged and merged, including what happens to relations."
+        },
+        {
+          "id": "rim-export-formats",
+          "title": "Export in multiple formats",
+          "text": "The solution exports records and reports in multiple formats, including PDF, spreadsheet and bibliographic exchange formats. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: export to PDF, spreadsheet and bibliographic exchange formats.",
+            "progress": "Partly supported: export to PDF, spreadsheet and bibliographic exchange formats works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: export to PDF, spreadsheet and bibliographic exchange formats. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for the list of supported export formats."
+        },
+        {
+          "id": "rim-status-display",
+          "title": "Visible workflow, visibility and publication status",
+          "text": "The solution displays the workflow status, visibility status and publication status of records, and lets authorised users change the workflow status. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: visible and editable record statuses.",
+            "progress": "Partly supported: visible and editable record statuses works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: visible and editable record statuses. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for a short video of a record in edit mode where the workflow status is changed."
+        },
+        {
+          "id": "rim-affiliations",
+          "title": "Multiple affiliations per output",
+          "text": "The solution allows multiple affiliations per output, both through persons and directly through organisations, and lets users select, add and remove internal and external affiliations within a record. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: multiple internal and external affiliations per author and per output.",
+            "progress": "Partly supported: multiple internal and external affiliations per author and per output works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: multiple internal and external affiliations per author and per output. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for a screenshot and short video of affiliation handling within a publication record."
+        },
+        {
+          "id": "rim-output-templates",
+          "title": "Minimum fields per output type",
+          "text": "Each output type template contains at least type, year or date, title, subtitle, authors, corresponding author and multiple affiliations per author. Output types for publications also contain publication status. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: the minimum field set on every output type.",
+            "progress": "Partly supported: the minimum field set on every output type works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: the minimum field set on every output type. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for the field list of each output type template."
+        },
+        {
+          "id": "rim-audience",
+          "title": "Audience for national evaluation",
+          "text": "The solution offers a choice of audience for national evaluation purposes (for example academic, professional, popular). Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: an audience field suitable for national evaluation.",
+            "progress": "Partly supported: an audience field suitable for national evaluation works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: an audience field suitable for national evaluation. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask how audience is recorded and reported."
+        },
+        {
+          "id": "rim-national-mapping",
+          "title": "National evaluation mappings",
+          "text": "The solution supports the national categorisations used for research evaluation and output registration (in the Netherlands: the KUOZ definitions and the SEP protocol) for publications and activities. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: mapping of outputs and activities to national evaluation categories.",
+            "progress": "Partly supported: mapping of outputs and activities to national evaluation categories works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: mapping of outputs and activities to national evaluation categories."
+          },
+          "improvementAction": "Ask for the mapping table and how it is maintained when national definitions change."
+        },
+        {
+          "id": "rim-venues",
+          "title": "Journals, series, publishers and events",
+          "text": "The solution stores and manages publication series, journals, publishers and scholarly events as entities. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: journals, series, publishers and events as managed entities.",
+            "progress": "Partly supported: journals, series, publishers and events as managed entities works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: journals, series, publishers and events as managed entities. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask how these entities are sourced, deduplicated and maintained."
+        },
+        {
+          "id": "rim-supervision",
+          "title": "Supervision relationships",
+          "text": "The solution supports supervision relationships between persons and publications or activities (for example PhD supervision). Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: supervision relationships.",
+            "progress": "Partly supported: supervision relationships works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: supervision relationships."
+          },
+          "improvementAction": "Ask for a demonstration of recording a PhD supervisor on a thesis."
+        },
+        {
+          "id": "rim-notes",
+          "title": "Bibliographic notes and editorial comments",
+          "text": "The solution stores bibliographic notes and editorial comments on records. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: notes and editorial comments on records.",
+            "progress": "Partly supported: notes and editorial comments on records works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: notes and editorial comments on records."
+          },
+          "improvementAction": "Ask who can see notes and whether they are exported."
+        },
+        {
+          "id": "rim-licences",
+          "title": "Predefined licence schemes",
+          "text": "The solution supports predefined licence schemes (for example Creative Commons) on outputs and files. Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: predefined licence schemes.",
+            "progress": "Partly supported: predefined licence schemes works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: predefined licence schemes."
+          },
+          "improvementAction": "Ask which licence schemes are available and whether they are exposed in OAI-PMH and API."
+        },
+        {
+          "id": "rim-pid-minting",
+          "title": "Persistent identifier minting",
+          "text": "The solution supports persistent identifier minting workflows, such as DOI registration integrations. Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: PID minting workflows such as DOI registration.",
+            "progress": "Partly supported: PID minting workflows such as DOI registration works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: PID minting workflows such as DOI registration."
+          },
+          "improvementAction": "Ask which PID services are integrated (for example DataCite) and how minting is triggered."
+        },
+        {
+          "id": "rim-collaboration",
+          "title": "Collaborations, author groups and roles",
+          "text": "The solution supports collaboration and co-authorship structures, adding author collaborations or groups to a record, and assigning specific roles to a person within a record (author, editor, speaker, organiser, attendee). Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: collaborations, author groups and person roles within records.",
+            "progress": "Partly supported: collaborations, author groups and person roles within records works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: collaborations, author groups and person roles within records."
+          },
+          "improvementAction": "Ask for a demonstration of a large-consortium publication with an author group."
+        },
+        {
+          "id": "rim-quality-checks",
+          "title": "Metadata completeness and quality checks",
+          "text": "The solution supports configurable metadata completeness and quality checks. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: configurable completeness and quality checks.",
+            "progress": "Partly supported: configurable completeness and quality checks works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: configurable completeness and quality checks."
+          },
+          "improvementAction": "Ask which checks exist out of the box and how custom rules are added."
+        },
+        {
+          "id": "rim-export-templates",
+          "title": "Role-based export templates",
+          "text": "The solution supports role-based, configurable export templates and field selections (which columns are exported, and for whom). Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: role-based export templates and field selection.",
+            "progress": "Partly supported: role-based export templates and field selection works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: role-based export templates and field selection."
+          },
+          "improvementAction": "Ask for a demonstration of creating an export template for a specific role."
+        },
+        {
+          "id": "rim-saved-filters",
+          "title": "Saved search filters",
+          "text": "The solution supports saving and reusing custom search filters. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: saving and reusing search filters.",
+            "progress": "Partly supported: saving and reusing search filters works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: saving and reusing search filters."
+          },
+          "improvementAction": "Ask whether saved filters can be shared between users."
+        },
+        {
+          "id": "rim-cover-pages",
+          "title": "Document augmentation for uploaded PDFs",
+          "text": "The solution supports cover page generation or configurable document augmentation workflows for uploaded PDF files. Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: cover page generation or PDF augmentation.",
+            "progress": "Partly supported: cover page generation or PDF augmentation works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: cover page generation or PDF augmentation."
+          },
+          "improvementAction": "Ask for an example of a generated cover page."
+        },
+        {
+          "id": "rim-change-history",
+          "title": "Record-level change history",
+          "text": "The solution shows the change history (user, modified fields, modification date) at record level, at least for everyone with a validator role. Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: record-level change history for validators.",
+            "progress": "Partly supported: record-level change history for validators works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: record-level change history for validators."
+          },
+          "improvementAction": "Ask for a screenshot of a record's change history."
+        },
+        {
+          "id": "rim-file-import",
+          "title": "User-friendly bibliographic file import",
+          "text": "Users can upload and process BibTeX, CERIF XML or RIS files in a user-friendly, intuitive way. Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: intuitive import of BibTeX, CERIF XML and RIS files.",
+            "progress": "Partly supported: intuitive import of BibTeX, CERIF XML and RIS files works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: intuitive import of BibTeX, CERIF XML and RIS files."
+          },
+          "improvementAction": "Ask for a short video of a user importing a BibTeX or RIS file."
+        },
+        {
+          "id": "rim-manual-entry",
+          "title": "User-friendly manual entry",
+          "text": "The solution provides a user-friendly, intuitive interface for manually adding content records, for example a book chapter or a conference contribution. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: intuitive manual entry of records.",
+            "progress": "Partly supported: intuitive manual entry of records works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: intuitive manual entry of records."
+          },
+          "improvementAction": "Ask for a short video of manually adding a book chapter and a conference contribution."
+        },
+        {
+          "id": "rim-teaching-material",
+          "title": "Teaching material classification",
+          "text": "The solution can classify research output as teaching material and show this on the public portal. Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: classification of outputs as teaching material, visible on the portal.",
+            "progress": "Partly supported: classification of outputs as teaching material, visible on the portal works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: classification of outputs as teaching material, visible on the portal."
+          },
+          "improvementAction": "Ask for a short video showing the classification and its display on the portal."
+        }
+      ]
+    },
+    {
+      "section": "Persons and organisations",
+      "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
+      "principles": [
+        {
+          "id": "po-hr-sync",
+          "title": "Automated HR synchronisation",
+          "text": "The solution synchronises HR data (persons, organisations and organisational hierarchies) from the institutional source systems or middleware through an API, database connection or structured exchange file (XML or JSON), on a schedule and automatically, and stores and maintains the source-system identifiers. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: scheduled, automated HR synchronisation that keeps source-system identifiers.",
+            "progress": "Partly supported: scheduled, automated HR synchronisation that keeps source-system identifiers works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: scheduled, automated HR synchronisation that keeps source-system identifiers. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for the HR synchronisation interface specification and how historical data is handled."
+        },
+        {
+          "id": "po-orphans",
+          "title": "Detecting orphaned entities",
+          "text": "The solution helps identify potentially unused or orphaned person and organisation entities. Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: detection of unused or orphaned persons and organisations.",
+            "progress": "Partly supported: detection of unused or orphaned persons and organisations works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: detection of unused or orphaned persons and organisations."
+          },
+          "improvementAction": "Ask how orphaned entities are found and cleaned up."
+        },
+        {
+          "id": "po-internal-reporting",
+          "title": "Reporting on internal persons and organisations",
+          "text": "The solution supports filtering (on period, type, visibility and more), reporting and configurable export (PDF, spreadsheet) of internal persons and organisations. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: filtering, reporting and export of internal persons and organisations.",
+            "progress": "Partly supported: filtering, reporting and export of internal persons and organisations works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: filtering, reporting and export of internal persons and organisations."
+          },
+          "improvementAction": "Ask for a demonstration of exporting all staff of a unit for a given period."
+        },
+        {
+          "id": "po-org-history",
+          "title": "Current and historical organisations",
+          "text": "The solution stores current and historical organisational names and structures. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: current and historical organisation names and structures.",
+            "progress": "Partly supported: current and historical organisation names and structures works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: current and historical organisation names and structures. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask how a reorganisation is recorded and how historical outputs stay attributed."
+        },
+        {
+          "id": "po-multi-hierarchy",
+          "title": "Multiple concurrent hierarchies",
+          "text": "The solution supports multiple concurrent organisational hierarchies of arbitrary depth (for example faculties, research institutes and affiliated hospital departments side by side). Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: multiple concurrent hierarchies of arbitrary depth.",
+            "progress": "Partly supported: multiple concurrent hierarchies of arbitrary depth works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: multiple concurrent hierarchies of arbitrary depth. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for the maximum supported depth and an example of two concurrent hierarchies."
+        },
+        {
+          "id": "po-hierarchy-visualisation",
+          "title": "Hierarchy visualisation",
+          "text": "The solution can visualise organisational hierarchies. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: visualisation of organisational hierarchies.",
+            "progress": "Partly supported: visualisation of organisational hierarchies works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: visualisation of organisational hierarchies."
+          },
+          "improvementAction": "Ask for a screenshot of the hierarchy visualisation."
+        },
+        {
+          "id": "po-org-identifiers",
+          "title": "Organisation identifiers",
+          "text": "The solution stores identifiers for organisational units, such as ROR and Ringgold. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: ROR, Ringgold and other organisation identifiers.",
+            "progress": "Partly supported: ROR, Ringgold and other organisation identifiers works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: ROR, Ringgold and other organisation identifiers."
+          },
+          "improvementAction": "Ask which identifier schemes are supported and whether ROR is kept in sync."
+        },
+        {
+          "id": "po-org-profiles",
+          "title": "Organisation profiles",
+          "text": "Key users can create, edit and maintain organisation profiles. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: key-user maintained organisation profiles.",
+            "progress": "Partly supported: key-user maintained organisation profiles works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: key-user maintained organisation profiles."
+          },
+          "improvementAction": "Ask for a demonstration of editing an organisation profile."
+        },
+        {
+          "id": "po-person-affiliations",
+          "title": "Persons and their affiliations",
+          "text": "The solution stores current and former internal persons with all their current and former affiliations, including multiple affiliations per person across any organisational hierarchy. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: current and former persons with multiple current and former affiliations.",
+            "progress": "Partly supported: current and former persons with multiple current and former affiliations works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: current and former persons with multiple current and former affiliations. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask how a person with affiliations in two hierarchies is modelled."
+        },
+        {
+          "id": "po-person-identifiers",
+          "title": "Person identifiers and name variants",
+          "text": "The solution supports multiple persistent identifiers per person, including ORCID, ISNI, the Dutch DAI and future schemes, and multiple name variants and aliases per person. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: multiple person identifiers and name variants.",
+            "progress": "Partly supported: multiple person identifiers and name variants works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: multiple person identifiers and name variants. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask how a new identifier scheme is added and how name variants are used in matching."
+        },
+        {
+          "id": "po-researcher-profiles",
+          "title": "Researcher-maintained profiles",
+          "text": "Researchers can create, edit and maintain their own personal and professional profiles. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: researcher-maintained profiles.",
+            "progress": "Partly supported: researcher-maintained profiles works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: researcher-maintained profiles. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for a demonstration of a researcher editing their own profile."
+        },
+        {
+          "id": "po-staff-classification",
+          "title": "Staff classifications per affiliation",
+          "text": "The solution stores staff classifications, employment types, job titles and FTE values per internal affiliation. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: staff type, employment type, job title and FTE per affiliation.",
+            "progress": "Partly supported: staff type, employment type, job title and FTE per affiliation works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: staff type, employment type, job title and FTE per affiliation."
+          },
+          "improvementAction": "Ask whether these values come from the HR synchronisation and how history is kept."
+        },
+        {
+          "id": "po-profile-links",
+          "title": "External profile links",
+          "text": "The solution supports configurable external profile links for persons (institutional homepage, LinkedIn, ResearchGate, ORCID and more). Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: configurable external profile links.",
+            "progress": "Partly supported: configurable external profile links works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: configurable external profile links."
+          },
+          "improvementAction": "Ask which link types are configurable."
+        },
+        {
+          "id": "po-expertise",
+          "title": "Keywords and expertise",
+          "text": "The solution stores and manages keywords and areas of expertise per person. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: keywords and expertise per person.",
+            "progress": "Partly supported: keywords and expertise per person works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: keywords and expertise per person."
+          },
+          "improvementAction": "Ask how expertise is recorded and whether it is searchable on the portal."
+        },
+        {
+          "id": "po-external-entities",
+          "title": "External persons and organisations",
+          "text": "The solution manages external persons and external organisations, each with an internal identifier, and supports filtering, reporting and exporting them. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: external persons and organisations with internal identifiers, reporting and export.",
+            "progress": "Partly supported: external persons and organisations with internal identifiers, reporting and export works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: external persons and organisations with internal identifiers, reporting and export. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask how external entities are deduplicated and linked to identifiers such as ORCID and ROR."
+        }
+      ]
+    },
+    {
+      "section": "Scholarly metadata and enrichment",
+      "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
+      "principles": [
+        {
+          "id": "sm-import",
+          "title": "Importing from scholarly sources",
+          "text": "The solution supports configurable manual and automated metadata import from external scholarly data sources (for example OpenAlex, Crossref, DataCite, PubMed, Scopus, Web of Science). Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: configurable manual and automated import from external scholarly sources.",
+            "progress": "Partly supported: configurable manual and automated import from external scholarly sources works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: configurable manual and automated import from external scholarly sources. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask which sources are supported for automated import and how often imports run."
+        },
+        {
+          "id": "sm-provider-integrations",
+          "title": "Provider integrations for manual addition",
+          "text": "The solution integrates with scholarly metadata providers for manually adding outputs, datasets and software, with each provider and integration switchable on or off institution-wide. The supplier gives an overview of current and planned providers with expected dates. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: provider lookups for outputs, datasets and software, each switchable per institution.",
+            "progress": "Partly supported: provider lookups for outputs, datasets and software, each switchable per institution works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: provider lookups for outputs, datasets and software, each switchable per institution. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for the provider overview with roadmap dates and a screenshot of the provider choice."
+        },
+        {
+          "id": "sm-provenance",
+          "title": "Provenance of imported metadata",
+          "text": "The solution keeps provenance information for imported metadata, including source identifiers. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: provenance and source identifiers for imported metadata.",
+            "progress": "Partly supported: provenance and source identifiers for imported metadata works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: provenance and source identifiers for imported metadata. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask how provenance is stored per field or per record and whether it is exported."
+        },
+        {
+          "id": "sm-orcid-sync",
+          "title": "ORCID synchronisation",
+          "text": "The solution synchronises with ORCID, approved and authorised by the researcher. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: researcher-authorised ORCID synchronisation.",
+            "progress": "Partly supported: researcher-authorised ORCID synchronisation works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: researcher-authorised ORCID synchronisation. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask whether the solution is an ORCID member integration and in which directions it syncs."
+        },
+        {
+          "id": "sm-enrichment-suggestions",
+          "title": "Enrichment and correction suggestions",
+          "text": "The solution suggests metadata enrichment and corrections based on external sources. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: enrichment and correction suggestions from external sources.",
+            "progress": "Partly supported: enrichment and correction suggestions from external sources works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: enrichment and correction suggestions from external sources."
+          },
+          "improvementAction": "Ask for a demonstration of a correction suggestion being accepted."
+        },
+        {
+          "id": "sm-venue-export",
+          "title": "Filtering and exporting venues",
+          "text": "The solution supports filtering and exporting journals, publishers and scholarly events. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: filtering and export of journals, publishers and events.",
+            "progress": "Partly supported: filtering and export of journals, publishers and events works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: filtering and export of journals, publishers and events."
+          },
+          "improvementAction": "Ask for a demonstration of exporting journals with their classifications."
+        },
+        {
+          "id": "sm-classification-schemes",
+          "title": "Scholarly classification schemes",
+          "text": "The solution supports configurable scholarly classification schemes and institutional taxonomies. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: configurable classification schemes and taxonomies.",
+            "progress": "Partly supported: configurable classification schemes and taxonomies works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: configurable classification schemes and taxonomies."
+          },
+          "improvementAction": "Ask which standard schemes are available and how institutional taxonomies are loaded."
+        },
+        {
+          "id": "sm-bulk-edit",
+          "title": "Bulk editing and workflow operations",
+          "text": "The solution supports bulk metadata editing and deletion, and bulk workflow operations. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: bulk editing, deletion and workflow changes.",
+            "progress": "Partly supported: bulk editing, deletion and workflow changes works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: bulk editing, deletion and workflow changes."
+          },
+          "improvementAction": "Ask for a demonstration of a bulk status change with an undo or audit trail."
+        }
+      ]
+    },
+    {
+      "section": "APIs and interoperability",
+      "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
+      "principles": [
+        {
+          "id": "api-bulk",
+          "title": "Bulk exchange through APIs",
+          "text": "The solution supports bulk import and export through APIs and/or structured data ingestion workflows. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: bulk import and export through APIs or ingestion workflows.",
+            "progress": "Partly supported: bulk import and export through APIs or ingestion workflows works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: bulk import and export through APIs or ingestion workflows. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for API documentation of the bulk endpoints."
+        },
+        {
+          "id": "api-admin-read",
+          "title": "Administrative read access to all data",
+          "text": "Administrative API roles can read all metadata and entities, including non-public and non-validated content. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: administrative API access to all content, including non-public records.",
+            "progress": "Partly supported: administrative API access to all content, including non-public records works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: administrative API access to all content, including non-public records. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for a demonstration of reading an unvalidated record through the API."
+        },
+        {
+          "id": "api-oai-pmh",
+          "title": "OAI-PMH and OpenAIRE harvesting",
+          "text": "The solution offers OAI-PMH interfaces with configurable harvesting, and allows harvesting by OpenAIRE by default or through configuration. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: configurable OAI-PMH endpoints that OpenAIRE can harvest.",
+            "progress": "Partly supported: configurable OAI-PMH endpoints that OpenAIRE can harvest works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: configurable OAI-PMH endpoints that OpenAIRE can harvest. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for a live OAI-PMH endpoint of an existing customer and its OpenAIRE validation result."
+        },
+        {
+          "id": "api-open-standards",
+          "title": "Open scholarly standards",
+          "text": "The solution is interoperable through open standards, including CERIF in the OpenAIRE-compliant profile and related scholarly communication standards. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: CERIF (OpenAIRE guidelines for CRIS managers) and related open standards.",
+            "progress": "Partly supported: CERIF (OpenAIRE guidelines for CRIS managers) and related open standards works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: CERIF (OpenAIRE guidelines for CRIS managers) and related open standards. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask which version of the OpenAIRE Guidelines for CRIS Managers is implemented."
+        },
+        {
+          "id": "api-citations",
+          "title": "Rendered citations through the API",
+          "text": "The solution delivers rendered citations (for example APA) through its APIs, ideally with configurable citation styles. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: rendered citations with configurable styles through the API.",
+            "progress": "Partly supported: rendered citations with configurable styles through the API works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: rendered citations with configurable styles through the API."
+          },
+          "improvementAction": "Ask whether CSL styles are supported."
+        },
+        {
+          "id": "api-crud",
+          "title": "Documented read and write API",
+          "text": "The solution provides a standards-compliant API for reading and writing data (create, read, update, delete) with documented schemas and validation. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: a documented CRUD API with schemas and validation.",
+            "progress": "Partly supported: a documented CRUD API with schemas and validation works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: a documented CRUD API with schemas and validation. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for the OpenAPI specification."
+        },
+        {
+          "id": "api-security",
+          "title": "API authentication and authorisation",
+          "text": "API access is authenticated with configurable credentials, keys or tokens, and API authorisation, including CRUD rights, is configurable per role. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: authenticated API access with role-based CRUD rights.",
+            "progress": "Partly supported: authenticated API access with role-based CRUD rights works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: authenticated API access with role-based CRUD rights. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask how API keys are issued, scoped and revoked."
+        },
+        {
+          "id": "api-documentation",
+          "title": "Comprehensive API documentation",
+          "text": "The solution provides comprehensive API documentation. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: comprehensive, public API documentation.",
+            "progress": "Partly supported: comprehensive, public API documentation works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: comprehensive, public API documentation."
+          },
+          "improvementAction": "Ask for the public URL of the API documentation."
+        },
+        {
+          "id": "api-monitoring",
+          "title": "API and job logging",
+          "text": "The solution supports event logging and monitoring of API usage and of system jobs. Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: logging and monitoring of API usage and system jobs.",
+            "progress": "Partly supported: logging and monitoring of API usage and system jobs works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: logging and monitoring of API usage and system jobs."
+          },
+          "improvementAction": "Ask which logs administrators can see themselves."
+        },
+        {
+          "id": "api-full-download",
+          "title": "Full data download without extra cost",
+          "text": "All entities, metadata fields, relations, workflow states and identifiers available in the user interface are also available through documented APIs, so that a full download of all records is possible without extra cost. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: complete API coverage allowing a full download at no extra cost.",
+            "progress": "Partly supported: complete API coverage allowing a full download at no extra cost works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: complete API coverage allowing a full download at no extra cost. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for confirmation in the price schedule that full downloads carry no extra fees or rate-limit charges."
+        },
+        {
+          "id": "api-release-policy",
+          "title": "Release notes and API stability",
+          "text": "Release notes are published at least two weeks before each major release, and API endpoint changes stay backward compatible for at least twelve months. Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: advance release notes and twelve months of API backward compatibility.",
+            "progress": "Partly supported: advance release notes and twelve months of API backward compatibility works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: advance release notes and twelve months of API backward compatibility."
+          },
+          "improvementAction": "Ask for the published deprecation policy."
+        }
+      ]
+    },
+    {
+      "section": "Reporting and analytics",
+      "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
+      "principles": [
+        {
+          "id": "ra-configurable-reports",
+          "title": "Configurable reporting",
+          "text": "The solution provides configurable reporting across all major entities and metadata fields, can combine related entities and content types in one report, and lets role-based users choose the fields included. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: configurable, cross-entity reports with field selection.",
+            "progress": "Partly supported: configurable, cross-entity reports with field selection works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: configurable, cross-entity reports with field selection. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for a demonstration of a report combining publications, projects and persons."
+        },
+        {
+          "id": "ra-aggregation",
+          "title": "Filtering and aggregation",
+          "text": "The solution supports advanced filtering and aggregation (sum, maximum, minimum, count), including selecting or excluding empty (NULL) values. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: advanced filtering and aggregation, including NULL handling.",
+            "progress": "Partly supported: advanced filtering and aggregation, including NULL handling works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: advanced filtering and aggregation, including NULL handling. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for a short video of filtering and aggregation in a report."
+        },
+        {
+          "id": "ra-export",
+          "title": "Report export",
+          "text": "Reports can be exported in spreadsheet and machine-readable formats. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: export of reports to spreadsheet and machine-readable formats.",
+            "progress": "Partly supported: export of reports to spreadsheet and machine-readable formats works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: export of reports to spreadsheet and machine-readable formats. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask which machine-readable formats are offered (CSV, JSON, other)."
+        },
+        {
+          "id": "ra-saved-reports",
+          "title": "Saved report definitions",
+          "text": "The solution supports saving and reusing custom report definitions. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: saving and reusing report definitions.",
+            "progress": "Partly supported: saving and reusing report definitions works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: saving and reusing report definitions. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask whether report definitions can be shared and versioned."
+        },
+        {
+          "id": "ra-dashboards",
+          "title": "Dashboards and drill-down",
+          "text": "The solution offers dashboards and visualisations across major entities and metrics, with up-to-date data and drill-down to underlying records. Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: dashboards with current data and drill-down.",
+            "progress": "Partly supported: dashboards with current data and drill-down works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: dashboards with current data and drill-down."
+          },
+          "improvementAction": "Ask for a short video of a dashboard with drill-down to records."
+        },
+        {
+          "id": "ra-usage-analytics",
+          "title": "Usage analytics",
+          "text": "The solution provides usage analytics for back-end and portal use. Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: usage analytics for back end and portal.",
+            "progress": "Partly supported: usage analytics for back end and portal works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: usage analytics for back end and portal."
+          },
+          "improvementAction": "Ask which usage metrics are collected and how privacy is handled."
+        },
+        {
+          "id": "ra-scheduled-reports",
+          "title": "Scheduled reports",
+          "text": "The solution supports scheduled report generation and delivery. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: scheduled generation and delivery of reports.",
+            "progress": "Partly supported: scheduled generation and delivery of reports works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: scheduled generation and delivery of reports."
+          },
+          "improvementAction": "Ask how scheduled reports are delivered (e-mail, file drop, API)."
+        },
+        {
+          "id": "ra-citation-styles",
+          "title": "Reports in bibliographic styles",
+          "text": "Reports can be exported in bibliographic styles such as APA, Vancouver and BibTeX. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: report export in bibliographic styles.",
+            "progress": "Partly supported: report export in bibliographic styles works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: report export in bibliographic styles."
+          },
+          "improvementAction": "Ask for the list of supported styles."
+        },
+        {
+          "id": "ra-org-filtering",
+          "title": "Filtering on organisational structure",
+          "text": "Reports can filter on the organisational structure, including or excluding underlying units within a hierarchy. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: hierarchy-aware filtering with inclusion and exclusion of sub-units.",
+            "progress": "Partly supported: hierarchy-aware filtering with inclusion and exclusion of sub-units works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: hierarchy-aware filtering with inclusion and exclusion of sub-units."
+          },
+          "improvementAction": "Ask for a short video of filtering on a faculty while excluding one of its institutes."
+        }
+      ]
+    },
+    {
+      "section": "Public portal and dissemination",
+      "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
+      "principles": [
+        {
+          "id": "pt-public-portal",
+          "title": "Branded public research portal",
+          "text": "The solution provides a publicly accessible research portal with configurable institutional branding and styling. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: a public portal with institutional branding.",
+            "progress": "Partly supported: a public portal with institutional branding works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: a public portal with institutional branding. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for links to live portals of existing customers."
+        },
+        {
+          "id": "pt-profiles",
+          "title": "Public researcher and organisation profiles",
+          "text": "The portal shows researcher profile pages (affiliations, biography, outputs) and organisation profile pages with all related persons, outputs and profile information, without limits on the number of persons or outputs shown. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: public researcher and organisation profiles without size limits.",
+            "progress": "Partly supported: public researcher and organisation profiles without size limits works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: public researcher and organisation profiles without size limits. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for screenshots of a researcher and an organisation profile."
+        },
+        {
+          "id": "pt-validated-only",
+          "title": "Only validated public content",
+          "text": "The portal shows only validated, published content that is set to public visibility. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: showing only validated, public content.",
+            "progress": "Partly supported: showing only validated, public content works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: showing only validated, public content. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask how the portal respects workflow and visibility settings."
+        },
+        {
+          "id": "pt-no-record-limit",
+          "title": "No record limit",
+          "text": "The portal has no limit on the number of records presented. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: no limit on records presented.",
+            "progress": "Partly supported: no limit on records presented works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: no limit on records presented. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for confirmation of portal limits at the institution's expected volume."
+        },
+        {
+          "id": "pt-output-display",
+          "title": "Outputs with abstracts and identifiers",
+          "text": "The portal shows research outputs with abstracts, persistent identifiers and external links. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: public display of outputs, abstracts, PIDs and links.",
+            "progress": "Partly supported: public display of outputs, abstracts, PIDs and links works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: public display of outputs, abstracts, PIDs and links. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for an example output page."
+        },
+        {
+          "id": "pt-metrics",
+          "title": "Metrics on profile pages",
+          "text": "The portal supports configurable metrics and statistics on profile pages, optionally including alternative metrics. Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: configurable metrics and optional altmetrics.",
+            "progress": "Partly supported: configurable metrics and optional altmetrics works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: configurable metrics and optional altmetrics."
+          },
+          "improvementAction": "Ask which metric sources are used and whether they can be switched off."
+        },
+        {
+          "id": "pt-export",
+          "title": "Export from the portal",
+          "text": "Visitors can export data from the public portal. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: export from the public portal.",
+            "progress": "Partly supported: export from the public portal works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: export from the public portal."
+          },
+          "improvementAction": "Ask which export formats the portal offers."
+        },
+        {
+          "id": "pt-seo",
+          "title": "Search engine discoverability",
+          "text": "The portal supports search engine indexing and discoverability optimisation (for example structured data and sitemaps). Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: search engine indexing and structured data.",
+            "progress": "Partly supported: search engine indexing and structured data works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: search engine indexing and structured data."
+          },
+          "improvementAction": "Ask which structured data (for example schema.org) the portal publishes."
+        },
+        {
+          "id": "pt-user-control",
+          "title": "User control over public presence",
+          "text": "Users can choose whether their profile is visible on the portal and which content is shown. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: user choice over profile visibility and shown content.",
+            "progress": "Partly supported: user choice over profile visibility and shown content works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: user choice over profile visibility and shown content."
+          },
+          "improvementAction": "Ask for a demonstration of a researcher hiding their profile or an item."
+        },
+        {
+          "id": "pt-network-visualisation",
+          "title": "Network visualisation",
+          "text": "The portal offers a graphical visualisation of relations between persons and organisations as networks. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: network visualisation of persons and organisations.",
+            "progress": "Partly supported: network visualisation of persons and organisations works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: network visualisation of persons and organisations."
+          },
+          "improvementAction": "Ask for a screenshot of the network visualisation."
+        },
+        {
+          "id": "pt-accessibility",
+          "title": "Digital accessibility",
+          "text": "Front-end and back-end interfaces comply with the WCAG 2.1 accessibility guidelines, at least at level AA. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: WCAG 2.1 AA for front end and back end.",
+            "progress": "Partly supported: WCAG 2.1 AA for front end and back end works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: WCAG 2.1 AA for front end and back end."
+          },
+          "improvementAction": "Ask for a recent accessibility audit report or accessibility statement."
+        }
+      ]
+    },
+    {
+      "section": "Repository",
+      "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
+      "principles": [
+        {
+          "id": "rp-file-versions",
+          "title": "File upload with version types",
+          "text": "Users can upload and archive one or more files per output and define the version of each file (preprint, accepted manuscript, publisher's version). Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: multiple files per output with version types.",
+            "progress": "Partly supported: multiple files per output with version types works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: multiple files per output with version types. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for a demonstration of uploading an accepted manuscript next to the publisher's version."
+        },
+        {
+          "id": "rp-embargo",
+          "title": "Embargo management",
+          "text": "The solution supports embargo management for uploaded files. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: embargo management with automatic release.",
+            "progress": "Partly supported: embargo management with automatic release works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: embargo management with automatic release. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask how embargo end dates are handled and exposed in OAI-PMH."
+        },
+        {
+          "id": "rp-file-pids",
+          "title": "Persistent identifiers for files",
+          "text": "The solution can add persistent identifiers to files. Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: PIDs for files.",
+            "progress": "Partly supported: PIDs for files works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: PIDs for files."
+          },
+          "improvementAction": "Ask which PID types are supported for files."
+        },
+        {
+          "id": "rp-deletes",
+          "title": "Deletion status and OAI-PMH deletes",
+          "text": "The solution supports a delete status for files and declares deletions in OAI-PMH. Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: file delete status and OAI-PMH deleted records.",
+            "progress": "Partly supported: file delete status and OAI-PMH deleted records works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: file delete status and OAI-PMH deleted records."
+          },
+          "improvementAction": "Ask for the OAI-PMH deletedRecord policy."
+        },
+        {
+          "id": "rp-audit",
+          "title": "File versioning and auditing",
+          "text": "The solution supports file versioning and record and file auditing. Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: file versioning and audit trails.",
+            "progress": "Partly supported: file versioning and audit trails works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: file versioning and audit trails."
+          },
+          "improvementAction": "Ask how previous file versions are retained."
+        },
+        {
+          "id": "rp-sets",
+          "title": "Harvestable sets",
+          "text": "The solution allows harvestable sets of files, definable by multiple criteria. Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: harvestable sets defined by multiple criteria.",
+            "progress": "Partly supported: harvestable sets defined by multiple criteria works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: harvestable sets defined by multiple criteria."
+          },
+          "improvementAction": "Ask how sets are configured and by whom."
+        },
+        {
+          "id": "rp-opendoar",
+          "title": "Open access repository compliance",
+          "text": "The repository meets the technical and policy requirements for listing in OpenDOAR and supports compliance with open access mandates such as Plan S, with a seamless, ideally bidirectional, integration with the CRIS without loss of metadata quality. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: an OpenDOAR-listable, Plan S compliant repository integrated with the CRIS.",
+            "progress": "Partly supported: an OpenDOAR-listable, Plan S compliant repository integrated with the CRIS works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: an OpenDOAR-listable, Plan S compliant repository integrated with the CRIS."
+          },
+          "improvementAction": "Ask for the repository's OpenDOAR listing or a gap analysis against the Plan S repository requirements."
+        }
+      ]
+    },
+    {
+      "section": "Security, privacy and compliance",
+      "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
+      "principles": [
+        {
+          "id": "sec-audit-trail",
+          "title": "Audit trail and secure logs",
+          "text": "The solution keeps a complete audit trail of system activities and metadata changes, and secure audit logs of authentication and authorisation events. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: complete audit trails and secure authentication logs.",
+            "progress": "Partly supported: complete audit trails and secure authentication logs works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: complete audit trails and secure authentication logs. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask how long audit logs are retained and who can access them."
+        },
+        {
+          "id": "sec-gdpr",
+          "title": "GDPR compliance and retention",
+          "text": "The solution complies with the GDPR and applicable European privacy law, and supports configurable retention and deletion policies, including deleting personal data of former employees. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: GDPR compliance with configurable retention and deletion.",
+            "progress": "Partly supported: GDPR compliance with configurable retention and deletion works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: GDPR compliance with configurable retention and deletion. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for a draft data processing agreement and a description of the retention configuration."
+        },
+        {
+          "id": "sec-encryption",
+          "title": "Encryption in transit and at rest",
+          "text": "Communication is always encrypted and storage is secure. Encryption quality is checked with the SSL Labs Server Test, with a minimum grade of A. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: encrypted communication (SSL Labs grade A or better) and secure storage.",
+            "progress": "Partly supported: encrypted communication (SSL Labs grade A or better) and secure storage works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: encrypted communication (SSL Labs grade A or better) and secure storage. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Run the SSL Labs test on a live customer instance."
+        },
+        {
+          "id": "sec-iso27001",
+          "title": "Information security certification",
+          "text": "The supplier holds a valid ISO 27001 certificate, including the statement of applicability, and informs about other security certifications and compliance frameworks. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: a valid ISO 27001 certificate covering the offered service.",
+            "progress": "Partly supported: a valid ISO 27001 certificate covering the offered service works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: a valid ISO 27001 certificate covering the offered service. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Request the certificate and statement of applicability, and check that the scope covers this service."
+        },
+        {
+          "id": "sec-continuity",
+          "title": "Backup and disaster recovery",
+          "text": "The supplier clearly documents backup, recovery and disaster recovery procedures. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: documented backup, recovery and disaster recovery.",
+            "progress": "Partly supported: documented backup, recovery and disaster recovery works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: documented backup, recovery and disaster recovery."
+          },
+          "improvementAction": "Ask for the documented RPO and RTO."
+        },
+        {
+          "id": "sec-incidents",
+          "title": "Incident and breach procedures",
+          "text": "The supplier clearly documents incident management and security breach procedures. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: documented incident and breach procedures.",
+            "progress": "Partly supported: documented incident and breach procedures works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: documented incident and breach procedures."
+          },
+          "improvementAction": "Ask for the breach notification timelines."
+        },
+        {
+          "id": "sec-sso",
+          "title": "Federated single sign-on",
+          "text": "The solution integrates with the institution's identity and authentication systems through federated single sign-on (in the Netherlands: SURFconext). Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: federated SSO with the national identity federation.",
+            "progress": "Partly supported: federated SSO with the national identity federation works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: federated SSO with the national identity federation. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for existing SURFconext (or equivalent federation) connections."
+        },
+        {
+          "id": "sec-local-accounts",
+          "title": "Local and service accounts",
+          "text": "The solution also supports local accounts and service accounts outside single sign-on, with passwords that follow the institution's password policy and can be rotated with limited impact. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: local and service accounts that follow the password policy.",
+            "progress": "Partly supported: local and service accounts that follow the password policy works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: local and service accounts that follow the password policy. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask how service account credentials are rotated."
+        },
+        {
+          "id": "sec-supply-chain",
+          "title": "Data flows and supply chain transparency",
+          "text": "The supplier provides a data flow and dependency overview showing all subsystems the data flows to, subprocessors and underlying hosting, infrastructure and supply-chain dependencies, including the country of control or establishment of each party. Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: a complete overview of data flows, subprocessors and their jurisdictions.",
+            "progress": "Partly supported: a complete overview of data flows, subprocessors and their jurisdictions works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: a complete overview of data flows, subprocessors and their jurisdictions."
+          },
+          "improvementAction": "Ask for the overview and check for parties under non-EU jurisdiction."
+        }
+      ]
+    },
+    {
+      "section": "Technical architecture and operations",
+      "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
+      "principles": [
+        {
+          "id": "ops-cloud",
+          "title": "Cloud-hosted deployment",
+          "text": "The solution supports cloud-hosted (software as a service) deployment. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: cloud-hosted deployment.",
+            "progress": "Partly supported: cloud-hosted deployment works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: cloud-hosted deployment. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask where and by whom the service is hosted."
+        },
+        {
+          "id": "ops-eea",
+          "title": "Data stored in the EEA",
+          "text": "Institutional data is stored within the European Economic Area. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: storage of all institutional data within the EEA.",
+            "progress": "Partly supported: storage of all institutional data within the EEA works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: storage of all institutional data within the EEA. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for the data centre locations, including backups."
+        },
+        {
+          "id": "ops-monitoring",
+          "title": "Operational monitoring",
+          "text": "The solution provides operational monitoring, task management, logging of background jobs and scheduled tasks, and system health and status monitoring. Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: operational, job and health monitoring.",
+            "progress": "Partly supported: operational, job and health monitoring works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: operational, job and health monitoring."
+          },
+          "improvementAction": "Ask for a public status page."
+        },
+        {
+          "id": "ops-scalability",
+          "title": "Scalable architecture",
+          "text": "The solution has a scalable architecture suited to institutional growth. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: a scalable architecture.",
+            "progress": "Partly supported: a scalable architecture works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: a scalable architecture. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for the largest customer volumes currently served."
+        },
+        {
+          "id": "ops-release-management",
+          "title": "Upgrade and release management",
+          "text": "The solution has documented upgrade and release management procedures. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: documented upgrade and release procedures.",
+            "progress": "Partly supported: documented upgrade and release procedures works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: documented upgrade and release procedures. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for the release calendar and upgrade procedure."
+        },
+        {
+          "id": "ops-environments",
+          "title": "Test and production environments",
+          "text": "The solution offers separate test and production environments. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: separate test and production environments.",
+            "progress": "Partly supported: separate test and production environments works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: separate test and production environments. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask whether the test environment is included in the price."
+        },
+        {
+          "id": "ops-stack-documentation",
+          "title": "Documented technology and dependencies",
+          "text": "The supplier documents and shares the database technologies and infrastructure dependencies used. Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: documented technology stack and dependencies.",
+            "progress": "Partly supported: documented technology stack and dependencies works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: documented technology stack and dependencies."
+          },
+          "improvementAction": "Ask for the architecture overview."
+        },
+        {
+          "id": "ops-browsers",
+          "title": "Browser support",
+          "text": "The supplier fully supports the latest versions of Chrome, Safari, Edge and Firefox. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: full support for current major browsers.",
+            "progress": "Partly supported: full support for current major browsers works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: full support for current major browsers. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for the browser support policy."
+        }
+      ]
+    },
+    {
+      "section": "Support, service and governance",
+      "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
+      "principles": [
+        {
+          "id": "svc-ticketing",
+          "title": "Support and ticketing",
+          "text": "The supplier provides a formal support and ticketing (incident management) system. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: a formal ticketing system.",
+            "progress": "Partly supported: a formal ticketing system works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: a formal ticketing system. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for the support hours and channels."
+        },
+        {
+          "id": "svc-sla",
+          "title": "Service level agreement with remedies",
+          "text": "The supplier enters into an SLA with measurable service levels, reporting obligations and remedies for non-compliance, including financial consequences such as service credits or penalties. Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: an SLA with measurable levels and financial remedies.",
+            "progress": "Partly supported: an SLA with measurable levels and financial remedies works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: an SLA with measurable levels and financial remedies."
+          },
+          "improvementAction": "Ask for the draft SLA and service credit scheme."
+        },
+        {
+          "id": "svc-escalation",
+          "title": "Escalation procedures",
+          "text": "The supplier provides defined escalation procedures. Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: defined escalation procedures.",
+            "progress": "Partly supported: defined escalation procedures works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: defined escalation procedures."
+          },
+          "improvementAction": "Ask for the escalation matrix."
+        },
+        {
+          "id": "svc-documentation",
+          "title": "Documentation and training materials",
+          "text": "The supplier provides documentation and training materials for administrators and end users, and describes their form and content. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: documentation and training materials for administrators and end users.",
+            "progress": "Partly supported: documentation and training materials for administrators and end users works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: documentation and training materials for administrators and end users. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for a description of the materials and access to a sample."
+        },
+        {
+          "id": "svc-implementation-support",
+          "title": "Implementation and migration support",
+          "text": "The supplier provides implementation guidance and migration support services. Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: implementation guidance and migration support.",
+            "progress": "Partly supported: implementation guidance and migration support works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: implementation guidance and migration support."
+          },
+          "improvementAction": "Ask for the standard implementation package."
+        },
+        {
+          "id": "svc-customer-governance",
+          "title": "Customer governance and consultation",
+          "text": "The supplier provides customer governance and stakeholder consultation mechanisms (for example user groups and roadmap consultation). Priority: Could (lightly weighted).",
+          "priority": "could",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: customer governance and consultation on the roadmap.",
+            "progress": "Partly supported: customer governance and consultation on the roadmap works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: customer governance and consultation on the roadmap."
+          },
+          "improvementAction": "Ask how customers influence the roadmap and what voting or advisory rights exist."
+        }
+      ]
+    },
+    {
+      "section": "Data ownership and exit",
+      "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
+      "principles": [
+        {
+          "id": "exit-ownership",
+          "title": "Institutional ownership of data",
+          "text": "The institution retains ownership of all metadata and uploaded content. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: institutional ownership of all metadata and content.",
+            "progress": "Partly supported: institutional ownership of all metadata and content works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: institutional ownership of all metadata and content. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Check the contract and terms of service for licence-back or reuse clauses."
+        },
+        {
+          "id": "exit-full-export",
+          "title": "Complete export at contract end",
+          "text": "On termination, the institution can export all metadata, files, relations, identifiers, workflow information and configuration in machine-readable, documented formats. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: complete, documented, machine-readable export at contract end.",
+            "progress": "Partly supported: complete, documented, machine-readable export at contract end works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: complete, documented, machine-readable export at contract end. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for the export format documentation and whether exit exports carry costs."
+        },
+        {
+          "id": "exit-open-standards",
+          "title": "Avoiding vendor lock-in",
+          "text": "The solution avoids vendor lock-in by supporting open standards and interoperable data formats. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: open standards and interoperable formats that prevent lock-in.",
+            "progress": "Partly supported: open standards and interoperable formats that prevent lock-in works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: open standards and interoperable formats that prevent lock-in. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask which parts of the data or configuration can only be read by the supplier's own software."
+        },
+        {
+          "id": "exit-strategy",
+          "title": "Documented exit strategy",
+          "text": "The supplier provides a documented exit strategy and migration support process. Priority: Must (knock-out requirement).",
+          "priority": "must",
+          "knockOut": true,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: a documented exit strategy and migration support.",
+            "progress": "Partly supported: a documented exit strategy and migration support works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: a documented exit strategy and migration support. As a knock-out requirement, this excludes the offer."
+          },
+          "improvementAction": "Ask for the standard exit procedure and its costs."
+        },
+        {
+          "id": "exit-modularity",
+          "title": "Modular contracting",
+          "text": "Components (for example the repository function) can be contracted, terminated and replaced separately, so the institution can move one module to another solution without replacing the whole system. Priority: Should (heavily weighted).",
+          "priority": "should",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Fully supported in the standard product or by configuration, without custom development: separately contractable and replaceable modules.",
+            "progress": "Partly supported: separately contractable and replaceable modules works only in part, needs custom development or workarounds, or is on a dated roadmap.",
+            "non-compliant": "Not supported and not on a dated roadmap: separately contractable and replaceable modules."
+          },
+          "improvementAction": "Ask whether the repository and portal can be contracted with separate terms and replaced independently."
+        }
+      ]
+    },
+    {
+      "section": "Implementation approach",
+      "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
+      "principles": [
+        {
+          "id": "plan-implementation",
+          "title": "Implementation plan",
+          "text": "The supplier submits a implementation plan of at most about three A4 pages, covering at least: phased approach, milestones and decision points, roles and responsibilities, go-live approach and acceptance criteria. Assessed on feasibility, realistic phasing, clear roles, a realistic go-live and clear acceptance criteria. In the source tender a minimum quality score of 65% applied to this plan. Priority: Award criterion (quality, assessed on a 0 to 10 scale).",
+          "priority": "award",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
+            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
+            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
+          },
+          "improvementAction": "Assessed on feasibility, realistic phasing, clear roles, a realistic go-live and clear acceptance criteria. Score per assessor independently, then calibrate in a plenary session."
+        },
+        {
+          "id": "plan-schedule",
+          "title": "Project schedule",
+          "text": "The supplier submits a project schedule of at most about three A4 pages, covering at least: detailed schedule, critical dependencies, resource and capacity planning, lead times and decision points. Assessed on realism and insight into dependencies, capacity and decision points. Priority: Award criterion (quality, assessed on a 0 to 10 scale).",
+          "priority": "award",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
+            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
+            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
+          },
+          "improvementAction": "Assessed on realism and insight into dependencies, capacity and decision points. Score per assessor independently, then calibrate in a plenary session."
+        },
+        {
+          "id": "plan-risk",
+          "title": "Risk management plan",
+          "text": "The supplier submits a risk management plan of at most about three A4 pages, covering at least: key project risks, mitigation measures, escalation procedures, business continuity measures and lessons learned from comparable projects. Assessed on completeness of the risk analysis and specificity of mitigation, escalation and continuity arrangements. Priority: Award criterion (quality, assessed on a 0 to 10 scale).",
+          "priority": "award",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
+            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
+            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
+          },
+          "improvementAction": "Assessed on completeness of the risk analysis and specificity of mitigation, escalation and continuity arrangements. Score per assessor independently, then calibrate in a plenary session."
+        },
+        {
+          "id": "plan-governance",
+          "title": "Communication and governance plan",
+          "text": "The supplier submits a communication and governance plan of at most about three A4 pages, covering at least: meeting and consultation structure, reporting frequency, stakeholder management, decision-making, escalation and change control. Assessed on clear governance, stakeholder approach, decision-making, reporting and change control. Priority: Award criterion (quality, assessed on a 0 to 10 scale).",
+          "priority": "award",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
+            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
+            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
+          },
+          "improvementAction": "Assessed on clear governance, stakeholder approach, decision-making, reporting and change control. Score per assessor independently, then calibrate in a plenary session."
+        },
+        {
+          "id": "plan-migration",
+          "title": "Transition and migration plan",
+          "text": "The supplier submits a transition and migration plan of at most about three A4 pages, covering at least: data migration from the current system, handover of the existing environment, parallel operation, cutover scenario and minimising disruption. Assessed on business continuity, migration approach, cutover scenario and measures to limit disruption. Priority: Award criterion (quality, assessed on a 0 to 10 scale).",
+          "priority": "award",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
+            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
+            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
+          },
+          "improvementAction": "Assessed on business continuity, migration approach, cutover scenario and measures to limit disruption. Score per assessor independently, then calibrate in a plenary session."
+        },
+        {
+          "id": "plan-adoption",
+          "title": "Change management and adoption plan",
+          "text": "The supplier submits a change management and adoption plan of at most about three A4 pages, covering at least: user training, adoption strategy, end-user support, managing resistance to change and internal communication. Assessed on user acceptance, training approach, adoption strategy and handling of resistance. Priority: Award criterion (quality, assessed on a 0 to 10 scale).",
+          "priority": "award",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
+            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
+            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
+          },
+          "improvementAction": "Assessed on user acceptance, training approach, adoption strategy and handling of resistance. Score per assessor independently, then calibrate in a plenary session."
+        },
+        {
+          "id": "plan-staffing",
+          "title": "Staffing and competence plan",
+          "text": "The supplier submits a staffing and competence plan of at most about three A4 pages, covering at least: project team composition, CVs of key personnel, availability, backup for absence and certifications. Assessed on suitability, availability, continuity and competences of the team. Priority: Award criterion (quality, assessed on a 0 to 10 scale).",
+          "priority": "award",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
+            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
+            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
+          },
+          "improvementAction": "Assessed on suitability, availability, continuity and competences of the team. Score per assessor independently, then calibrate in a plenary session."
+        },
+        {
+          "id": "plan-innovation",
+          "title": "Innovation and improvement plan",
+          "text": "The supplier submits a innovation and improvement plan of at most about three A4 pages, covering at least: continuous improvement, innovation proposals, roadmap, benchmarking and proactive optimisation. Assessed on a proactive approach, applicable innovations, roadmap and continuous improvement. Priority: Award criterion (quality, assessed on a 0 to 10 scale).",
+          "priority": "award",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
+            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
+            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
+          },
+          "improvementAction": "Assessed on a proactive approach, applicable innovations, roadmap and continuous improvement. Score per assessor independently, then calibrate in a plenary session."
+        },
+        {
+          "id": "plan-exit",
+          "title": "Exit plan",
+          "text": "The supplier submits a exit plan of at most about three A4 pages, covering at least: knowledge transfer, data export, handover period, exit costs, preventing vendor lock-in, data deletion and cooperation with a successor supplier. Assessed on prevention of lock-in, completeness of handover and data export, and cooperation with a successor. Priority: Award criterion (quality, assessed on a 0 to 10 scale).",
+          "priority": "award",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
+            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
+            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
+          },
+          "improvementAction": "Assessed on prevention of lock-in, completeness of handover and data export, and cooperation with a successor. Score per assessor independently, then calibrate in a plenary session."
+        }
+      ]
+    },
+    {
+      "section": "Price",
+      "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
+      "principles": [
+        {
+          "id": "price-tco",
+          "title": "Transparent total cost of ownership",
+          "text": "The supplier completes a price schedule (excluding VAT) covering the initial contract term: annual licence and support fees per module, and one-off costs for implementation, training, migration and transition, and exit, with any other costs itemised. First-year prices are fixed and later indexation follows the contract. Priority: Award criterion (price).",
+          "priority": "price",
+          "knockOut": false,
+          "criteria": {
+            "compliant": "All cost components are filled in and itemised, including exit and migration costs, with no hidden fees for API use, full downloads or test environments.",
+            "progress": "The price schedule is complete but some components are bundled, conditional or unclear (for example volume-dependent fees or optional modules).",
+            "non-compliant": "The price schedule is incomplete, or significant costs (exit, API, storage, modules) are missing or only available on request."
+          },
+          "improvementAction": "Compare offers on total cost over the full potential term including extensions, not only the initial term."
+        }
+      ]
+    }
+  ]
+}

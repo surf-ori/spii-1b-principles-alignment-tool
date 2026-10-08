@@ -88,6 +88,17 @@ principles, criteria, or copy, no code changes needed:
   asserting Indigenous Peoples' rights and interests in the data
   ecosystems that concern them. At the bottom of the framework order.
 
+A concept framework sits next to these, deliberately **not** built in:
+**CRIS Tender v0.1** (draft,
+[`cris-tender-v0.1.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json))
+— 138 principles in 15 sections for comparing Current Research Information
+System (CRIS) solutions, based on the public 2026 European tender of
+Maastricht University for a CRIS with repository function
+([Mercell](https://app.mercell.com/tender/1548230057/Current-Research-Information-System-(CRIS)-with-repository-function)). It is
+not an Open Science infrastructure principles framework, so it is not loaded
+at startup; it is loaded at runtime via `?framework=` (see below). Drafted
+with AI assistance (Claude) and pending review.
+
 ## Features
 
 - **Classify** — tag the infrastructure against a research activities
@@ -130,7 +141,15 @@ bar, open as dialogs.
 on published self-assessments from real infrastructures (OpenAIRE,
 OpenAlex, HAL+/CCSD) — linked from the About dialog as one-click loads
 against the live site (see below), or load one by hand via "Import
-Assessment Report".
+Assessment Report". It also holds a concept example for the CRIS Tender
+framework above, `moris-broccoli-cris-tender-assessment-2026.json`, scoring
+MORIS+ (SURF's Modular Open Research Information System, extended for
+universities and UMCs) combined with BROCCOLI (SURF's Open Research
+Information hub) on all 138 principles. It is an illustration for discussion,
+not a validated product assessment, and was drafted with AI assistance
+(Claude), pending review. One click from the About dialog loads framework and
+example together and opens the CRIS Tender tab:
+[demo](https://surf-ori.github.io/spii-1b-principles-alignment-tool/?framework=data/frameworks/cris-tender-v0.1.json&report=data/examples/moris-broccoli-cris-tender-assessment-2026.json#cris-tender).
 
 ### Loading via URL parameters
 

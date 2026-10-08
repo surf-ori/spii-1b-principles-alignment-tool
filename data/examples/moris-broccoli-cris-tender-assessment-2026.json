@@ -1,0 +1,570 @@
+{
+  "name": "MORIS+ with BROCCOLI (concept)",
+  "description": "Concept assessment of a university and UMC extension of MORIS, SURF's Modular Open Research Information System (in a service pilot with universities of applied sciences until September 2027), combined with BROCCOLI, SURF's Dutch Open Research Information hub on the ORI DuckLake, for reporting and analytics. Specialised functions are delegated to existing SURF services where possible: SURFsharekit for the repository, Publinova as public showcase, and SURF's PID services. Scores express an expectation for the combination as of October 2026, based on public information about the pilot. They are an illustration for discussion, not a validated product assessment.",
+  "url": "https://over.publinova.nl/moris/",
+  "assessedOn": "2026-10-07",
+  "activities": [
+    "Report",
+    "Manage & Organise",
+    "Document & Preserve",
+    "Publish & Communicate",
+    "Evaluate & Monitor"
+  ],
+  "customFrameworks": [],
+  "frameworks": {
+    "cris-tender": {
+      "sup-references": {
+        "status": "non-compliant",
+        "notes": "MORIS is in a service pilot with three universities of applied sciences until September 2027 and has no completed CRIS or repository reference at a research university yet. If members procure MORIS+ as a SURF cooperative service (in-house procurement), this suitability requirement may not apply in the same way; to be checked with procurement lawyers."
+      },
+      "sup-financial": {
+        "status": "compliant",
+        "notes": "SURF is a member-owned cooperative financed by Dutch education and research institutions; continuity risk mainly lies in the sector's willingness to co-fund a university extension, not in SURF's financial position."
+      },
+      "sup-eligibility": {
+        "status": "compliant",
+        "notes": "SURF is a Dutch cooperative registered with the Chamber of Commerce; no exclusion grounds expected. Only relevant if a European tender is used at all."
+      },
+      "gp-central-platform": {
+        "status": "progress",
+        "notes": "MORIS is designed as the central hub where research information comes together, project-centric, delegating specialised functions to linked services. Whether this counts as one platform depends on how the institution weighs this federated design."
+      },
+      "gp-content-types": {
+        "status": "progress",
+        "notes": "MORIS covers projects, organisations, persons and products (publications, datasets, software). Activities, prizes, media mentions, grant applications and equipment are not in the pilot scope and would need to be added in a university extension."
+      },
+      "gp-controlled-vocabularies": {
+        "status": "progress",
+        "notes": "Expected through the flexible data model and community standards (EduStandaard, HOSA/HORA), but administrator-managed vocabularies for non-bibliographic fields are still to be built."
+      },
+      "gp-journal-classification": {
+        "status": "progress",
+        "notes": "Journal entities and classifications could come from open sources in BROCCOLI (OpenAlex sources, DOAJ); institutional classifications and filtering in a user interface still to be developed."
+      },
+      "gp-roles-access": {
+        "status": "progress",
+        "notes": "Basic roles are needed for the pilot; organisation-scoped role models at university scale (faculties, institutes, UMC departments) still need to be designed."
+      },
+      "gp-bulk-operations": {
+        "status": "progress",
+        "notes": "Bulk exchange is part of the Open Research API ambition; validated bulk ingest tooling is not yet available."
+      },
+      "gp-search": {
+        "status": "progress",
+        "notes": "Search across projects, persons and outputs is expected; advanced Boolean full-text and cross-entity search at university scale not yet demonstrated."
+      },
+      "gp-visibility": {
+        "status": "progress",
+        "notes": "MORIS treats research information as a public good, open unless justified otherwise, so restricted visibility levels exist in principle but configurable levels per record still need detailing."
+      },
+      "gp-validation-workflows": {
+        "status": "non-compliant",
+        "notes": "Configurable validation workflows on all entities are a core feature of university CRIS systems and are not part of the MORIS pilot scope. A main gap for a university extension."
+      },
+      "gp-multilingual": {
+        "status": "progress",
+        "notes": "Dutch and English titles are a likely requirement already in the pilot; not yet confirmed."
+      },
+      "gp-notifications": {
+        "status": "progress",
+        "notes": "To be built; could follow the 'slimme delegatie' principle by integrating with existing institutional notification channels."
+      },
+      "gp-task-overviews": {
+        "status": "non-compliant",
+        "notes": "No operational task overviews for validators yet; depends on the workflow gap above."
+      },
+      "gp-responsible-ai": {
+        "status": "progress",
+        "notes": "SURF and BROCCOLI explore open, transparent AI services (for example on the ORI DuckLake MCP server) that could support enrichment under human control. Not yet part of MORIS."
+      },
+      "rim-linking": {
+        "status": "compliant",
+        "notes": "Linking is the core of MORIS: the research project as a nexus connecting persons, organisations, funding and outputs, with RAiD as project identifier."
+      },
+      "rim-configurable-metadata": {
+        "status": "progress",
+        "notes": "Flexible data model planned; multiple institution-specific keyword schemes side by side not yet in scope."
+      },
+      "rim-deduplication": {
+        "status": "progress",
+        "notes": "PID-based matching (DOI, ORCID, ROR, RAiD) reduces duplicates by design; name and title matching plus merge workflows still to be built. BROCCOLI's silver layer deduplication could be reused."
+      },
+      "rim-export-formats": {
+        "status": "progress",
+        "notes": "Machine-readable exports via API expected; PDF and bibliographic exchange formats not yet planned."
+      },
+      "rim-status-display": {
+        "status": "non-compliant",
+        "notes": "Depends on validation workflows, which are not in the pilot scope."
+      },
+      "rim-affiliations": {
+        "status": "progress",
+        "notes": "Affiliations through persons and organisations follow from the data model; multiple affiliations per author per output need to be confirmed and given a user interface."
+      },
+      "rim-output-templates": {
+        "status": "progress",
+        "notes": "Outputs largely come from linked repositories and PID sources; templates with corresponding author and publication status per output type still to be defined."
+      },
+      "rim-audience": {
+        "status": "progress",
+        "notes": "Practice-oriented research already distinguishes audiences (professional, scientific, public). A good starting point for the national evaluation audience field."
+      },
+      "rim-national-mapping": {
+        "status": "non-compliant",
+        "notes": "KUOZ and SEP mappings are university-specific and not in the pilot scope; universities would have to define and fund this in the extension. A shared mapping would be a strong argument for a sector service."
+      },
+      "rim-venues": {
+        "status": "progress",
+        "notes": "Journal, publisher and venue data are available as open data in the ORI DuckLake (OpenAlex, Crossref); managing them as entities in MORIS still to be built."
+      },
+      "rim-supervision": {
+        "status": "non-compliant",
+        "notes": "Not in scope for universities of applied sciences; PhD supervision is a university-specific extension."
+      },
+      "rim-notes": {
+        "status": "progress",
+        "notes": "Simple notes are feasible; not yet planned."
+      },
+      "rim-licences": {
+        "status": "progress",
+        "notes": "Licence information is handled in SURFsharekit for files; exposing licence schemes consistently in MORIS still to be aligned."
+      },
+      "rim-pid-minting": {
+        "status": "compliant",
+        "notes": "Strong point: SURF already offers PID services (RAiD, DOI via DataCite, handles) and MORIS is built around permanent identifiers."
+      },
+      "rim-collaboration": {
+        "status": "progress",
+        "notes": "Collaboration with external partners is central to practice-oriented research; author groups and roles within records still to be modelled in detail."
+      },
+      "rim-quality-checks": {
+        "status": "progress",
+        "notes": "BROCCOLI's ORI Quality Monitoring (data contracts with quality rules) could deliver completeness checks across sources; not yet integrated into the MORIS user interface."
+      },
+      "rim-export-templates": {
+        "status": "non-compliant",
+        "notes": "Not planned."
+      },
+      "rim-saved-filters": {
+        "status": "progress",
+        "notes": "Feasible, not yet planned."
+      },
+      "rim-cover-pages": {
+        "status": "progress",
+        "notes": "Belongs with the repository module (SURFsharekit); to be checked."
+      },
+      "rim-change-history": {
+        "status": "progress",
+        "notes": "Audit data is expected to be kept; a record-level history view is not yet designed."
+      },
+      "rim-file-import": {
+        "status": "non-compliant",
+        "notes": "Not planned; MORIS prefers PID-based import over file uploads."
+      },
+      "rim-manual-entry": {
+        "status": "progress",
+        "notes": "Registration during the project by researchers is a core MORIS use case with user stories for four personas; manual entry of all university output types still to be built."
+      },
+      "rim-teaching-material": {
+        "status": "progress",
+        "notes": "Educational resources are explicitly among MORIS output types, and SURF runs edusources for open learning materials. Display on a portal to be designed."
+      },
+      "po-hr-sync": {
+        "status": "progress",
+        "notes": "Linking HR systems is named in the MORIS design; the interface and historical synchronisation still need to be specified."
+      },
+      "po-orphans": {
+        "status": "non-compliant",
+        "notes": "Not planned."
+      },
+      "po-internal-reporting": {
+        "status": "progress",
+        "notes": "Reporting on persons and organisations could run through BROCCOLI on exported MORIS data; not yet built."
+      },
+      "po-org-history": {
+        "status": "progress",
+        "notes": "To be confirmed in the data model; ROR offers historical relations for external organisations."
+      },
+      "po-multi-hierarchy": {
+        "status": "non-compliant",
+        "notes": "Multiple concurrent deep hierarchies (faculties, institutes, UMC departments) are not needed by universities of applied sciences and are not in scope. A key gap for universities and UMCs."
+      },
+      "po-hierarchy-visualisation": {
+        "status": "non-compliant",
+        "notes": "Not planned."
+      },
+      "po-org-identifiers": {
+        "status": "compliant",
+        "notes": "ROR is one of the core identifiers in the MORIS design."
+      },
+      "po-org-profiles": {
+        "status": "progress",
+        "notes": "Organisation profiles (for example lectoraten) are shown on Publinova; key-user maintenance in MORIS to be designed."
+      },
+      "po-person-affiliations": {
+        "status": "progress",
+        "notes": "To be confirmed in the data model, including former affiliations."
+      },
+      "po-person-identifiers": {
+        "status": "progress",
+        "notes": "ORCID is core; ISNI, DAI and name variants still to be confirmed."
+      },
+      "po-researcher-profiles": {
+        "status": "progress",
+        "notes": "Researchers registering their own project information is central; full self-maintained profiles depend on the portal module."
+      },
+      "po-staff-classification": {
+        "status": "non-compliant",
+        "notes": "Not in scope."
+      },
+      "po-profile-links": {
+        "status": "progress",
+        "notes": "Feasible, not yet planned."
+      },
+      "po-expertise": {
+        "status": "progress",
+        "notes": "Expertise is relevant for collaboration with practice partners; not yet planned."
+      },
+      "po-external-entities": {
+        "status": "progress",
+        "notes": "External partners are central to practice-oriented research and identified through ROR and ORCID where possible; internal identifiers for external entities to be confirmed."
+      },
+      "sm-import": {
+        "status": "progress",
+        "notes": "MORIS links repositories and PID sources; BROCCOLI already harvests OpenAlex, OpenAIRE and Crossref into the ORI DuckLake, which could feed imports. Configurable automated import into MORIS still to be built."
+      },
+      "sm-provider-integrations": {
+        "status": "progress",
+        "notes": "Lookups via DOI, ORCID and the ORI DuckLake are feasible; provider switches per institution and an overview with roadmap dates do not exist yet."
+      },
+      "sm-provenance": {
+        "status": "compliant",
+        "notes": "Provenance is a design principle of both MORIS (create once, reuse often) and BROCCOLI (data products with source-aligned layers and contracts)."
+      },
+      "sm-orcid-sync": {
+        "status": "progress",
+        "notes": "ORCID integration is a work package in MORIS; researcher-authorised write-back to ORCID still to be built."
+      },
+      "sm-enrichment-suggestions": {
+        "status": "progress",
+        "notes": "BROCCOLI can compare institutional records with OpenAlex and OpenAIRE and generate correction suggestions; feeding these back into MORIS still to be designed."
+      },
+      "sm-venue-export": {
+        "status": "progress",
+        "notes": "Available as open data via the ORI DuckLake; not yet as a MORIS function."
+      },
+      "sm-classification-schemes": {
+        "status": "progress",
+        "notes": "To be defined in the community data model."
+      },
+      "sm-bulk-edit": {
+        "status": "non-compliant",
+        "notes": "Not planned."
+      },
+      "api-bulk": {
+        "status": "progress",
+        "notes": "The Open Research API is a MORIS deliverable; bulk endpoints still in development."
+      },
+      "api-admin-read": {
+        "status": "progress",
+        "notes": "Expected as part of the Open Research API; not yet available."
+      },
+      "api-oai-pmh": {
+        "status": "progress",
+        "notes": "SURFsharekit already offers OAI-PMH and delivers to national harvesting; OpenAIRE delivery from MORIS itself is planned (OpenAIRE Graph is named in the design)."
+      },
+      "api-open-standards": {
+        "status": "progress",
+        "notes": "MORIS commits to open standards (ORCID, DOI, RAiD, ROR, HOSA/HORA, EduStandaard). CERIF following the OpenAIRE Guidelines for CRIS Managers still needs to be implemented; DURF works on this for existing CRIS systems."
+      },
+      "api-citations": {
+        "status": "non-compliant",
+        "notes": "Not planned."
+      },
+      "api-crud": {
+        "status": "progress",
+        "notes": "Open Research API in development; read and write with documented schemas planned."
+      },
+      "api-security": {
+        "status": "progress",
+        "notes": "Expected via SURF's standard API security; not yet documented for MORIS."
+      },
+      "api-documentation": {
+        "status": "progress",
+        "notes": "Open development with public code on GitLab is promised; API documentation will follow."
+      },
+      "api-monitoring": {
+        "status": "progress",
+        "notes": "Standard SURF operations practice; not yet documented for MORIS."
+      },
+      "api-full-download": {
+        "status": "compliant",
+        "notes": "Fits the principle of research information as a public good and BROCCOLI's open, read-only DuckLake catalogue; no extra costs per download expected for members."
+      },
+      "api-release-policy": {
+        "status": "progress",
+        "notes": "To be agreed in the service definition."
+      },
+      "ra-configurable-reports": {
+        "status": "progress",
+        "notes": "BROCCOLI is built for reporting and monitoring (open science monitoring, responsible research assessment, publisher deals) on the ORI DuckLake. Configurable reports on an institution's own MORIS data still require a data product per institution."
+      },
+      "ra-aggregation": {
+        "status": "compliant",
+        "notes": "DuckDB and dbt on the ORI DuckLake support any filtering and aggregation, including NULL handling, for analysts. A user interface for non-technical users is a separate question."
+      },
+      "ra-export": {
+        "status": "compliant",
+        "notes": "Parquet, CSV and JSON exports are native to the DuckLake stack."
+      },
+      "ra-saved-reports": {
+        "status": "progress",
+        "notes": "Report definitions as dbt models and data contracts are versioned in Git; a user-facing saved report feature does not exist."
+      },
+      "ra-dashboards": {
+        "status": "progress",
+        "notes": "Dashboards such as ORI Quality Monitoring are in development; drill-down to records depends on the link with MORIS."
+      },
+      "ra-usage-analytics": {
+        "status": "non-compliant",
+        "notes": "Not planned."
+      },
+      "ra-scheduled-reports": {
+        "status": "progress",
+        "notes": "Pipelines run on a schedule; scheduled delivery of reports to users not yet designed."
+      },
+      "ra-citation-styles": {
+        "status": "non-compliant",
+        "notes": "Not planned."
+      },
+      "ra-org-filtering": {
+        "status": "progress",
+        "notes": "Possible in SQL once organisational hierarchies are in the data; depends on the multi-hierarchy gap."
+      },
+      "pt-public-portal": {
+        "status": "progress",
+        "notes": "Publinova is the national showcase for practice-oriented research, with institutional pages. A university or UMC-branded portal (or feeding institutional websites, which MORIS names) still needs to be decided."
+      },
+      "pt-profiles": {
+        "status": "progress",
+        "notes": "Publinova shows researcher and research group pages; organisation pages without size limits at university scale not yet tested."
+      },
+      "pt-validated-only": {
+        "status": "progress",
+        "notes": "Depends on the workflow gap."
+      },
+      "pt-no-record-limit": {
+        "status": "progress",
+        "notes": "To be tested at university volumes."
+      },
+      "pt-output-display": {
+        "status": "compliant",
+        "notes": "Publinova already shows outputs with abstracts, PIDs and external links."
+      },
+      "pt-metrics": {
+        "status": "progress",
+        "notes": "Open metrics could come from BROCCOLI and OpenAlex rather than commercial altmetrics; not yet planned."
+      },
+      "pt-export": {
+        "status": "progress",
+        "notes": "To be checked for Publinova."
+      },
+      "pt-seo": {
+        "status": "progress",
+        "notes": "Publinova is publicly indexed; structured data to be checked."
+      },
+      "pt-user-control": {
+        "status": "progress",
+        "notes": "To be designed together with the visibility model."
+      },
+      "pt-network-visualisation": {
+        "status": "non-compliant",
+        "notes": "Not planned."
+      },
+      "pt-accessibility": {
+        "status": "progress",
+        "notes": "Dutch public sector services must meet WCAG; an accessibility statement for MORIS is not yet available."
+      },
+      "rp-file-versions": {
+        "status": "compliant",
+        "notes": "Delegated to SURFsharekit, an existing SURF repository service in use by universities of applied sciences."
+      },
+      "rp-embargo": {
+        "status": "compliant",
+        "notes": "Delegated to SURFsharekit."
+      },
+      "rp-file-pids": {
+        "status": "compliant",
+        "notes": "Delegated to SURFsharekit and SURF's PID services."
+      },
+      "rp-deletes": {
+        "status": "progress",
+        "notes": "To be checked in SURFsharekit."
+      },
+      "rp-audit": {
+        "status": "progress",
+        "notes": "To be checked in SURFsharekit."
+      },
+      "rp-sets": {
+        "status": "progress",
+        "notes": "To be checked in SURFsharekit."
+      },
+      "rp-opendoar": {
+        "status": "progress",
+        "notes": "Whether SURFsharekit meets OpenDOAR and Plan S requirements for university use needs a gap analysis, preferably together with DURF."
+      },
+      "sec-audit-trail": {
+        "status": "progress",
+        "notes": "To be specified in the service definition."
+      },
+      "sec-gdpr": {
+        "status": "compliant",
+        "notes": "SURF works within Dutch and EU law, offers standard processing agreements to members, and has no commercial interest in the data."
+      },
+      "sec-encryption": {
+        "status": "progress",
+        "notes": "Standard for SURF services; SSL Labs grade not yet tested for MORIS."
+      },
+      "sec-iso27001": {
+        "status": "progress",
+        "notes": "To be confirmed whether MORIS will fall within the scope of SURF's information security certification once it becomes a regular service."
+      },
+      "sec-continuity": {
+        "status": "progress",
+        "notes": "To be documented in the service definition."
+      },
+      "sec-incidents": {
+        "status": "progress",
+        "notes": "SURF has security and incident processes (for example SURFcert); to be documented for MORIS."
+      },
+      "sec-sso": {
+        "status": "compliant",
+        "notes": "SURFconext is SURF's own identity federation; universities and UMCs are already connected."
+      },
+      "sec-local-accounts": {
+        "status": "progress",
+        "notes": "To be designed."
+      },
+      "sec-supply-chain": {
+        "status": "compliant",
+        "notes": "Strong point: SURF can show its full chain and hosting in the Netherlands under Dutch and EU jurisdiction, in line with the digital sovereignty goals of MORIS."
+      },
+      "ops-cloud": {
+        "status": "compliant",
+        "notes": "Offered as a SURF-hosted service."
+      },
+      "ops-eea": {
+        "status": "compliant",
+        "notes": "SURF hosts in the Netherlands; the ORI DuckLake runs on SURF Object Store."
+      },
+      "ops-monitoring": {
+        "status": "progress",
+        "notes": "Standard SURF practice; not yet documented for MORIS."
+      },
+      "ops-scalability": {
+        "status": "progress",
+        "notes": "MORIS is designed to scale across all universities of applied sciences; university and UMC volumes are larger and not yet tested. BROCCOLI's lakehouse architecture scales well for analytics."
+      },
+      "ops-release-management": {
+        "status": "progress",
+        "notes": "Open development on GitLab supports transparent releases; procedures still to be formalised as part of a regular service."
+      },
+      "ops-environments": {
+        "status": "progress",
+        "notes": "Expected; not yet confirmed."
+      },
+      "ops-stack-documentation": {
+        "status": "compliant",
+        "notes": "Open source code and open architecture documentation (HOSA/HORA, published design) by design."
+      },
+      "ops-browsers": {
+        "status": "progress",
+        "notes": "Expected for a modern web application; to be confirmed."
+      },
+      "svc-ticketing": {
+        "status": "compliant",
+        "notes": "SURF's service desk serves all members."
+      },
+      "svc-sla": {
+        "status": "progress",
+        "notes": "SLAs are part of the planned business model and governance work package; service credits are unusual for a member cooperative, where members steer through governance instead."
+      },
+      "svc-escalation": {
+        "status": "progress",
+        "notes": "To be defined in the service definition."
+      },
+      "svc-documentation": {
+        "status": "progress",
+        "notes": "Documentation will follow from open development; training materials not yet available."
+      },
+      "svc-implementation-support": {
+        "status": "progress",
+        "notes": "Implementation managers at participating institutions are foreseen; a standard implementation package for universities does not exist yet."
+      },
+      "svc-customer-governance": {
+        "status": "compliant",
+        "notes": "Strong point: MORIS is developed for and by the sector, with pilot governance, open input sessions and steering by member institutions. A university extension would add university and UMC representation."
+      },
+      "exit-ownership": {
+        "status": "compliant",
+        "notes": "Data stays under the control of the institutions themselves, a stated aim of MORIS."
+      },
+      "exit-full-export": {
+        "status": "compliant",
+        "notes": "Open standards, open source code and open APIs make full export possible; BROCCOLI already keeps institutional data in open Parquet files."
+      },
+      "exit-open-standards": {
+        "status": "compliant",
+        "notes": "Avoiding vendor lock-in is a founding reason for MORIS."
+      },
+      "exit-strategy": {
+        "status": "progress",
+        "notes": "Because the code is open, an institution or the sector could take over or host the software itself. A documented exit procedure is still to be written."
+      },
+      "exit-modularity": {
+        "status": "compliant",
+        "notes": "Modularity is the design principle: institutions use the modules they need, and specialised functions are delegated to other tools that can be replaced separately."
+      },
+      "plan-implementation": {
+        "status": "progress",
+        "notes": "The pilot shows a phased approach (proof of concept, pilot, service). A university implementation plan does not exist yet and would be part of the joint proposal."
+      },
+      "plan-schedule": {
+        "status": "non-compliant",
+        "notes": "No schedule for universities and UMCs yet; the HBO pilot runs until September 2027."
+      },
+      "plan-risk": {
+        "status": "progress",
+        "notes": "Pilot governance covers risks for the HBO pilot; university-specific risks (scope, migration from commercial systems) still to be analysed."
+      },
+      "plan-governance": {
+        "status": "progress",
+        "notes": "Pilot governance is documented; extending it to universities and UMCs is a key question for the coalition."
+      },
+      "plan-migration": {
+        "status": "non-compliant",
+        "notes": "Migration from existing commercial CRIS systems is not yet addressed. DURF experience with CRIS metadata could help."
+      },
+      "plan-adoption": {
+        "status": "progress",
+        "notes": "Open input sessions and persona-based user stories are a good basis; a university adoption plan still to be made."
+      },
+      "plan-staffing": {
+        "status": "progress",
+        "notes": "SURF team plus implementation managers at institutions; capacity for a university extension depends on funding, for example from a joint Open Science NL proposal."
+      },
+      "plan-innovation": {
+        "status": "compliant",
+        "notes": "Open development, community roadmap and integration with BROCCOLI, DURF and PID services give a strong innovation basis."
+      },
+      "plan-exit": {
+        "status": "progress",
+        "notes": "Open code and open data make exit realistic; a written exit plan is still missing."
+      },
+      "price-tco": {
+        "status": "progress",
+        "notes": "Cost model for a university extension unknown. As a cooperative service, costs would be shared by members at cost price, without licence margins; development costs could partly be covered by an Open Science NL grant."
+      }
+    }
+  }
+}
