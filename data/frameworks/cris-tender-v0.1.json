@@ -2,20 +2,36 @@
   "id": "cris-tender",
   "title": "CRIS Tender v0.1 Assessment (draft)",
   "shortName": "CRIS Tender",
-  "description": "A draft generic framework for assessing CRIS solutions with a repository function, based on the public European tender of Maastricht University (2026) for a CRIS with repository function, with knock-out, weighted and award criteria. Source tender ([link](https://app.mercell.com/tender/1548230057/Current-Research-Information-System-(CRIS)-with-repository-function))",
-  "aboutHtml": "<p><strong>CRIS Tender v0.1 (draft)</strong> is a generic assessment framework for procuring a Current Research Information System (CRIS) with a repository function. It is based on the public European tender of Maastricht University (UM) and Maastricht University Medical Centre+ (MUMC+) for a CRIS with repository function, published in 2026 on Mercell: <a href=\"https://app.mercell.com/tender/1548230057/Current-Research-Information-System-(CRIS)-with-repository-function\">Current Research Information System (CRIS) with repository function</a>. The framework draws on the full set of tender documents in the request for tenders (programme of requirements, non-functional requirements, plan of approach, suitability requirements and price schedule). Institution-specific details (source systems, keyword schemes, volumes and dates) have been made generic, so other institutions can reuse it to compare solutions, align their own tenders and discuss shared requirements.</p><p><strong>Priorities.</strong> Every principle names a priority. <em>Must</em> marks a knock-out requirement in the source tender: an offer that does not meet it is excluded. <em>Should</em> and <em>Could</em> mark scored requirements with a higher (7 points or more) or lower weight. <em>Award criterion</em> marks the qualitative plans and the price, which are scored rather than pass or fail. The priority is also stored as a machine-readable <code>priority</code> and <code>knockOut</code> field on each principle.</p><p><strong>Weighting in the source tender.</strong> Roughly 30% plan of approach, 20% price, 40% functional requirements and 10% non-functional requirements, with a minimum quality score of 65%. The initial contract term was four years with optional extensions up to ten years, and a separate, yearly renewable term for the repository function to keep the option of moving to a dedicated open access repository.</p><p><strong>Scoring.</strong> Compliant means fully supported in the standard product or by configuration. Making progress means partly supported, requiring custom development, or on a dated roadmap. Not compliant means not supported. For the plans, the three levels map onto the 0 to 10 marking scale of the source tender. The “To improve” note gives the evidence to ask a supplier for.</p><p>This is a concept (v0.1), drafted with AI assistance (Claude) and pending review by SURF and the institutions involved. It is not an official SURF or UKB instrument.</p>",
+  "description": "A draft generic framework for assessing CRIS solutions with a repository function, based on the public European tender of Maastricht University (2026) for a CRIS with repository function. Principles carry the tender's question numbers, are labelled Must have (knock-out) or Should have (points), and are scored as a percentage of the tender's points. Source tender ([link](https://app.mercell.com/tender/1548230057/Current-Research-Information-System-(CRIS)-with-repository-function))",
+  "aboutHtml": "<p><strong>CRIS Tender v0.1 (draft)</strong> is a generic assessment framework for procuring a Current Research Information System (CRIS) with a repository function. It is based on the public European tender of Maastricht University (UM) and Maastricht University Medical Centre+ (MUMC+) for a CRIS with repository function, published in 2026 on Mercell: <a href=\"https://app.mercell.com/tender/1548230057/Current-Research-Information-System-(CRIS)-with-repository-function\">Current Research Information System (CRIS) with repository function</a>. The framework draws on the full set of tender documents in the request for tenders (programme of requirements, non-functional requirements, plan of approach, suitability requirements and price schedule). Institution-specific details (source systems, keyword schemes, volumes and dates) have been made generic, so other institutions can reuse it to compare solutions, align their own tenders and discuss shared requirements.</p><p><strong>Numbering.</strong> Section and principle numbers are the requirement numbers of the source questionnaire (for example 2.6 or 15.47), so every principle can be traced to the tender. Where this framework combines several tender questions in one principle, all numbers are listed, for example 2.6, 2.7.</p><p><strong>Must have and Should have.</strong> A principle is a <em>Must have</em> when one of its tender questions is a knock-out (KO) question: an offer that answers No is excluded. It is a <em>Should have</em> when its tender questions earn points: a Yes earns the points, a No earns none. The plans of the plan of approach (section 14) keep the label <em>Award criterion</em> and the price (section 16) keeps <em>Price</em>, because they are assessed on quality or price rather than answered Yes or No. Each principle also carries this as machine-readable <code>priority</code>, <code>knockOut</code>, <code>points</code> and <code>tender</code> fields.</p><p><strong>Weighting in the source tender.</strong> Roughly 30% plan of approach, 20% price, 40% functional requirements and 10% non-functional requirements, with a minimum quality score of 65%. The initial contract term was four years with optional extensions up to ten years, and a separate, yearly renewable term for the repository function to keep the option of moving to a dedicated open access repository.</p><p><strong>Scoring.</strong> Answers are <em>Yes</em> (fully supported in the standard product or by configuration), <em>Partly</em> (partly supported, needing custom development, or on a dated roadmap) and <em>No</em> (not supported). The source tender only knows Yes and No, so Partly earns no points and does not meet a Must have, exactly like No. Compliance is the points earned out of the points on offer (997 in total, all the points of the source tender); if any Must have is not answered Yes, compliance drops to 0%. Document questions of the tender (a video, screenshot or description) are folded into the principle they belong to: their points are included, and Yes means the evidence would satisfy the assessors. In the real tender the price is scored relative to the other offers, so Yes or No on the price principle is a simplification, and the plans had to reach a minimum quality score of 65%. The “To improve” note gives the evidence to ask a supplier for.</p><p>This is a concept (v0.1), drafted with AI assistance (Claude) and pending review by SURF and the institutions involved. It is not an official SURF or UKB instrument.</p>",
   "draft": true,
+  "scoring": {
+    "type": "points-knockout",
+    "answerLabels": {
+      "compliant": "Yes",
+      "progress": "Partly",
+      "non-compliant": "No"
+    },
+    "credit": {
+      "compliant": 1,
+      "progress": 0,
+      "non-compliant": 0
+    }
+  },
   "sections": [
     {
-      "section": "Supplier suitability",
+      "section": "1.4 Supplier suitability",
       "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
       "principles": [
         {
           "id": "sup-references",
-          "title": "Relevant references",
-          "text": "The supplier can show at least one recent reference (within the last three years) for supplying, implementing and maintaining a CRIS, and one for a repository function, at a research institution of comparable size. Experience of subcontractors only counts if they are deployed on this contract. Priority: Must (knock-out requirement).",
+          "title": "1.4.2.2 Relevant references",
+          "text": "The supplier can show at least one recent reference (within the last three years) for supplying, implementing and maintaining a CRIS, and one for a repository function, at a research institution of comparable size. Experience of subcontractors only counts if they are deployed on this contract. Tender requirement 1.4.2.2: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "1.4.2.2"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: recent, verifiable references for both a CRIS and a repository function at comparable institutions.",
             "progress": "Partly supported: recent, verifiable references for both a CRIS and a repository function at comparable institutions works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -25,10 +41,13 @@
         },
         {
           "id": "sup-financial",
-          "title": "Financial and economic strength",
-          "text": "The supplier has no known claims or required investments that put its continuity at risk, its latest audit opinion contains no going-concern paragraph, and it is adequately insured (professional and third-party liability) for the full contract term. Priority: Must (knock-out requirement).",
+          "title": "1.4.2.1 Financial and economic strength",
+          "text": "The supplier has no known claims or required investments that put its continuity at risk, its latest audit opinion contains no going-concern paragraph, and it is adequately insured (professional and third-party liability) for the full contract term. Tender requirement 1.4.2.1: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "1.4.2.1"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: financial continuity, a clean audit opinion and adequate insurance.",
             "progress": "Partly supported: financial continuity, a clean audit opinion and adequate insurance works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -38,10 +57,14 @@
         },
         {
           "id": "sup-eligibility",
-          "title": "Eligibility and exclusion grounds",
-          "text": "The supplier is registered in the relevant trade or professional register, signatories are authorised to represent it, no exclusion grounds apply (European Single Procurement Document), and applicable EU sanctions do not apply to the supplier or its subcontractors. Priority: Must (knock-out requirement).",
+          "title": "1.4.1.1, 1.4.1.2 Eligibility and exclusion grounds",
+          "text": "The supplier is registered in the relevant trade or professional register, signatories are authorised to represent it, no exclusion grounds apply (European Single Procurement Document), and applicable EU sanctions do not apply to the supplier or its subcontractors. Tender requirements 1.4.1.1, 1.4.1.2: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "1.4.1.1",
+            "1.4.1.2"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: registration, authority to sign, absence of exclusion grounds and sanctions compliance.",
             "progress": "Partly supported: registration, authority to sign, absence of exclusion grounds and sanctions compliance works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -52,15 +75,18 @@
       ]
     },
     {
-      "section": "General platform",
+      "section": "2. General platform",
       "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
       "principles": [
         {
           "id": "gp-central-platform",
-          "title": "Centralised research information platform",
-          "text": "The solution provides a centralised platform for storing research-related information entities. Priority: Must (knock-out requirement).",
+          "title": "2.1 Centralised research information platform",
+          "text": "The solution provides a centralised platform for storing research-related information entities. Tender requirement 2.1: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "2.1"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: a single platform for all research information entities.",
             "progress": "Partly supported: a single platform for all research information entities works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -70,10 +96,15 @@
         },
         {
           "id": "gp-content-types",
-          "title": "Broad range of content types",
-          "text": "The solution stores, manages and exchanges high-quality, machine-readable metadata for a broad range of content types, including research outputs (articles, books, chapters, reviews, working papers), datasets, software, activities, prizes and awards, press and media mentions, grant applications, grants, projects and facilities or equipment, each with its own (sub)types and metadata fields. Priority: Must (knock-out requirement).",
+          "title": "2.2, 2.3, 3.1 Broad range of content types",
+          "text": "The solution stores, manages and exchanges high-quality, machine-readable metadata for a broad range of content types, including research outputs (articles, books, chapters, reviews, working papers), datasets, software, activities, prizes and awards, press and media mentions, grant applications, grants, projects and facilities or equipment, each with its own (sub)types and metadata fields. Tender requirements 2.2, 2.3, 3.1: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "2.2",
+            "2.3",
+            "3.1"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: all listed content types with their (sub)types and metadata fields.",
             "progress": "Partly supported: all listed content types with their (sub)types and metadata fields works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -83,10 +114,13 @@
         },
         {
           "id": "gp-controlled-vocabularies",
-          "title": "Adjustable controlled vocabularies",
-          "text": "The solution supports adjustable controlled vocabularies for metadata fields, including non-bibliographic ones such as staff type, organisation type, job title and licence type. Priority: Must (knock-out requirement).",
+          "title": "2.4 Adjustable controlled vocabularies",
+          "text": "The solution supports adjustable controlled vocabularies for metadata fields, including non-bibliographic ones such as staff type, organisation type, job title and licence type. Tender requirement 2.4: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "2.4"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: administrator-managed controlled vocabularies for bibliographic and non-bibliographic fields.",
             "progress": "Partly supported: administrator-managed controlled vocabularies for bibliographic and non-bibliographic fields works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -96,10 +130,14 @@
         },
         {
           "id": "gp-journal-classification",
-          "title": "Journal filtering on custom classifications",
-          "text": "The solution supports filtering of journals based on custom (institutional) classifications. Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "2.5 Journal filtering on custom classifications",
+          "text": "The solution supports filtering of journals based on custom (institutional) classifications. Tender requirement 2.5: Should have, 3 points (0.30% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 3,
+          "tender": [
+            "2.5"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: filtering journals on custom classifications.",
             "progress": "Partly supported: filtering journals on custom classifications works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -109,10 +147,15 @@
         },
         {
           "id": "gp-roles-access",
-          "title": "Role and organisation based access",
-          "text": "The solution provides role- and organisation-based access, controlled by system administrators, defining which content may be accessed and which tasks may be executed. The supplier can show which roles exist and which rights belong to each. Priority: Must (knock-out requirement).",
+          "title": "2.6, 2.7 Role and organisation based access",
+          "text": "The solution provides role- and organisation-based access, controlled by system administrators, defining which content may be accessed and which tasks may be executed. The supplier can show which roles exist and which rights belong to each. Tender requirements 2.6, 2.7: Must have (knock-out), plus 7 points (0.70% of total).",
           "priority": "must",
           "knockOut": true,
+          "points": 7,
+          "tender": [
+            "2.6",
+            "2.7"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: configurable roles with organisation-scoped rights.",
             "progress": "Partly supported: configurable roles with organisation-scoped rights works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -122,10 +165,14 @@
         },
         {
           "id": "gp-bulk-operations",
-          "title": "Validated bulk operations",
-          "text": "The solution supports bulk import, export and metadata updates (for example XML, JSON or database ingest), with validation mechanisms that guard data quality during these bulk operations. Priority: Must (knock-out requirement).",
+          "title": "2.8, 15.47 Validated bulk operations",
+          "text": "The solution supports bulk import, export and metadata updates (for example XML, JSON or database ingest), with validation mechanisms that guard data quality during these bulk operations. Tender requirements 2.8, 15.47: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "2.8",
+            "15.47"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: bulk import, export and update with validation.",
             "progress": "Partly supported: bulk import, export and update with validation works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -135,10 +182,14 @@
         },
         {
           "id": "gp-search",
-          "title": "Flexible and advanced search",
-          "text": "The solution supports flexible search, filtering and sorting across all core entities, including full-text search, Boolean operators and cross-entity search. Priority: Must (knock-out requirement).",
+          "title": "2.9, 2.13 Flexible and advanced search",
+          "text": "The solution supports flexible search, filtering and sorting across all core entities, including full-text search, Boolean operators and cross-entity search. Tender requirements 2.9, 2.13: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "2.9",
+            "2.13"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: full-text, Boolean and cross-entity search with filtering and sorting.",
             "progress": "Partly supported: full-text, Boolean and cross-entity search with filtering and sorting works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -148,10 +199,13 @@
         },
         {
           "id": "gp-visibility",
-          "title": "Configurable record visibility",
-          "text": "The solution supports configurable visibility levels for records (for example public, internal, restricted). Priority: Must (knock-out requirement).",
+          "title": "2.10 Configurable record visibility",
+          "text": "The solution supports configurable visibility levels for records (for example public, internal, restricted). Tender requirement 2.10: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "2.10"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: configurable visibility levels per record.",
             "progress": "Partly supported: configurable visibility levels per record works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -161,10 +215,15 @@
         },
         {
           "id": "gp-validation-workflows",
-          "title": "Configurable validation workflows",
-          "text": "The solution supports configurable validation workflows and approval statuses on all entities. The supplier describes how and to what extent workflows can be configured, for example for publications, journals and activities. Priority: Must (knock-out requirement).",
+          "title": "2.11, 2.12 Configurable validation workflows",
+          "text": "The solution supports configurable validation workflows and approval statuses on all entities. The supplier describes how and to what extent workflows can be configured, for example for publications, journals and activities. Tender requirements 2.11, 2.12: Must have (knock-out), plus 7 points (0.70% of total).",
           "priority": "must",
           "knockOut": true,
+          "points": 7,
+          "tender": [
+            "2.11",
+            "2.12"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: configurable validation workflows and approval statuses on all entity types.",
             "progress": "Partly supported: configurable validation workflows and approval statuses on all entity types works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -174,10 +233,14 @@
         },
         {
           "id": "gp-multilingual",
-          "title": "Multilingual titles",
-          "text": "The solution supports multilingual metadata for titles. Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "2.14 Multilingual titles",
+          "text": "The solution supports multilingual metadata for titles. Tender requirement 2.14: Should have, 3 points (0.30% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 3,
+          "tender": [
+            "2.14"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: titles in more than one language.",
             "progress": "Partly supported: titles in more than one language works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -187,10 +250,15 @@
         },
         {
           "id": "gp-notifications",
-          "title": "Notifications, messaging and comments",
-          "text": "The solution supports configurable notifications and messaging to users, including sending comments about an entity to its users and editors. Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "2.15, 3.26 Notifications, messaging and comments",
+          "text": "The solution supports configurable notifications and messaging to users, including sending comments about an entity to its users and editors. Tender requirements 2.15, 3.26: Should have, 6 points (0.60% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 6,
+          "tender": [
+            "2.15",
+            "3.26"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: configurable notifications and comments on entities.",
             "progress": "Partly supported: configurable notifications and comments on entities works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -200,10 +268,14 @@
         },
         {
           "id": "gp-task-overviews",
-          "title": "Task overviews for operational users",
-          "text": "The solution provides configurable task overviews for operational users such as validators and editors. Priority: Should (heavily weighted).",
+          "title": "2.16 Task overviews for operational users",
+          "text": "The solution provides configurable task overviews for operational users such as validators and editors. Tender requirement 2.16: Should have, 7 points (0.70% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 7,
+          "tender": [
+            "2.16"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: configurable task overviews for operational roles.",
             "progress": "Partly supported: configurable task overviews for operational roles works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -213,10 +285,15 @@
         },
         {
           "id": "gp-responsible-ai",
-          "title": "Responsible AI-assisted enrichment and discovery",
-          "text": "The solution supports responsible, transparent AI-assisted metadata enrichment and semantic discovery, with human control over what is accepted. Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "2.17, 2.18 Responsible AI-assisted enrichment and discovery",
+          "text": "The solution supports responsible, transparent AI-assisted metadata enrichment and semantic discovery, with human control over what is accepted. Tender requirements 2.17, 2.18: Should have, 6 points (0.60% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 6,
+          "tender": [
+            "2.17",
+            "2.18"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: AI-assisted enrichment and semantic discovery under human control.",
             "progress": "Partly supported: AI-assisted enrichment and semantic discovery under human control works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -227,15 +304,18 @@
       ]
     },
     {
-      "section": "Research information management",
+      "section": "3. Research information management",
       "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
       "principles": [
         {
           "id": "rim-linking",
-          "title": "Linking related entities",
-          "text": "The solution supports linking between related scholarly entities such as publications, datasets, software, projects and activities. Priority: Must (knock-out requirement).",
+          "title": "3.2 Linking related entities",
+          "text": "The solution supports linking between related scholarly entities such as publications, datasets, software, projects and activities. Tender requirement 3.2: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "3.2"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: typed relations between all scholarly entities.",
             "progress": "Partly supported: typed relations between all scholarly entities works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -245,10 +325,14 @@
         },
         {
           "id": "rim-configurable-metadata",
-          "title": "Configurable fields, classifications and keyword schemes",
-          "text": "The solution supports configurable metadata fields, custom classifications and multiple institution-specific keyword schemes (for example institutional, discipline-specific, national-evaluation and open access keywords) alongside controlled vocabularies. Priority: Must (knock-out requirement).",
+          "title": "3.3, 3.4 Configurable fields, classifications and keyword schemes",
+          "text": "The solution supports configurable metadata fields, custom classifications and multiple institution-specific keyword schemes (for example institutional, discipline-specific, national-evaluation and open access keywords) alongside controlled vocabularies. Tender requirements 3.3, 3.4: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "3.3",
+            "3.4"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: configurable fields, custom classifications and multiple keyword schemes.",
             "progress": "Partly supported: configurable fields, custom classifications and multiple keyword schemes works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -258,10 +342,14 @@
         },
         {
           "id": "rim-deduplication",
-          "title": "Duplicate detection and merging",
-          "text": "The solution detects duplicate records and entities using DOI, ORCID, title matching and person and organisation names and identifiers, and supports merging and resolution workflows for duplicates. Priority: Must (knock-out requirement).",
+          "title": "3.5, 3.6 Duplicate detection and merging",
+          "text": "The solution detects duplicate records and entities using DOI, ORCID, title matching and person and organisation names and identifiers, and supports merging and resolution workflows for duplicates. Tender requirements 3.5, 3.6: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "3.5",
+            "3.6"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: duplicate detection on identifiers and names, plus merge workflows.",
             "progress": "Partly supported: duplicate detection on identifiers and names, plus merge workflows works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -271,10 +359,13 @@
         },
         {
           "id": "rim-export-formats",
-          "title": "Export in multiple formats",
-          "text": "The solution exports records and reports in multiple formats, including PDF, spreadsheet and bibliographic exchange formats. Priority: Must (knock-out requirement).",
+          "title": "3.7 Export in multiple formats",
+          "text": "The solution exports records and reports in multiple formats, including PDF, spreadsheet and bibliographic exchange formats. Tender requirement 3.7: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "3.7"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: export to PDF, spreadsheet and bibliographic exchange formats.",
             "progress": "Partly supported: export to PDF, spreadsheet and bibliographic exchange formats works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -284,10 +375,15 @@
         },
         {
           "id": "rim-status-display",
-          "title": "Visible workflow, visibility and publication status",
-          "text": "The solution displays the workflow status, visibility status and publication status of records, and lets authorised users change the workflow status. Priority: Must (knock-out requirement).",
+          "title": "3.8, 3.9 Visible workflow, visibility and publication status",
+          "text": "The solution displays the workflow status, visibility status and publication status of records, and lets authorised users change the workflow status. Tender requirements 3.8, 3.9: Must have (knock-out), plus 7 points (0.70% of total).",
           "priority": "must",
           "knockOut": true,
+          "points": 7,
+          "tender": [
+            "3.8",
+            "3.9"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: visible and editable record statuses.",
             "progress": "Partly supported: visible and editable record statuses works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -297,10 +393,16 @@
         },
         {
           "id": "rim-affiliations",
-          "title": "Multiple affiliations per output",
-          "text": "The solution allows multiple affiliations per output, both through persons and directly through organisations, and lets users select, add and remove internal and external affiliations within a record. Priority: Must (knock-out requirement).",
+          "title": "3.10–3.12 Multiple affiliations per output",
+          "text": "The solution allows multiple affiliations per output, both through persons and directly through organisations, and lets users select, add and remove internal and external affiliations within a record. Tender requirements 3.10–3.12: Must have (knock-out), plus 22 points (2.20% of total).",
           "priority": "must",
           "knockOut": true,
+          "points": 22,
+          "tender": [
+            "3.10",
+            "3.11",
+            "3.12"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: multiple internal and external affiliations per author and per output.",
             "progress": "Partly supported: multiple internal and external affiliations per author and per output works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -310,10 +412,13 @@
         },
         {
           "id": "rim-output-templates",
-          "title": "Minimum fields per output type",
-          "text": "Each output type template contains at least type, year or date, title, subtitle, authors, corresponding author and multiple affiliations per author. Output types for publications also contain publication status. Priority: Must (knock-out requirement).",
+          "title": "3.14 Minimum fields per output type",
+          "text": "Each output type template contains at least type, year or date, title, subtitle, authors, corresponding author and multiple affiliations per author. Output types for publications also contain publication status. Tender requirement 3.14: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "3.14"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: the minimum field set on every output type.",
             "progress": "Partly supported: the minimum field set on every output type works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -323,10 +428,13 @@
         },
         {
           "id": "rim-audience",
-          "title": "Audience for national evaluation",
-          "text": "The solution offers a choice of audience for national evaluation purposes (for example academic, professional, popular). Priority: Must (knock-out requirement).",
+          "title": "3.13 Audience for national evaluation",
+          "text": "The solution offers a choice of audience for national evaluation purposes (for example academic, professional, popular). Tender requirement 3.13: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "3.13"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: an audience field suitable for national evaluation.",
             "progress": "Partly supported: an audience field suitable for national evaluation works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -336,10 +444,14 @@
         },
         {
           "id": "rim-national-mapping",
-          "title": "National evaluation mappings",
-          "text": "The solution supports the national categorisations used for research evaluation and output registration (in the Netherlands: the KUOZ definitions and the SEP protocol) for publications and activities. Priority: Should (heavily weighted).",
+          "title": "3.25 National evaluation mappings",
+          "text": "The solution supports the national categorisations used for research evaluation and output registration (in the Netherlands: the KUOZ definitions and the SEP protocol) for publications and activities. Tender requirement 3.25: Should have, 7 points (0.70% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 7,
+          "tender": [
+            "3.25"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: mapping of outputs and activities to national evaluation categories.",
             "progress": "Partly supported: mapping of outputs and activities to national evaluation categories works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -349,10 +461,13 @@
         },
         {
           "id": "rim-venues",
-          "title": "Journals, series, publishers and events",
-          "text": "The solution stores and manages publication series, journals, publishers and scholarly events as entities. Priority: Must (knock-out requirement).",
+          "title": "3.15 Journals, series, publishers and events",
+          "text": "The solution stores and manages publication series, journals, publishers and scholarly events as entities. Tender requirement 3.15: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "3.15"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: journals, series, publishers and events as managed entities.",
             "progress": "Partly supported: journals, series, publishers and events as managed entities works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -362,10 +477,14 @@
         },
         {
           "id": "rim-supervision",
-          "title": "Supervision relationships",
-          "text": "The solution supports supervision relationships between persons and publications or activities (for example PhD supervision). Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "3.16 Supervision relationships",
+          "text": "The solution supports supervision relationships between persons and publications or activities (for example PhD supervision). Tender requirement 3.16: Should have, 3 points (0.30% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 3,
+          "tender": [
+            "3.16"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: supervision relationships.",
             "progress": "Partly supported: supervision relationships works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -375,10 +494,14 @@
         },
         {
           "id": "rim-notes",
-          "title": "Bibliographic notes and editorial comments",
-          "text": "The solution stores bibliographic notes and editorial comments on records. Priority: Should (heavily weighted).",
+          "title": "3.17 Bibliographic notes and editorial comments",
+          "text": "The solution stores bibliographic notes and editorial comments on records. Tender requirement 3.17: Should have, 7 points (0.70% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 7,
+          "tender": [
+            "3.17"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: notes and editorial comments on records.",
             "progress": "Partly supported: notes and editorial comments on records works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -388,10 +511,14 @@
         },
         {
           "id": "rim-licences",
-          "title": "Predefined licence schemes",
-          "text": "The solution supports predefined licence schemes (for example Creative Commons) on outputs and files. Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "3.18 Predefined licence schemes",
+          "text": "The solution supports predefined licence schemes (for example Creative Commons) on outputs and files. Tender requirement 3.18: Should have, 3 points (0.30% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 3,
+          "tender": [
+            "3.18"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: predefined licence schemes.",
             "progress": "Partly supported: predefined licence schemes works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -401,10 +528,14 @@
         },
         {
           "id": "rim-pid-minting",
-          "title": "Persistent identifier minting",
-          "text": "The solution supports persistent identifier minting workflows, such as DOI registration integrations. Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "3.19 Persistent identifier minting",
+          "text": "The solution supports persistent identifier minting workflows, such as DOI registration integrations. Tender requirement 3.19: Should have, 3 points (0.30% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 3,
+          "tender": [
+            "3.19"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: PID minting workflows such as DOI registration.",
             "progress": "Partly supported: PID minting workflows such as DOI registration works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -414,10 +545,16 @@
         },
         {
           "id": "rim-collaboration",
-          "title": "Collaborations, author groups and roles",
-          "text": "The solution supports collaboration and co-authorship structures, adding author collaborations or groups to a record, and assigning specific roles to a person within a record (author, editor, speaker, organiser, attendee). Priority: Should (heavily weighted).",
+          "title": "3.20, 8.13, 8.14 Collaborations, author groups and roles",
+          "text": "The solution supports collaboration and co-authorship structures, adding author collaborations or groups to a record, and assigning specific roles to a person within a record (author, editor, speaker, organiser, attendee). Tender requirements 3.20, 8.13, 8.14: Should have, 21 points (2.10% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 21,
+          "tender": [
+            "3.20",
+            "8.13",
+            "8.14"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: collaborations, author groups and person roles within records.",
             "progress": "Partly supported: collaborations, author groups and person roles within records works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -427,10 +564,14 @@
         },
         {
           "id": "rim-quality-checks",
-          "title": "Metadata completeness and quality checks",
-          "text": "The solution supports configurable metadata completeness and quality checks. Priority: Should (heavily weighted).",
+          "title": "3.21 Metadata completeness and quality checks",
+          "text": "The solution supports configurable metadata completeness and quality checks. Tender requirement 3.21: Should have, 7 points (0.70% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 7,
+          "tender": [
+            "3.21"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: configurable completeness and quality checks.",
             "progress": "Partly supported: configurable completeness and quality checks works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -440,10 +581,14 @@
         },
         {
           "id": "rim-export-templates",
-          "title": "Role-based export templates",
-          "text": "The solution supports role-based, configurable export templates and field selections (which columns are exported, and for whom). Priority: Should (heavily weighted).",
+          "title": "3.22 Role-based export templates",
+          "text": "The solution supports role-based, configurable export templates and field selections (which columns are exported, and for whom). Tender requirement 3.22: Should have, 7 points (0.70% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 7,
+          "tender": [
+            "3.22"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: role-based export templates and field selection.",
             "progress": "Partly supported: role-based export templates and field selection works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -453,10 +598,14 @@
         },
         {
           "id": "rim-saved-filters",
-          "title": "Saved search filters",
-          "text": "The solution supports saving and reusing custom search filters. Priority: Should (heavily weighted).",
+          "title": "3.23 Saved search filters",
+          "text": "The solution supports saving and reusing custom search filters. Tender requirement 3.23: Should have, 7 points (0.70% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 7,
+          "tender": [
+            "3.23"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: saving and reusing search filters.",
             "progress": "Partly supported: saving and reusing search filters works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -466,10 +615,14 @@
         },
         {
           "id": "rim-cover-pages",
-          "title": "Document augmentation for uploaded PDFs",
-          "text": "The solution supports cover page generation or configurable document augmentation workflows for uploaded PDF files. Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "3.24 Document augmentation for uploaded PDFs",
+          "text": "The solution supports cover page generation or configurable document augmentation workflows for uploaded PDF files. Tender requirement 3.24: Should have, 1 points (0.10% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 1,
+          "tender": [
+            "3.24"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: cover page generation or PDF augmentation.",
             "progress": "Partly supported: cover page generation or PDF augmentation works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -479,10 +632,14 @@
         },
         {
           "id": "rim-change-history",
-          "title": "Record-level change history",
-          "text": "The solution shows the change history (user, modified fields, modification date) at record level, at least for everyone with a validator role. Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "3.27 Record-level change history",
+          "text": "The solution shows the change history (user, modified fields, modification date) at record level, at least for everyone with a validator role. Tender requirement 3.27: Should have, 3 points (0.30% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 3,
+          "tender": [
+            "3.27"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: record-level change history for validators.",
             "progress": "Partly supported: record-level change history for validators works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -492,10 +649,14 @@
         },
         {
           "id": "rim-file-import",
-          "title": "User-friendly bibliographic file import",
-          "text": "Users can upload and process BibTeX, CERIF XML or RIS files in a user-friendly, intuitive way. Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "3.28 User-friendly bibliographic file import",
+          "text": "Users can upload and process BibTeX, CERIF XML or RIS files in a user-friendly, intuitive way. Tender requirement 3.28: Should have, 3 points (0.30% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 3,
+          "tender": [
+            "3.28"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: intuitive import of BibTeX, CERIF XML and RIS files.",
             "progress": "Partly supported: intuitive import of BibTeX, CERIF XML and RIS files works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -505,10 +666,14 @@
         },
         {
           "id": "rim-manual-entry",
-          "title": "User-friendly manual entry",
-          "text": "The solution provides a user-friendly, intuitive interface for manually adding content records, for example a book chapter or a conference contribution. Priority: Should (heavily weighted).",
+          "title": "3.29 User-friendly manual entry",
+          "text": "The solution provides a user-friendly, intuitive interface for manually adding content records, for example a book chapter or a conference contribution. Tender requirement 3.29: Should have, 10 points (1.00% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 10,
+          "tender": [
+            "3.29"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: intuitive manual entry of records.",
             "progress": "Partly supported: intuitive manual entry of records works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -518,10 +683,14 @@
         },
         {
           "id": "rim-teaching-material",
-          "title": "Teaching material classification",
-          "text": "The solution can classify research output as teaching material and show this on the public portal. Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "8.15 Teaching material classification",
+          "text": "The solution can classify research output as teaching material and show this on the public portal. Tender requirement 8.15: Should have, 1 points (0.10% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 1,
+          "tender": [
+            "8.15"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: classification of outputs as teaching material, visible on the portal.",
             "progress": "Partly supported: classification of outputs as teaching material, visible on the portal works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -532,15 +701,20 @@
       ]
     },
     {
-      "section": "Persons and organisations",
+      "section": "4–7. Persons and organisations",
       "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
       "principles": [
         {
           "id": "po-hr-sync",
-          "title": "Automated HR synchronisation",
-          "text": "The solution synchronises HR data (persons, organisations and organisational hierarchies) from the institutional source systems or middleware through an API, database connection or structured exchange file (XML or JSON), on a schedule and automatically, and stores and maintains the source-system identifiers. Priority: Must (knock-out requirement).",
+          "title": "4.1–4.3 Automated HR synchronisation",
+          "text": "The solution synchronises HR data (persons, organisations and organisational hierarchies) from the institutional source systems or middleware through an API, database connection or structured exchange file (XML or JSON), on a schedule and automatically, and stores and maintains the source-system identifiers. Tender requirements 4.1–4.3: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "4.1",
+            "4.2",
+            "4.3"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: scheduled, automated HR synchronisation that keeps source-system identifiers.",
             "progress": "Partly supported: scheduled, automated HR synchronisation that keeps source-system identifiers works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -550,10 +724,14 @@
         },
         {
           "id": "po-orphans",
-          "title": "Detecting orphaned entities",
-          "text": "The solution helps identify potentially unused or orphaned person and organisation entities. Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "4.4 Detecting orphaned entities",
+          "text": "The solution helps identify potentially unused or orphaned person and organisation entities. Tender requirement 4.4: Should have, 3 points (0.30% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 3,
+          "tender": [
+            "4.4"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: detection of unused or orphaned persons and organisations.",
             "progress": "Partly supported: detection of unused or orphaned persons and organisations works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -563,10 +741,15 @@
         },
         {
           "id": "po-internal-reporting",
-          "title": "Reporting on internal persons and organisations",
-          "text": "The solution supports filtering (on period, type, visibility and more), reporting and configurable export (PDF, spreadsheet) of internal persons and organisations. Priority: Should (heavily weighted).",
+          "title": "4.5, 4.6 Reporting on internal persons and organisations",
+          "text": "The solution supports filtering (on period, type, visibility and more), reporting and configurable export (PDF, spreadsheet) of internal persons and organisations. Tender requirements 4.5, 4.6: Should have, 14 points (1.40% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 14,
+          "tender": [
+            "4.5",
+            "4.6"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: filtering, reporting and export of internal persons and organisations.",
             "progress": "Partly supported: filtering, reporting and export of internal persons and organisations works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -576,10 +759,13 @@
         },
         {
           "id": "po-org-history",
-          "title": "Current and historical organisations",
-          "text": "The solution stores current and historical organisational names and structures. Priority: Must (knock-out requirement).",
+          "title": "5.1 Current and historical organisations",
+          "text": "The solution stores current and historical organisational names and structures. Tender requirement 5.1: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "5.1"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: current and historical organisation names and structures.",
             "progress": "Partly supported: current and historical organisation names and structures works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -589,10 +775,13 @@
         },
         {
           "id": "po-multi-hierarchy",
-          "title": "Multiple concurrent hierarchies",
-          "text": "The solution supports multiple concurrent organisational hierarchies of arbitrary depth (for example faculties, research institutes and affiliated hospital departments side by side). Priority: Must (knock-out requirement).",
+          "title": "5.2 Multiple concurrent hierarchies",
+          "text": "The solution supports multiple concurrent organisational hierarchies of arbitrary depth (for example faculties, research institutes and affiliated hospital departments side by side). Tender requirement 5.2: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "5.2"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: multiple concurrent hierarchies of arbitrary depth.",
             "progress": "Partly supported: multiple concurrent hierarchies of arbitrary depth works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -602,10 +791,14 @@
         },
         {
           "id": "po-hierarchy-visualisation",
-          "title": "Hierarchy visualisation",
-          "text": "The solution can visualise organisational hierarchies. Priority: Should (heavily weighted).",
+          "title": "5.3 Hierarchy visualisation",
+          "text": "The solution can visualise organisational hierarchies. Tender requirement 5.3: Should have, 7 points (0.70% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 7,
+          "tender": [
+            "5.3"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: visualisation of organisational hierarchies.",
             "progress": "Partly supported: visualisation of organisational hierarchies works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -615,10 +808,14 @@
         },
         {
           "id": "po-org-identifiers",
-          "title": "Organisation identifiers",
-          "text": "The solution stores identifiers for organisational units, such as ROR and Ringgold. Priority: Should (heavily weighted).",
+          "title": "5.4 Organisation identifiers",
+          "text": "The solution stores identifiers for organisational units, such as ROR and Ringgold. Tender requirement 5.4: Should have, 7 points (0.70% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 7,
+          "tender": [
+            "5.4"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: ROR, Ringgold and other organisation identifiers.",
             "progress": "Partly supported: ROR, Ringgold and other organisation identifiers works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -628,10 +825,14 @@
         },
         {
           "id": "po-org-profiles",
-          "title": "Organisation profiles",
-          "text": "Key users can create, edit and maintain organisation profiles. Priority: Should (heavily weighted).",
+          "title": "5.5 Organisation profiles",
+          "text": "Key users can create, edit and maintain organisation profiles. Tender requirement 5.5: Should have, 10 points (1.00% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 10,
+          "tender": [
+            "5.5"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: key-user maintained organisation profiles.",
             "progress": "Partly supported: key-user maintained organisation profiles works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -641,10 +842,14 @@
         },
         {
           "id": "po-person-affiliations",
-          "title": "Persons and their affiliations",
-          "text": "The solution stores current and former internal persons with all their current and former affiliations, including multiple affiliations per person across any organisational hierarchy. Priority: Must (knock-out requirement).",
+          "title": "6.1, 6.2 Persons and their affiliations",
+          "text": "The solution stores current and former internal persons with all their current and former affiliations, including multiple affiliations per person across any organisational hierarchy. Tender requirements 6.1, 6.2: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "6.1",
+            "6.2"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: current and former persons with multiple current and former affiliations.",
             "progress": "Partly supported: current and former persons with multiple current and former affiliations works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -654,10 +859,14 @@
         },
         {
           "id": "po-person-identifiers",
-          "title": "Person identifiers and name variants",
-          "text": "The solution supports multiple persistent identifiers per person, including ORCID, ISNI, the Dutch DAI and future schemes, and multiple name variants and aliases per person. Priority: Must (knock-out requirement).",
+          "title": "6.3, 6.4 Person identifiers and name variants",
+          "text": "The solution supports multiple persistent identifiers per person, including ORCID, ISNI, the Dutch DAI and future schemes, and multiple name variants and aliases per person. Tender requirements 6.3, 6.4: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "6.3",
+            "6.4"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: multiple person identifiers and name variants.",
             "progress": "Partly supported: multiple person identifiers and name variants works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -667,10 +876,13 @@
         },
         {
           "id": "po-researcher-profiles",
-          "title": "Researcher-maintained profiles",
-          "text": "Researchers can create, edit and maintain their own personal and professional profiles. Priority: Must (knock-out requirement).",
+          "title": "6.5 Researcher-maintained profiles",
+          "text": "Researchers can create, edit and maintain their own personal and professional profiles. Tender requirement 6.5: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "6.5"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: researcher-maintained profiles.",
             "progress": "Partly supported: researcher-maintained profiles works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -680,10 +892,14 @@
         },
         {
           "id": "po-staff-classification",
-          "title": "Staff classifications per affiliation",
-          "text": "The solution stores staff classifications, employment types, job titles and FTE values per internal affiliation. Priority: Should (heavily weighted).",
+          "title": "6.6 Staff classifications per affiliation",
+          "text": "The solution stores staff classifications, employment types, job titles and FTE values per internal affiliation. Tender requirement 6.6: Should have, 7 points (0.70% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 7,
+          "tender": [
+            "6.6"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: staff type, employment type, job title and FTE per affiliation.",
             "progress": "Partly supported: staff type, employment type, job title and FTE per affiliation works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -693,10 +909,14 @@
         },
         {
           "id": "po-profile-links",
-          "title": "External profile links",
-          "text": "The solution supports configurable external profile links for persons (institutional homepage, LinkedIn, ResearchGate, ORCID and more). Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "6.7 External profile links",
+          "text": "The solution supports configurable external profile links for persons (institutional homepage, LinkedIn, ResearchGate, ORCID and more). Tender requirement 6.7: Should have, 3 points (0.30% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 3,
+          "tender": [
+            "6.7"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: configurable external profile links.",
             "progress": "Partly supported: configurable external profile links works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -706,10 +926,14 @@
         },
         {
           "id": "po-expertise",
-          "title": "Keywords and expertise",
-          "text": "The solution stores and manages keywords and areas of expertise per person. Priority: Should (heavily weighted).",
+          "title": "6.8 Keywords and expertise",
+          "text": "The solution stores and manages keywords and areas of expertise per person. Tender requirement 6.8: Should have, 7 points (0.70% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 7,
+          "tender": [
+            "6.8"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: keywords and expertise per person.",
             "progress": "Partly supported: keywords and expertise per person works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -719,10 +943,16 @@
         },
         {
           "id": "po-external-entities",
-          "title": "External persons and organisations",
-          "text": "The solution manages external persons and external organisations, each with an internal identifier, and supports filtering, reporting and exporting them. Priority: Must (knock-out requirement).",
+          "title": "7.1–7.3 External persons and organisations",
+          "text": "The solution manages external persons and external organisations, each with an internal identifier, and supports filtering, reporting and exporting them. Tender requirements 7.1–7.3: Must have (knock-out), plus 7 points (0.70% of total).",
           "priority": "must",
           "knockOut": true,
+          "points": 7,
+          "tender": [
+            "7.1",
+            "7.2",
+            "7.3"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: external persons and organisations with internal identifiers, reporting and export.",
             "progress": "Partly supported: external persons and organisations with internal identifiers, reporting and export works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -733,15 +963,18 @@
       ]
     },
     {
-      "section": "Scholarly metadata and enrichment",
+      "section": "8. Scholarly metadata and enrichment",
       "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
       "principles": [
         {
           "id": "sm-import",
-          "title": "Importing from scholarly sources",
-          "text": "The solution supports configurable manual and automated metadata import from external scholarly data sources (for example OpenAlex, Crossref, DataCite, PubMed, Scopus, Web of Science). Priority: Must (knock-out requirement).",
+          "title": "8.1 Importing from scholarly sources",
+          "text": "The solution supports configurable manual and automated metadata import from external scholarly data sources (for example OpenAlex, Crossref, DataCite, PubMed, Scopus, Web of Science). Tender requirement 8.1: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "8.1"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: configurable manual and automated import from external scholarly sources.",
             "progress": "Partly supported: configurable manual and automated import from external scholarly sources works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -751,10 +984,18 @@
         },
         {
           "id": "sm-provider-integrations",
-          "title": "Provider integrations for manual addition",
-          "text": "The solution integrates with scholarly metadata providers for manually adding outputs, datasets and software, with each provider and integration switchable on or off institution-wide. The supplier gives an overview of current and planned providers with expected dates. Priority: Must (knock-out requirement).",
+          "title": "8.2–8.4, 8.8, 8.9 Provider integrations for manual addition",
+          "text": "The solution integrates with scholarly metadata providers for manually adding outputs, datasets and software, with each provider and integration switchable on or off institution-wide. The supplier gives an overview of current and planned providers with expected dates. Tender requirements 8.2–8.4, 8.8, 8.9: Must have (knock-out), plus 17 points (1.70% of total).",
           "priority": "must",
           "knockOut": true,
+          "points": 17,
+          "tender": [
+            "8.2",
+            "8.3",
+            "8.4",
+            "8.8",
+            "8.9"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: provider lookups for outputs, datasets and software, each switchable per institution.",
             "progress": "Partly supported: provider lookups for outputs, datasets and software, each switchable per institution works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -764,10 +1005,13 @@
         },
         {
           "id": "sm-provenance",
-          "title": "Provenance of imported metadata",
-          "text": "The solution keeps provenance information for imported metadata, including source identifiers. Priority: Must (knock-out requirement).",
+          "title": "8.5 Provenance of imported metadata",
+          "text": "The solution keeps provenance information for imported metadata, including source identifiers. Tender requirement 8.5: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "8.5"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: provenance and source identifiers for imported metadata.",
             "progress": "Partly supported: provenance and source identifiers for imported metadata works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -777,10 +1021,13 @@
         },
         {
           "id": "sm-orcid-sync",
-          "title": "ORCID synchronisation",
-          "text": "The solution synchronises with ORCID, approved and authorised by the researcher. Priority: Must (knock-out requirement).",
+          "title": "8.6 ORCID synchronisation",
+          "text": "The solution synchronises with ORCID, approved and authorised by the researcher. Tender requirement 8.6: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "8.6"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: researcher-authorised ORCID synchronisation.",
             "progress": "Partly supported: researcher-authorised ORCID synchronisation works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -790,10 +1037,14 @@
         },
         {
           "id": "sm-enrichment-suggestions",
-          "title": "Enrichment and correction suggestions",
-          "text": "The solution suggests metadata enrichment and corrections based on external sources. Priority: Should (heavily weighted).",
+          "title": "8.7 Enrichment and correction suggestions",
+          "text": "The solution suggests metadata enrichment and corrections based on external sources. Tender requirement 8.7: Should have, 7 points (0.70% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 7,
+          "tender": [
+            "8.7"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: enrichment and correction suggestions from external sources.",
             "progress": "Partly supported: enrichment and correction suggestions from external sources works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -803,10 +1054,14 @@
         },
         {
           "id": "sm-venue-export",
-          "title": "Filtering and exporting venues",
-          "text": "The solution supports filtering and exporting journals, publishers and scholarly events. Priority: Should (heavily weighted).",
+          "title": "8.10 Filtering and exporting venues",
+          "text": "The solution supports filtering and exporting journals, publishers and scholarly events. Tender requirement 8.10: Should have, 7 points (0.70% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 7,
+          "tender": [
+            "8.10"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: filtering and export of journals, publishers and events.",
             "progress": "Partly supported: filtering and export of journals, publishers and events works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -816,10 +1071,14 @@
         },
         {
           "id": "sm-classification-schemes",
-          "title": "Scholarly classification schemes",
-          "text": "The solution supports configurable scholarly classification schemes and institutional taxonomies. Priority: Should (heavily weighted).",
+          "title": "8.11 Scholarly classification schemes",
+          "text": "The solution supports configurable scholarly classification schemes and institutional taxonomies. Tender requirement 8.11: Should have, 10 points (1.00% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 10,
+          "tender": [
+            "8.11"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: configurable classification schemes and taxonomies.",
             "progress": "Partly supported: configurable classification schemes and taxonomies works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -829,10 +1088,14 @@
         },
         {
           "id": "sm-bulk-edit",
-          "title": "Bulk editing and workflow operations",
-          "text": "The solution supports bulk metadata editing and deletion, and bulk workflow operations. Priority: Should (heavily weighted).",
+          "title": "8.12 Bulk editing and workflow operations",
+          "text": "The solution supports bulk metadata editing and deletion, and bulk workflow operations. Tender requirement 8.12: Should have, 10 points (1.00% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 10,
+          "tender": [
+            "8.12"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: bulk editing, deletion and workflow changes.",
             "progress": "Partly supported: bulk editing, deletion and workflow changes works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -843,15 +1106,18 @@
       ]
     },
     {
-      "section": "APIs and interoperability",
+      "section": "9. APIs and interoperability",
       "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
       "principles": [
         {
           "id": "api-bulk",
-          "title": "Bulk exchange through APIs",
-          "text": "The solution supports bulk import and export through APIs and/or structured data ingestion workflows. Priority: Must (knock-out requirement).",
+          "title": "9.1 Bulk exchange through APIs",
+          "text": "The solution supports bulk import and export through APIs and/or structured data ingestion workflows. Tender requirement 9.1: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "9.1"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: bulk import and export through APIs or ingestion workflows.",
             "progress": "Partly supported: bulk import and export through APIs or ingestion workflows works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -861,10 +1127,13 @@
         },
         {
           "id": "api-admin-read",
-          "title": "Administrative read access to all data",
-          "text": "Administrative API roles can read all metadata and entities, including non-public and non-validated content. Priority: Must (knock-out requirement).",
+          "title": "9.2 Administrative read access to all data",
+          "text": "Administrative API roles can read all metadata and entities, including non-public and non-validated content. Tender requirement 9.2: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "9.2"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: administrative API access to all content, including non-public records.",
             "progress": "Partly supported: administrative API access to all content, including non-public records works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -874,10 +1143,15 @@
         },
         {
           "id": "api-oai-pmh",
-          "title": "OAI-PMH and OpenAIRE harvesting",
-          "text": "The solution offers OAI-PMH interfaces with configurable harvesting, and allows harvesting by OpenAIRE by default or through configuration. Priority: Must (knock-out requirement).",
+          "title": "9.3, 13.1 OAI-PMH and OpenAIRE harvesting",
+          "text": "The solution offers OAI-PMH interfaces with configurable harvesting, and allows harvesting by OpenAIRE by default or through configuration. Tender requirements 9.3, 13.1: Must have (knock-out), plus 3 points (0.30% of total).",
           "priority": "must",
           "knockOut": true,
+          "points": 3,
+          "tender": [
+            "9.3",
+            "13.1"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: configurable OAI-PMH endpoints that OpenAIRE can harvest.",
             "progress": "Partly supported: configurable OAI-PMH endpoints that OpenAIRE can harvest works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -887,10 +1161,13 @@
         },
         {
           "id": "api-open-standards",
-          "title": "Open scholarly standards",
-          "text": "The solution is interoperable through open standards, including CERIF in the OpenAIRE-compliant profile and related scholarly communication standards. Priority: Must (knock-out requirement).",
+          "title": "9.4 Open scholarly standards",
+          "text": "The solution is interoperable through open standards, including CERIF in the OpenAIRE-compliant profile and related scholarly communication standards. Tender requirement 9.4: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "9.4"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: CERIF (OpenAIRE guidelines for CRIS managers) and related open standards.",
             "progress": "Partly supported: CERIF (OpenAIRE guidelines for CRIS managers) and related open standards works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -900,10 +1177,14 @@
         },
         {
           "id": "api-citations",
-          "title": "Rendered citations through the API",
-          "text": "The solution delivers rendered citations (for example APA) through its APIs, ideally with configurable citation styles. Priority: Should (heavily weighted).",
+          "title": "9.5 Rendered citations through the API",
+          "text": "The solution delivers rendered citations (for example APA) through its APIs, ideally with configurable citation styles. Tender requirement 9.5: Should have, 10 points (1.00% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 10,
+          "tender": [
+            "9.5"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: rendered citations with configurable styles through the API.",
             "progress": "Partly supported: rendered citations with configurable styles through the API works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -913,10 +1194,14 @@
         },
         {
           "id": "api-crud",
-          "title": "Documented read and write API",
-          "text": "The solution provides a standards-compliant API for reading and writing data (create, read, update, delete) with documented schemas and validation. Priority: Must (knock-out requirement).",
+          "title": "15.3, 15.6 Documented read and write API",
+          "text": "The solution provides a standards-compliant API for reading and writing data (create, read, update, delete) with documented schemas and validation. Tender requirements 15.3, 15.6: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "15.3",
+            "15.6"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: a documented CRUD API with schemas and validation.",
             "progress": "Partly supported: a documented CRUD API with schemas and validation works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -926,10 +1211,15 @@
         },
         {
           "id": "api-security",
-          "title": "API authentication and authorisation",
-          "text": "API access is authenticated with configurable credentials, keys or tokens, and API authorisation, including CRUD rights, is configurable per role. Priority: Must (knock-out requirement).",
+          "title": "15.4, 15.5, 15.11 API authentication and authorisation",
+          "text": "API access is authenticated with configurable credentials, keys or tokens, and API authorisation, including CRUD rights, is configurable per role. Tender requirements 15.4, 15.5, 15.11: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "15.4",
+            "15.5",
+            "15.11"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: authenticated API access with role-based CRUD rights.",
             "progress": "Partly supported: authenticated API access with role-based CRUD rights works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -939,10 +1229,14 @@
         },
         {
           "id": "api-documentation",
-          "title": "Comprehensive API documentation",
-          "text": "The solution provides comprehensive API documentation. Priority: Should (heavily weighted).",
+          "title": "15.7 Comprehensive API documentation",
+          "text": "The solution provides comprehensive API documentation. Tender requirement 15.7: Should have, 7 points (0.70% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 7,
+          "tender": [
+            "15.7"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: comprehensive, public API documentation.",
             "progress": "Partly supported: comprehensive, public API documentation works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -952,10 +1246,15 @@
         },
         {
           "id": "api-monitoring",
-          "title": "API and job logging",
-          "text": "The solution supports event logging and monitoring of API usage and of system jobs. Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "15.8, 15.9 API and job logging",
+          "text": "The solution supports event logging and monitoring of API usage and of system jobs. Tender requirements 15.8, 15.9: Should have, 8 points (0.80% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 8,
+          "tender": [
+            "15.8",
+            "15.9"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: logging and monitoring of API usage and system jobs.",
             "progress": "Partly supported: logging and monitoring of API usage and system jobs works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -965,10 +1264,13 @@
         },
         {
           "id": "api-full-download",
-          "title": "Full data download without extra cost",
-          "text": "All entities, metadata fields, relations, workflow states and identifiers available in the user interface are also available through documented APIs, so that a full download of all records is possible without extra cost. Priority: Must (knock-out requirement).",
+          "title": "15.10 Full data download without extra cost",
+          "text": "All entities, metadata fields, relations, workflow states and identifiers available in the user interface are also available through documented APIs, so that a full download of all records is possible without extra cost. Tender requirement 15.10: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "15.10"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: complete API coverage allowing a full download at no extra cost.",
             "progress": "Partly supported: complete API coverage allowing a full download at no extra cost works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -978,10 +1280,14 @@
         },
         {
           "id": "api-release-policy",
-          "title": "Release notes and API stability",
-          "text": "Release notes are published at least two weeks before each major release, and API endpoint changes stay backward compatible for at least twelve months. Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "15.30 Release notes and API stability",
+          "text": "Release notes are published at least two weeks before each major release, and API endpoint changes stay backward compatible for at least twelve months. Tender requirement 15.30: Should have, 6 points (0.60% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 6,
+          "tender": [
+            "15.30"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: advance release notes and twelve months of API backward compatibility.",
             "progress": "Partly supported: advance release notes and twelve months of API backward compatibility works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -992,15 +1298,21 @@
       ]
     },
     {
-      "section": "Reporting and analytics",
+      "section": "10. Reporting and analytics",
       "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
       "principles": [
         {
           "id": "ra-configurable-reports",
-          "title": "Configurable reporting",
-          "text": "The solution provides configurable reporting across all major entities and metadata fields, can combine related entities and content types in one report, and lets role-based users choose the fields included. Priority: Must (knock-out requirement).",
+          "title": "10.1, 10.10, 10.12 Configurable reporting",
+          "text": "The solution provides configurable reporting across all major entities and metadata fields, can combine related entities and content types in one report, and lets role-based users choose the fields included. Tender requirements 10.1, 10.10, 10.12: Must have (knock-out), plus 6 points (0.60% of total).",
           "priority": "must",
           "knockOut": true,
+          "points": 6,
+          "tender": [
+            "10.1",
+            "10.10",
+            "10.12"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: configurable, cross-entity reports with field selection.",
             "progress": "Partly supported: configurable, cross-entity reports with field selection works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1010,10 +1322,16 @@
         },
         {
           "id": "ra-aggregation",
-          "title": "Filtering and aggregation",
-          "text": "The solution supports advanced filtering and aggregation (sum, maximum, minimum, count), including selecting or excluding empty (NULL) values. Priority: Must (knock-out requirement).",
+          "title": "10.2, 10.3, 10.8 Filtering and aggregation",
+          "text": "The solution supports advanced filtering and aggregation (sum, maximum, minimum, count), including selecting or excluding empty (NULL) values. Tender requirements 10.2, 10.3, 10.8: Must have (knock-out), plus 10 points (1.00% of total).",
           "priority": "must",
           "knockOut": true,
+          "points": 10,
+          "tender": [
+            "10.2",
+            "10.3",
+            "10.8"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: advanced filtering and aggregation, including NULL handling.",
             "progress": "Partly supported: advanced filtering and aggregation, including NULL handling works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1023,10 +1341,13 @@
         },
         {
           "id": "ra-export",
-          "title": "Report export",
-          "text": "Reports can be exported in spreadsheet and machine-readable formats. Priority: Must (knock-out requirement).",
+          "title": "10.4 Report export",
+          "text": "Reports can be exported in spreadsheet and machine-readable formats. Tender requirement 10.4: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "10.4"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: export of reports to spreadsheet and machine-readable formats.",
             "progress": "Partly supported: export of reports to spreadsheet and machine-readable formats works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1036,10 +1357,13 @@
         },
         {
           "id": "ra-saved-reports",
-          "title": "Saved report definitions",
-          "text": "The solution supports saving and reusing custom report definitions. Priority: Must (knock-out requirement).",
+          "title": "10.13 Saved report definitions",
+          "text": "The solution supports saving and reusing custom report definitions. Tender requirement 10.13: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "10.13"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: saving and reusing report definitions.",
             "progress": "Partly supported: saving and reusing report definitions works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1049,10 +1373,14 @@
         },
         {
           "id": "ra-dashboards",
-          "title": "Dashboards and drill-down",
-          "text": "The solution offers dashboards and visualisations across major entities and metrics, with up-to-date data and drill-down to underlying records. Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "10.5 Dashboards and drill-down",
+          "text": "The solution offers dashboards and visualisations across major entities and metrics, with up-to-date data and drill-down to underlying records. Tender requirement 10.5: Should have, 3 points (0.30% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 3,
+          "tender": [
+            "10.5"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: dashboards with current data and drill-down.",
             "progress": "Partly supported: dashboards with current data and drill-down works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1062,10 +1390,14 @@
         },
         {
           "id": "ra-usage-analytics",
-          "title": "Usage analytics",
-          "text": "The solution provides usage analytics for back-end and portal use. Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "10.6 Usage analytics",
+          "text": "The solution provides usage analytics for back-end and portal use. Tender requirement 10.6: Should have, 3 points (0.30% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 3,
+          "tender": [
+            "10.6"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: usage analytics for back end and portal.",
             "progress": "Partly supported: usage analytics for back end and portal works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1075,10 +1407,14 @@
         },
         {
           "id": "ra-scheduled-reports",
-          "title": "Scheduled reports",
-          "text": "The solution supports scheduled report generation and delivery. Priority: Should (heavily weighted).",
+          "title": "10.7 Scheduled reports",
+          "text": "The solution supports scheduled report generation and delivery. Tender requirement 10.7: Should have, 7 points (0.70% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 7,
+          "tender": [
+            "10.7"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: scheduled generation and delivery of reports.",
             "progress": "Partly supported: scheduled generation and delivery of reports works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1088,10 +1424,14 @@
         },
         {
           "id": "ra-citation-styles",
-          "title": "Reports in bibliographic styles",
-          "text": "Reports can be exported in bibliographic styles such as APA, Vancouver and BibTeX. Priority: Should (heavily weighted).",
+          "title": "10.9 Reports in bibliographic styles",
+          "text": "Reports can be exported in bibliographic styles such as APA, Vancouver and BibTeX. Tender requirement 10.9: Should have, 7 points (0.70% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 7,
+          "tender": [
+            "10.9"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: report export in bibliographic styles.",
             "progress": "Partly supported: report export in bibliographic styles works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1101,10 +1441,14 @@
         },
         {
           "id": "ra-org-filtering",
-          "title": "Filtering on organisational structure",
-          "text": "Reports can filter on the organisational structure, including or excluding underlying units within a hierarchy. Priority: Should (heavily weighted).",
+          "title": "10.11 Filtering on organisational structure",
+          "text": "Reports can filter on the organisational structure, including or excluding underlying units within a hierarchy. Tender requirement 10.11: Should have, 10 points (1.00% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 10,
+          "tender": [
+            "10.11"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: hierarchy-aware filtering with inclusion and exclusion of sub-units.",
             "progress": "Partly supported: hierarchy-aware filtering with inclusion and exclusion of sub-units works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1115,15 +1459,19 @@
       ]
     },
     {
-      "section": "Public portal and dissemination",
+      "section": "11. Public portal and dissemination",
       "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
       "principles": [
         {
           "id": "pt-public-portal",
-          "title": "Branded public research portal",
-          "text": "The solution provides a publicly accessible research portal with configurable institutional branding and styling. Priority: Must (knock-out requirement).",
+          "title": "11.1, 11.2 Branded public research portal",
+          "text": "The solution provides a publicly accessible research portal with configurable institutional branding and styling. Tender requirements 11.1, 11.2: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "11.1",
+            "11.2"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: a public portal with institutional branding.",
             "progress": "Partly supported: a public portal with institutional branding works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1133,10 +1481,17 @@
         },
         {
           "id": "pt-profiles",
-          "title": "Public researcher and organisation profiles",
-          "text": "The portal shows researcher profile pages (affiliations, biography, outputs) and organisation profile pages with all related persons, outputs and profile information, without limits on the number of persons or outputs shown. Priority: Must (knock-out requirement).",
+          "title": "11.3–11.5, 11.16 Public researcher and organisation profiles",
+          "text": "The portal shows researcher profile pages (affiliations, biography, outputs) and organisation profile pages with all related persons, outputs and profile information, without limits on the number of persons or outputs shown. Tender requirements 11.3–11.5, 11.16: Must have (knock-out), plus 21 points (2.10% of total).",
           "priority": "must",
           "knockOut": true,
+          "points": 21,
+          "tender": [
+            "11.3",
+            "11.4",
+            "11.5",
+            "11.16"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: public researcher and organisation profiles without size limits.",
             "progress": "Partly supported: public researcher and organisation profiles without size limits works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1146,10 +1501,13 @@
         },
         {
           "id": "pt-validated-only",
-          "title": "Only validated public content",
-          "text": "The portal shows only validated, published content that is set to public visibility. Priority: Must (knock-out requirement).",
+          "title": "11.6 Only validated public content",
+          "text": "The portal shows only validated, published content that is set to public visibility. Tender requirement 11.6: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "11.6"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: showing only validated, public content.",
             "progress": "Partly supported: showing only validated, public content works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1159,10 +1517,13 @@
         },
         {
           "id": "pt-no-record-limit",
-          "title": "No record limit",
-          "text": "The portal has no limit on the number of records presented. Priority: Must (knock-out requirement).",
+          "title": "11.7 No record limit",
+          "text": "The portal has no limit on the number of records presented. Tender requirement 11.7: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "11.7"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: no limit on records presented.",
             "progress": "Partly supported: no limit on records presented works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1172,10 +1533,13 @@
         },
         {
           "id": "pt-output-display",
-          "title": "Outputs with abstracts and identifiers",
-          "text": "The portal shows research outputs with abstracts, persistent identifiers and external links. Priority: Must (knock-out requirement).",
+          "title": "11.8 Outputs with abstracts and identifiers",
+          "text": "The portal shows research outputs with abstracts, persistent identifiers and external links. Tender requirement 11.8: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "11.8"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: public display of outputs, abstracts, PIDs and links.",
             "progress": "Partly supported: public display of outputs, abstracts, PIDs and links works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1185,10 +1549,15 @@
         },
         {
           "id": "pt-metrics",
-          "title": "Metrics on profile pages",
-          "text": "The portal supports configurable metrics and statistics on profile pages, optionally including alternative metrics. Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "11.9, 11.12 Metrics on profile pages",
+          "text": "The portal supports configurable metrics and statistics on profile pages, optionally including alternative metrics. Tender requirements 11.9, 11.12: Should have, 4 points (0.40% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 4,
+          "tender": [
+            "11.9",
+            "11.12"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: configurable metrics and optional altmetrics.",
             "progress": "Partly supported: configurable metrics and optional altmetrics works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1198,10 +1567,14 @@
         },
         {
           "id": "pt-export",
-          "title": "Export from the portal",
-          "text": "Visitors can export data from the public portal. Priority: Should (heavily weighted).",
+          "title": "11.10 Export from the portal",
+          "text": "Visitors can export data from the public portal. Tender requirement 11.10: Should have, 7 points (0.70% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 7,
+          "tender": [
+            "11.10"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: export from the public portal.",
             "progress": "Partly supported: export from the public portal works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1211,10 +1584,14 @@
         },
         {
           "id": "pt-seo",
-          "title": "Search engine discoverability",
-          "text": "The portal supports search engine indexing and discoverability optimisation (for example structured data and sitemaps). Priority: Should (heavily weighted).",
+          "title": "11.11 Search engine discoverability",
+          "text": "The portal supports search engine indexing and discoverability optimisation (for example structured data and sitemaps). Tender requirement 11.11: Should have, 7 points (0.70% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 7,
+          "tender": [
+            "11.11"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: search engine indexing and structured data.",
             "progress": "Partly supported: search engine indexing and structured data works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1224,10 +1601,15 @@
         },
         {
           "id": "pt-user-control",
-          "title": "User control over public presence",
-          "text": "Users can choose whether their profile is visible on the portal and which content is shown. Priority: Should (heavily weighted).",
+          "title": "11.13, 11.14 User control over public presence",
+          "text": "Users can choose whether their profile is visible on the portal and which content is shown. Tender requirements 11.13, 11.14: Should have, 20 points (2.00% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 20,
+          "tender": [
+            "11.13",
+            "11.14"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: user choice over profile visibility and shown content.",
             "progress": "Partly supported: user choice over profile visibility and shown content works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1237,10 +1619,14 @@
         },
         {
           "id": "pt-network-visualisation",
-          "title": "Network visualisation",
-          "text": "The portal offers a graphical visualisation of relations between persons and organisations as networks. Priority: Should (heavily weighted).",
+          "title": "11.15 Network visualisation",
+          "text": "The portal offers a graphical visualisation of relations between persons and organisations as networks. Tender requirement 11.15: Should have, 7 points (0.70% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 7,
+          "tender": [
+            "11.15"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: network visualisation of persons and organisations.",
             "progress": "Partly supported: network visualisation of persons and organisations works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1250,10 +1636,14 @@
         },
         {
           "id": "pt-accessibility",
-          "title": "Digital accessibility",
-          "text": "Front-end and back-end interfaces comply with the WCAG 2.1 accessibility guidelines, at least at level AA. Priority: Should (heavily weighted).",
+          "title": "15.12 Digital accessibility",
+          "text": "Front-end and back-end interfaces comply with the WCAG 2.1 accessibility guidelines, at least at level AA. Tender requirement 15.12: Should have, 7 points (0.70% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 7,
+          "tender": [
+            "15.12"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: WCAG 2.1 AA for front end and back end.",
             "progress": "Partly supported: WCAG 2.1 AA for front end and back end works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1264,15 +1654,18 @@
       ]
     },
     {
-      "section": "Repository",
+      "section": "12. Repository",
       "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
       "principles": [
         {
           "id": "rp-file-versions",
-          "title": "File upload with version types",
-          "text": "Users can upload and archive one or more files per output and define the version of each file (preprint, accepted manuscript, publisher's version). Priority: Must (knock-out requirement).",
+          "title": "12.1 File upload with version types",
+          "text": "Users can upload and archive one or more files per output and define the version of each file (preprint, accepted manuscript, publisher's version). Tender requirement 12.1: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "12.1"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: multiple files per output with version types.",
             "progress": "Partly supported: multiple files per output with version types works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1282,10 +1675,13 @@
         },
         {
           "id": "rp-embargo",
-          "title": "Embargo management",
-          "text": "The solution supports embargo management for uploaded files. Priority: Must (knock-out requirement).",
+          "title": "12.2 Embargo management",
+          "text": "The solution supports embargo management for uploaded files. Tender requirement 12.2: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "12.2"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: embargo management with automatic release.",
             "progress": "Partly supported: embargo management with automatic release works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1295,10 +1691,14 @@
         },
         {
           "id": "rp-file-pids",
-          "title": "Persistent identifiers for files",
-          "text": "The solution can add persistent identifiers to files. Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "12.3 Persistent identifiers for files",
+          "text": "The solution can add persistent identifiers to files. Tender requirement 12.3: Should have, 1 points (0.10% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 1,
+          "tender": [
+            "12.3"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: PIDs for files.",
             "progress": "Partly supported: PIDs for files works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1308,10 +1708,15 @@
         },
         {
           "id": "rp-deletes",
-          "title": "Deletion status and OAI-PMH deletes",
-          "text": "The solution supports a delete status for files and declares deletions in OAI-PMH. Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "12.4, 12.5 Deletion status and OAI-PMH deletes",
+          "text": "The solution supports a delete status for files and declares deletions in OAI-PMH. Tender requirements 12.4, 12.5: Should have, 2 points (0.20% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 2,
+          "tender": [
+            "12.4",
+            "12.5"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: file delete status and OAI-PMH deleted records.",
             "progress": "Partly supported: file delete status and OAI-PMH deleted records works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1321,10 +1726,14 @@
         },
         {
           "id": "rp-audit",
-          "title": "File versioning and auditing",
-          "text": "The solution supports file versioning and record and file auditing. Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "12.6 File versioning and auditing",
+          "text": "The solution supports file versioning and record and file auditing. Tender requirement 12.6: Should have, 1 points (0.10% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 1,
+          "tender": [
+            "12.6"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: file versioning and audit trails.",
             "progress": "Partly supported: file versioning and audit trails works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1334,10 +1743,14 @@
         },
         {
           "id": "rp-sets",
-          "title": "Harvestable sets",
-          "text": "The solution allows harvestable sets of files, definable by multiple criteria. Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "12.7 Harvestable sets",
+          "text": "The solution allows harvestable sets of files, definable by multiple criteria. Tender requirement 12.7: Should have, 1 points (0.10% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 1,
+          "tender": [
+            "12.7"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: harvestable sets defined by multiple criteria.",
             "progress": "Partly supported: harvestable sets defined by multiple criteria works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1348,7 +1761,7 @@
         {
           "id": "rp-opendoar",
           "title": "Open access repository compliance",
-          "text": "The repository meets the technical and policy requirements for listing in OpenDOAR and supports compliance with open access mandates such as Plan S, with a seamless, ideally bidirectional, integration with the CRIS without loss of metadata quality. Priority: Should (heavily weighted).",
+          "text": "The repository meets the technical and policy requirements for listing in OpenDOAR and supports compliance with open access mandates such as Plan S, with a seamless, ideally bidirectional, integration with the CRIS without loss of metadata quality. Not a numbered tender question: taken from the description of the assignment. Should have (no points).",
           "priority": "should",
           "knockOut": false,
           "criteria": {
@@ -1361,15 +1774,178 @@
       ]
     },
     {
-      "section": "Security, privacy and compliance",
+      "section": "14. Implementation approach",
+      "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
+      "principles": [
+        {
+          "id": "plan-implementation",
+          "title": "14.1 Implementation plan",
+          "text": "The supplier submits a implementation plan of at most about three A4 pages, covering at least: phased approach, milestones and decision points, roles and responsibilities, go-live approach and acceptance criteria. Assessed on feasibility, realistic phasing, clear roles, a realistic go-live and clear acceptance criteria. In the source tender a minimum quality score of 65% applied to this plan. Tender requirement 14.1: Award criterion, 45 points (4.51% of total).",
+          "priority": "award",
+          "knockOut": false,
+          "points": 45,
+          "tender": [
+            "14.1"
+          ],
+          "criteria": {
+            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
+            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
+            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
+          },
+          "improvementAction": "Assessed on feasibility, realistic phasing, clear roles, a realistic go-live and clear acceptance criteria. Score per assessor independently, then calibrate in a plenary session."
+        },
+        {
+          "id": "plan-schedule",
+          "title": "14.2 Project schedule",
+          "text": "The supplier submits a project schedule of at most about three A4 pages, covering at least: detailed schedule, critical dependencies, resource and capacity planning, lead times and decision points. Assessed on realism and insight into dependencies, capacity and decision points. Tender requirement 14.2: Award criterion, 60 points (6.02% of total).",
+          "priority": "award",
+          "knockOut": false,
+          "points": 60,
+          "tender": [
+            "14.2"
+          ],
+          "criteria": {
+            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
+            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
+            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
+          },
+          "improvementAction": "Assessed on realism and insight into dependencies, capacity and decision points. Score per assessor independently, then calibrate in a plenary session."
+        },
+        {
+          "id": "plan-risk",
+          "title": "14.3 Risk management plan",
+          "text": "The supplier submits a risk management plan of at most about three A4 pages, covering at least: key project risks, mitigation measures, escalation procedures, business continuity measures and lessons learned from comparable projects. Assessed on completeness of the risk analysis and specificity of mitigation, escalation and continuity arrangements. Tender requirement 14.3: Award criterion, 30 points (3.01% of total).",
+          "priority": "award",
+          "knockOut": false,
+          "points": 30,
+          "tender": [
+            "14.3"
+          ],
+          "criteria": {
+            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
+            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
+            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
+          },
+          "improvementAction": "Assessed on completeness of the risk analysis and specificity of mitigation, escalation and continuity arrangements. Score per assessor independently, then calibrate in a plenary session."
+        },
+        {
+          "id": "plan-governance",
+          "title": "14.4 Communication and governance plan",
+          "text": "The supplier submits a communication and governance plan of at most about three A4 pages, covering at least: meeting and consultation structure, reporting frequency, stakeholder management, decision-making, escalation and change control. Assessed on clear governance, stakeholder approach, decision-making, reporting and change control. Tender requirement 14.4: Award criterion, 15 points (1.50% of total).",
+          "priority": "award",
+          "knockOut": false,
+          "points": 15,
+          "tender": [
+            "14.4"
+          ],
+          "criteria": {
+            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
+            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
+            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
+          },
+          "improvementAction": "Assessed on clear governance, stakeholder approach, decision-making, reporting and change control. Score per assessor independently, then calibrate in a plenary session."
+        },
+        {
+          "id": "plan-migration",
+          "title": "14.5 Transition and migration plan",
+          "text": "The supplier submits a transition and migration plan of at most about three A4 pages, covering at least: data migration from the current system, handover of the existing environment, parallel operation, cutover scenario and minimising disruption. Assessed on business continuity, migration approach, cutover scenario and measures to limit disruption. Tender requirement 14.5: Award criterion, 45 points (4.51% of total).",
+          "priority": "award",
+          "knockOut": false,
+          "points": 45,
+          "tender": [
+            "14.5"
+          ],
+          "criteria": {
+            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
+            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
+            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
+          },
+          "improvementAction": "Assessed on business continuity, migration approach, cutover scenario and measures to limit disruption. Score per assessor independently, then calibrate in a plenary session."
+        },
+        {
+          "id": "plan-adoption",
+          "title": "14.6 Change management and adoption plan",
+          "text": "The supplier submits a change management and adoption plan of at most about three A4 pages, covering at least: user training, adoption strategy, end-user support, managing resistance to change and internal communication. Assessed on user acceptance, training approach, adoption strategy and handling of resistance. Tender requirement 14.6: Award criterion, 30 points (3.01% of total).",
+          "priority": "award",
+          "knockOut": false,
+          "points": 30,
+          "tender": [
+            "14.6"
+          ],
+          "criteria": {
+            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
+            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
+            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
+          },
+          "improvementAction": "Assessed on user acceptance, training approach, adoption strategy and handling of resistance. Score per assessor independently, then calibrate in a plenary session."
+        },
+        {
+          "id": "plan-staffing",
+          "title": "14.7 Staffing and competence plan",
+          "text": "The supplier submits a staffing and competence plan of at most about three A4 pages, covering at least: project team composition, CVs of key personnel, availability, backup for absence and certifications. Assessed on suitability, availability, continuity and competences of the team. Tender requirement 14.7: Award criterion, 30 points (3.01% of total).",
+          "priority": "award",
+          "knockOut": false,
+          "points": 30,
+          "tender": [
+            "14.7"
+          ],
+          "criteria": {
+            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
+            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
+            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
+          },
+          "improvementAction": "Assessed on suitability, availability, continuity and competences of the team. Score per assessor independently, then calibrate in a plenary session."
+        },
+        {
+          "id": "plan-innovation",
+          "title": "14.8 Innovation and improvement plan",
+          "text": "The supplier submits a innovation and improvement plan of at most about three A4 pages, covering at least: continuous improvement, innovation proposals, roadmap, benchmarking and proactive optimisation. Assessed on a proactive approach, applicable innovations, roadmap and continuous improvement. Tender requirement 14.8: Award criterion, 15 points (1.50% of total).",
+          "priority": "award",
+          "knockOut": false,
+          "points": 15,
+          "tender": [
+            "14.8"
+          ],
+          "criteria": {
+            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
+            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
+            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
+          },
+          "improvementAction": "Assessed on a proactive approach, applicable innovations, roadmap and continuous improvement. Score per assessor independently, then calibrate in a plenary session."
+        },
+        {
+          "id": "plan-exit",
+          "title": "14.9 Exit plan",
+          "text": "The supplier submits a exit plan of at most about three A4 pages, covering at least: knowledge transfer, data export, handover period, exit costs, preventing vendor lock-in, data deletion and cooperation with a successor supplier. Assessed on prevention of lock-in, completeness of handover and data export, and cooperation with a successor. Tender requirement 14.9: Award criterion, 30 points (3.01% of total).",
+          "priority": "award",
+          "knockOut": false,
+          "points": 30,
+          "tender": [
+            "14.9"
+          ],
+          "criteria": {
+            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
+            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
+            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
+          },
+          "improvementAction": "Assessed on prevention of lock-in, completeness of handover and data export, and cooperation with a successor. Score per assessor independently, then calibrate in a plenary session."
+        }
+      ]
+    },
+    {
+      "section": "15. Security, privacy and compliance",
       "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
       "principles": [
         {
           "id": "sec-audit-trail",
-          "title": "Audit trail and secure logs",
-          "text": "The solution keeps a complete audit trail of system activities and metadata changes, and secure audit logs of authentication and authorisation events. Priority: Must (knock-out requirement).",
+          "title": "15.1, 15.15 Audit trail and secure logs",
+          "text": "The solution keeps a complete audit trail of system activities and metadata changes, and secure audit logs of authentication and authorisation events. Tender requirements 15.1, 15.15: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "15.1",
+            "15.15"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: complete audit trails and secure authentication logs.",
             "progress": "Partly supported: complete audit trails and secure authentication logs works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1379,10 +1955,15 @@
         },
         {
           "id": "sec-gdpr",
-          "title": "GDPR compliance and retention",
-          "text": "The solution complies with the GDPR and applicable European privacy law, and supports configurable retention and deletion policies, including deleting personal data of former employees. Priority: Must (knock-out requirement).",
+          "title": "15.2, 15.13, 15.14 GDPR compliance and retention",
+          "text": "The solution complies with the GDPR and applicable European privacy law, and supports configurable retention and deletion policies, including deleting personal data of former employees. Tender requirements 15.2, 15.13, 15.14: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "15.2",
+            "15.13",
+            "15.14"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: GDPR compliance with configurable retention and deletion.",
             "progress": "Partly supported: GDPR compliance with configurable retention and deletion works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1392,10 +1973,14 @@
         },
         {
           "id": "sec-encryption",
-          "title": "Encryption in transit and at rest",
-          "text": "Communication is always encrypted and storage is secure. Encryption quality is checked with the SSL Labs Server Test, with a minimum grade of A. Priority: Must (knock-out requirement).",
+          "title": "15.16, 15.45 Encryption in transit and at rest",
+          "text": "Communication is always encrypted and storage is secure. Encryption quality is checked with the SSL Labs Server Test, with a minimum grade of A. Tender requirements 15.16, 15.45: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "15.16",
+            "15.45"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: encrypted communication (SSL Labs grade A or better) and secure storage.",
             "progress": "Partly supported: encrypted communication (SSL Labs grade A or better) and secure storage works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1405,10 +1990,15 @@
         },
         {
           "id": "sec-iso27001",
-          "title": "Information security certification",
-          "text": "The supplier holds a valid ISO 27001 certificate, including the statement of applicability, and informs about other security certifications and compliance frameworks. Priority: Must (knock-out requirement).",
+          "title": "15.19, 15.48 Information security certification",
+          "text": "The supplier holds a valid ISO 27001 certificate, including the statement of applicability, and informs about other security certifications and compliance frameworks. Tender requirements 15.19, 15.48: Must have (knock-out), plus 6 points (0.60% of total).",
           "priority": "must",
           "knockOut": true,
+          "points": 6,
+          "tender": [
+            "15.19",
+            "15.48"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: a valid ISO 27001 certificate covering the offered service.",
             "progress": "Partly supported: a valid ISO 27001 certificate covering the offered service works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1418,10 +2008,14 @@
         },
         {
           "id": "sec-continuity",
-          "title": "Backup and disaster recovery",
-          "text": "The supplier clearly documents backup, recovery and disaster recovery procedures. Priority: Should (heavily weighted).",
+          "title": "15.17 Backup and disaster recovery",
+          "text": "The supplier clearly documents backup, recovery and disaster recovery procedures. Tender requirement 15.17: Should have, 7 points (0.70% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 7,
+          "tender": [
+            "15.17"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: documented backup, recovery and disaster recovery.",
             "progress": "Partly supported: documented backup, recovery and disaster recovery works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1431,10 +2025,14 @@
         },
         {
           "id": "sec-incidents",
-          "title": "Incident and breach procedures",
-          "text": "The supplier clearly documents incident management and security breach procedures. Priority: Should (heavily weighted).",
+          "title": "15.18 Incident and breach procedures",
+          "text": "The supplier clearly documents incident management and security breach procedures. Tender requirement 15.18: Should have, 7 points (0.70% of total).",
           "priority": "should",
           "knockOut": false,
+          "points": 7,
+          "tender": [
+            "15.18"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: documented incident and breach procedures.",
             "progress": "Partly supported: documented incident and breach procedures works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1444,10 +2042,13 @@
         },
         {
           "id": "sec-sso",
-          "title": "Federated single sign-on",
-          "text": "The solution integrates with the institution's identity and authentication systems through federated single sign-on (in the Netherlands: SURFconext). Priority: Must (knock-out requirement).",
+          "title": "15.43 Federated single sign-on",
+          "text": "The solution integrates with the institution's identity and authentication systems through federated single sign-on (in the Netherlands: SURFconext). Tender requirement 15.43: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "15.43"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: federated SSO with the national identity federation.",
             "progress": "Partly supported: federated SSO with the national identity federation works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1457,10 +2058,15 @@
         },
         {
           "id": "sec-local-accounts",
-          "title": "Local and service accounts",
-          "text": "The solution also supports local accounts and service accounts outside single sign-on, with passwords that follow the institution's password policy and can be rotated with limited impact. Priority: Must (knock-out requirement).",
+          "title": "15.44, 15.49 Local and service accounts",
+          "text": "The solution also supports local accounts and service accounts outside single sign-on, with passwords that follow the institution's password policy and can be rotated with limited impact. Tender requirements 15.44, 15.49: Must have (knock-out), plus 4 points (0.40% of total).",
           "priority": "must",
           "knockOut": true,
+          "points": 4,
+          "tender": [
+            "15.44",
+            "15.49"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: local and service accounts that follow the password policy.",
             "progress": "Partly supported: local and service accounts that follow the password policy works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1470,10 +2076,14 @@
         },
         {
           "id": "sec-supply-chain",
-          "title": "Data flows and supply chain transparency",
-          "text": "The supplier provides a data flow and dependency overview showing all subsystems the data flows to, subprocessors and underlying hosting, infrastructure and supply-chain dependencies, including the country of control or establishment of each party. Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "15.33 Data flows and supply chain transparency",
+          "text": "The supplier provides a data flow and dependency overview showing all subsystems the data flows to, subprocessors and underlying hosting, infrastructure and supply-chain dependencies, including the country of control or establishment of each party. Tender requirement 15.33: Should have, 6 points (0.60% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 6,
+          "tender": [
+            "15.33"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: a complete overview of data flows, subprocessors and their jurisdictions.",
             "progress": "Partly supported: a complete overview of data flows, subprocessors and their jurisdictions works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1484,15 +2094,18 @@
       ]
     },
     {
-      "section": "Technical architecture and operations",
+      "section": "15. Technical architecture and operations",
       "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
       "principles": [
         {
           "id": "ops-cloud",
-          "title": "Cloud-hosted deployment",
-          "text": "The solution supports cloud-hosted (software as a service) deployment. Priority: Must (knock-out requirement).",
+          "title": "15.20 Cloud-hosted deployment",
+          "text": "The solution supports cloud-hosted (software as a service) deployment. Tender requirement 15.20: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "15.20"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: cloud-hosted deployment.",
             "progress": "Partly supported: cloud-hosted deployment works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1502,10 +2115,13 @@
         },
         {
           "id": "ops-eea",
-          "title": "Data stored in the EEA",
-          "text": "Institutional data is stored within the European Economic Area. Priority: Must (knock-out requirement).",
+          "title": "15.21 Data stored in the EEA",
+          "text": "Institutional data is stored within the European Economic Area. Tender requirement 15.21: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "15.21"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: storage of all institutional data within the EEA.",
             "progress": "Partly supported: storage of all institutional data within the EEA works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1515,10 +2131,16 @@
         },
         {
           "id": "ops-monitoring",
-          "title": "Operational monitoring",
-          "text": "The solution provides operational monitoring, task management, logging of background jobs and scheduled tasks, and system health and status monitoring. Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "15.22–15.24 Operational monitoring",
+          "text": "The solution provides operational monitoring, task management, logging of background jobs and scheduled tasks, and system health and status monitoring. Tender requirements 15.22–15.24: Should have, 12 points (1.20% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 12,
+          "tender": [
+            "15.22",
+            "15.23",
+            "15.24"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: operational, job and health monitoring.",
             "progress": "Partly supported: operational, job and health monitoring works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1528,10 +2150,13 @@
         },
         {
           "id": "ops-scalability",
-          "title": "Scalable architecture",
-          "text": "The solution has a scalable architecture suited to institutional growth. Priority: Must (knock-out requirement).",
+          "title": "15.25 Scalable architecture",
+          "text": "The solution has a scalable architecture suited to institutional growth. Tender requirement 15.25: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "15.25"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: a scalable architecture.",
             "progress": "Partly supported: a scalable architecture works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1541,10 +2166,13 @@
         },
         {
           "id": "ops-release-management",
-          "title": "Upgrade and release management",
-          "text": "The solution has documented upgrade and release management procedures. Priority: Must (knock-out requirement).",
+          "title": "15.26 Upgrade and release management",
+          "text": "The solution has documented upgrade and release management procedures. Tender requirement 15.26: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "15.26"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: documented upgrade and release procedures.",
             "progress": "Partly supported: documented upgrade and release procedures works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1554,10 +2182,13 @@
         },
         {
           "id": "ops-environments",
-          "title": "Test and production environments",
-          "text": "The solution offers separate test and production environments. Priority: Must (knock-out requirement).",
+          "title": "15.27 Test and production environments",
+          "text": "The solution offers separate test and production environments. Tender requirement 15.27: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "15.27"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: separate test and production environments.",
             "progress": "Partly supported: separate test and production environments works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1567,10 +2198,14 @@
         },
         {
           "id": "ops-stack-documentation",
-          "title": "Documented technology and dependencies",
-          "text": "The supplier documents and shares the database technologies and infrastructure dependencies used. Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "15.28 Documented technology and dependencies",
+          "text": "The supplier documents and shares the database technologies and infrastructure dependencies used. Tender requirement 15.28: Should have, 4 points (0.40% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 4,
+          "tender": [
+            "15.28"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: documented technology stack and dependencies.",
             "progress": "Partly supported: documented technology stack and dependencies works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1580,10 +2215,13 @@
         },
         {
           "id": "ops-browsers",
-          "title": "Browser support",
-          "text": "The supplier fully supports the latest versions of Chrome, Safari, Edge and Firefox. Priority: Must (knock-out requirement).",
+          "title": "15.46 Browser support",
+          "text": "The supplier fully supports the latest versions of Chrome, Safari, Edge and Firefox. Tender requirement 15.46: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "15.46"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: full support for current major browsers.",
             "progress": "Partly supported: full support for current major browsers works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1594,15 +2232,18 @@
       ]
     },
     {
-      "section": "Support, service and governance",
+      "section": "15. Support, service and governance",
       "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
       "principles": [
         {
           "id": "svc-ticketing",
-          "title": "Support and ticketing",
-          "text": "The supplier provides a formal support and ticketing (incident management) system. Priority: Must (knock-out requirement).",
+          "title": "15.31 Support and ticketing",
+          "text": "The supplier provides a formal support and ticketing (incident management) system. Tender requirement 15.31: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "15.31"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: a formal ticketing system.",
             "progress": "Partly supported: a formal ticketing system works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1612,10 +2253,14 @@
         },
         {
           "id": "svc-sla",
-          "title": "Service level agreement with remedies",
-          "text": "The supplier enters into an SLA with measurable service levels, reporting obligations and remedies for non-compliance, including financial consequences such as service credits or penalties. Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "15.32 Service level agreement with remedies",
+          "text": "The supplier enters into an SLA with measurable service levels, reporting obligations and remedies for non-compliance, including financial consequences such as service credits or penalties. Tender requirement 15.32: Should have, 6 points (0.60% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 6,
+          "tender": [
+            "15.32"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: an SLA with measurable levels and financial remedies.",
             "progress": "Partly supported: an SLA with measurable levels and financial remedies works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1625,10 +2270,14 @@
         },
         {
           "id": "svc-escalation",
-          "title": "Escalation procedures",
-          "text": "The supplier provides defined escalation procedures. Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "15.34 Escalation procedures",
+          "text": "The supplier provides defined escalation procedures. Tender requirement 15.34: Should have, 6 points (0.60% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 6,
+          "tender": [
+            "15.34"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: defined escalation procedures.",
             "progress": "Partly supported: defined escalation procedures works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1638,10 +2287,15 @@
         },
         {
           "id": "svc-documentation",
-          "title": "Documentation and training materials",
-          "text": "The supplier provides documentation and training materials for administrators and end users, and describes their form and content. Priority: Must (knock-out requirement).",
+          "title": "15.35, 15.36 Documentation and training materials",
+          "text": "The supplier provides documentation and training materials for administrators and end users, and describes their form and content. Tender requirements 15.35, 15.36: Must have (knock-out), plus 4 points (0.40% of total).",
           "priority": "must",
           "knockOut": true,
+          "points": 4,
+          "tender": [
+            "15.35",
+            "15.36"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: documentation and training materials for administrators and end users.",
             "progress": "Partly supported: documentation and training materials for administrators and end users works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1651,10 +2305,14 @@
         },
         {
           "id": "svc-implementation-support",
-          "title": "Implementation and migration support",
-          "text": "The supplier provides implementation guidance and migration support services. Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "15.37 Implementation and migration support",
+          "text": "The supplier provides implementation guidance and migration support services. Tender requirement 15.37: Should have, 6 points (0.60% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 6,
+          "tender": [
+            "15.37"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: implementation guidance and migration support.",
             "progress": "Partly supported: implementation guidance and migration support works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1664,10 +2322,14 @@
         },
         {
           "id": "svc-customer-governance",
-          "title": "Customer governance and consultation",
-          "text": "The supplier provides customer governance and stakeholder consultation mechanisms (for example user groups and roadmap consultation). Priority: Could (lightly weighted).",
-          "priority": "could",
+          "title": "15.38 Customer governance and consultation",
+          "text": "The supplier provides customer governance and stakeholder consultation mechanisms (for example user groups and roadmap consultation). Tender requirement 15.38: Should have, 4 points (0.40% of total).",
+          "priority": "should",
           "knockOut": false,
+          "points": 4,
+          "tender": [
+            "15.38"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: customer governance and consultation on the roadmap.",
             "progress": "Partly supported: customer governance and consultation on the roadmap works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1678,15 +2340,19 @@
       ]
     },
     {
-      "section": "Data ownership and exit",
+      "section": "15. Data ownership and exit",
       "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
       "principles": [
         {
           "id": "exit-ownership",
-          "title": "Institutional ownership of data",
-          "text": "The institution retains ownership of all metadata and uploaded content. Priority: Must (knock-out requirement).",
+          "title": "15.39, 15.40 Institutional ownership of data",
+          "text": "The institution retains ownership of all metadata and uploaded content. Tender requirements 15.39, 15.40: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "15.39",
+            "15.40"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: institutional ownership of all metadata and content.",
             "progress": "Partly supported: institutional ownership of all metadata and content works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1696,10 +2362,13 @@
         },
         {
           "id": "exit-full-export",
-          "title": "Complete export at contract end",
-          "text": "On termination, the institution can export all metadata, files, relations, identifiers, workflow information and configuration in machine-readable, documented formats. Priority: Must (knock-out requirement).",
+          "title": "15.41 Complete export at contract end",
+          "text": "On termination, the institution can export all metadata, files, relations, identifiers, workflow information and configuration in machine-readable, documented formats. Tender requirement 15.41: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "15.41"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: complete, documented, machine-readable export at contract end.",
             "progress": "Partly supported: complete, documented, machine-readable export at contract end works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1709,10 +2378,13 @@
         },
         {
           "id": "exit-open-standards",
-          "title": "Avoiding vendor lock-in",
-          "text": "The solution avoids vendor lock-in by supporting open standards and interoperable data formats. Priority: Must (knock-out requirement).",
+          "title": "15.42 Avoiding vendor lock-in",
+          "text": "The solution avoids vendor lock-in by supporting open standards and interoperable data formats. Tender requirement 15.42: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "15.42"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: open standards and interoperable formats that prevent lock-in.",
             "progress": "Partly supported: open standards and interoperable formats that prevent lock-in works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1722,10 +2394,13 @@
         },
         {
           "id": "exit-strategy",
-          "title": "Documented exit strategy",
-          "text": "The supplier provides a documented exit strategy and migration support process. Priority: Must (knock-out requirement).",
+          "title": "15.29 Documented exit strategy",
+          "text": "The supplier provides a documented exit strategy and migration support process. Tender requirement 15.29: Must have (knock-out).",
           "priority": "must",
           "knockOut": true,
+          "tender": [
+            "15.29"
+          ],
           "criteria": {
             "compliant": "Fully supported in the standard product or by configuration, without custom development: a documented exit strategy and migration support.",
             "progress": "Partly supported: a documented exit strategy and migration support works only in part, needs custom development or workarounds, or is on a dated roadmap.",
@@ -1736,7 +2411,7 @@
         {
           "id": "exit-modularity",
           "title": "Modular contracting",
-          "text": "Components (for example the repository function) can be contracted, terminated and replaced separately, so the institution can move one module to another solution without replacing the whole system. Priority: Should (heavily weighted).",
+          "text": "Components (for example the repository function) can be contracted, terminated and replaced separately, so the institution can move one module to another solution without replacing the whole system. Not a numbered tender question: taken from the description of the assignment. Should have (no points).",
           "priority": "should",
           "knockOut": false,
           "criteria": {
@@ -1749,138 +2424,19 @@
       ]
     },
     {
-      "section": "Implementation approach",
-      "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
-      "principles": [
-        {
-          "id": "plan-implementation",
-          "title": "Implementation plan",
-          "text": "The supplier submits a implementation plan of at most about three A4 pages, covering at least: phased approach, milestones and decision points, roles and responsibilities, go-live approach and acceptance criteria. Assessed on feasibility, realistic phasing, clear roles, a realistic go-live and clear acceptance criteria. In the source tender a minimum quality score of 65% applied to this plan. Priority: Award criterion (quality, assessed on a 0 to 10 scale).",
-          "priority": "award",
-          "knockOut": false,
-          "criteria": {
-            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
-            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
-            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
-          },
-          "improvementAction": "Assessed on feasibility, realistic phasing, clear roles, a realistic go-live and clear acceptance criteria. Score per assessor independently, then calibrate in a plenary session."
-        },
-        {
-          "id": "plan-schedule",
-          "title": "Project schedule",
-          "text": "The supplier submits a project schedule of at most about three A4 pages, covering at least: detailed schedule, critical dependencies, resource and capacity planning, lead times and decision points. Assessed on realism and insight into dependencies, capacity and decision points. Priority: Award criterion (quality, assessed on a 0 to 10 scale).",
-          "priority": "award",
-          "knockOut": false,
-          "criteria": {
-            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
-            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
-            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
-          },
-          "improvementAction": "Assessed on realism and insight into dependencies, capacity and decision points. Score per assessor independently, then calibrate in a plenary session."
-        },
-        {
-          "id": "plan-risk",
-          "title": "Risk management plan",
-          "text": "The supplier submits a risk management plan of at most about three A4 pages, covering at least: key project risks, mitigation measures, escalation procedures, business continuity measures and lessons learned from comparable projects. Assessed on completeness of the risk analysis and specificity of mitigation, escalation and continuity arrangements. Priority: Award criterion (quality, assessed on a 0 to 10 scale).",
-          "priority": "award",
-          "knockOut": false,
-          "criteria": {
-            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
-            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
-            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
-          },
-          "improvementAction": "Assessed on completeness of the risk analysis and specificity of mitigation, escalation and continuity arrangements. Score per assessor independently, then calibrate in a plenary session."
-        },
-        {
-          "id": "plan-governance",
-          "title": "Communication and governance plan",
-          "text": "The supplier submits a communication and governance plan of at most about three A4 pages, covering at least: meeting and consultation structure, reporting frequency, stakeholder management, decision-making, escalation and change control. Assessed on clear governance, stakeholder approach, decision-making, reporting and change control. Priority: Award criterion (quality, assessed on a 0 to 10 scale).",
-          "priority": "award",
-          "knockOut": false,
-          "criteria": {
-            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
-            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
-            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
-          },
-          "improvementAction": "Assessed on clear governance, stakeholder approach, decision-making, reporting and change control. Score per assessor independently, then calibrate in a plenary session."
-        },
-        {
-          "id": "plan-migration",
-          "title": "Transition and migration plan",
-          "text": "The supplier submits a transition and migration plan of at most about three A4 pages, covering at least: data migration from the current system, handover of the existing environment, parallel operation, cutover scenario and minimising disruption. Assessed on business continuity, migration approach, cutover scenario and measures to limit disruption. Priority: Award criterion (quality, assessed on a 0 to 10 scale).",
-          "priority": "award",
-          "knockOut": false,
-          "criteria": {
-            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
-            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
-            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
-          },
-          "improvementAction": "Assessed on business continuity, migration approach, cutover scenario and measures to limit disruption. Score per assessor independently, then calibrate in a plenary session."
-        },
-        {
-          "id": "plan-adoption",
-          "title": "Change management and adoption plan",
-          "text": "The supplier submits a change management and adoption plan of at most about three A4 pages, covering at least: user training, adoption strategy, end-user support, managing resistance to change and internal communication. Assessed on user acceptance, training approach, adoption strategy and handling of resistance. Priority: Award criterion (quality, assessed on a 0 to 10 scale).",
-          "priority": "award",
-          "knockOut": false,
-          "criteria": {
-            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
-            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
-            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
-          },
-          "improvementAction": "Assessed on user acceptance, training approach, adoption strategy and handling of resistance. Score per assessor independently, then calibrate in a plenary session."
-        },
-        {
-          "id": "plan-staffing",
-          "title": "Staffing and competence plan",
-          "text": "The supplier submits a staffing and competence plan of at most about three A4 pages, covering at least: project team composition, CVs of key personnel, availability, backup for absence and certifications. Assessed on suitability, availability, continuity and competences of the team. Priority: Award criterion (quality, assessed on a 0 to 10 scale).",
-          "priority": "award",
-          "knockOut": false,
-          "criteria": {
-            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
-            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
-            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
-          },
-          "improvementAction": "Assessed on suitability, availability, continuity and competences of the team. Score per assessor independently, then calibrate in a plenary session."
-        },
-        {
-          "id": "plan-innovation",
-          "title": "Innovation and improvement plan",
-          "text": "The supplier submits a innovation and improvement plan of at most about three A4 pages, covering at least: continuous improvement, innovation proposals, roadmap, benchmarking and proactive optimisation. Assessed on a proactive approach, applicable innovations, roadmap and continuous improvement. Priority: Award criterion (quality, assessed on a 0 to 10 scale).",
-          "priority": "award",
-          "knockOut": false,
-          "criteria": {
-            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
-            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
-            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
-          },
-          "improvementAction": "Assessed on a proactive approach, applicable innovations, roadmap and continuous improvement. Score per assessor independently, then calibrate in a plenary session."
-        },
-        {
-          "id": "plan-exit",
-          "title": "Exit plan",
-          "text": "The supplier submits a exit plan of at most about three A4 pages, covering at least: knowledge transfer, data export, handover period, exit costs, preventing vendor lock-in, data deletion and cooperation with a successor supplier. Assessed on prevention of lock-in, completeness of handover and data export, and cooperation with a successor. Priority: Award criterion (quality, assessed on a 0 to 10 scale).",
-          "priority": "award",
-          "knockOut": false,
-          "criteria": {
-            "compliant": "Covers all required elements concretely and realistically, tailored to the institution, with added value beyond what was asked (marks 8 to 10).",
-            "progress": "Covers most elements in sufficient detail, but stays generic in places or leaves gaps in less critical areas (marks 5 to 7).",
-            "non-compliant": "Missing, generic, or lacking several essential elements (marks 0 to 4)."
-          },
-          "improvementAction": "Assessed on prevention of lock-in, completeness of handover and data export, and cooperation with a successor. Score per assessor independently, then calibrate in a plenary session."
-        }
-      ]
-    },
-    {
-      "section": "Price",
+      "section": "16. Price",
       "sourceUrl": "https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/cris-tender-v0.1.json",
       "principles": [
         {
           "id": "price-tco",
-          "title": "Transparent total cost of ownership",
-          "text": "The supplier completes a price schedule (excluding VAT) covering the initial contract term: annual licence and support fees per module, and one-off costs for implementation, training, migration and transition, and exit, with any other costs itemised. First-year prices are fixed and later indexation follows the contract. Priority: Award criterion (price).",
+          "title": "16.2 Transparent total cost of ownership",
+          "text": "The supplier completes a price schedule (excluding VAT) covering the initial contract term: annual licence and support fees per module, and one-off costs for implementation, training, migration and transition, and exit, with any other costs itemised. First-year prices are fixed and later indexation follows the contract. Tender requirement 16.2: Price, 200 points (20.06% of total).",
           "priority": "price",
           "knockOut": false,
+          "points": 200,
+          "tender": [
+            "16.2"
+          ],
           "criteria": {
             "compliant": "All cost components are filled in and itemised, including exit and migration costs, with no hidden fees for API use, full downloads or test environments.",
             "progress": "The price schedule is complete but some components are bundled, conditional or unclear (for example volume-dependent fees or optional modules).",
