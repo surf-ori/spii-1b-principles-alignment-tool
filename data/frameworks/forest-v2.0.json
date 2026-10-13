@@ -1,0 +1,2127 @@
+{
+  "id": "forest",
+  "title": "FOREST v2.0 Assessment",
+  "shortName": "FOREST",
+  "description": "A draft framework transcribing the FOREST Framework for Values-Driven Scholarly Communication, version 2.0 (Lippincott & Skinner, Educopia Institute, Spring 2022): 96 indicators under 23 principles and six values — Financial and organizational resilience, Openness, Responsible governance, Equity, accessibility and anti-oppression, Sharing of knowledge, and Transparency — each scored on FOREST's own four-step progress bar (Not planning, Considering, In progress, Implemented). Designed to recognise growth and progress rather than to grade.",
+  "aboutHtml": "<p>The <a href=\"https://doi.org/10.5281/zenodo.6557302\">FOREST Framework for Values-Driven Scholarly Communication</a> (Framework 2.0, Spring 2022) was developed by Sarah Lippincott and Katherine Skinner at the Educopia Institute, with the Next Generation Library Publishing team, with support from Arcadia &mdash; a charitable fund of Lisbet Rausing and Peter Baldwin. Its six values &mdash; <strong>F</strong>inancial and organizational resilience, <strong>O</strong>penness, <strong>R</strong>esponsible governance, <strong>E</strong>quity, accessibility, and anti-oppression, <strong>S</strong>haring of knowledge, and <strong>T</strong>ransparency &mdash; come from dozens of manifestos and open letters by faculty, students, publishers, librarians, and open source tool developers. Each value has principles (23 in total), and each principle has indicators (a, b, c, &hellip;) that show how it can look in practice, with example evidence.</p><p>Here every indicator is one item to assess, grouped by value, with FOREST's codes (F1a, O3c, &hellip;) kept in the titles. The titles are short labels written for this tool; each item's description starts with FOREST's indicator wording (from the framework's overview sheets), followed by the principle, whether an indicator applies to mature communities, whether it is aimed specifically at publishers or at software &amp; infrastructure providers, and the evidence FOREST proposes (and whether it should be public or internal) are in each item's description. Of the 96 indicators, 39 apply to <em>mature or well-established communities</em> only (marked with an asterisk in FOREST); the rest apply to communities at all stages.</p><p>The scale is FOREST's own progress bar, modeled on the FAIR Data Maturity Model: <strong>Not planning</strong> (applicable, but no current plans), <strong>Considering</strong> (documentable actions to develop a roadmap), <strong>In progress</strong> (documentable actions to move towards adherence) and <strong>Implemented</strong> (fully adheres, with evidence). The framework's &ldquo;Not applicable&rdquo; is expressed by leaving an indicator unanswered. The level descriptions are FOREST's own, repeated for every indicator.</p><p><strong>A caution from the authors:</strong> the progress bar &ldquo;is not meant to be used as a grading or rating system, nor do we encourage communities to tally a final score or average&rdquo;. This tool shows counts and a summary percentage for every framework; for FOREST, read them as a rough overview of where effort is concentrated, not as a score. The framework also comes with a reflective practice question set per principle, which is not reproduced here &mdash; see the source. FOREST does not claim extensibility beyond North America and parts of Europe.</p><p>Licensed <a href=\"https://creativecommons.org/licenses/by/4.0/\">CC BY 4.0</a>. Suggested citation: Lippincott, S., &amp; Skinner, K. (2022). <em>FOREST Framework for Values-Driven Scholarly Communication</em>. Zenodo. <a href=\"https://doi.org/10.5281/zenodo.6557302\">https://doi.org/10.5281/zenodo.6557302</a>. This is a transcription of the PDF by this tool (with AI assistance) and is a draft pending review; it is not an official FOREST instrument.</p>",
+  "draft": true,
+  "levels": [
+    {
+      "id": "not-planning",
+      "label": "Not planning"
+    },
+    {
+      "id": "considering",
+      "label": "Considering"
+    },
+    {
+      "id": "in-progress",
+      "label": "In progress"
+    },
+    {
+      "id": "implemented",
+      "label": "Implemented"
+    }
+  ],
+  "sections": [
+    {
+      "section": "F Financial and Organizational Resilience",
+      "sourceUrl": "https://doi.org/10.5281/zenodo.6557302",
+      "principles": [
+        {
+          "id": "forest-f1a",
+          "title": "F1a Goals and milestones tracked annually",
+          "text": "Document goals and milestones on a regular basis and measure progress towards these goals and milestones at least annually. Principle F1: Plan for the future. Applies to communities at all stages. Evidence FOREST proposes: Strategic plan or other documentation referencing goals, milestones, and metrics for evaluating progress (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "F1a",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Strategic plan or other documentation referencing goals, milestones, and metrics for evaluating progress",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-f1b",
+          "title": "F1b Capital budget",
+          "text": "Maintain a capital budget that factors in long-term upgrades and improvements. Principle F1: Plan for the future. Applies to mature or well-established communities. Evidence FOREST proposes: Capital budget (readily available internally); Budget oversight process, including review and sign-off of annual rectification of budget and actuals by 2+ individuals (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "F1b",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Capital budget",
+              "access": "internal"
+            },
+            {
+              "text": "Budget oversight process, including review and sign-off of annual rectification of budget and actuals by 2+ individuals",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-f2a",
+          "title": "F2a Control over bank accounts and bookkeeping",
+          "text": "Have access to and control over bank account(s), ledger/log of all receivables and expenditures, and any accounting software and/or bookkeeping environment. Principle F2: Maintain control over and monitor finances. Applies to communities at all stages. Evidence FOREST proposes: Inventory of bank accounts, ledgers, accounting software (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "F2a",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Inventory of bank accounts, ledgers, accounting software",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-f2b",
+          "title": "F2b Written financial policies and internal controls",
+          "text": "Have written financial policies that include explicit internal controls (separation of duties). Principle F2: Maintain control over and monitor finances. Applies to communities at all stages. Evidence FOREST proposes: Accounting manual or other financial policy documentation (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "F2b",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Accounting manual or other financial policy documentation",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-f2c",
+          "title": "F2c Accounting and reporting standards",
+          "text": "Comply with authoritative standards for accounting and financial reporting. Principle F2: Maintain control over and monitor finances. Applies to communities at all stages. Evidence FOREST proposes: Audit or consultation with a qualified reviewer, or other documentation of compliance with GAAP or IFRS (GAAP: Generally Accepted Accounting Principles; IFRS: International Financial Reporting Standards) (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "F2c",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Audit or consultation with a qualified reviewer, or other documentation of compliance with GAAP or IFRS (GAAP: Generally Accepted Accounting Principles; IFRS: International Financial Reporting Standards)",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-f2d",
+          "title": "F2d Approved annual operating budget",
+          "text": "Create and maintain an officially approved annual operating budget. Principle F2: Maintain control over and monitor finances. Applies to communities at all stages. Evidence FOREST proposes: Operating budget (readily available internally); Budget review process, including review and sign-off of annual rectification of budget and actuals by 2+ individuals (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "F2d",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Operating budget",
+              "access": "internal"
+            },
+            {
+              "text": "Budget review process, including review and sign-off of annual rectification of budget and actuals by 2+ individuals",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-f2e",
+          "title": "F2e Two independent funding streams",
+          "text": "Have at least two, non-interdependent funding streams for the community (e.g., memberships, subscriptions, services, grants, contracts, donations). Principle F2: Maintain control over and monitor finances. Applies to mature or well-established communities. Evidence FOREST proposes: Documentation of funding and revenue streams, including amounts and proportion of total budget (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "F2e",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Documentation of funding and revenue streams, including amounts and proportion of total budget",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-f2f",
+          "title": "F2f Quarterly rectification of books",
+          "text": "Rectify financial books at least quarterly with review and sign-off from a designated governing body representative(s). Principle F2: Maintain control over and monitor finances. Applies to mature or well-established communities. Evidence FOREST proposes: Accounting manual or other financial policy documentation (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "F2f",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Accounting manual or other financial policy documentation",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-f2g",
+          "title": "F2g Annual independent audit or review",
+          "text": "Have an annual independent audit or review conducted of financial statements. Principle F2: Maintain control over and monitor finances. Applies to mature or well-established communities. Evidence FOREST proposes: Accounting manual or other financial policy documentation (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "F2g",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Accounting manual or other financial policy documentation",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-f3a",
+          "title": "F3a Documented legal and organizational identity",
+          "text": "Understand and document legal and organizational identity(ies) (e.g., incorporation, taxable status, charity status) such that community members and customers comprehend what the legal entity is, what it can do, and who has authority to act on its behalf. Principle F3: Understand, maintain, and communicate legal and organizational identity(ies). Applies to communities at all stages. Evidence FOREST proposes: Description of organizational identity, official or supporting documents, e.g.: incorporation documents, tax exemption letter, B-Corp certificate, host organization contract (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "F3a",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Description of organizational identity, official or supporting documents, e.g.: incorporation documents, tax exemption letter, B-Corp certificate, host organization contract",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-f3b",
+          "title": "F3b Legal advisor reviews contracts",
+          "text": "Engage a legal advisor and/or lawyer to review all contracts. Principle F3: Understand, maintain, and communicate legal and organizational identity(ies). Applies to communities at all stages. Evidence FOREST proposes: Legal advisor contact information (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "F3b",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Legal advisor contact information",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-f3c",
+          "title": "F3c Hosting relationship and separation pathway",
+          "text": "Transparently and publicly acknowledge any hosting relationship and have a documented pathway for separation from any host. Principle F3: Understand, maintain, and communicate legal and organizational identity(ies). Applies to communities at all stages. Evidence FOREST proposes: Acknowledgment and description of hosting relationship (readily and publicly available); Documentation of conditions for and consequences of separation from hosting relationship (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "F3c",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Acknowledgment and description of hosting relationship",
+              "access": "public"
+            },
+            {
+              "text": "Documentation of conditions for and consequences of separation from hosting relationship",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-f4a",
+          "title": "F4a Policy for transferring ownership",
+          "text": "Have a policy describing how community ownership/responsibility may be transferred. Principle F4: Clearly document succession, sunsetting, and dissolution plans. Applies to communities at all stages. Evidence FOREST proposes: Sunsetting or dissolution plan/policy (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "F4a",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Sunsetting or dissolution plan/policy",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-f4b",
+          "title": "F4b Plan for ceasing operations",
+          "text": "Have a plan documenting what happens when the community ceases to operate. Principle F4: Clearly document succession, sunsetting, and dissolution plans. Applies to communities at all stages. Evidence FOREST proposes: Sunsetting or dissolution plan/policy (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "F4b",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Sunsetting or dissolution plan/policy",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-f4c",
+          "title": "F4c Legal commitment to the mission",
+          "text": "Have a legal commitment to maintaining the community’s mission regardless of ownership. Principle F4: Clearly document succession, sunsetting, and dissolution plans. Applies to mature or well-established communities. Evidence FOREST proposes: Sunsetting or dissolution plan/policy (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "F4c",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Sunsetting or dissolution plan/policy",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-f4d",
+          "title": "F4d Succession strategy",
+          "text": "Have a succession strategy that identifies entities that will steward products and services if or when the community ceases to operate. Principle F4: Clearly document succession, sunsetting, and dissolution plans. Applies to mature or well-established communities. Evidence FOREST proposes: Sunsetting or dissolution plan/policy (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "F4d",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Sunsetting or dissolution plan/policy",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-f4e",
+          "title": "F4e Financial reserve for sunsetting",
+          "text": "Have a financial reserve set aside that is adequate to cover sunsetting costs. Principle F4: Clearly document succession, sunsetting, and dissolution plans. Applies to mature or well-established communities. Evidence FOREST proposes: Annual budget or other document showing financial reserves (readily available internally); Estimate of sunsetting costs (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "F4e",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Annual budget or other document showing financial reserves",
+              "access": "internal"
+            },
+            {
+              "text": "Estimate of sunsetting costs",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-f4f",
+          "title": "F4f Content migration pathways on dissolution",
+          "text": "Document, test, and regularly update specific pathways for any user-owned or -generated content to be migrated to another platform or service in the case of dissolution. Principle F4: Clearly document succession, sunsetting, and dissolution plans. Applies to mature or well-established communities. Evidence FOREST proposes: Content migration policy(ies), practices (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "F4f",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Content migration policy(ies), practices",
+              "access": "public"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "section": "O Openness",
+      "sourceUrl": "https://doi.org/10.5281/zenodo.6557302",
+      "principles": [
+        {
+          "id": "forest-o1a",
+          "title": "O1a Open Access publications with clear licences",
+          "text": "Make all publications Open Access with licensing that clearly specifies sharing and reuse conditions. Principle O1: Favor open technology, standards, and protocols. Applies to communities at all stages. Applies specifically to publishers. Evidence FOREST proposes: Publication licensing policies and/or practices (readily and publicly available); Percentage of published content made available Open Access (readily and publicly available); Examples of openly licensed content (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "O1a",
+          "maturity": "all",
+          "audience": "publishers",
+          "evidence": [
+            {
+              "text": "Publication licensing policies and/or practices",
+              "access": "public"
+            },
+            {
+              "text": "Percentage of published content made available Open Access",
+              "access": "public"
+            },
+            {
+              "text": "Examples of openly licensed content",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-o1b",
+          "title": "O1b Open and industry-standard file formats",
+          "text": "Use and support industry standard and/or open file formats wherever possible. Principle O1: Favor open technology, standards, and protocols. Applies to communities at all stages. Evidence FOREST proposes: File format policy(ies) or practices (readily and publicly available); Examples of content in industry standard file formats (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "O1b",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "File format policy(ies) or practices",
+              "access": "public"
+            },
+            {
+              "text": "Examples of content in industry standard file formats",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-o1c",
+          "title": "O1c Open source software and documentation",
+          "text": "Make all software and documentation freely and readily available under an open source license (GNU GPLv3 or equivalent), and build upon open source components wherever possible. Principle O1: Favor open technology, standards, and protocols. Applies to communities at all stages. Applies specifically to software & infrastructure providers. Evidence FOREST proposes: Code repository and code licensing statement (readily and publicly available); Documentation sufficient to allow others to effectively run code (readily and publicly available); Inventory of critical software components and their public code (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "O1c",
+          "maturity": "all",
+          "audience": "software-infrastructure",
+          "evidence": [
+            {
+              "text": "Code repository and code licensing statement",
+              "access": "public"
+            },
+            {
+              "text": "Documentation sufficient to allow others to effectively run code",
+              "access": "public"
+            },
+            {
+              "text": "Inventory of critical software components and their public code",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-o1d",
+          "title": "O1d Work on open standards with peers",
+          "text": "Work with peers and standards bodies to develop or set open standards and achieve consistent implementation. Principle O1: Favor open technology, standards, and protocols. Applies to mature or well-established communities. Evidence FOREST proposes: Documentation of participation in field-level initiatives (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "O1d",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Documentation of participation in field-level initiatives",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-o1e",
+          "title": "O1e Pathways to contribute to the codebase",
+          "text": "Provide pathways for stakeholders to contribute to the codebase. Principle O1: Favor open technology, standards, and protocols. Applies to mature or well-established communities. Applies specifically to software & infrastructure providers. Evidence FOREST proposes: Process and guidelines for reviewing and accepting code contributions (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "O1e",
+          "maturity": "mature",
+          "audience": "software-infrastructure",
+          "evidence": [
+            {
+              "text": "Process and guidelines for reviewing and accepting code contributions",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-o2a",
+          "title": "O2a Standards for metrics reporting",
+          "text": "Conform with existing standards for metrics reporting (e.g., COUNTER). Principle O2: Strive to make tools, services, and code interoperable. Applies to communities at all stages. Evidence FOREST proposes: Policies regarding collection and reporting of engagement metrics (readily and publicly available); Examples of COUNTER or other standards-based reports (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "O2a",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Policies regarding collection and reporting of engagement metrics",
+              "access": "public"
+            },
+            {
+              "text": "Examples of COUNTER or other standards-based reports",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-o2b",
+          "title": "O2b APIs for interoperability and extension",
+          "text": "Provide APIs that facilitate interoperability and/or that enable users to extend the tool/service/ infrastructure. Principle O2: Strive to make tools, services, and code interoperable. Applies to mature or well-established communities. Evidence FOREST proposes: API endpoint(s) and documentation (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "O2b",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "API endpoint(s) and documentation",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-o2c",
+          "title": "O2c Process for integration ideas",
+          "text": "Invite users to submit ideas for integrations with other products and services and have a documented process for considering these suggestions. Principle O2: Strive to make tools, services, and code interoperable. Applies to mature or well-established communities. Evidence FOREST proposes: Public mechanism and guidelines for submitting suggestions for integration (readily and publicly available); Process for considering integration suggestions (readily and publicly available); Documentation of integrations with other products and services (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "O2c",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Public mechanism and guidelines for submitting suggestions for integration",
+              "access": "public"
+            },
+            {
+              "text": "Process for considering integration suggestions",
+              "access": "public"
+            },
+            {
+              "text": "Documentation of integrations with other products and services",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-o3a",
+          "title": "O3a Open content and metadata",
+          "text": "Make content and metadata immediately, openly, and freely available, findable, and reusable. Principle O3: Encourage use/reuse of content and/or code. Applies to communities at all stages. Applies specifically to publishers. Evidence FOREST proposes: Content licensing policy(ies) (readily and publicly available); Content records with open licenses (e.g., CC-BY) (readily and publicly available); Persistent identifier policy(ies) and practices, including types used and percentage of content covered (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "O3a",
+          "maturity": "all",
+          "audience": "publishers",
+          "evidence": [
+            {
+              "text": "Content licensing policy(ies)",
+              "access": "public"
+            },
+            {
+              "text": "Content records with open licenses (e.g., CC-BY)",
+              "access": "public"
+            },
+            {
+              "text": "Persistent identifier policy(ies) and practices, including types used and percentage of content covered",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-o3b",
+          "title": "O3b Open code",
+          "text": "Make code immediately, openly, and freely available, findable, and reusable. Principle O3: Encourage use/reuse of content and/or code. Applies to communities at all stages. Applies specifically to software & infrastructure providers. Evidence FOREST proposes: Code licensing policy(ies) (readily and publicly available); Code repository(ies) with open licenses (e.g., MIT or GNU GPLv3) (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "O3b",
+          "maturity": "all",
+          "audience": "software-infrastructure",
+          "evidence": [
+            {
+              "text": "Code licensing policy(ies)",
+              "access": "public"
+            },
+            {
+              "text": "Code repository(ies) with open licenses (e.g., MIT or GNU GPLv3)",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-o3c",
+          "title": "O3c Persistent identifiers",
+          "text": "Support persistent identifiers. Principle O3: Encourage use/reuse of content and/or code. Applies to communities at all stages. Applies specifically to software & infrastructure providers. Evidence FOREST proposes: Documentation of persistent identifier support, including types supported (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "O3c",
+          "maturity": "all",
+          "audience": "software-infrastructure",
+          "evidence": [
+            {
+              "text": "Documentation of persistent identifier support, including types supported",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-o3d",
+          "title": "O3d Metadata meets domain standards",
+          "text": "Ensure that metadata meets domain-relevant standards. Principle O3: Encourage use/reuse of content and/or code. Applies to communities at all stages. Applies specifically to publishers. Evidence FOREST proposes: Metadata policy(ies) and practices, including references to standards used (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "O3d",
+          "maturity": "all",
+          "audience": "publishers",
+          "evidence": [
+            {
+              "text": "Metadata policy(ies) and practices, including references to standards used",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-o3e",
+          "title": "O3e Machine-actionable outputs",
+          "text": "Make outputs machine-actionable through general-purpose, open technologies. Principle O3: Encourage use/reuse of content and/or code. Applies to mature or well-established communities. Applies specifically to software & infrastructure providers. Evidence FOREST proposes: Documentation describing availability of content or metadata for consumption by machines (readily and publicly available); Examples of machine-actionable content or metadata (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "O3e",
+          "maturity": "mature",
+          "audience": "software-infrastructure",
+          "evidence": [
+            {
+              "text": "Documentation describing availability of content or metadata for consumption by machines",
+              "access": "public"
+            },
+            {
+              "text": "Examples of machine-actionable content or metadata",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-o3f",
+          "title": "O3f Web archiving and digital preservation",
+          "text": "Engage in Web archiving and/or digital preservation to ensure longevity of content and code. Principle O3: Encourage use/reuse of content and/or code. Applies to mature or well-established communities. Evidence FOREST proposes: Digital preservation policy(ies) and practices (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "O3f",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Digital preservation policy(ies) and practices",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-o3g",
+          "title": "O3g Adherence to the FAIR principles",
+          "text": "Ensure that content, metadata, data, and code adhere to FAIR Guiding Principles. Principle O3: Encourage use/reuse of content and/or code. Applies to mature or well-established communities. Applies specifically to publishers. Evidence FOREST proposes: Documentation of adherence to FAIR Guiding Principles (readily and publicly available); Documentation of self-evaluation or third-party evaluation based on an accepted standard (e.g., FAIR Data Maturity Model) (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "O3g",
+          "maturity": "mature",
+          "audience": "publishers",
+          "evidence": [
+            {
+              "text": "Documentation of adherence to FAIR Guiding Principles",
+              "access": "public"
+            },
+            {
+              "text": "Documentation of self-evaluation or third-party evaluation based on an accepted standard (e.g., FAIR Data Maturity Model)",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-o4a",
+          "title": "O4a Public product roadmap",
+          "text": "Maintain a public product development roadmap. Principle O4: Provide users with agency and control over content and code. Applies to communities at all stages. Evidence FOREST proposes: Development roadmap, including details about how contributions are made (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "O4a",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Development roadmap, including details about how contributions are made",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-o4b",
+          "title": "O4b Help users migrate away",
+          "text": "Have mechanisms in place to assist users in migrating off infrastructure. Principle O4: Provide users with agency and control over content and code. Applies to communities at all stages. Evidence FOREST proposes: Description of migration pathways (readily and publicly available); Description of services provided to support migration and their costs (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "O4b",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Description of migration pathways",
+              "access": "public"
+            },
+            {
+              "text": "Description of services provided to support migration and their costs",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-o4c",
+          "title": "O4c Migration costs and terms documented",
+          "text": "Publicly document costs, terms, and conditions associated with migration. Principle O4: Provide users with agency and control over content and code. Applies to communities at all stages. Evidence FOREST proposes: Description of migration options, including costs, terms and conditions, and formats of exported content (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "O4c",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Description of migration options, including costs, terms and conditions, and formats of exported content",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-o4d",
+          "title": "O4d How metadata is derived",
+          "text": "Indicate how metadata is derived, especially metadata that has been collected algorithmically. Principle O4: Provide users with agency and control over content and code. Applies to communities at all stages. Evidence FOREST proposes: Metadata creation policy(ies), practices (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "O4d",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Metadata creation policy(ies), practices",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-o4e",
+          "title": "O4e Users shape the roadmap",
+          "text": "Involve users in creating and maintaining a product development roadmap. Principle O4: Provide users with agency and control over content and code. Applies to mature or well-established communities. Evidence FOREST proposes: Policy(ies) and practices for roadmap development (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "O4e",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Policy(ies) and practices for roadmap development",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-o4f",
+          "title": "O4f Algorithms disclosed in plain language",
+          "text": "Disclose the use of algorithms in products or services and document their general functions in plain language. Principle O4: Provide users with agency and control over content and code. Applies to mature or well-established communities. Evidence FOREST proposes: Documentation of algorithms and their functions (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "O4f",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Documentation of algorithms and their functions",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-o4g",
+          "title": "O4g Usage data available to users",
+          "text": "Make usage data available to users. Principle O4: Provide users with agency and control over content and code. Applies to mature or well-established communities. Evidence FOREST proposes: Documentation describing how users can access or request usage data (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "O4g",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Documentation describing how users can access or request usage data",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-o4h",
+          "title": "O4h Industry-standard content migration",
+          "text": "Comply with industry-standard (e.g,. NISO) practices for content migration. Principle O4: Provide users with agency and control over content and code. Applies to mature or well-established communities. Evidence FOREST proposes: Content migration policy(ies), practices (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "O4h",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Content migration policy(ies), practices",
+              "access": "public"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "section": "R Responsible Governance",
+      "sourceUrl": "https://doi.org/10.5281/zenodo.6557302",
+      "principles": [
+        {
+          "id": "forest-r1a",
+          "title": "R1a Advisory or steering committee",
+          "text": "Enlist an advisory or steering committee to support, guide, and oversee activities and progress. Principle R1: Include stakeholders in decision-making and oversight. Applies to communities at all stages. Evidence FOREST proposes: Advisory or steering committee membership and responsibilities (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "R1a",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Advisory or steering committee membership and responsibilities",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-r1b",
+          "title": "R1b Core values guide decisions",
+          "text": "Refer to the community’s core values when making decisions that affect stakeholders. Principle R1: Include stakeholders in decision-making and oversight. Applies to communities at all stages. Evidence FOREST proposes: Documentation of core values (readily and publicly available); Examples of how values are applied and referenced in decision-making (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "R1b",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Documentation of core values",
+              "access": "public"
+            },
+            {
+              "text": "Examples of how values are applied and referenced in decision-making",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-r1c",
+          "title": "R1c Diverse representatives in governing bodies",
+          "text": "Engage diverse representatives from community stakeholder groups in official, decision-making and/or governing bodies. Principle R1: Include stakeholders in decision-making and oversight. Applies to mature or well-established communities. Evidence FOREST proposes: Bylaws, charter, or other official internal management structure rules including election procedures and term limits for representatives (readily available internally); Governing body membership or election results (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "R1c",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Bylaws, charter, or other official internal management structure rules including election procedures and term limits for representatives",
+              "access": "internal"
+            },
+            {
+              "text": "Governing body membership or election results",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-r1d",
+          "title": "R1d Major decisions approved by governing bodies",
+          "text": "Require that major decisions about the community that affect stakeholders (especially decisions about its organizational form, ownership, and pricing) be approved by official, decision-making and/or governing bodies. Principle R1: Include stakeholders in decision-making and oversight. Applies to mature or well-established communities. Evidence FOREST proposes: Bylaws, charter, or other official internal management structure rules documenting the role of community representatives in a) determining organizational form, ownership, and pricing; b) overseeing the creation and approval of the annual budget, financial quarterly close reports, annual fiscal reporting, and annual audit/review (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "R1d",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Bylaws, charter, or other official internal management structure rules documenting the role of community representatives in a) determining organizational form, ownership, and pricing; b) overseeing the creation and approval of the annual budget, financial quarterly close reports, annual fiscal reporting, and annual audit/review",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-r2a",
+          "title": "R2a Open governance agendas and minutes",
+          "text": "Make governance meeting agendas, minutes, and official decisions openly available to community stakeholders. Principle R2: Encourage participation and input from community stakeholders. Applies to communities at all stages. Evidence FOREST proposes: Governing body meeting agendas and minutes (readily and publicly available); Documentation of major decisions affecting stakeholders, including why and how the decisions were made (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "R2a",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Governing body meeting agendas and minutes",
+              "access": "public"
+            },
+            {
+              "text": "Documentation of major decisions affecting stakeholders, including why and how the decisions were made",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-r2b",
+          "title": "R2b Process for stakeholder concerns",
+          "text": "Have an openly documented process for soliciting/resolving community stakeholder concerns and/or objections about governance decisions. Principle R2: Encourage participation and input from community stakeholders. Applies to communities at all stages. Evidence FOREST proposes: Bylaws, charter, or other official internal management structure rules documenting process for soliciting and addressing stakeholder concerns (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "R2b",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Bylaws, charter, or other official internal management structure rules documenting process for soliciting and addressing stakeholder concerns",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-r2c",
+          "title": "R2c Framework for how decisions are made",
+          "text": "Maintain and regularly evaluate a framework that defines how and why decisions are made. Principle R2: Encourage participation and input from community stakeholders. Applies to mature or well-established communities. Evidence FOREST proposes: Documentation of decision-making processes and policies, including how (i.e., by whom, in what venue) and why (i.e., based on what metrics, priorities, or heuristics) decisions are made (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "R2c",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Documentation of decision-making processes and policies, including how (i.e., by whom, in what venue) and why (i.e., based on what metrics, priorities, or heuristics) decisions are made",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-r3a",
+          "title": "R3a Diverse governing body protects assets",
+          "text": "Include diverse stakeholder representatives in a governing body that protects the community’s assets and members’ investments. Principle R3: Engage stakeholders in fiduciary oversight and management accountability. Applies to mature or well-established communities. Evidence FOREST proposes: Directory of governing body representatives, including affiliation (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "R3a",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Directory of governing body representatives, including affiliation",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-r3b",
+          "title": "R3b Governing body oversees leadership hiring",
+          "text": "Have a governing body that includes diverse stakeholder representatives to advise on recruitment, hiring, and oversight of community leadership. Principle R3: Engage stakeholders in fiduciary oversight and management accountability. Applies to mature or well-established communities. Evidence FOREST proposes: Bylaws, charter, or other official internal management structure rules documenting process for stakeholder involvement in leadership selection and oversight (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "R3b",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Bylaws, charter, or other official internal management structure rules documenting process for stakeholder involvement in leadership selection and oversight",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-r3c",
+          "title": "R3c Approval of compensation and expenditures",
+          "text": "Adopt financial policies that ensure that official, decision-making and/or governing bodies approve and oversee compensation and expenditures. Principle R3: Engage stakeholders in fiduciary oversight and management accountability. Applies to mature or well-established communities. Evidence FOREST proposes: Executive compensation policy (readily available internally); Expense policies, such as travel reimbursement policies (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "R3c",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Executive compensation policy",
+              "access": "internal"
+            },
+            {
+              "text": "Expense policies, such as travel reimbursement policies",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-r4a",
+          "title": "R4a Concerns about representatives",
+          "text": "Have a process for stakeholders to express concerns or objections regarding who serves as their representatives. Principle R4: Ensure that stakeholder representative voices change over time. Applies to communities at all stages. Evidence FOREST proposes: Bylaws, charter, or other official internal management structure rules that include election procedures, term limits for representatives, process for expressing concerns about a representative (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "R4a",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Bylaws, charter, or other official internal management structure rules that include election procedures, term limits for representatives, process for expressing concerns about a representative",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-r4b",
+          "title": "R4b Term limits for representatives",
+          "text": "Set and enforce term limits for official representatives. Principle R4: Ensure that stakeholder representative voices change over time. Applies to communities at all stages. Evidence FOREST proposes: Bylaws, charter, or other official internal management structure rules that include term limits for representatives (readily available internally); Election results or leadership directory indicating representative turnover over time (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "R4b",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Bylaws, charter, or other official internal management structure rules that include term limits for representatives",
+              "access": "internal"
+            },
+            {
+              "text": "Election results or leadership directory indicating representative turnover over time",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-r4c",
+          "title": "R4c Periodic review of governance documents",
+          "text": "Periodically review and revise governance documents to reflect shifts in mission, practices, or priorities. Principle R4: Ensure that stakeholder representative voices change over time. Applies to communities at all stages. Evidence FOREST proposes: Documentation describing practices for regular review of governance documents, including process for making revisions (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "R4c",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Documentation describing practices for regular review of governance documents, including process for making revisions",
+              "access": "internal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "section": "E Equity, Accessibility, and Anti-Oppression",
+      "sourceUrl": "https://doi.org/10.5281/zenodo.6557302",
+      "principles": [
+        {
+          "id": "forest-e1a",
+          "title": "E1a Concrete EDAI and anti-oppression goals",
+          "text": "Maintain and demonstrate success in attaining concrete equity, diversity, accessibility, and inclusion (EDAI) and anti-oppression goals. Principle E1: Attract, welcome, and retain stakeholders with diverse lived experiences. Applies to communities at all stages. Evidence FOREST proposes: Equity, diversity, inclusion, and anti-oppression policy(ies) or statement(s) (readily and publicly available); Accessibility statement(s) (readily and publicly available); Strategic plan or other documents describing EDAI and anti-oppression-related goals and metrics (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "E1a",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Equity, diversity, inclusion, and anti-oppression policy(ies) or statement(s)",
+              "access": "public"
+            },
+            {
+              "text": "Accessibility statement(s)",
+              "access": "public"
+            },
+            {
+              "text": "Strategic plan or other documents describing EDAI and anti-oppression-related goals and metrics",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-e1b",
+          "title": "E1b Diverse recruitment and retention of staff",
+          "text": "Use proven strategies to recruit, hire, retain, and support staff—including community leadership—from diverse lived experiences. Principle E1: Attract, welcome, and retain stakeholders with diverse lived experiences. Applies to communities at all stages. Evidence FOREST proposes: Equitable recruitment and hiring statement(s) or policy(ies) (readily and publicly available); Employment policies that recognize, value, and reward cultural differences such as dress, speech, and work style (readily and publicly available); Current staff, leadership, volunteer, and community demographics and specific goals and benchmarks for improving BIPOC representation and diversity of gender, ability, and lived experience, presented in a way that enables comparison across community units and over time (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "E1b",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Equitable recruitment and hiring statement(s) or policy(ies)",
+              "access": "public"
+            },
+            {
+              "text": "Employment policies that recognize, value, and reward cultural differences such as dress, speech, and work style",
+              "access": "public"
+            },
+            {
+              "text": "Current staff, leadership, volunteer, and community demographics and specific goals and benchmarks for improving BIPOC representation and diversity of gender, ability, and lived experience, presented in a way that enables comparison across community units and over time",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-e1c",
+          "title": "E1c Evaluate sense of belonging",
+          "text": "Regularly evaluate how stakeholders with diverse lived experiences sense their belonging, and make changes and decisions based on this knowledge. Principle E1: Attract, welcome, and retain stakeholders with diverse lived experiences. Applies to mature or well-established communities. Evidence FOREST proposes: Internal or external assessments of staff, leadership, volunteer, and community members’ sense of belonging (readily available internally); Example(s) of how assessments have inspired action and organizational changes (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "E1c",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Internal or external assessments of staff, leadership, volunteer, and community members’ sense of belonging",
+              "access": "internal"
+            },
+            {
+              "text": "Example(s) of how assessments have inspired action and organizational changes",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-e1d",
+          "title": "E1d Value diversity and antiracism work",
+          "text": "Proactively express the value of diversity and undertake antiracism work to build awareness of the harms of implicit bias and white supremacy culture in the workplace. Principle E1: Attract, welcome, and retain stakeholders with diverse lived experiences. Applies to mature or well-established communities. Evidence FOREST proposes: Statement(s) reflecting community commitment to antiracism work (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "E1d",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Statement(s) reflecting community commitment to antiracism work",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-e2a",
+          "title": "E2a Fair hiring and advancement criteria",
+          "text": "Use fair and transparent criteria for hiring and advancement. Principle E2: Promote equitable treatment of and opportunity for stakeholders. Applies to communities at all stages. Evidence FOREST proposes: Equitable recruitment and hiring statement(s) or policy(ies) (readily and publicly available); Current salaries or pay scale and job descriptions demonstrating pay equity and clear advancement criteria (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "E2a",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Equitable recruitment and hiring statement(s) or policy(ies)",
+              "access": "public"
+            },
+            {
+              "text": "Current salaries or pay scale and job descriptions demonstrating pay equity and clear advancement criteria",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-e2b",
+          "title": "E2b EDAI and anti-oppression training",
+          "text": "Offer or require regular EDAI and anti-oppression training for all employees and leadership. Principle E2: Promote equitable treatment of and opportunity for stakeholders. Applies to communities at all stages. Evidence FOREST proposes: Documentation of training offered to staff during the previous 12 months (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "E2b",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Documentation of training offered to staff during the previous 12 months",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-e2c",
+          "title": "E2c Accessible communications and events",
+          "text": "Prioritize accessibility when designing communications and events. Principle E2: Promote equitable treatment of and opportunity for stakeholders. Applies to communities at all stages. Evidence FOREST proposes: Accessibility policy(ies) (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "E2c",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Accessibility policy(ies)",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-e2d",
+          "title": "E2d Accommodations on request",
+          "text": "Provide reasonable accommodations for community members with disabilities upon request to facilitate participation in all community forums. Principle E2: Promote equitable treatment of and opportunity for stakeholders. Applies to communities at all stages. Evidence FOREST proposes: Accessibility policy(ies) and/or other documentation of accommodation request process (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "E2d",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Accessibility policy(ies) and/or other documentation of accommodation request process",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-e2e",
+          "title": "E2e Events designed with accommodations",
+          "text": "Proactively design events to provide reasonable accommodations for community members with disabilities. Principle E2: Promote equitable treatment of and opportunity for stakeholders. Applies to mature or well-established communities. Evidence FOREST proposes: Accessibility policy(ies) (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "E2e",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Accessibility policy(ies)",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-e3a",
+          "title": "E3a Policies on acceptable behavior",
+          "text": "Maintain, post, and enforce policies that define acceptable and unacceptable behavior for all communication channels and virtual and in-person gatherings. Principle E3: Maintain a safe and welcoming environment. Applies to communities at all stages. Evidence FOREST proposes: Code of conduct and/or other documentation defining expectations for community participation (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "E3a",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Code of conduct and/or other documentation defining expectations for community participation",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-e3b",
+          "title": "E3b Path for reporting unacceptable behavior",
+          "text": "Maintain and post a clear path for reporting unacceptable behavior. Principle E3: Maintain a safe and welcoming environment. Applies to communities at all stages. Evidence FOREST proposes: Code of conduct and/or other description of reporting mechanism(s) (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "E3b",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Code of conduct and/or other description of reporting mechanism(s)",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-e3c",
+          "title": "E3c How reports are managed and resolved",
+          "text": "Maintain and post details about how reports of violation are managed and resolved. Principle E3: Maintain a safe and welcoming environment. Applies to communities at all stages. Evidence FOREST proposes: Code of conduct and/or other description of resolution mechanism(s) (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "E3c",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Code of conduct and/or other description of resolution mechanism(s)",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-e3d",
+          "title": "E3d Technology safeguards against harm",
+          "text": "Design technology safeguards that minimize risk of abuse or harm. Principle E3: Maintain a safe and welcoming environment. Applies to communities at all stages. Applies specifically to software & infrastructure providers. Evidence FOREST proposes: Documentation of efforts to build safeguards that protect the safety of people (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "E3d",
+          "maturity": "all",
+          "audience": "software-infrastructure",
+          "evidence": [
+            {
+              "text": "Documentation of efforts to build safeguards that protect the safety of people",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-e3e",
+          "title": "E3e Evaluate conduct policies and processes",
+          "text": "Regularly evaluate policies, reporting processes, and violation management strategies. Principle E3: Maintain a safe and welcoming environment. Applies to mature or well-established communities. Evidence FOREST proposes: Documentation of how policies, reporting processes, and violation management strategies have been evaluated with stakeholder input (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "E3e",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Documentation of how policies, reporting processes, and violation management strategies have been evaluated with stakeholder input",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-e3f",
+          "title": "E3f Restorative justice approach",
+          "text": "Adopt a restorative justice approach to addressing harms caused by the community. Principle E3: Maintain a safe and welcoming environment. Applies to mature or well-established communities. Evidence FOREST proposes: Documentation of restorative justice practices (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "E3f",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Documentation of restorative justice practices",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-e3g",
+          "title": "E3g No use of software against human rights",
+          "text": "Expressly prohibit the use of software or code to violate universal standards of human rights. Principle E3: Maintain a safe and welcoming environment. Applies to mature or well-established communities. Applies specifically to software & infrastructure providers. Evidence FOREST proposes: Adoption of the Hippocratic License or other documentation describing prohibitions on use that violate human rights (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "E3g",
+          "maturity": "mature",
+          "audience": "software-infrastructure",
+          "evidence": [
+            {
+              "text": "Adoption of the Hippocratic License or other documentation describing prohibitions on use that violate human rights",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-e4a",
+          "title": "E4a Web and accessibility standards",
+          "text": "Comply with W3C standards and guidelines and national or international accessibility standards for all products, publications, and events. Principle E4: Adhere to industry standards for accessibility. Applies to communities at all stages. Evidence FOREST proposes: Documentation of conformance to relevant web accessibility guidelines (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "E4a",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Documentation of conformance to relevant web accessibility guidelines",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-e4b",
+          "title": "E4b Accessible formats at no extra cost",
+          "text": "Provide information and services in formats appropriate for users with disabilities in a timely manner and at no additional cost to the user. Principle E4: Adhere to industry standards for accessibility. Applies to mature or well-established communities. Evidence FOREST proposes: Documentation of practices and policies regarding captioning on audio-visual media, transcripts for audio-visual media, compliance with The Web Video Text Tracks Format (WebVTT) and Timed Text Markup Language (TTML) (readily and publicly available); Examples of compliant captioned materials and transcripts (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "E4b",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Documentation of practices and policies regarding captioning on audio-visual media, transcripts for audio-visual media, compliance with The Web Video Text Tracks Format (WebVTT) and Timed Text Markup Language (TTML)",
+              "access": "public"
+            },
+            {
+              "text": "Examples of compliant captioned materials and transcripts",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-e4c",
+          "title": "E4c Formal accessibility evaluation",
+          "text": "Formally evaluate products and publications for accessibility. Principle E4: Adhere to industry standards for accessibility. Applies to mature or well-established communities. Evidence FOREST proposes: Results of internal or third-party accessibility evaluations (e.g., WCAG 2.1 AAA audit).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "E4c",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Results of internal or third-party accessibility evaluations (e.g., WCAG 2.1 AAA audit)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "section": "S Sharing of Knowledge",
+      "sourceUrl": "https://doi.org/10.5281/zenodo.6557302",
+      "principles": [
+        {
+          "id": "forest-s1a",
+          "title": "S1a Share expertise, content and infrastructure",
+          "text": "Actively and freely share their expertise, content, and/or infrastructure in order to promote access to and reduce exclusions from knowledge production, sharing, and use. Principle S1: Participate in networks that promote inclusive knowledge production, sharing, and use. Applies to communities at all stages. Evidence FOREST proposes: Published resources that promote access to and reduce exclusions from knowledge production, sharing, and use (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "S1a",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Published resources that promote access to and reduce exclusions from knowledge production, sharing, and use",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-s1b",
+          "title": "S1b Support community inclusion initiatives",
+          "text": "Invest in and/or financially support community initiatives that advance access to and reduce exclusions from the production, sharing, and/or use of knowledge. Principle S1: Participate in networks that promote inclusive knowledge production, sharing, and use. Applies to mature or well-established communities. Evidence FOREST proposes: Documentation of time, effort, and/or financial support provided to community initiatives that support inclusion in knowledge production (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "S1b",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Documentation of time, effort, and/or financial support provided to community initiatives that support inclusion in knowledge production",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-s1c",
+          "title": "S1c Outreach and advocacy on exclusion",
+          "text": "Engage in community outreach and/or advocacy on behalf of individuals, communities, and organizations that experience exclusions from knowledge production, sharing, and use. Principle S1: Participate in networks that promote inclusive knowledge production, sharing, and use. Applies to mature or well-established communities. Evidence FOREST proposes: Documentation of time, effort, and/or funding in support of outreach and/or advocacy to make knowledge production more inclusive (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "S1c",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Documentation of time, effort, and/or funding in support of outreach and/or advocacy to make knowledge production more inclusive",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-s2a",
+          "title": "S2a Diversity of the scholarly record",
+          "text": "Contribute to the diversity of the scholarly record. Principle S2: Commit to the development of a robust knowledge commons. Applies to communities at all stages. Applies specifically to publishers. Evidence FOREST proposes: Editorial or collection development policies or other documentation of contributions to the diversity of the scholarly record (e.g., language-based, cultural, epistemological) (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "S2a",
+          "maturity": "all",
+          "audience": "publishers",
+          "evidence": [
+            {
+              "text": "Editorial or collection development policies or other documentation of contributions to the diversity of the scholarly record (e.g., language-based, cultural, epistemological)",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-s2b",
+          "title": "S2b Act on misconduct, fraud and manipulation",
+          "text": "Take action to prevent and rectify research misconduct, fraud, and manipulation of data and information. Principle S2: Commit to the development of a robust knowledge commons. Applies to communities at all stages. Applies specifically to publishers. Evidence FOREST proposes: Peer review and retraction policy(ies) and practices (readily and publicly available); Documentation of incidents in which misconduct or fraud were addressed (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "S2b",
+          "maturity": "all",
+          "audience": "publishers",
+          "evidence": [
+            {
+              "text": "Peer review and retraction policy(ies) and practices",
+              "access": "public"
+            },
+            {
+              "text": "Documentation of incidents in which misconduct or fraud were addressed",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-s2c",
+          "title": "S2c Refuse closed and APC-based channels",
+          "text": "Refuse to publish in or contribute to closed, restricted access, or APC-based communication channels. Principle S2: Commit to the development of a robust knowledge commons. Applies to communities at all stages. Evidence FOREST proposes: Publication policy (readily and publicly available); Bibliography of works published by community leadership and staff (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "S2c",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Publication policy",
+              "access": "public"
+            },
+            {
+              "text": "Bibliography of works published by community leadership and staff",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-s3a",
+          "title": "S3a Commitment to reduce exclusion",
+          "text": "Explicitly commit to reducing exclusions from knowledge production, sharing, and usage in the community’s mission statement, strategic plan, or other documentation. Principle S3: Prioritize access to knowledge. Applies to communities at all stages. Evidence FOREST proposes: Mission statement and/or strategic plan, including language that demonstrates a commitment to reducing exclusions from knowledge production, sharing, and usage (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "S3a",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Mission statement and/or strategic plan, including language that demonstrates a commitment to reducing exclusions from knowledge production, sharing, and usage",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-s3b",
+          "title": "S3b Internal impact evaluation",
+          "text": "Internally evaluate the community’s impact (using specific metrics or key performance indicators) in reducing exclusion from knowledge production, sharing, and usage. Principle S3: Prioritize access to knowledge. Applies to communities at all stages. Evidence FOREST proposes: Reports documenting internal assessments undertaken to evaluate efforts in reducing exclusion (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "S3b",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Reports documenting internal assessments undertaken to evaluate efforts in reducing exclusion",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-s3c",
+          "title": "S3c Accountable senior position",
+          "text": "Have a leadership or senior position with clear accountability for delivering on and evaluating the community’s work to reduce exclusions from the production, sharing, and/or use of knowledge. Principle S3: Prioritize access to knowledge. Applies to mature or well-established communities. Evidence FOREST proposes: Organization chart or a position description for a leadership or senior role with clear accountability for delivering on and evaluating the community/organization’s work to reduce exclusions from the production, sharing, and/or use of knowledge (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "S3c",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Organization chart or a position description for a leadership or senior role with clear accountability for delivering on and evaluating the community/organization’s work to reduce exclusions from the production, sharing, and/or use of knowledge",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-s3d",
+          "title": "S3d External impact evaluation",
+          "text": "Participate in external evaluations to assess the community’s impact in reducing exclusion from knowledge production, sharing, and usage. Principle S3: Prioritize access to knowledge. Applies to mature or well-established communities. Evidence FOREST proposes: Reports documenting external assessments undertaken to evaluate efforts in reducing exclusion (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "S3d",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Reports documenting external assessments undertaken to evaluate efforts in reducing exclusion",
+              "access": "internal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "section": "T Transparency",
+      "sourceUrl": "https://doi.org/10.5281/zenodo.6557302",
+      "principles": [
+        {
+          "id": "forest-t1a",
+          "title": "T1a Business identity and governance structure",
+          "text": "Publicly document any official business identity (including host, fiscal sponsor, or other arrangement) and governance structure. Principle T1: Offer full and honest accounting of business identity and governance structure. Applies to communities at all stages. Evidence FOREST proposes: Tax status and/or relationship to an incorporated host or fiscal/legal sponsor, including official business identity, legal incorporated entity name, national jurisdiction, any “Doing Business As” names (readily available internally); Mission statement and description of activities (readily available internally).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "T1a",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Tax status and/or relationship to an incorporated host or fiscal/legal sponsor, including official business identity, legal incorporated entity name, national jurisdiction, any “Doing Business As” names",
+              "access": "internal"
+            },
+            {
+              "text": "Mission statement and description of activities",
+              "access": "internal"
+            }
+          ]
+        },
+        {
+          "id": "forest-t1b",
+          "title": "T1b Insight into governance",
+          "text": "Give stakeholders insight into community governance. Principle T1: Offer full and honest accounting of business identity and governance structure. Applies to communities at all stages. Evidence FOREST proposes: Description of organizational governance, including ownership and control structure, how decisions are made, e.g., bylaws, charter, or other official internal management structure rules (readily and publicly available); Governance meeting agendas, minutes, and official decisions (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "T1b",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Description of organizational governance, including ownership and control structure, how decisions are made, e.g., bylaws, charter, or other official internal management structure rules",
+              "access": "public"
+            },
+            {
+              "text": "Governance meeting agendas, minutes, and official decisions",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-t1c",
+          "title": "T1c Funding sources and conflicts of interest",
+          "text": "Disclose funding sources and conflicts of interest. Principle T1: Offer full and honest accounting of business identity and governance structure. Applies to communities at all stages. Evidence FOREST proposes: Inventory of funding sources (readily and publicly available); Acknowledgment of conflicts of interest (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "T1c",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Inventory of funding sources",
+              "access": "public"
+            },
+            {
+              "text": "Acknowledgment of conflicts of interest",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-t2a",
+          "title": "T2a Acknowledge mistakes and harm",
+          "text": "Openly acknowledge mistakes or harm and share how community will mitigate them in the future. Principle T2: Communicate quickly, proactively, and thoroughly. Applies to communities at all stages. Evidence FOREST proposes: Examples of communication with stakeholders (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "T2a",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Examples of communication with stakeholders",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-t2b",
+          "title": "T2b Welcome questions, dissent and critique",
+          "text": "Allow and encourage questions, dissent, and critique. Principle T2: Communicate quickly, proactively, and thoroughly. Applies to communities at all stages. Evidence FOREST proposes: Examples of opportunities and invitations for stakeholders to express opinions and questions (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "T2b",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Examples of opportunities and invitations for stakeholders to express opinions and questions",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-t3a",
+          "title": "T3a Public contract terms and conditions",
+          "text": "Publicly share contract terms and conditions for all products and services. Principle T3: Employ consistent, clear, and fair pricing and terms and conditions for products and services. Applies to communities at all stages. Evidence FOREST proposes: Terms and conditions for all products and services (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "T3a",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Terms and conditions for all products and services",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-t3b",
+          "title": "T3b Public pricing",
+          "text": "Publicly share pricing for all products and services. Principle T3: Employ consistent, clear, and fair pricing and terms and conditions for products and services. Applies to communities at all stages. Evidence FOREST proposes: Pricing for products and services (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "T3b",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Pricing for products and services",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-t3c",
+          "title": "T3c No non-disclosure agreements",
+          "text": "Prohibit the use of non-disclosure agreements. Principle T3: Employ consistent, clear, and fair pricing and terms and conditions for products and services. Applies to communities at all stages. Evidence FOREST proposes: Statement against the use of non-disclosure agreements or giving stakeholders explicit permission to share information about contract terms and pricing (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "T3c",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Statement against the use of non-disclosure agreements or giving stakeholders explicit permission to share information about contract terms and pricing",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-t4a",
+          "title": "T4a Public policy on user data",
+          "text": "Publicly share policies regarding the collection and use of user data or personal information. Principle T4: Describe in public, accessible, and easy-to-understand ways how personal data is captured, processed, used, and protected. Applies to communities at all stages. Evidence FOREST proposes: Privacy and personal data collection and protection policy(ies) (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "T4a",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Privacy and personal data collection and protection policy(ies)",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-t4b",
+          "title": "T4b Minimal data collection",
+          "text": "Limit collection of user data to the minimum required for service provision. Principle T4: Describe in public, accessible, and easy-to-understand ways how personal data is captured, processed, used, and protected. Applies to communities at all stages. Evidence FOREST proposes: Privacy and personal data collection and protection policy(ies) (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "T4b",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Privacy and personal data collection and protection policy(ies)",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-t4c",
+          "title": "T4c No selling of user data",
+          "text": "Prohibit the selling of user data or insights derived from user data. Principle T4: Describe in public, accessible, and easy-to-understand ways how personal data is captured, processed, used, and protected. Applies to communities at all stages. Evidence FOREST proposes: Privacy and personal data collection and protection policy(ies) (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "T4c",
+          "maturity": "all",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Privacy and personal data collection and protection policy(ies)",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-t4d",
+          "title": "T4d Data anonymization protocols",
+          "text": "Follow industry-standard protocols for data anonymization. Principle T4: Describe in public, accessible, and easy-to-understand ways how personal data is captured, processed, used, and protected. Applies to mature or well-established communities. Evidence FOREST proposes: Privacy and personal data collection and protection policy(ies) (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "T4d",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Privacy and personal data collection and protection policy(ies)",
+              "access": "public"
+            }
+          ]
+        },
+        {
+          "id": "forest-t4e",
+          "title": "T4e Easy opt-out of data collection",
+          "text": "Allow users to easily opt out of data collection. Principle T4: Describe in public, accessible, and easy-to-understand ways how personal data is captured, processed, used, and protected. Applies to mature or well-established communities. Evidence FOREST proposes: Privacy and personal data collection and protection policy(ies) (readily and publicly available); GDPR compliance statement (readily and publicly available).",
+          "criteria": {
+            "not-planning": "The indicator is applicable, but the community has no current plans to move towards adherence.",
+            "considering": "The community has taken documentable actions to develop a roadmap toward adherence.",
+            "in-progress": "The community has taken documentable actions to move towards adherence.",
+            "implemented": "The community fully adheres to the indicator and can provide evidence to substantiate its adherence."
+          },
+          "code": "T4e",
+          "maturity": "mature",
+          "audience": "all",
+          "evidence": [
+            {
+              "text": "Privacy and personal data collection and protection policy(ies)",
+              "access": "public"
+            },
+            {
+              "text": "GDPR compliance statement",
+              "access": "public"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

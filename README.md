@@ -10,7 +10,7 @@ making progress / not compliant, but a framework can instead define its
 own ordinal scale (see SPII Alignment below) — with optional
 notes, then export the result.
 
-Ten frameworks are included today, each as its own JSON file under
+Eleven frameworks are included today, each as its own JSON file under
 [`data/frameworks/`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/tree/main/data/frameworks/) — edit them directly to tweak
 principles, criteria, or copy, no code changes needed:
 
@@ -109,6 +109,18 @@ points earned out of the 997 points on offer, and drops to 0% as soon as one
 Must have is not answered Yes. This is the optional `scoring` block of a
 framework (`"type": "points-knockout"`, with `points` and `knockOut` per
 principle), so it needs no code change for other tender-style frameworks.
+- **FOREST v2.0** (draft, [`forest-v2.0.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/forest-v2.0.json))
+  — 96 indicators under 23 principles and six values (Financial and organizational
+  resilience, Openness, Responsible governance, Equity, accessibility and
+  anti-oppression, Sharing of knowledge, Transparency), transcribed from the
+  [FOREST Framework for Values-Driven Scholarly
+  Communication](https://doi.org/10.5281/zenodo.6557302) (Lippincott & Skinner,
+  Educopia Institute, Framework 2.0, Spring 2022, CC BY 4.0). Uses FOREST's own
+  four-step progress bar (Not planning, Considering, In progress, Implemented;
+  leave an indicator unanswered for Not applicable). Each indicator notes
+  whether it applies to mature communities, to publishers or to software &
+  infrastructure providers, and lists the evidence FOREST proposes. FOREST
+  itself discourages tallying a score. At the bottom of the framework order.
 
 ## Features
 
@@ -123,7 +135,7 @@ principle), so it needs no code change for other tender-style frameworks.
   see progress at a glance without opening each section.
 - **Bring your own framework** — import a custom assessment framework
   (JSON) at runtime alongside POSI, POSI+SPII, SPII, GORC, FAIR, BD, OSR, 7GPRI,
-  and CARE, download a template to help author one, and export whichever
+  CARE, and FOREST, download a template to help author one, and export whichever
   frameworks are currently loaded.
 - **Export as JSON** — download your results and reload them later to
   continue or revise an assessment.
@@ -140,7 +152,7 @@ Also live at **[surf-ori.github.io/spii-1b-principles-alignment-tool](https://su
 step). Or serve the directory with any static file server (for example
 `python3 -m http.server`) and open `index.html` over http(s); there is
 nothing to install or build beyond that. **Opening `index.html` directly
-as a `file://` page no longer works** — the ten built-in frameworks are
+as a `file://` page no longer works** — the eleven built-in frameworks are
 loaded from [`data/frameworks/`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/tree/main/data/frameworks/) via `fetch()` at
 startup, and browsers block that kind of request from a `file://` page;
 you'll see a clear on-page message explaining this instead of a blank
@@ -178,7 +190,7 @@ report and/or a custom framework automatically from query parameters:
 
 ### Linking directly to a framework
 
-`index.html#gorc` (or any framework id — `posi-spii`, `spii`, `spii-alignment`, `posi`, `gorc`, `fair`, `bd`, `osr`, `7gpri`, `care`, matched
+`index.html#gorc` (or any framework id — `posi-spii`, `spii`, `spii-alignment`, `posi`, `gorc`, `fair`, `bd`, `osr`, `7gpri`, `care`, `forest`, matched
 case-insensitively) opens straight to that framework's tab, with its sidebar section expanded
 and every other framework's section collapsed. Selecting a framework tab in the app updates the
 URL the same way, so the address bar always reflects which framework is open and can be shared
