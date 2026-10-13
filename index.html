@@ -556,6 +556,50 @@
                 overflow-wrap: anywhere;
             }
 
+            /* Requirement-kind and answer chips in the accordion title of frameworks
+               with a `scoring` block (principle_chips_element). */
+            /* Oat's summary is a flex row with space-between: let it wrap, so the chips
+               drop under the title on a narrow screen instead of widening the page. */
+            summary.has-chips {
+                flex-wrap: wrap;
+                justify-content: flex-start;
+                row-gap: var(--space-1);
+            }
+
+            summary.has-chips::after {
+                margin-inline-start: auto;
+            }
+
+            .principle-chips {
+                display: inline-flex;
+                flex-wrap: wrap;
+                gap: var(--space-1);
+                vertical-align: middle;
+            }
+
+            .chip {
+                display: inline-flex;
+                align-items: center;
+                gap: var(--space-1);
+                padding: 0 var(--space-2);
+                border: 1px solid var(--border);
+                border-radius: 999px;
+                font-size: var(--text-7);
+                font-weight: 600;
+                line-height: 1.6;
+                white-space: nowrap;
+                background: var(--card);
+                color: var(--foreground);
+            }
+
+            .chip-must { border-color: var(--destructive); color: var(--destructive); }
+            .chip-should { border-color: var(--primary); color: var(--primary); }
+            .chip-award, .chip-price { border-color: var(--warning); color: var(--foreground); }
+            .chip-points { color: var(--muted-foreground); font-weight: 400; }
+            .chip-answer { border-color: var(--status-accent, var(--border)); color: var(--status-accent, var(--foreground)); }
+            .chip-icon { display: inline-flex; }
+            .chip-icon svg { width: 14px; height: 14px; display: block; }
+
             /* Marks a framework with "approved": true in its JSON. */
             .approved-icon {
                 display: inline-block;
@@ -692,6 +736,7 @@
 
             const CHANGELOG_HTML =
                 "<dl>" +
+                '<dt>2026-10-08</dt><dd>The CRIS Tender framework now follows the tender’s own definitions. Sections and principles carry the tender’s question numbers; every principle is a <strong>Must have</strong> (a knock-out question) or a <strong>Should have</strong> (a question that earns points), shown as chips in its title together with the answer given (Yes / Partly / No, with its icon) and the points earned; the plans and the price keep their own labels. Compliance is now the points earned out of the 997 points on offer, and drops to 0% as soon as a Must have is not answered Yes. This is a new optional <code>scoring</code> block in a framework’s JSON (with <code>points</code> and <code>knockOut</code> per principle); frameworks without it are unchanged, and the CRIS framework keeps its ids, criteria and scale, so existing reports still load. Aligned with AI assistance (Claude) from the tender documents; pending review.</dd>' +
                 '<dt>2026-10-08</dt><dd>Fixed importing an assessment report for a framework with its own levels (POSI+SPII, SPII Alignment, or a custom one): the scores were silently dropped on load — only the notes survived — because import only recognised compliant / making progress / not compliant. A status is now checked against the framework’s own scale.</dd>' +
                 '<dt>2026-10-07</dt><dd>Added a concept beyond Open Science infrastructure self-assessment: a draft <strong>CRIS Tender v0.1</strong> framework (15 sections, 138 principles, scored compliant / making progress / not compliant, each with a <code>priority</code> and <code>knockOut</code> field) based on the public 2026 European tender of Maastricht University for a CRIS with repository function (<a href="https://app.mercell.com/tender/1548230057/Current-Research-Information-System-(CRIS)-with-repository-function">Mercell</a>), plus an example assessment of MORIS+ (SURF’s Modular Open Research Information System, extended for universities and UMCs) combined with BROCCOLI (SURF’s Open Research Information hub), scoring all 138 principles. The framework is deliberately not one of the built-in frameworks: it is loaded at runtime via <code>?framework=</code>. <a href="https://surf-ori.github.io/spii-1b-principles-alignment-tool/?framework=data/frameworks/cris-tender-v0.1.json&amp;report=data/examples/moris-broccoli-cris-tender-assessment-2026.json#cris-tender">Open the CRIS tender framework with the MORIS+ and BROCCOLI example</a>. It is a concept for discussion, not a validated product assessment, and both files were drafted with AI assistance (Claude) and are pending review. Also fixed: a <code>#framework</code> hash naming a framework loaded via <code>?framework=</code> now opens that framework’s tab instead of the infrastructure-description tab, and a section without a <code>sourceUrl</code> no longer shows “Source: undefined”, and a framework’s plain-text <code>description</code> can now contain <code>[label](https://…)</code> links (built as DOM nodes, http(s) only), which the CRIS Tender description uses for its source tender instead of a bare URL. Also fixed on phones: a long unbreakable string in a framework (a bare URL in a description, a “Source:” link) or a long tab label no longer makes the page wider than the screen, where it was clipped on the right — this already affected POSI v2.0 and others at 375 px.</dd>' +
                 '<dt>2026-10-01</dt><dd>POSI v2.0 is now the official, approved assessment framework in this tool, per a decision by SPII’s values and principles working group: it is first in the framework list and marked with a seal icon. The draft “POSI+” is renamed “POSI+SPII merged v0.5”; its four-level scale and SPII additions will be shown to and discussed with POSI’s authors and the POSI community, aiming for a mandate for POSI to adopt them officially, on a global scale. Also fixed “(draft)” appearing twice in the sidebar for frameworks whose title already says so.</dd>' +
@@ -889,6 +934,79 @@
                 };
             }
 
+            // Optional tender-style scoring (a framework's top-level `scoring`, see
+            // CLAUDE.md): principles carry `knockOut` (Must have) and/or `points`
+            // (Should have), answers earn a fraction of the points (`credit`), and any
+            // answered Must have that is not fully met drops compliance to 0%.
+            function tender_scoring(framework) {
+                const scoring = framework && framework.scoring;
+                return scoring && typeof scoring === "object" && scoring.type === "points-knockout" ? scoring : null;
+            }
+
+            function answer_credit(scoring, status) {
+                if (!status) return 0;
+                const credit = scoring.credit && scoring.credit[status];
+                if (typeof credit === "number") return credit;
+                return status === "compliant" ? 1 : 0;
+            }
+
+            function answer_label(framework, level) {
+                const scoring = tender_scoring(framework);
+                const custom = scoring && scoring.answerLabels && scoring.answerLabels[level.id];
+                return typeof custom === "string" && custom ? custom : level.label;
+            }
+
+            function principle_points(principle) {
+                return typeof principle.points === "number" && principle.points > 0 ? principle.points : 0;
+            }
+
+            const KIND_LABELS = { must: "Must have", should: "Should have", award: "Award criterion", price: "Price" };
+
+            // Must have = knock-out; any other principle with points (or a "should"/"could"
+            // priority) is Should have; the tender's plans and price keep their own labels.
+            function principle_kind(principle) {
+                if (principle.knockOut === true || principle.priority === "must") return "must";
+                if (principle.priority === "award" || principle.priority === "price") return principle.priority;
+                if (principle.priority === "should" || principle.priority === "could" || principle_points(principle) > 0) return "should";
+                return null;
+            }
+
+            function round_points(x) {
+                return Math.round(x * 100) / 100;
+            }
+
+            function tender_summary(state, frameworkId, framework, scoring) {
+                const entries = state.frameworks[frameworkId] || {};
+                let possible = 0;
+                let earned = 0;
+                let mustTotal = 0;
+                let mustMet = 0;
+                let mustFailed = 0;
+                let mustUnanswered = 0;
+                framework.sections.forEach((section) => {
+                    section.principles.forEach((principle) => {
+                        const entry = entries[principle.id];
+                        const status = entry ? entry.status : null;
+                        const credit = answer_credit(scoring, status);
+                        const points = principle_points(principle);
+                        if (points) {
+                            possible += points;
+                            earned += points * credit;
+                        }
+                        if (principle_kind(principle) === "must") {
+                            mustTotal++;
+                            if (!status) mustUnanswered++;
+                            else if (credit >= 1) mustMet++;
+                            else mustFailed++;
+                        }
+                    });
+                });
+                const knockedOut = mustFailed > 0;
+                const percentPoints = possible > 0 ? Math.round((earned / possible) * 100) : 0;
+                const percent = knockedOut ? 0 : possible > 0 ? percentPoints : mustTotal > 0 ? Math.round((mustMet / mustTotal) * 100) : 0;
+                return { earned: round_points(earned), possible, mustTotal, mustMet, mustFailed, mustUnanswered, knockedOut, percentPoints, percent };
+            }
+
             function compute_summary(state, frameworkId, framework) {
                 const entries = Object.values(state.frameworks[frameworkId] || {});
                 const scored = entries.filter((e) => e.status !== null);
@@ -911,7 +1029,9 @@
                 const compliant = scored.filter((e) => e.status === "compliant").length;
                 const progress = scored.filter((e) => e.status === "progress").length;
                 const nonCompliant = scored.filter((e) => e.status === "non-compliant").length;
-                const percentCompliant = scored.length ? Math.round((compliant / scored.length) * 100) : 0;
+                const scoring = tender_scoring(framework);
+                const tender = scoring ? tender_summary(state, frameworkId, framework, scoring) : null;
+                const percentCompliant = tender ? tender.percent : scored.length ? Math.round((compliant / scored.length) * 100) : 0;
                 return {
                     legacy: true,
                     compliant,
@@ -920,6 +1040,37 @@
                     scoredCount: scored.length,
                     totalCount: entries.length,
                     percentCompliant,
+                    tender,
+                };
+            }
+
+            // Heading and detail line of a framework's summary (plain strings).
+            function summary_text(summary, framework) {
+                if (!summary.legacy) {
+                    return {
+                        heading: "Overall: " + summary.percentMature + "% average score",
+                        counts:
+                            summary.levels.map((l, i) => summary.counts[i] + " " + l.label).join(" · ") +
+                            " (" + summary.scoredCount + "/" + summary.totalCount + " scored)",
+                    };
+                }
+                const scored = " (" + summary.scoredCount + "/" + summary.totalCount + " scored)";
+                const t = summary.tender;
+                if (!t) {
+                    return {
+                        heading: "Overall: " + summary.percentCompliant + "% compliant",
+                        counts: summary.compliant + " compliant · " + summary.progress + " making progress · " + summary.nonCompliant + " not compliant" + scored,
+                    };
+                }
+                const labels = LEGACY_LEVELS.map((level) => answer_label(framework, level));
+                let must = "Must have: " + t.mustMet + "/" + t.mustTotal + " met";
+                if (t.mustFailed) must += ", " + t.mustFailed + " not met, so compliance is 0%";
+                if (t.mustUnanswered) must += ", " + t.mustUnanswered + " not answered yet";
+                return {
+                    heading: "Overall: " + summary.percentCompliant + "% compliant" + (t.knockedOut ? " (knocked out)" : ""),
+                    counts:
+                        t.earned + " of " + t.possible + " points · " + must + " · " +
+                        summary.compliant + " " + labels[0] + " · " + summary.progress + " " + labels[1] + " · " + summary.nonCompliant + " " + labels[2] + scored,
                 };
             }
 
@@ -1580,6 +1731,44 @@
                 return el;
             }
 
+            // Tender-style frameworks (see tender_scoring) show, in each accordion title,
+            // what kind of requirement it is (Must have / Should have / ...), the given
+            // answer with its icon, and the points earned out of the points on offer.
+            function principle_chips_element(framework, principle, status) {
+                if (!tender_scoring(framework)) return null;
+                const wrap = document.createElement("span");
+                wrap.className = "principle-chips";
+                const kind = principle_kind(principle);
+                if (kind) {
+                    const chip = document.createElement("span");
+                    chip.className = "chip chip-kind chip-" + kind;
+                    chip.textContent = KIND_LABELS[kind];
+                    wrap.appendChild(chip);
+                }
+                const points = principle_points(principle);
+                if (status) {
+                    const level = principle_levels_for(framework).find((l) => l.id === status);
+                    const chip = document.createElement("span");
+                    chip.className = "chip chip-answer";
+                    chip.style.setProperty("--status-accent", level_color(framework, status));
+                    const icon = document.createElement("span");
+                    icon.className = "chip-icon";
+                    icon.setAttribute("aria-hidden", "true");
+                    icon.innerHTML = level_icon_markup(framework, status);
+                    chip.appendChild(icon);
+                    let label = level ? answer_label(framework, level) : status;
+                    if (points) label += " · " + round_points(points * answer_credit(tender_scoring(framework), status)) + "/" + points + " pts";
+                    chip.appendChild(document.createTextNode(label));
+                    wrap.appendChild(chip);
+                } else if (points) {
+                    const chip = document.createElement("span");
+                    chip.className = "chip chip-points";
+                    chip.textContent = points + " pts";
+                    wrap.appendChild(chip);
+                }
+                return wrap;
+            }
+
             function render_principle(principle, frameworkId) {
                 const details = document.createElement("details");
                 details.className = "container";
@@ -1587,17 +1776,22 @@
                 details.dataset.principleId = principle.id;
                 details.dataset.frameworkId = frameworkId;
 
+                const framework = all_frameworks().find((f) => f.id === frameworkId);
                 const summary = document.createElement("summary");
                 const h4 = document.createElement("h4");
                 h4.textContent = principle.title;
                 summary.appendChild(h4);
+                const chips = principle_chips_element(framework, principle, state.frameworks[frameworkId][principle.id].status);
+                if (chips) {
+                    summary.classList.add("has-chips");
+                    summary.appendChild(chips);
+                }
                 details.appendChild(summary);
 
                 const text = document.createElement("p");
                 text.textContent = principle.text;
                 details.appendChild(text);
 
-                const framework = all_frameworks().find((f) => f.id === frameworkId);
                 const levels = principle_levels_for(framework);
                 const colClass = grid_col_class(levels.length);
 
@@ -1623,7 +1817,7 @@
 
                     const label = document.createElement("p");
                     label.className = "status-label";
-                    label.textContent = option.label;
+                    label.textContent = answer_label(framework, option);
                     card.appendChild(label);
 
                     if (principle.criteria && principle.criteria[option.id]) {
@@ -1697,6 +1891,11 @@
                     card.setAttribute("aria-pressed", isSelected ? "true" : "false");
                 });
                 update_principle_status_icon(frameworkId, principleId, state.frameworks[frameworkId][principleId].status);
+                const framework = all_frameworks().find((f) => f.id === frameworkId);
+                const principle = framework.sections.flatMap((s) => s.principles).find((p) => p.id === principleId);
+                const oldChips = details.querySelector(".principle-chips");
+                const newChips = principle_chips_element(framework, principle, state.frameworks[frameworkId][principleId].status);
+                if (oldChips && newChips) oldChips.replaceWith(newChips);
                 update_summary();
                 update_badge();
             }
@@ -1717,17 +1916,9 @@
                     const heading = document.getElementById("summary-heading-" + framework.id);
                     const counts = document.getElementById("summary-counts-" + framework.id);
                     if (heading && counts) {
-                        if (summary.legacy) {
-                            heading.textContent = "Overall: " + summary.percentCompliant + "% compliant";
-                            counts.textContent =
-                                summary.compliant + " compliant · " + summary.progress + " making progress · " +
-                                summary.nonCompliant + " not compliant (" + summary.scoredCount + "/" + summary.totalCount + " scored)";
-                        } else {
-                            heading.textContent = "Overall: " + summary.percentMature + "% average score";
-                            counts.textContent =
-                                summary.levels.map((l, i) => summary.counts[i] + " " + l.label).join(" · ") +
-                                " (" + summary.scoredCount + "/" + summary.totalCount + " scored)";
-                        }
+                        const text = summary_text(summary, framework);
+                        heading.textContent = text.heading;
+                        counts.textContent = text.counts;
                     }
                     const tab = document.getElementById("tab-" + framework.id);
                     if (tab) tab.textContent = tab_label_text(framework.id, framework.title);

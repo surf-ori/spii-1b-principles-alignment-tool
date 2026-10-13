@@ -99,6 +99,17 @@ not an Open Science infrastructure principles framework, so it is not loaded
 at startup; it is loaded at runtime via `?framework=` (see below). Drafted
 with AI assistance (Claude) and pending review.
 
+Its sections and principles carry the tender's own question numbers (for
+example `2.6, 2.7 Role and organisation based access`). Each principle is a
+**Must have** (a knock-out question in the tender) or a **Should have** (a
+question that earns points), shown as chips in its accordion title together
+with the given answer (Yes / Partly / No, with its icon) and the points
+earned; the tender's plans and price keep their own labels. Compliance is the
+points earned out of the 997 points on offer, and drops to 0% as soon as one
+Must have is not answered Yes. This is the optional `scoring` block of a
+framework (`"type": "points-knockout"`, with `points` and `knockOut` per
+principle), so it needs no code change for other tender-style frameworks.
+
 ## Features
 
 - **Classify** — tag the infrastructure against a research activities
