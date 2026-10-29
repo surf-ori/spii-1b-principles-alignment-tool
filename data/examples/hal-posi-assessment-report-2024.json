@@ -8,27 +8,27 @@
   "frameworks": {
     "posi": {
       "coverage": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "HAL+ is multi-disciplinary and is aimed at all those involved in the research process, whether they are researchers, institutions, funding bodies, publishers or infrastructures."
       },
       "stakeholder-governed": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "Inclusive and shared, the governance is open to all HAL+ stakeholders and international in scope."
       },
       "non-discriminatory": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "Governance includes the Ministry of Higher Education and Research, the three supervisory bodies (CNRS, Inria, INRAE), and each institution that contributes financially appoints its representative to the Assembly of Partners."
       },
       "transparent-governance": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "The names and functions of the members of the committees that make up the governance are posted on the CCSD website and on the Episciences website."
       },
       "cannot-lobby": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "No lobbying activities are undertaken by HAL+ and the CCSD."
       },
       "living-will": {
-        "status": "progress",
+        "status": "making-progress",
         "notes": "The CNRS archiving plan foresees the transfer of all data to the national archives in case the CCSD and HAL are closed, but a study is still underway on long-term preservation for Episciences, whose articles are hosted in archives that do not yet guarantee longevity."
       },
       "regular-review": {
@@ -40,23 +40,23 @@
         "notes": "Not addressed as a distinct item in HAL+'s published self-assessment."
       },
       "time-limited-funds": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "Recurrent support from the Ministry is complemented by project-based funding, such as HALiance, a five-year project funded by the French National Research Agency."
       },
       "generate-surplus": {
-        "status": "non-compliant",
+        "status": "low-adoption",
         "notes": "Explicitly not applicable: as a service financed by public bodies, HAL+ is not intended to generate surplus funds."
       },
       "financial-reserves": {
-        "status": "non-compliant",
+        "status": "low-adoption",
         "notes": "Marked not applicable in HAL+'s self-assessment."
       },
       "mission-consistent-revenue": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "The management and development of HAL+ are part of the CCSD's mission."
       },
       "revenue-not-data": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "Data may be used without financial compensation. The contribution of institutions that have a HAL portal is indexed to the number of researchers, not to data access."
       },
       "volunteer-labour": {
@@ -68,19 +68,19 @@
         "notes": "Not addressed as a distinct item; the closest related content is the Living Will's CNRS archiving plan."
       },
       "open-source": {
-        "status": "progress",
+        "status": "making-progress",
         "notes": "HAL+ uses many free, open tools (Linux Debian, Proxmox, MySQL, Solr, Apache, Nginx); Episciences' own code is GPL v3.0, while HAL's own codebase is currently being migrated to the open-source Symfony framework as part of the HALiance project."
       },
       "open-secure-data": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "Metadata is available under a CC0 licence. Licences are associated with submitted files in accordance with authors' rights."
       },
       "available-preserved": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "HAL data can be harvested via the OAI-PMH server, accessible via open APIs."
       },
       "patent-non-assertion": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "HAL+ does not hold any patent. If it were to apply for one, the CCSD is prepared to give a non-assertion undertaking."
       },
       "interoperability-standards": {

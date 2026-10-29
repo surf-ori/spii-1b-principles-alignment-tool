@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Open Science Infrastructure Self-Assessment Tool</title>
-        <meta name="description" content="Self-assess an Open Science infrastructure against POSI, SPII, and OSR — score principles as compliant, in progress, or not compliant, classify its activities, and export a report or a shareable badge.">
+        <meta name="description" content="Self-assess an Open Science infrastructure against POSI and other assessment frameworks — score principles on a low-to-high adoption scale (or your own scale), classify its activities, and export a report or a shareable badge.">
         <meta property="og:title" content="Open Science Infrastructure Self-Assessment Tool">
         <meta property="og:description" content="Self-assess an Open Science infrastructure against POSI, SPII, and OSR, then export a report or a shareable badge.">
         <meta property="og:type" content="website">
@@ -122,6 +122,18 @@
             }
             .back-bar a:hover {
                 color: var(--primary);
+            }
+
+            /* Oat fixes the sidebar layout to 100dvh; with the back bar above it, the
+               sidebar's pinned footer (Settings) would end up 33px below the viewport. */
+            .back-bar {
+                box-sizing: border-box;
+                height: 33px;
+                line-height: 20px;
+            }
+
+            #app-shell {
+                height: calc(100dvh - 33px);
             }
 
             body {
@@ -367,35 +379,119 @@
                 width: 100%;
             }
 
-            /* The badge accordion sits at the very bottom of the sidebar
-               (aside[data-sidebar] pins #sidebar-footer there via Oat's own
-               margin-block-start: auto), so opening it "downward" the way a
-               <details> normally does would either push it off the visible
-               area or look like it's expanding into nothing. column-reverse
-               keeps <summary> (the first DOM child) anchored at the visual
-               bottom of the box and stacks the rest of the accordion's
-               content above it instead, so it reads as unfurling upward.
-               Oat's own details/summary styling (border, chevron rotation on
-               [open], hover) is left as-is — only direction and the
-               per-child margin (replaced with a flex gap, so spacing stays
-               even regardless of DOM order) are overridden here. */
-            #sidebar-footer > details {
+            .settings-heading {
                 display: flex;
-                flex-direction: column-reverse;
+                align-items: center;
+                gap: var(--space-2);
+                font-size: var(--text-6);
+                margin: 0 0 var(--space-3);
+            }
+
+            .settings-heading svg {
+                flex-shrink: 0;
+            }
+
+            #sidebar-footer label {
+                display: flex;
+                align-items: center;
                 gap: var(--space-3);
+                margin-bottom: var(--space-2);
             }
 
-            #sidebar-footer > details > *:not(summary) {
+            /* Oat's [role="alert"] box would otherwise show up empty despite the hidden attribute. */
+            #scales-message[hidden] {
+                display: none;
+            }
+
+            #scales-dialog-footer {
+                display: flex;
+                gap: var(--space-2);
+            }
+
+            #scales-dialog-footer .scale-reset {
+                margin-inline-end: auto;
+                color: var(--foreground);
+            }
+
+            .scale-row {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: flex-end;
+                gap: var(--space-3);
+                padding: var(--space-3) 0;
+                border-top: 1px solid var(--border);
+            }
+
+            .scale-row .scale-field {
                 margin: 0;
+                flex: 1 1 9rem;
+                min-width: 0;
             }
 
-            #sidebar-footer button {
+            .scale-row .scale-field span {
+                display: block;
+                font-size: var(--text-7);
+                font-weight: bold;
+            }
+
+            .scale-row .scale-field input[type="text"],
+            .scale-row .scale-field select {
+                width: 100%;
+            }
+
+            .scale-icon-field {
+                display: flex;
+                align-items: flex-end;
+                gap: var(--space-2);
+            }
+
+            .scale-icon-field .scale-field {
+                flex: 0 0 auto;
+            }
+
+            .scale-preview svg {
+                width: 28px;
+                height: 28px;
+                display: block;
+            }
+
+            .scale-move {
+                display: flex;
+                flex-direction: column;
+                gap: var(--space-1);
+            }
+
+            .scale-move button,
+            .scale-row > .scale-remove {
+                padding: 0 var(--space-2);
+                min-width: 2rem;
+            }
+
+            .scale-counts-field {
+                display: flex;
+                align-items: center;
+                gap: var(--space-2);
+                margin: 0;
+                font-size: var(--text-7);
+            }
+
+            #scales-dialog-content > .outline {
+                margin-top: var(--space-3);
+            }
+
+            #badge-dialog-content button {
                 display: block;
                 width: 100%;
                 margin-top: var(--space-2);
             }
 
-            #sidebar-footer svg {
+            /* Inside the dialog the hovercard opens below the badge, not above it (where the dialog title is). */
+            #badge-dialog-content .hovercard {
+                bottom: auto;
+                top: 100%;
+            }
+
+            #badge-dialog-content svg {
                 max-width: 100%;
                 height: auto;
             }
@@ -444,7 +540,7 @@
             }
 
             @media print {
-                #sidebar-footer button,
+                #sidebar-footer,
                 [data-sidebar-toggle],
                 nav[data-topnav],
                 .back-bar,
@@ -472,7 +568,7 @@
                 }
             }
 
-            body.printing #sidebar-footer button,
+            body.printing #sidebar-footer,
             body.printing [data-sidebar-toggle],
             body.printing nav[data-topnav],
             body.printing .back-bar,
@@ -510,20 +606,7 @@
 
             .status-card .status-icon { color: var(--status-accent, currentColor); }
 
-            [role="tablist"] {
-                margin-bottom: var(--space-4);
-                flex-wrap: wrap;
-            }
-
-            /* A long tab label ("CRIS Tender v0.1 Assessment (draft) (138/138
-               scored)") is nowrap in Oat and wider than a phone; let it wrap
-               once it would exceed the tab strip. No change while it fits. */
-            [role="tablist"] [role="tab"] {
-                max-width: 100%;
-                white-space: normal;
-            }
-
-            [role="tabpanel"] {
+            .framework-panel {
                 background-color: var(--card);
                 color: var(--card-foreground);
                 border: 1px solid var(--border);
@@ -551,8 +634,8 @@
                "Source:" link) otherwise force #app wider than a phone viewport
                (500px at 375px), which body's overflow-x: hidden then clips. Oat sets
                overflow-wrap: break-word on p itself, so inheriting is not enough. */
-            [role="tabpanel"],
-            [role="tabpanel"] * {
+            .framework-panel,
+            .framework-panel * {
                 overflow-wrap: anywhere;
             }
 
@@ -629,21 +712,14 @@
             }
 
             @media print {
-                [role="tablist"] {
-                    display: none;
-                }
-                [role="tabpanel"] {
+                .framework-panel {
                     padding: 0;
                     border: none;
                     background: none;
                 }
             }
 
-            body.printing [role="tablist"] {
-                display: none;
-            }
-
-            body.printing [role="tabpanel"] {
+            body.printing .framework-panel {
                 padding: 0;
                 border: none;
                 background: none;
@@ -736,6 +812,7 @@
 
             const CHANGELOG_HTML =
                 "<dl>" +
+                '<dt>2026-10-29</dt><dd>Changes to the page, following comments from colleagues. <strong>Layout:</strong> the tab strip is gone. The page now shows the introduction, the infrastructure description as one accordion, and the selected framework. The sidebar starts with a framework dropdown (POSI v2.0 under “Approved”, all other frameworks under “Other assessments”, with the SPII v0.1, SPII Alignment v0.3 and POSI+SPII v0.5 frameworks at the bottom), followed by the sections of the selected framework as accordions. “Draft” is now called “experimental”. <strong>POSI:</strong> scored on a new scale — Low adoption, Making progress, High adoption — with an introduction to the Strategic Plan on Integrated Infrastructure above “About POSI” (whose first paragraph is removed) and a new section “Complementary Principles” (Autonomy and the two Researcher-centric principles from SPII v0.1) at the end. Reports saved for POSI before this change no longer load their POSI scores. <strong>Settings</strong> (bottom of the sidebar): <em>Customize scales</em> lets you define your own scale for the selected framework — icon, color, title, optional description, and whether an option such as “Not applicable” counts toward the score. It is kept in your browser (localStorage), included in the exported report and framework files, and can be reset. <em>Show badge (experimental)</em> opens the assessment badge in an overlay instead of the sidebar.</dd>' +
                 '<dt>2026-10-13</dt><dd>Added an eleventh framework, the FOREST v2.0 Assessment (draft) — a transcription of the <a href="https://doi.org/10.5281/zenodo.6557302">FOREST Framework for Values-Driven Scholarly Communication</a> (Lippincott &amp; Skinner, Educopia Institute, Framework 2.0, Spring 2022; CC BY 4.0). 96 indicators under 23 principles and six values — Financial and organizational resilience, Openness, Responsible governance, Equity, accessibility and anti-oppression, Sharing of knowledge, Transparency — each scored on FOREST’s own four-step progress bar (Not planning, Considering, In progress, Implemented; leave an indicator unanswered for “Not applicable”). Each item says whether it applies to mature communities, to publishers or to software &amp; infrastructure providers, and lists the evidence FOREST proposes. FOREST itself discourages tallying a final score, so read the summary percentage as an overview only. Transcribed with AI assistance, pending review.</dd>' +
                 '<dt>2026-10-08</dt><dd>The CRIS Tender framework now follows the tender’s own definitions. Sections and principles carry the tender’s question numbers; every principle is a <strong>Must have</strong> (a knock-out question) or a <strong>Should have</strong> (a question that earns points), shown as chips in its title together with the answer given (Yes / Partly / No, with its icon) and the points earned; the plans and the price keep their own labels. Compliance is now the points earned out of the 997 points on offer, and drops to 0% as soon as a Must have is not answered Yes. This is a new optional <code>scoring</code> block in a framework’s JSON (with <code>points</code> and <code>knockOut</code> per principle); frameworks without it are unchanged, and the CRIS framework keeps its ids, criteria and scale, so existing reports still load. Aligned with AI assistance (Claude) from the tender documents; pending review.</dd>' +
                 '<dt>2026-10-08</dt><dd>Fixed importing an assessment report for a framework with its own levels (POSI+SPII, SPII Alignment, or a custom one): the scores were silently dropped on load — only the notes survived — because import only recognised compliant / making progress / not compliant. A status is now checked against the framework’s own scale.</dd>' +
@@ -786,13 +863,13 @@
             // is_legacy_levels()/principle_levels_for() are the single place that decides
             // which of the two a given framework uses; every renderer below (status
             // cards, sidebar dot, badge ring) goes through level_icon_markup()/
-            // level_color() rather than touching ICONS/STATUS_COLOR_VAR directly, so a
+            // level_color() rather than touching ICONS and the level colors directly, so a
             // framework's declared `levels` is the only thing that needs to change to
             // support a new scale shape.
             const LEGACY_LEVELS = [
-                { id: "compliant", label: "Compliant" },
-                { id: "progress", label: "Making progress" },
-                { id: "non-compliant", label: "Not compliant" },
+                { id: "compliant", label: "Compliant", icon: "check", color: "--compliant" },
+                { id: "progress", label: "Making progress", icon: "clock", color: "--warning" },
+                { id: "non-compliant", label: "Not compliant", icon: "cross", color: "--destructive" },
             ];
 
             function is_legacy_levels(framework) {
@@ -812,11 +889,23 @@
                 );
             }
 
+            // A level's `icon` is one of ICON_NAMES: the tick/clock/cross set, the numbers 1-9, or a question mark.
+            const ICON_NAMES = ["check", "clock", "cross", "1", "2", "3", "4", "5", "6", "7", "8", "9", "question"];
+
+            function icon_markup_by_name(name) {
+                if (name === "check") return ICONS.compliant;
+                if (name === "clock") return ICONS.progress;
+                if (name === "cross") return ICONS["non-compliant"];
+                if (name === "question") return numbered_circle_icon("?");
+                return /^[1-9]$/.test(name) ? numbered_circle_icon(name) : ICONS.unanswered;
+            }
+
             function level_icon_markup(framework, statusId) {
                 if (!statusId) return ICONS.unanswered;
-                if (is_legacy_levels(framework)) return ICONS[statusId] || ICONS.unanswered;
-                const idx = framework.levels.findIndex((l) => l.id === statusId);
-                return idx === -1 ? ICONS.unanswered : numbered_circle_icon(idx + 1);
+                const levels = principle_levels_for(framework);
+                const idx = levels.findIndex((l) => l.id === statusId);
+                if (idx === -1) return ICONS.unanswered;
+                return levels[idx].icon ? icon_markup_by_name(levels[idx].icon) : numbered_circle_icon(idx + 1);
             }
 
             // Red (worst) to green (best) across an ordinal scale of any length, via HSL
@@ -828,11 +917,111 @@
                 return "hsl(" + hue + " 65% 45%)";
             }
 
+            // A level's `color` is "#rrggbb" or the name of a CSS custom property ("--warning").
+            function resolve_color(color) {
+                if (typeof color !== "string") return "#cccccc";
+                if (!color.startsWith("--")) return color;
+                return getComputedStyle(document.documentElement).getPropertyValue(color).trim() || "#cccccc";
+            }
+
             function level_color(framework, statusId) {
                 if (!statusId) return "#cccccc";
-                if (is_legacy_levels(framework)) return status_color(statusId);
-                const idx = framework.levels.findIndex((l) => l.id === statusId);
-                return idx === -1 ? "#cccccc" : level_gradient_color(idx, framework.levels.length);
+                const levels = principle_levels_for(framework);
+                const idx = levels.findIndex((l) => l.id === statusId);
+                if (idx === -1) return "#cccccc";
+                return levels[idx].color ? resolve_color(levels[idx].color) : level_gradient_color(idx, levels.length);
+            }
+
+            // Levels with `excludeFromScore` (e.g. "Not applicable") are shown and tallied, but ignored in the percentage.
+            const counting_levels = (levels) => levels.filter((l) => !l.excludeFromScore);
+
+            // ---- Customizable scales ------------------------------------------------------------
+            // A customised scale replaces `framework.levels` in place, so cards, sidebar icons, summary,
+            // badge and exports follow without a second mechanism. The framework's own scale stays in
+            // DEFAULT_LEVELS (undefined = the legacy compliant/progress/non-compliant scale) for reset.
+            const SCALES_KEY = "spii-principles-tool.scales.v1";
+            const DEFAULT_LEVELS = new WeakMap();
+
+            function copy_levels(levels) {
+                return levels.map((l) => {
+                    const copy = { id: l.id, label: String(l.label).trim() };
+                    ["icon", "color", "description"].forEach((key) => { if (l[key] !== undefined && l[key] !== "") copy[key] = l[key]; });
+                    if (l.excludeFromScore) copy.excludeFromScore = true;
+                    return copy;
+                });
+            }
+
+            function default_levels_for(framework) {
+                return DEFAULT_LEVELS.has(framework) ? DEFAULT_LEVELS.get(framework) : framework.levels;
+            }
+
+            // What the scale dialog edits: worst first, best last. The legacy scale is stored best first, so it is flipped.
+            function editable_levels(framework) {
+                return copy_levels(is_legacy_levels(framework) ? LEGACY_LEVELS.slice().reverse() : framework.levels);
+            }
+
+            function validate_scale(levels) {
+                if (!Array.isArray(levels) || levels.length < 2 || levels.length > 9) return false;
+                const seen = new Set();
+                return levels.every(
+                    (l) =>
+                        l && typeof l.id === "string" && l.id && !seen.has(l.id) && seen.add(l.id) &&
+                        typeof l.label === "string" && l.label.trim() &&
+                        (l.icon === undefined || ICON_NAMES.includes(l.icon)) &&
+                        (l.color === undefined || /^(#[0-9a-f]{6}|--[\w-]+)$/i.test(l.color)) &&
+                        (l.description === undefined || typeof l.description === "string")
+                );
+            }
+
+            function customised_scales() {
+                const out = {};
+                FRAMEWORKS.forEach((f) => {
+                    if (DEFAULT_LEVELS.has(f) && f.levels !== DEFAULT_LEVELS.get(f)) out[f.id] = f.levels;
+                });
+                return out;
+            }
+
+            function persist_scales() {
+                try {
+                    const scales = customised_scales();
+                    if (Object.keys(scales).length) localStorage.setItem(SCALES_KEY, JSON.stringify(scales));
+                    else localStorage.removeItem(SCALES_KEY);
+                } catch (e) {
+                    // Storage unavailable (private window, blocked): the scale then lasts for this page view only.
+                }
+            }
+
+            // levels = null restores the framework's own scale.
+            function set_scale(framework, levels) {
+                if (!DEFAULT_LEVELS.has(framework)) DEFAULT_LEVELS.set(framework, framework.levels);
+                const original = DEFAULT_LEVELS.get(framework);
+                if (levels) framework.levels = copy_levels(levels);
+                else if (original === undefined) delete framework.levels;
+                else framework.levels = original;
+                persist_scales();
+            }
+
+            function apply_saved_scales(frameworks) {
+                let saved;
+                try {
+                    saved = JSON.parse(localStorage.getItem(SCALES_KEY) || "{}") || {};
+                } catch (e) {
+                    return;
+                }
+                frameworks.forEach((f) => { if (validate_scale(saved[f.id])) set_scale(f, saved[f.id]); });
+            }
+
+            // Answers that use an option the framework's scale no longer has are cleared; returns how many.
+            function clear_orphan_statuses(state, framework) {
+                const ids = principle_levels_for(framework).map((l) => l.id);
+                let cleared = 0;
+                Object.values(state.frameworks[framework.id] || {}).forEach((entry) => {
+                    if (entry.status && !ids.includes(entry.status)) {
+                        entry.status = null;
+                        cleared++;
+                    }
+                });
+                return cleared;
             }
 
             // Oat's 12-column grid: as many equal columns as there are levels, e.g. 3
@@ -871,7 +1060,7 @@
                 return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
             }
 
-            const BUILTIN_FRAMEWORK_FILES = ["data/frameworks/posi-v2.0.json", "data/frameworks/posi+spii-merged-v0.5.json", "data/frameworks/spii-alignment-v0.3.json", "data/frameworks/spii-v0.1.json", "data/frameworks/gorc-v1.1.json", "data/frameworks/fair-v1.0.json", "data/frameworks/bd-v1.0.json", "data/frameworks/osr-v0.1.json", "data/frameworks/7gpri-v1.0.json", "data/frameworks/care-v1.0.json", "data/frameworks/forest-v2.0.json"];
+            const BUILTIN_FRAMEWORK_FILES = ["data/frameworks/posi-v2.0.json", "data/frameworks/gorc-v1.1.json", "data/frameworks/fair-v1.0.json", "data/frameworks/bd-v1.0.json", "data/frameworks/osr-v0.1.json", "data/frameworks/7gpri-v1.0.json", "data/frameworks/care-v1.0.json", "data/frameworks/forest-v2.0.json", "data/frameworks/spii-v0.1.json", "data/frameworks/spii-alignment-v0.3.json", "data/frameworks/posi+spii-merged-v0.5.json"];
 
             async function load_builtin_frameworks() {
                 const loaded = await Promise.all(
@@ -1013,18 +1202,17 @@
                 const scored = entries.filter((e) => e.status !== null);
                 if (framework && !is_legacy_levels(framework)) {
                     const levels = framework.levels;
-                    const maxIdx = levels.length - 1;
+                    const counting = counting_levels(levels);
                     const counts = levels.map((l) => scored.filter((e) => e.status === l.id).length);
-                    const avgIdx = scored.length
-                        ? scored.reduce((sum, e) => sum + Math.max(0, levels.findIndex((l) => l.id === e.status)), 0) / scored.length
-                        : 0;
+                    const graded = scored.filter((e) => counting.some((l) => l.id === e.status));
+                    const avgIdx = graded.length ? graded.reduce((sum, e) => sum + counting.findIndex((l) => l.id === e.status), 0) / graded.length : 0;
                     return {
                         legacy: false,
                         levels,
                         counts,
                         scoredCount: scored.length,
                         totalCount: entries.length,
-                        percentMature: maxIdx > 0 ? Math.round((avgIdx / maxIdx) * 100) : 0,
+                        percentMature: counting.length > 1 ? Math.round((avgIdx / (counting.length - 1)) * 100) : 0,
                     };
                 }
                 const compliant = scored.filter((e) => e.status === "compliant").length;
@@ -1084,6 +1272,7 @@
                     });
                     frameworks[frameworkId] = entries;
                 });
+                const scales = customised_scales();
                 return {
                     name: state.name,
                     description: state.description,
@@ -1092,6 +1281,7 @@
                     activities: state.activities.slice(),
                     customFrameworks: state.customFrameworks.slice(),
                     frameworks,
+                    ...(Object.keys(scales).length ? { scales } : {}),
                 };
             }
 
@@ -1111,6 +1301,9 @@
                         fresh.customFrameworks.push(framework);
                         fresh.frameworks[framework.id] = framework_state_slice(framework);
                     });
+                }
+                if (loaded.scales && typeof loaded.scales === "object") {
+                    FRAMEWORKS.forEach((f) => { if (validate_scale(loaded.scales[f.id])) set_scale(f, loaded.scales[f.id]); });
                 }
                 if (loaded.frameworks && typeof loaded.frameworks === "object") {
                     const knownFrameworks = FRAMEWORKS.concat(fresh.customFrameworks);
@@ -1252,6 +1445,26 @@
                     </footer>
                 </form>
             </dialog>
+            <dialog id="badge-dialog" closedby="any">
+                <form method="dialog">
+                    <header>
+                        <h3>Assessment badge (experimental)</h3>
+                    </header>
+                    <div id="badge-dialog-content"></div>
+                    <footer>
+                        <button type="button" class="outline" commandfor="badge-dialog" command="close" autofocus>Close</button>
+                    </footer>
+                </form>
+            </dialog>
+            <dialog id="scales-dialog" closedby="closerequest">
+                <form method="dialog">
+                    <header>
+                        <h3 id="scales-dialog-title">Customize scale</h3>
+                    </header>
+                    <div id="scales-dialog-content"></div>
+                    <footer id="scales-dialog-footer"></footer>
+                </form>
+            </dialog>
             <dialog id="save-report-dialog" closedby="any">
                 <form method="dialog">
                     <header>
@@ -1264,7 +1477,10 @@
                 </form>
             </dialog>
             <aside data-sidebar>
-                <nav id="sidebar-nav"></nav>
+                <nav id="sidebar-nav">
+                    <div id="framework-picker"></div>
+                    <div id="sidebar-sections"></div>
+                </nav>
                 <footer id="sidebar-footer"></footer>
             </aside>
             <main id="app"></main>
@@ -1274,7 +1490,6 @@
         <script id="app-render">
             let state = null;
             let activeFrameworkId = null;
-            let activeTabId = "infra-description";
 
             function all_frameworks() {
                 return FRAMEWORKS.concat(state.customFrameworks);
@@ -1310,7 +1525,9 @@
                 const app = document.getElementById("app");
                 app.innerHTML = "";
                 app.appendChild(render_header());
-                app.appendChild(render_tabs());
+                app.appendChild(render_infra_description_section());
+                app.appendChild(render_framework_panels());
+                render_framework_picker();
                 render_sidebar_nav();
                 render_sidebar_footer();
                 wire_up_events();
@@ -1318,81 +1535,73 @@
                 update_badge();
             }
 
-            function tab_defs() {
-                return [{ id: "infra-description", label: "OS Infrastructure Description" }].concat(
-                    all_frameworks().map((framework) => ({ id: framework.id, label: framework.title }))
-                );
-            }
-
-            function tab_label_text(tabId, baseLabel) {
-                const framework = all_frameworks().find((f) => f.id === tabId);
-                if (!framework) return baseLabel;
+            function framework_option_label(framework) {
                 const summary = compute_summary(state, framework.id, framework);
-                return baseLabel + " (" + summary.scoredCount + "/" + summary.totalCount + " scored)";
+                const suffix = framework.draft && !/\((draft|experimental)\)/i.test(framework.title) ? " (experimental)" : "";
+                return framework.title + suffix + " (" + summary.scoredCount + "/" + summary.totalCount + " scored)";
             }
 
-            function render_tabs() {
-                const wrap = document.createElement("div");
-                wrap.id = "main-tabs";
-
-                const tablist = document.createElement("div");
-                tablist.setAttribute("role", "tablist");
-
-                const defs = tab_defs();
-                defs.forEach((def) => {
-                    const tab = document.createElement("button");
-                    tab.type = "button";
-                    tab.setAttribute("role", "tab");
-                    tab.id = "tab-" + def.id;
-                    tab.setAttribute("aria-controls", "tabpanel-" + def.id);
-                    tab.setAttribute("aria-selected", def.id === activeTabId ? "true" : "false");
-                    tab.dataset.tabId = def.id;
-                    tab.textContent = tab_label_text(def.id, def.label);
-                    tab.addEventListener("click", () => switch_tab(def.id));
-                    tablist.appendChild(tab);
+            // The framework chooser at the top of the sidebar: the approved framework(s) first, then everything else.
+            function render_framework_picker() {
+                const host = document.getElementById("framework-picker");
+                host.innerHTML = "";
+                const label = document.createElement("label");
+                label.htmlFor = "framework-select";
+                label.textContent = "Assessment framework";
+                const select = document.createElement("select");
+                select.id = "framework-select";
+                [["Approved", (f) => f.approved], ["Other assessments", (f) => !f.approved]].forEach(([name, test]) => {
+                    const group = document.createElement("optgroup");
+                    group.label = name;
+                    all_frameworks().filter(test).forEach((framework) => {
+                        const option = document.createElement("option");
+                        option.value = framework.id;
+                        option.textContent = framework_option_label(framework);
+                        group.appendChild(option);
+                    });
+                    if (group.children.length) select.appendChild(group);
                 });
-                wrap.appendChild(tablist);
+                select.value = activeFrameworkId;
+                select.addEventListener("change", () => {
+                    select_framework(select.value);
+                    close_sidebar();
+                    window.scrollTo(0, 0);
+                    document.getElementById("app").scrollTo(0, 0);
+                });
+                host.append(label, select);
+            }
 
-                const panelContent = {
-                    "infra-description": () => render_infra_description_section(),
-                };
+            // Every framework's panel stays in the DOM (print and PDF need them all); only the selected one is shown.
+            function render_framework_panels() {
+                const wrap = document.createElement("section");
+                wrap.id = "framework-section";
                 all_frameworks().forEach((framework) => {
-                    panelContent[framework.id] = () => render_framework_section(framework);
-                });
-
-                defs.forEach((def) => {
                     const panel = document.createElement("div");
-                    panel.setAttribute("role", "tabpanel");
-                    panel.id = "tabpanel-" + def.id;
-                    panel.setAttribute("aria-labelledby", "tab-" + def.id);
-                    panel.hidden = def.id !== activeTabId;
-                    panel.appendChild(panelContent[def.id]());
+                    panel.className = "framework-panel";
+                    panel.id = "framework-panel-" + framework.id;
+                    panel.hidden = framework.id !== activeFrameworkId;
+                    panel.appendChild(render_framework_section(framework));
                     wrap.appendChild(panel);
                 });
-
                 return wrap;
             }
 
-            function switch_tab(tabId) {
-                activeTabId = tabId;
-                document.querySelectorAll('[role="tab"]').forEach((tab) => {
-                    tab.setAttribute("aria-selected", tab.dataset.tabId === tabId ? "true" : "false");
+            function select_framework(frameworkId) {
+                activeFrameworkId = frameworkId;
+                document.querySelectorAll(".framework-panel").forEach((panel) => {
+                    panel.hidden = panel.id !== "framework-panel-" + frameworkId;
                 });
-                document.querySelectorAll('[role="tabpanel"]').forEach((panel) => {
-                    panel.hidden = panel.id !== "tabpanel-" + tabId;
-                });
-                // Sidebar framework groups are a single-open accordion: whichever
-                // group matches the active tab opens, every other one collapses.
-                document.querySelectorAll('#sidebar-nav details[data-framework-id]').forEach((details) => {
-                    details.open = details.dataset.frameworkId === tabId;
-                });
-                if (all_frameworks().some((f) => f.id === tabId)) {
-                    activeFrameworkId = tabId;
-                    update_badge();
-                    history.replaceState(null, "", "#" + tabId);
-                } else {
-                    history.replaceState(null, "", location.pathname + location.search);
-                }
+                const select = document.getElementById("framework-select");
+                if (select) select.value = frameworkId;
+                render_sidebar_nav();
+                update_scales_switch();
+                update_badge();
+                history.replaceState(null, "", "#" + frameworkId);
+            }
+
+            function close_sidebar() {
+                document.getElementById("app-shell").removeAttribute("data-sidebar-open");
+                document.getElementById("sidebar-toggle").setAttribute("aria-expanded", "false");
             }
 
             // Reads the framework id from the URL hash (case-insensitive, so
@@ -1407,7 +1616,7 @@
             }
 
             function navigate_to(tabId, anchorId) {
-                if (tabId) switch_tab(tabId);
+                if (tabId && tabId !== activeFrameworkId) select_framework(tabId);
                 const target = document.getElementById(anchorId);
                 if (!target) return;
                 if (target.tagName === "DETAILS") target.open = true;
@@ -1426,65 +1635,36 @@
                 return span;
             }
 
+            // The sections of the selected framework as accordions, each with its principles and their status icons.
             function render_sidebar_nav() {
-                const nav = document.getElementById("sidebar-nav");
+                const nav = document.getElementById("sidebar-sections");
                 nav.innerHTML = "";
+                const framework = all_frameworks().find((f) => f.id === activeFrameworkId);
                 const ul = document.createElement("ul");
-
-                ul.appendChild(render_nav_link("infra-description-section", "OS Infrastructure Description", "infra-description"));
-
-                all_frameworks().forEach((framework) => {
+                framework.sections.forEach((section) => {
+                    const anchorId = section_id(framework.id, section);
                     const li = document.createElement("li");
-                    const groupDetails = document.createElement("details");
-                    groupDetails.dataset.frameworkId = framework.id;
-                    groupDetails.open = framework.id === activeTabId;
+                    const details = document.createElement("details");
+                    details.open = true;
                     const summary = document.createElement("summary");
                     const a = document.createElement("a");
-                    a.href = "#framework-" + framework.id;
-                    const showDraftSuffix = framework.draft && !/\(draft\)/i.test(framework.title);
-                    a.textContent = framework.title + (showDraftSuffix ? " (draft)" : "");
-                    if (framework.approved) a.prepend(approved_icon_element());
-                    summary.appendChild(a);
+                    a.href = "#" + anchorId;
+                    a.textContent = section.section;
                     a.addEventListener("click", (e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        navigate_to(framework.id, "framework-" + framework.id);
+                        navigate_to(framework.id, anchorId);
                     });
-                    groupDetails.appendChild(summary);
-
-                    const subUl = document.createElement("ul");
-                    framework.sections.forEach((section) => {
-                        const sectionLi = render_nav_link(section_id(framework.id, section), section.section, framework.id);
-
-                        const principleUl = document.createElement("ul");
-                        principleUl.className = "nav-principle-list";
-                        section.principles.forEach((principle) => {
-                            principleUl.appendChild(render_principle_nav_link(framework.id, principle));
-                        });
-                        sectionLi.appendChild(principleUl);
-
-                        subUl.appendChild(sectionLi);
-                    });
-                    groupDetails.appendChild(subUl);
-
-                    li.appendChild(groupDetails);
+                    summary.appendChild(a);
+                    details.appendChild(summary);
+                    const principleUl = document.createElement("ul");
+                    principleUl.className = "nav-principle-list";
+                    section.principles.forEach((principle) => principleUl.appendChild(render_principle_nav_link(framework.id, principle)));
+                    details.appendChild(principleUl);
+                    li.appendChild(details);
                     ul.appendChild(li);
                 });
-
                 nav.appendChild(ul);
-            }
-
-            function render_nav_link(anchorId, label, tabId) {
-                const li = document.createElement("li");
-                const a = document.createElement("a");
-                a.href = "#" + anchorId;
-                a.textContent = label;
-                a.addEventListener("click", (e) => {
-                    e.preventDefault();
-                    navigate_to(tabId, anchorId);
-                });
-                li.appendChild(a);
-                return li;
             }
 
             function render_principle_nav_link(frameworkId, principle) {
@@ -1510,16 +1690,47 @@
                 return li;
             }
 
+            function settings_switch(id, text) {
+                const label = document.createElement("label");
+                const input = document.createElement("input");
+                input.type = "checkbox";
+                input.id = id;
+                input.setAttribute("role", "switch");
+                label.append(input, text);
+                return label;
+            }
+
+            // Settings: each switch opens a dialog; closing the dialog switches it off again (see the close listeners below).
             function render_sidebar_footer() {
                 const footer = document.getElementById("sidebar-footer");
                 footer.innerHTML = "";
+                const heading = document.createElement("h3");
+                heading.className = "settings-heading";
+                heading.innerHTML = '<svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="10" cy="10" r="2.6" /><path d="M10 2.5v2M10 15.5v2M17.5 10h-2M4.5 10h-2M15.3 4.7l-1.4 1.4M6.1 13.9l-1.4 1.4M15.3 15.3l-1.4-1.4M6.1 6.1L4.7 4.7" stroke-linecap="round" /></svg>';
+                heading.append("Settings");
+                footer.appendChild(heading);
+                const scalesSwitch = settings_switch("toggle-scales", "Customize scales");
+                scalesSwitch.querySelector("input").addEventListener("change", (e) => { if (e.target.checked) open_scales_dialog(); });
+                footer.appendChild(scalesSwitch);
+                update_scales_switch();
+                const badgeSwitch = settings_switch("toggle-badge", "Show badge (experimental)");
+                badgeSwitch.querySelector("input").addEventListener("change", (e) => { if (e.target.checked) open_badge_dialog(); });
+                footer.appendChild(badgeSwitch);
+            }
 
-                const details = document.createElement("details");
+            // Frameworks that score points per fixed answer (`scoring`) cannot get another scale.
+            function update_scales_switch() {
+                const toggle = document.getElementById("toggle-scales");
+                if (!toggle) return;
+                const framework = all_frameworks().find((f) => f.id === activeFrameworkId);
+                const fixed = !!tender_scoring(framework);
+                toggle.disabled = fixed;
+                toggle.title = fixed ? "This framework scores points per answer, so its answers are fixed." : "";
+            }
 
-                const summary = document.createElement("summary");
-                summary.textContent = "Assessment badge";
-                details.appendChild(summary);
-
+            function open_badge_dialog() {
+                const content = document.getElementById("badge-dialog-content");
+                content.innerHTML = "";
                 const badgeWrap = document.createElement("div");
                 badgeWrap.className = "badge-wrap";
                 badgeWrap.tabIndex = 0;
@@ -1530,28 +1741,232 @@
                 hovercard.id = "badge-hovercard";
                 hovercard.className = "hovercard";
                 badgeWrap.appendChild(hovercard);
-                details.appendChild(badgeWrap);
+                content.appendChild(badgeWrap);
+                [["Download badge (SVG)", download_badge_svg], ["Download badge (PNG)", download_badge_png], ["Embed badge", copy_badge_embed]].forEach(([text, handler]) => {
+                    const button = document.createElement("button");
+                    button.type = "button";
+                    button.textContent = text;
+                    button.addEventListener("click", handler);
+                    content.appendChild(button);
+                });
+                update_badge();
+                document.getElementById("badge-dialog").showModal();
+            }
 
-                const svgBtn = document.createElement("button");
-                svgBtn.textContent = "Download badge (SVG)";
-                svgBtn.addEventListener("click", download_badge_svg);
-                details.appendChild(svgBtn);
+            // ---- Customize scales dialog -------------------------------------------------------
+            const ICON_LABELS = { check: "Tick", clock: "Clock", cross: "Cross", question: "Question mark" };
+            let scaleDraft = null; // the options being edited while the dialog is open (worst first)
 
-                const pngBtn = document.createElement("button");
-                pngBtn.textContent = "Download badge (PNG)";
-                pngBtn.addEventListener("click", download_badge_png);
-                details.appendChild(pngBtn);
+            // "#rrggbb" for any CSS color or token name; the canvas does the parsing.
+            function to_hex(color) {
+                const ctx = document.createElement("canvas").getContext("2d");
+                ctx.fillStyle = "#888888";
+                ctx.fillStyle = resolve_color(color);
+                return ctx.fillStyle;
+            }
 
-                const embedBtn = document.createElement("button");
-                embedBtn.textContent = "Embed badge";
-                embedBtn.addEventListener("click", copy_badge_embed);
-                details.appendChild(embedBtn);
+            function active_framework() {
+                return all_frameworks().find((f) => f.id === activeFrameworkId);
+            }
 
-                footer.appendChild(details);
+            function lost_answer_count(framework, keptIds) {
+                return Object.values(state.frameworks[framework.id] || {}).filter((e) => e.status && !keptIds.includes(e.status)).length;
+            }
+
+            // Asks before answers are dropped; true = go ahead.
+            function confirm_lost_answers(framework, keptIds) {
+                const lost = lost_answer_count(framework, keptIds);
+                return !lost || window.confirm(lost + " answer(s) use options that are no longer in the scale and will be cleared. Continue?");
+            }
+
+            function open_scales_dialog() {
+                const framework = active_framework();
+                scaleDraft = editable_levels(framework).map((level, i, all) => ({
+                    ...level,
+                    icon: level.icon || (i < 9 ? String(i + 1) : "question"),
+                    color: level.color || to_hex(level_gradient_color(i, all.length)),
+                }));
+                document.getElementById("scales-dialog-title").textContent = "Customize scale — " + framework.title;
+                render_scales_editor();
+                const footer = document.getElementById("scales-dialog-footer");
+                footer.innerHTML = "";
+                const reset = document.createElement("button");
+                reset.type = "button";
+                reset.className = "ghost scale-reset";
+                reset.setAttribute("aria-label", "Reset to the default scale");
+                reset.title = "Reset to the default scale";
+                reset.innerHTML = '<svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 4.2A7 7 0 1 1 3.5 10" stroke-linecap="round" /><path d="M3.2 3.6v3.4h3.4" stroke-linecap="round" stroke-linejoin="round" /></svg>';
+                reset.addEventListener("click", reset_scale);
+                const cancel = document.createElement("button");
+                cancel.type = "button";
+                cancel.className = "outline";
+                cancel.textContent = "Cancel";
+                cancel.addEventListener("click", () => document.getElementById("scales-dialog").close());
+                const save = document.createElement("button");
+                save.type = "button";
+                save.textContent = "Save";
+                save.addEventListener("click", save_scale);
+                footer.append(reset, cancel, save);
+                document.getElementById("scales-dialog").showModal();
+            }
+
+            function save_scale() {
+                const framework = active_framework();
+                if (!validate_scale(scaleDraft)) {
+                    show_scale_message("Every option needs a title.");
+                    return;
+                }
+                if (!confirm_lost_answers(framework, scaleDraft.map((l) => l.id))) return;
+                set_scale(framework, scaleDraft);
+                clear_orphan_statuses(state, framework);
+                document.getElementById("scales-dialog").close();
+                render();
+            }
+
+            function reset_scale() {
+                const framework = active_framework();
+                const own = default_levels_for(framework) || LEGACY_LEVELS;
+                if (!confirm_lost_answers(framework, own.map((l) => l.id))) return;
+                set_scale(framework, null);
+                clear_orphan_statuses(state, framework);
+                document.getElementById("scales-dialog").close();
+                render();
+            }
+
+            function show_scale_message(text) {
+                const box = document.getElementById("scales-message");
+                box.hidden = !text;
+                box.textContent = text;
+            }
+
+            function scale_field(labelText, control) {
+                const label = document.createElement("label");
+                label.className = "scale-field";
+                const span = document.createElement("span");
+                span.textContent = labelText;
+                label.append(span, control);
+                return label;
+            }
+
+            function scale_button(className, text, label, onClick, disabled) {
+                const button = document.createElement("button");
+                button.type = "button";
+                button.className = "outline scale-" + className;
+                button.textContent = text;
+                button.setAttribute("aria-label", label);
+                button.disabled = !!disabled;
+                button.addEventListener("click", onClick);
+                return button;
+            }
+
+            function scale_row(level, i) {
+                const row = document.createElement("div");
+                row.className = "scale-row";
+
+                const move = document.createElement("div");
+                move.className = "scale-move";
+                const swap = (from, to) => () => {
+                    scaleDraft.splice(to, 0, scaleDraft.splice(from, 1)[0]);
+                    render_scales_editor();
+                };
+                move.append(
+                    scale_button("up", "▲", "Move option up", swap(i, i - 1), i === 0),
+                    scale_button("down", "▼", "Move option down", swap(i, i + 1), i === scaleDraft.length - 1)
+                );
+
+                const preview = document.createElement("span");
+                preview.className = "scale-preview";
+                const paint = () => {
+                    preview.innerHTML = icon_markup_by_name(level.icon);
+                    preview.style.color = to_hex(level.color);
+                };
+                const icon = document.createElement("select");
+                icon.className = "scale-icon";
+                ICON_NAMES.forEach((name) => {
+                    const option = document.createElement("option");
+                    option.value = name;
+                    option.textContent = ICON_LABELS[name] || "Number " + name;
+                    icon.appendChild(option);
+                });
+                icon.value = level.icon;
+                icon.addEventListener("change", () => { level.icon = icon.value; paint(); });
+
+                const color = document.createElement("input");
+                color.type = "color";
+                color.className = "scale-color";
+                color.value = to_hex(level.color);
+                color.addEventListener("input", () => { level.color = color.value; paint(); });
+
+                const title = document.createElement("input");
+                title.type = "text";
+                title.className = "scale-title";
+                title.value = level.label;
+                title.maxLength = 60;
+                title.addEventListener("input", () => { level.label = title.value; show_scale_message(""); });
+
+                const description = document.createElement("input");
+                description.type = "text";
+                description.className = "scale-description";
+                description.value = level.description || "";
+                description.placeholder = "optional";
+                description.addEventListener("input", () => { level.description = description.value; });
+
+                const counts = document.createElement("input");
+                counts.type = "checkbox";
+                counts.className = "scale-counts";
+                counts.checked = !level.excludeFromScore;
+                counts.addEventListener("change", () => { level.excludeFromScore = !counts.checked; });
+                const countsLabel = document.createElement("label");
+                countsLabel.className = "scale-counts-field";
+                countsLabel.append(counts, "Counts toward score");
+
+                paint();
+                const iconWrap = document.createElement("div");
+                iconWrap.className = "scale-icon-field";
+                iconWrap.append(preview, scale_field("Icon", icon), scale_field("Color", color));
+                row.append(
+                    move,
+                    iconWrap,
+                    scale_field("Title", title),
+                    scale_field("Description", description),
+                    countsLabel,
+                    scale_button("remove", "✕", "Remove option", () => { scaleDraft.splice(i, 1); render_scales_editor(); }, scaleDraft.length <= 2)
+                );
+                return row;
+            }
+
+            function render_scales_editor() {
+                const content = document.getElementById("scales-dialog-content");
+                content.innerHTML = "";
+                const intro = document.createElement("p");
+                intro.textContent = "Options run from lowest (top) to highest (bottom), like the cards from left to right. Untick “Counts toward score” for an option such as Not applicable. Per-principle descriptions can’t be set here: to change them, edit a framework JSON file and use Import ▾ → Import Assessment Framework.";
+                content.appendChild(intro);
+                const message = document.createElement("div");
+                message.id = "scales-message";
+                message.setAttribute("role", "alert");
+                message.setAttribute("data-variant", "error");
+                message.hidden = true;
+                content.appendChild(message);
+                scaleDraft.forEach((level, i) => content.appendChild(scale_row(level, i)));
+                const framework = active_framework();
+                const add = document.createElement("button");
+                add.type = "button";
+                add.className = "outline";
+                add.textContent = "Add option";
+                add.disabled = scaleDraft.length >= 9;
+                add.addEventListener("click", () => {
+                    const taken = scaleDraft.map((l) => l.id).concat(principle_levels_for(framework).map((l) => l.id));
+                    let n = 1;
+                    while (taken.includes("level-" + n)) n++;
+                    scaleDraft.push({ id: "level-" + n, label: "", icon: String(Math.min(scaleDraft.length + 1, 9)), color: "#888888" });
+                    render_scales_editor();
+                });
+                content.appendChild(add);
             }
 
             function render_header() {
-                const wrap = document.createElement("div");
+                const wrap = document.createElement("section");
+                wrap.id = "intro-section";
 
                 const intro = document.createElement("p");
                 intro.textContent = "Self-assess how your Open Science infrastructure puts open science values and principles into practice, against one or more community-recognised assessment frameworks.";
@@ -1574,6 +1989,20 @@
                 return section;
             }
 
+            // Plain text with [label](https://url) links, built as DOM nodes (see description_segments).
+            function append_linked_text(el, text) {
+                description_segments(text).forEach((segment) => {
+                    if (segment.url) {
+                        const a = document.createElement("a");
+                        a.href = segment.url;
+                        a.textContent = segment.label;
+                        el.appendChild(a);
+                    } else {
+                        el.appendChild(document.createTextNode(segment.text));
+                    }
+                });
+            }
+
             function render_framework_section(framework) {
                 const section = document.createElement("section");
                 section.id = "framework-" + framework.id;
@@ -1581,7 +2010,7 @@
                     const alertBox = document.createElement("div");
                     alertBox.setAttribute("role", "alert");
                     alertBox.setAttribute("data-variant", "warning");
-                    alertBox.textContent = "Draft – work in progress. This framework's principles and scoring criteria may still change.";
+                    alertBox.textContent = "Experimental – work in progress. This framework's principles and scoring criteria may still change.";
                     section.appendChild(alertBox);
                 }
                 const h2 = document.createElement("h2");
@@ -1590,17 +2019,17 @@
                 section.appendChild(h2);
 
                 const desc = document.createElement("p");
-                description_segments(framework.description).forEach((segment) => {
-                    if (segment.url) {
-                        const a = document.createElement("a");
-                        a.href = segment.url;
-                        a.textContent = segment.label;
-                        desc.appendChild(a);
-                    } else {
-                        desc.appendChild(document.createTextNode(segment.text));
-                    }
-                });
+                append_linked_text(desc, framework.description);
                 section.appendChild(desc);
+
+                // Optional `intro: {title, html}` (trusted framework data, like aboutHtml) opens above "About".
+                if (framework.intro && typeof framework.intro.title === "string" && typeof framework.intro.html === "string") {
+                    const intro = document.createElement("details");
+                    intro.open = true;
+                    intro.innerHTML = "<summary></summary>" + framework.intro.html;
+                    intro.querySelector("summary").textContent = framework.intro.title;
+                    section.appendChild(intro);
+                }
 
                 const about = document.createElement("details");
                 about.innerHTML = "<summary>About " + framework.shortName + "</summary>" + framework.aboutHtml;
@@ -1616,11 +2045,14 @@
             }
 
             function render_infra_description_section() {
-                const section = document.createElement("section");
+                const section = document.createElement("details");
+                section.className = "container";
                 section.id = "infra-description-section";
-                const h2 = document.createElement("h2");
-                h2.textContent = "OS Infrastructure Description";
-                section.appendChild(h2);
+                const summary = document.createElement("summary");
+                const heading = document.createElement("h4");
+                heading.textContent = "OS Infrastructure Description";
+                summary.appendChild(heading);
+                section.appendChild(summary);
 
                 section.appendChild(render_text_field("infra-name", "Infrastructure name", state.name, "text", "name of the infrastructure"));
                 section.appendChild(render_textarea_field("infra-description", "Description", state.description, "brief description of the infrastructure"));
@@ -1790,7 +2222,7 @@
                 details.appendChild(summary);
 
                 const text = document.createElement("p");
-                text.textContent = principle.text;
+                append_linked_text(text, principle.text);
                 details.appendChild(text);
 
                 const levels = principle_levels_for(framework);
@@ -1821,10 +2253,12 @@
                     label.textContent = answer_label(framework, option);
                     card.appendChild(label);
 
-                    if (principle.criteria && principle.criteria[option.id]) {
+                    // The principle's own criteria win; a custom level's generic description is the fallback.
+                    const criteria = (principle.criteria && principle.criteria[option.id]) || option.description;
+                    if (criteria) {
                         const criteriaText = document.createElement("p");
                         criteriaText.className = "status-criteria";
-                        criteriaText.textContent = principle.criteria[option.id];
+                        criteriaText.textContent = criteria;
                         card.appendChild(criteriaText);
                     }
 
@@ -1841,7 +2275,8 @@
                 if (principle.improvementAction) {
                     const improvement = document.createElement("p");
                     improvement.className = "improvement-action";
-                    improvement.textContent = "To improve: " + principle.improvementAction;
+                    improvement.append("To improve: ");
+                    append_linked_text(improvement, principle.improvementAction);
                     details.appendChild(improvement);
                 }
 
@@ -1921,8 +2356,9 @@
                         heading.textContent = text.heading;
                         counts.textContent = text.counts;
                     }
-                    const tab = document.getElementById("tab-" + framework.id);
-                    if (tab) tab.textContent = tab_label_text(framework.id, framework.title);
+                    const select = document.getElementById("framework-select");
+                    const option = select && Array.from(select.options).find((o) => o.value === framework.id);
+                    if (option) option.textContent = framework_option_label(framework);
                 });
             }
 
@@ -1997,13 +2433,17 @@
             }
 
             // This template uses the default 3-status compliant/progress/non-compliant
-            // scale (LEGACY_LEVELS). To use a different ordinal scale instead — any
-            // length, not just 3 — add a top-level `levels: [{id, label}, ...]` array
-            // (worst first, best last) and key each principle's `criteria` by those
-            // same ids instead of compliant/progress/"non-compliant". A framework with
-            // its own `levels` renders as numbered circles colored red (worst) to green
-            // (best) instead of the tick/clock/cross icons — see data/frameworks/spii-alignment-v0.3.json
-            // for a working 4-level example.
+            // scale (LEGACY_LEVELS). To use a different ordinal scale instead — 2 to 9
+            // options — add a top-level `levels: [{id, label}, ...]` array (worst first,
+            // best last) and key each principle's `criteria` by those same ids instead of
+            // compliant/progress/"non-compliant". Each level may also have an `icon`
+            // ("check", "clock", "cross", "1"-"9" or "question"), a `color` ("#rrggbb"), a
+            // generic `description` (shown on a card when the principle has no criteria for
+            // that level) and `excludeFromScore: true` (for "Not applicable"). Without an
+            // icon a level renders as a numbered circle, without a color it is colored red
+            // (worst) to green (best) — see data/frameworks/posi-v2.0.json (3 levels with
+            // icons) and spii-alignment-v0.3.json (4 levels). An optional top-level
+            // `intro: {title, html}` adds an accordion above "About".
             const FRAMEWORK_TEMPLATE = {
                 id: "my-framework",
                 title: "My Framework v1.0",
@@ -2129,9 +2569,9 @@
                 const detailsElements = Array.from(document.querySelectorAll("details"));
                 const openStates = detailsElements.map((el) => el.open);
                 detailsElements.forEach((el) => el.setAttribute("open", ""));
-                const tabpanels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
-                const tabpanelHiddenStates = tabpanels.map((el) => el.hidden);
-                tabpanels.forEach((el) => { el.hidden = false; });
+                const panels = Array.from(document.querySelectorAll(".framework-panel"));
+                const panelHiddenStates = panels.map((el) => el.hidden);
+                panels.forEach((el) => { el.hidden = false; });
                 document.body.classList.add("printing");
 
                 const doc = new jspdf.jsPDF();
@@ -2142,7 +2582,7 @@
                         detailsElements.forEach((el, i) => {
                             if (!openStates[i]) el.removeAttribute("open");
                         });
-                        tabpanels.forEach((el, i) => { el.hidden = tabpanelHiddenStates[i]; });
+                        panels.forEach((el, i) => { el.hidden = panelHiddenStates[i]; });
                     },
                     x: 10,
                     width: 200,
@@ -2151,15 +2591,15 @@
             }
 
             let detailsOpenBeforePrint = null;
-            let tabpanelsHiddenBeforePrint = null;
+            let panelsHiddenBeforePrint = null;
 
             window.addEventListener("beforeprint", () => {
                 const detailsElements = Array.from(document.querySelectorAll("details"));
                 detailsOpenBeforePrint = detailsElements.map((el) => el.open);
                 detailsElements.forEach((el) => el.setAttribute("open", ""));
-                const tabpanels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
-                tabpanelsHiddenBeforePrint = tabpanels.map((el) => el.hidden);
-                tabpanels.forEach((el) => { el.hidden = false; });
+                const panels = Array.from(document.querySelectorAll(".framework-panel"));
+                panelsHiddenBeforePrint = panels.map((el) => el.hidden);
+                panels.forEach((el) => { el.hidden = false; });
             });
 
             window.addEventListener("afterprint", () => {
@@ -2169,10 +2609,10 @@
                     if (!detailsOpenBeforePrint[i]) el.removeAttribute("open");
                 });
                 detailsOpenBeforePrint = null;
-                if (tabpanelsHiddenBeforePrint) {
-                    const tabpanels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
-                    tabpanels.forEach((el, i) => { el.hidden = tabpanelsHiddenBeforePrint[i]; });
-                    tabpanelsHiddenBeforePrint = null;
+                if (panelsHiddenBeforePrint) {
+                    const panels = Array.from(document.querySelectorAll(".framework-panel"));
+                    panels.forEach((el, i) => { el.hidden = panelsHiddenBeforePrint[i]; });
+                    panelsHiddenBeforePrint = null;
                 }
             });
 
@@ -2183,19 +2623,6 @@
                     section: section,
                     radius: 34 + i * step,
                 }));
-            }
-
-            const STATUS_COLOR_VAR = {
-                compliant: "--compliant",
-                progress: "--warning",
-                "non-compliant": "--destructive",
-            };
-
-            function status_color(status) {
-                const varName = STATUS_COLOR_VAR[status];
-                if (!varName) return "#cccccc";
-                const value = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
-                return value || "#cccccc";
             }
 
             function escape_xml(str) {
@@ -2416,6 +2843,14 @@
                 e.currentTarget.setAttribute("aria-expanded", String(isOpen));
             });
 
+            // A settings switch only stands for "its dialog is open".
+            ["badge", "scales"].forEach((name) => {
+                document.getElementById(name + "-dialog").addEventListener("close", () => {
+                    const toggle = document.getElementById("toggle-" + name);
+                    if (toggle) toggle.checked = false;
+                });
+            });
+
             document.getElementById("about-dialog-content").innerHTML = ABOUT_TOOL_HTML;
             document.getElementById("changelog-dialog-content").innerHTML = CHANGELOG_HTML;
 
@@ -2506,12 +2941,12 @@
                     render_boot_error(err);
                     return;
                 }
+                apply_saved_scales(FRAMEWORKS);
                 activeFrameworkId = FRAMEWORKS[0].id;
                 // A URL hash naming a framework (e.g. "#gorc") opens straight
                 // to that framework's tab, with its sidebar group expanded.
                 const hashFrameworkId = framework_id_from_hash();
                 if (hashFrameworkId) {
-                    activeTabId = hashFrameworkId;
                     activeFrameworkId = hashFrameworkId;
                 }
                 state = initial_state();
@@ -2521,11 +2956,11 @@
                 // load_from_url_params() has added it, so a hash naming it
                 // (e.g. "#cris-tender") could not be matched above; check again.
                 const lateHashFrameworkId = framework_id_from_hash();
-                if (lateHashFrameworkId && lateHashFrameworkId !== activeTabId) switch_tab(lateHashFrameworkId);
+                if (lateHashFrameworkId && lateHashFrameworkId !== activeFrameworkId) select_framework(lateHashFrameworkId);
             }
             window.addEventListener("hashchange", () => {
                 const hashFrameworkId = framework_id_from_hash();
-                if (hashFrameworkId && hashFrameworkId !== activeTabId) switch_tab(hashFrameworkId);
+                if (hashFrameworkId && hashFrameworkId !== activeFrameworkId) select_framework(hashFrameworkId);
             });
             boot();
         </script>

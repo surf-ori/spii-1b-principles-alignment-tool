@@ -3,8 +3,32 @@
   "title": "POSI v2.0 Assessment",
   "shortName": "POSI",
   "description": "A community-maintained framework covering governance, sustainability, and insurance against lock-in for scholarly infrastructure.",
-  "aboutHtml": "<p><strong>Approved assessment framework.</strong> On October 1, 2026, SPII’s values and principles working group decided that POSI v2.0 is the official, approved assessment framework in this tool. The four-level maturity scale and the SPII additions proposed in POSI+SPII will be shown to and discussed with POSI’s authors and the wider POSI community. They need careful review there, with the aim of a mandate for POSI to adopt them officially, on a global scale. See <a href=\"https://surf-ori.github.io/spii-1a-values-and-principles/#posi-spii\">POSI+SPII</a> on the deliverable 1A page.</p><p>The Principles of Open Scholarly Infrastructure (POSI) is a community-maintained framework (v2.0, released October 2025) covering three areas: <strong>Governance</strong> (who’s accountable and how), <strong>Sustainability</strong> (financial and operational resilience), and <strong>Insurance</strong> (protection against lock-in or failure — open source, open data, patent non-assertion). Read the full principles at <a href=\"https://openscholarlyinfrastructure.org/\">openscholarlyinfrastructure.org</a>.</p><p>Cite as: POSI Adopters (2025), <em>The Principles of Open Scholarly Infrastructure</em>, <a href=\"https://doi.org/10.14454/G8WV-VM65\">https://doi.org/10.14454/G8WV-VM65</a>.</p>",
+  "aboutHtml": "<p>The Principles of Open Scholarly Infrastructure (POSI) is a community-maintained framework (v2.0, released October 2025) covering three areas: <strong>Governance</strong> (who’s accountable and how), <strong>Sustainability</strong> (financial and operational resilience), and <strong>Insurance</strong> (protection against lock-in or failure — open source, open data, patent non-assertion). Read the full principles at <a href=\"https://openscholarlyinfrastructure.org/\">openscholarlyinfrastructure.org</a>.</p><p>Cite as: POSI Adopters (2025), <em>The Principles of Open Scholarly Infrastructure</em>, <a href=\"https://doi.org/10.14454/G8WV-VM65\">https://doi.org/10.14454/G8WV-VM65</a>.</p>",
+  "intro": {
+    "title": "Introduction to Strategic Plan on Integrated Infrastructure",
+    "html": "<p>The Strategic Plan on Integrated Infrastructure (SPII) aims to develop a reference model for a coherent and connected research infrastructure ecosystem that supports responsible Open Science. SPII recognises the POSI principles as an existing foundation and makes them available through this online self-assessment tool.</p><p><strong>Complementary principles:</strong> Following community consultations, SPII has also identified additional principles that could complement POSI, helping infrastructure owners and developers further assess the autonomy and researcher-centricity of Open Science infrastructures.</p><p><strong>Other frameworks:</strong> Other relevant assessment frameworks are also available through the online tool.</p>"
+  },
   "approved": true,
+  "levels": [
+    {
+      "id": "low-adoption",
+      "label": "Low adoption",
+      "icon": "cross",
+      "color": "--destructive"
+    },
+    {
+      "id": "making-progress",
+      "label": "Making progress",
+      "icon": "clock",
+      "color": "--warning"
+    },
+    {
+      "id": "high-adoption",
+      "label": "High adoption",
+      "icon": "check",
+      "color": "--compliant"
+    }
+  ],
   "sections": [
     {
       "section": "Governance",
@@ -121,6 +145,45 @@
           "id": "interoperability-standards",
           "title": "Prioritise interoperability and open standards to ensure continuity and resilience",
           "text": "Infrastructures should adopt and support widely accepted open standards—both formal and de facto—to ensure that systems, data, and services can be replicated, migrated, or integrated with minimal disruption without the use of proprietary extensions or software. Where relevant, organisations should document dependencies on standards."
+        }
+      ]
+    },
+    {
+      "section": "Complementary Principles",
+      "sourceUrl": "https://surf-ori.github.io/spii-1a-values-and-principles/",
+      "principles": [
+        {
+          "id": "autonomy",
+          "title": "Autonomy",
+          "text": "The infrastructure safeguards digital and academic autonomy — control over data, infrastructure, and decisions stays with the academic community rather than being ceded to external commercial or geopolitical interests. A more detailed assessment can be done with the [Digital Autonomy Assessment Framework (DAAF)](https://utrechtuniversity.github.io/digital-autonomy-assessment-tool/).",
+          "criteria": {
+            "high-adoption": "Data, infrastructure control, and critical decisions remain within community/academic governance; dependency on external vendors is actively managed with exit strategies.",
+            "making-progress": "Some dependency on external vendors/platforms exists, with partial mitigation (e.g. contractual safeguards) but no full exit strategy.",
+            "low-adoption": "Critical infrastructure or data is fully dependent on external vendors/platforms with no contractual safeguards or exit plan."
+          },
+          "improvementAction": "Adopt value-driven procurement, balance agency against costs & risks, and put contractual clauses and exit strategies in place — consider using the [Digital Autonomy Assessment Framework](https://utrechtuniversity.github.io/digital-autonomy-assessment-tool/) for a deeper dive."
+        },
+        {
+          "id": "researcher-centric-seamless-ux",
+          "title": "Researcher-centric: Seamless user-experience",
+          "text": "The infrastructure is designed around researchers’ actual workflows and needs.",
+          "criteria": {
+            "high-adoption": "User-driven design practices (e.g. user research, usability testing) are embedded in the infrastructure’s development process, and adoption/satisfaction is actively monitored.",
+            "making-progress": "Some user feedback is gathered, but design is not systematically user-driven.",
+            "low-adoption": "No user research or feedback process exists; design decisions are made without researcher input."
+          },
+          "improvementAction": "Establish ongoing user-driven design practices (user research, usability testing, feedback loops)."
+        },
+        {
+          "id": "researcher-centric-recognition-rewards",
+          "title": "Researcher-centric: Recognition and rewards",
+          "text": "Contributions made via the infrastructure (e.g. data, code, review, curation) are recognised and rewarded within academic evaluation and career systems.",
+          "criteria": {
+            "high-adoption": "The infrastructure actively supports recognition and rewards for contributions (e.g. integrates with CRediT, ORCID, institutional recognition/reward frameworks).",
+            "making-progress": "Some recognition mechanisms exist (e.g. basic attribution) but are not integrated with formal reward/evaluation systems.",
+            "low-adoption": "No mechanism exists to recognise or reward contributions made via the infrastructure."
+          },
+          "improvementAction": "Integrate with recognition and rewards frameworks (e.g. CRediT, institutional recognition policies)."
         }
       ]
     }
