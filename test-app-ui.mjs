@@ -124,6 +124,7 @@ export default async function ({ check, ROOT }) {
         {
             // Settings footer and the badge overlay
             const { page, errors, ctx } = await open("index.html");
+            check("Settings icon is a cog (a toothed outline, not rays)", (await page.locator("#sidebar-footer .settings-heading svg path").evaluate((p) => p.getAttribute("d").length > 400)) && (await page.locator("#sidebar-footer .settings-heading svg circle").count()) === 1);
             check("Settings heading with an icon", (await page.locator("#sidebar-footer .settings-heading svg").count()) === 1 && /Settings/.test(await page.locator("#sidebar-footer .settings-heading").innerText()));
             const switches = await page.$$eval('#sidebar-footer input[role="switch"]', (els) => els.map((e) => e.closest("label").innerText.trim()));
             check("two switches: Customize scales, Show badge (experimental)", switches.join("|") === "Customize scales|Show badge (experimental)", switches.join("|"));
