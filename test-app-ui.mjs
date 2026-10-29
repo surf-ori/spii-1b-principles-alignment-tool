@@ -121,6 +121,29 @@ export default async function ({ check, ROOT }) {
             check("no horizontal overflow at " + width + "px", sw <= iw, sw + "/" + iw);
             await ctx.close();
         }
+        {
+            // Settings footer and the badge overlay
+            const { page, errors, ctx } = await open("index.html");
+            check("Settings heading with an icon", (await page.locator("#sidebar-footer .settings-heading svg").count()) === 1 && /Settings/.test(await page.locator("#sidebar-footer .settings-heading").innerText()));
+            const switches = await page.$$eval('#sidebar-footer input[role="switch"]', (els) => els.map((e) => e.closest("label").innerText.trim()));
+            check("badge switch in the Settings footer", switches.join("|") === "Show badge (experimental)", switches.join("|"));
+            check("no sidebar badge accordion", (await page.locator("#sidebar-footer details, #sidebar-footer summary").count()) === 0);
+            await page.locator("#framework-panel-posi details[id^=principle-posi-]").first().locator("summary").click();
+            await page.locator("#framework-panel-posi .status-card[data-status='making-progress']").first().click();
+            await page.check("#toggle-badge");
+            check("badge switch opens the badge overlay", await page.$eval("#badge-dialog", (d) => d.open));
+            check("overlay holds the badge and its buttons", (await page.locator("#badge-dialog #badge-preview svg").count()) === 1 && (await page.locator("#badge-dialog button", { hasText: /Download badge \(SVG\)|Download badge \(PNG\)|Embed badge/ }).count()) === 3);
+            check("badge shows the score (50%)", /50%/.test(await page.locator("#badge-dialog #badge-preview").innerText()));
+            const [download] = await Promise.all([page.waitForEvent("download"), page.click("#badge-dialog >> text=Download badge (SVG)")]);
+            check("SVG download works", download.suggestedFilename() === "badge.svg");
+            await page.keyboard.press("Escape");
+            check("Escape closes the overlay and flips the switch off", !(await page.$eval("#badge-dialog", (d) => d.open)) && !(await page.isChecked("#toggle-badge")));
+            await page.check("#toggle-badge");
+            await page.click("#badge-dialog footer >> text=Close");
+            check("Close button also flips the switch off", !(await page.isChecked("#toggle-badge")));
+            check("no console or page errors (badge)", errors.length === 0, JSON.stringify(errors));
+            await ctx.close();
+        }
     } finally {
         await browser.close();
         server.close();
