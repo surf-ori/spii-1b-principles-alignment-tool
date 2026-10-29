@@ -126,7 +126,7 @@ export default async function ({ check, ROOT }) {
             const { page, errors, ctx } = await open("index.html");
             check("Settings heading with an icon", (await page.locator("#sidebar-footer .settings-heading svg").count()) === 1 && /Settings/.test(await page.locator("#sidebar-footer .settings-heading").innerText()));
             const switches = await page.$$eval('#sidebar-footer input[role="switch"]', (els) => els.map((e) => e.closest("label").innerText.trim()));
-            check("badge switch in the Settings footer", switches.join("|") === "Show badge (experimental)", switches.join("|"));
+            check("two switches: Customize scales, Show badge (experimental)", switches.join("|") === "Customize scales|Show badge (experimental)", switches.join("|"));
             check("no sidebar badge accordion", (await page.locator("#sidebar-footer details, #sidebar-footer summary").count()) === 0);
             await page.locator("#framework-panel-posi details[id^=principle-posi-]").first().locator("summary").click();
             await page.locator("#framework-panel-posi .status-card[data-status='making-progress']").first().click();
@@ -142,6 +142,105 @@ export default async function ({ check, ROOT }) {
             await page.click("#badge-dialog footer >> text=Close");
             check("Close button also flips the switch off", !(await page.isChecked("#toggle-badge")));
             check("no console or page errors (badge)", errors.length === 0, JSON.stringify(errors));
+            await ctx.close();
+        }
+        {
+            // Customize scales
+            const { page, errors, ctx } = await open("index.html");
+            const rows = () => page.locator("#scales-dialog .scale-row");
+            const cards = () => page.locator("#framework-panel-posi details[id^=principle-posi-]").first().locator(".status-card");
+            await page.check("#toggle-scales");
+            check("switch opens the scales dialog with POSI's 3 options", (await page.$eval("#scales-dialog", (d) => d.open)) && (await rows().count()) === 3);
+            check("rows run worst to best", (await rows().locator(".scale-title").evaluateAll((els) => els.map((e) => e.value))).join() === "Low adoption,Making progress,High adoption");
+            const row0 = rows().first();
+            check("a row has icon, colour, title, description, counts, move and remove controls", (await row0.locator("select.scale-icon option").count()) === 13 && (await row0.locator('input[type="color"]').count()) === 1 && (await row0.locator("input.scale-description").count()) === 1 && (await row0.locator("input.scale-counts").isChecked()) && (await row0.locator(".scale-up, .scale-down, .scale-remove").count()) === 3);
+            check("footer: Save, Cancel and a labelled reset icon button", (await page.locator('#scales-dialog-footer button[aria-label="Reset to the default scale"]').count()) === 1 && (await page.locator("#scales-dialog-footer >> text=Save").count()) === 1 && (await page.locator("#scales-dialog-footer >> text=Cancel").count()) === 1);
+            // an empty title is refused
+            await page.click("#scales-dialog >> text=Add option");
+            check("add option gives a 4th row", (await rows().count()) === 4);
+            await page.click("#scales-dialog-footer >> text=Save");
+            check("an empty title keeps the dialog open with a message", (await page.$eval("#scales-dialog", (d) => d.open)) && /title/i.test(await page.locator("#scales-dialog [role=alert]").innerText()));
+            const last = rows().nth(3);
+            await last.locator(".scale-title").fill("Not applicable");
+            await last.locator("select.scale-icon").selectOption("question");
+            await last.locator("input.scale-counts").uncheck();
+            await last.locator(".scale-description").fill("Does not apply to us");
+            await page.click("#scales-dialog-footer >> text=Save");
+            check("Save closes the dialog and switches the toggle off", !(await page.$eval("#scales-dialog", (d) => d.open)) && !(await page.isChecked("#toggle-scales")));
+            await page.locator("#framework-panel-posi details[id^=principle-posi-]").first().locator("summary").click();
+            check("POSI now has 4 cards, the last one is Not applicable", (await cards().count()) === 4 && (await cards().nth(3).locator(".status-label").innerText()) === "Not applicable");
+            check("the generic description shows on the card", /Does not apply to us/.test(await cards().nth(3).innerText()));
+            check("the question-mark icon is used", (await cards().nth(3).locator(".status-icon svg text").textContent()) === "?");
+            await cards().nth(2).click();
+            const second = page.locator("#framework-panel-posi details[id^=principle-posi-]").nth(1);
+            await second.locator("summary").click();
+            await second.locator('.status-card[data-status^="level-"]').click();
+            const heading = (await page.locator('[id^="summary-heading-posi"]').first().innerText()).trim();
+            check("Not applicable is not part of the average", heading === "Overall: 100% average score", heading);
+            check("both answers count as scored", /\(2\/23 scored\)$/.test(await page.locator('#framework-select option[value="posi"]').innerText()));
+            // persistence
+            await page.reload();
+            await page.waitForSelector("#framework-panel-posi");
+            check("the scale survives a reload (localStorage)", (await page.locator("#framework-panel-posi details[id^=principle-posi-]").first().locator(".status-card").count()) === 4);
+            // answers are not persisted, so answer again before exporting and resetting
+            const firstP = page.locator("#framework-panel-posi details[id^=principle-posi-]").first();
+            await firstP.locator("summary").click();
+            await firstP.locator('.status-card[data-status="high-adoption"]').click();
+            const secondP = page.locator("#framework-panel-posi details[id^=principle-posi-]").nth(1);
+            await secondP.locator("summary").click();
+            await secondP.locator('.status-card[data-status^="level-"]').click();
+            // export
+            await page.click('button:has-text("Export")');
+            const [download] = await Promise.all([page.waitForEvent("download"), page.click("#export-report-btn")]);
+            const exported = JSON.parse(fs.readFileSync(await download.path(), "utf8"));
+            check("the exported report carries the scale", Array.isArray(exported.scales && exported.scales.posi) && exported.scales.posi.length === 4 && exported.scales.posi[3].excludeFromScore === true);
+            // reset: dismiss first, then accept
+            await page.check("#toggle-scales");
+            check("reopened with the custom scale (4 rows)", (await rows().count()) === 4);
+            let confirms = 0;
+            page.once("dialog", (d) => { confirms++; d.dismiss(); });
+            await page.click('#scales-dialog-footer button[aria-label="Reset to the default scale"]');
+            check("reset asks before clearing answers; Cancel keeps the scale", confirms === 1 && (await page.$eval("#scales-dialog", (d) => d.open)));
+            page.once("dialog", (d) => { confirms++; d.accept(); });
+            await page.click('#scales-dialog-footer button[aria-label="Reset to the default scale"]');
+            await page.waitForFunction(() => !document.getElementById("scales-dialog").open);
+            check("reset restores 3 default cards", (await cards().count()) === 3);
+            check("reset removes the saved scale", (await page.evaluate(() => localStorage.getItem("spii-principles-tool.scales.v1"))) === null);
+            check("the answer on a removed option is cleared, the others stay", /\(1\/23 scored\)$/.test(await page.locator('#framework-select option[value="posi"]').innerText()));
+            check("no console or page errors (scales)", errors.length === 0, JSON.stringify(errors));
+            await ctx.close();
+        }
+        {
+            // Reordering, legacy frameworks, scoring frameworks, mobile
+            const { page, ctx } = await open("index.html#gorc");
+            const rows = () => page.locator("#scales-dialog .scale-row");
+            await page.check("#toggle-scales");
+            check("legacy framework lists worst to best", (await rows().locator(".scale-title").evaluateAll((els) => els.map((e) => e.value))).join() === "Not compliant,Making progress,Compliant");
+            await rows().first().locator(".scale-down").click();
+            check("move down reorders the rows", (await rows().locator(".scale-title").evaluateAll((els) => els.map((e) => e.value))).join() === "Making progress,Not compliant,Compliant");
+            await rows().nth(1).locator(".scale-remove").click();
+            check("remove drops a row, at least 2 remain", (await rows().count()) === 2 && (await rows().locator(".scale-remove:disabled").count()) === 2);
+            await page.click("#scales-dialog-footer >> text=Save");
+            await page.locator("#framework-panel-gorc details[id^=principle-gorc-]").first().locator("summary").click();
+            const labels = await page.locator("#framework-panel-gorc details[id^=principle-gorc-]").first().locator(".status-label").allInnerTexts();
+            check("saved legacy scale: cards follow the new order", labels.join() === "Making progress,Compliant", labels.join());
+            await ctx.close();
+        }
+        {
+            const { page, ctx } = await open("index.html?framework=data/frameworks/cris-tender-v0.1.json#cris-tender");
+            await page.waitForTimeout(800);
+            check("scales cannot be customised for points-based frameworks", await page.$eval("#toggle-scales", (e) => e.disabled));
+            await ctx.close();
+        }
+        {
+            const { page, ctx } = await open("index.html", 375, 800);
+            await page.click("#sidebar-toggle");
+            await page.check("#toggle-scales");
+            const [sw, iw] = await page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth]);
+            const fits = await page.$eval("#scales-dialog", (d) => d.getBoundingClientRect().right <= window.innerWidth + 1 && d.scrollWidth <= d.clientWidth + 1);
+            check("scales dialog fits a 375px phone", sw <= iw && fits, sw + "/" + iw);
+            await page.keyboard.press("Escape");
+            check("Escape closes the scales dialog and flips the switch off", !(await page.$eval("#scales-dialog", (d) => d.open)) && !(await page.isChecked("#toggle-scales")));
             await ctx.close();
         }
     } finally {

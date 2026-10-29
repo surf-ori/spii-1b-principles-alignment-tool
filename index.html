@@ -398,6 +398,87 @@
                 margin-bottom: var(--space-2);
             }
 
+            /* Oat's [role="alert"] box would otherwise show up empty despite the hidden attribute. */
+            #scales-message[hidden] {
+                display: none;
+            }
+
+            #scales-dialog-footer {
+                display: flex;
+                gap: var(--space-2);
+            }
+
+            #scales-dialog-footer .scale-reset {
+                margin-inline-end: auto;
+                color: var(--foreground);
+            }
+
+            .scale-row {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: flex-end;
+                gap: var(--space-3);
+                padding: var(--space-3) 0;
+                border-top: 1px solid var(--border);
+            }
+
+            .scale-row .scale-field {
+                margin: 0;
+                flex: 1 1 9rem;
+                min-width: 0;
+            }
+
+            .scale-row .scale-field span {
+                display: block;
+                font-size: var(--text-7);
+                font-weight: bold;
+            }
+
+            .scale-row .scale-field input[type="text"],
+            .scale-row .scale-field select {
+                width: 100%;
+            }
+
+            .scale-icon-field {
+                display: flex;
+                align-items: flex-end;
+                gap: var(--space-2);
+            }
+
+            .scale-icon-field .scale-field {
+                flex: 0 0 auto;
+            }
+
+            .scale-preview svg {
+                width: 28px;
+                height: 28px;
+                display: block;
+            }
+
+            .scale-move {
+                display: flex;
+                flex-direction: column;
+                gap: var(--space-1);
+            }
+
+            .scale-move button,
+            .scale-row > .scale-remove {
+                padding: 0 var(--space-2);
+                min-width: 2rem;
+            }
+
+            .scale-counts-field {
+                display: flex;
+                align-items: center;
+                gap: var(--space-2);
+                margin: 0;
+                font-size: var(--text-7);
+            }
+
+            #scales-dialog-content > .outline {
+                margin-top: var(--space-3);
+            }
+
             #badge-dialog-content button {
                 display: block;
                 width: 100%;
@@ -1374,7 +1455,7 @@
                     </footer>
                 </form>
             </dialog>
-            <dialog id="scales-dialog" closedby="any">
+            <dialog id="scales-dialog" closedby="closerequest">
                 <form method="dialog">
                     <header>
                         <h3 id="scales-dialog-title">Customize scale</h3>
@@ -1512,6 +1593,7 @@
                 const select = document.getElementById("framework-select");
                 if (select) select.value = frameworkId;
                 render_sidebar_nav();
+                update_scales_switch();
                 update_badge();
                 history.replaceState(null, "", "#" + frameworkId);
             }
@@ -1626,9 +1708,23 @@
                 heading.innerHTML = '<svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="10" cy="10" r="2.6" /><path d="M10 2.5v2M10 15.5v2M17.5 10h-2M4.5 10h-2M15.3 4.7l-1.4 1.4M6.1 13.9l-1.4 1.4M15.3 15.3l-1.4-1.4M6.1 6.1L4.7 4.7" stroke-linecap="round" /></svg>';
                 heading.append("Settings");
                 footer.appendChild(heading);
+                const scalesSwitch = settings_switch("toggle-scales", "Customize scales");
+                scalesSwitch.querySelector("input").addEventListener("change", (e) => { if (e.target.checked) open_scales_dialog(); });
+                footer.appendChild(scalesSwitch);
+                update_scales_switch();
                 const badgeSwitch = settings_switch("toggle-badge", "Show badge (experimental)");
                 badgeSwitch.querySelector("input").addEventListener("change", (e) => { if (e.target.checked) open_badge_dialog(); });
                 footer.appendChild(badgeSwitch);
+            }
+
+            // Frameworks that score points per fixed answer (`scoring`) cannot get another scale.
+            function update_scales_switch() {
+                const toggle = document.getElementById("toggle-scales");
+                if (!toggle) return;
+                const framework = all_frameworks().find((f) => f.id === activeFrameworkId);
+                const fixed = !!tender_scoring(framework);
+                toggle.disabled = fixed;
+                toggle.title = fixed ? "This framework scores points per answer, so its answers are fixed." : "";
             }
 
             function open_badge_dialog() {
@@ -1654,6 +1750,217 @@
                 });
                 update_badge();
                 document.getElementById("badge-dialog").showModal();
+            }
+
+            // ---- Customize scales dialog -------------------------------------------------------
+            const ICON_LABELS = { check: "Tick", clock: "Clock", cross: "Cross", question: "Question mark" };
+            let scaleDraft = null; // the options being edited while the dialog is open (worst first)
+
+            // "#rrggbb" for any CSS color or token name; the canvas does the parsing.
+            function to_hex(color) {
+                const ctx = document.createElement("canvas").getContext("2d");
+                ctx.fillStyle = "#888888";
+                ctx.fillStyle = resolve_color(color);
+                return ctx.fillStyle;
+            }
+
+            function active_framework() {
+                return all_frameworks().find((f) => f.id === activeFrameworkId);
+            }
+
+            function lost_answer_count(framework, keptIds) {
+                return Object.values(state.frameworks[framework.id] || {}).filter((e) => e.status && !keptIds.includes(e.status)).length;
+            }
+
+            // Asks before answers are dropped; true = go ahead.
+            function confirm_lost_answers(framework, keptIds) {
+                const lost = lost_answer_count(framework, keptIds);
+                return !lost || window.confirm(lost + " answer(s) use options that are no longer in the scale and will be cleared. Continue?");
+            }
+
+            function open_scales_dialog() {
+                const framework = active_framework();
+                scaleDraft = editable_levels(framework).map((level, i, all) => ({
+                    ...level,
+                    icon: level.icon || (i < 9 ? String(i + 1) : "question"),
+                    color: level.color || to_hex(level_gradient_color(i, all.length)),
+                }));
+                document.getElementById("scales-dialog-title").textContent = "Customize scale — " + framework.title;
+                render_scales_editor();
+                const footer = document.getElementById("scales-dialog-footer");
+                footer.innerHTML = "";
+                const reset = document.createElement("button");
+                reset.type = "button";
+                reset.className = "ghost scale-reset";
+                reset.setAttribute("aria-label", "Reset to the default scale");
+                reset.title = "Reset to the default scale";
+                reset.innerHTML = '<svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 4.2A7 7 0 1 1 3.5 10" stroke-linecap="round" /><path d="M3.2 3.6v3.4h3.4" stroke-linecap="round" stroke-linejoin="round" /></svg>';
+                reset.addEventListener("click", reset_scale);
+                const cancel = document.createElement("button");
+                cancel.type = "button";
+                cancel.className = "outline";
+                cancel.textContent = "Cancel";
+                cancel.addEventListener("click", () => document.getElementById("scales-dialog").close());
+                const save = document.createElement("button");
+                save.type = "button";
+                save.textContent = "Save";
+                save.addEventListener("click", save_scale);
+                footer.append(reset, cancel, save);
+                document.getElementById("scales-dialog").showModal();
+            }
+
+            function save_scale() {
+                const framework = active_framework();
+                if (!validate_scale(scaleDraft)) {
+                    show_scale_message("Every option needs a title.");
+                    return;
+                }
+                if (!confirm_lost_answers(framework, scaleDraft.map((l) => l.id))) return;
+                set_scale(framework, scaleDraft);
+                clear_orphan_statuses(state, framework);
+                document.getElementById("scales-dialog").close();
+                render();
+            }
+
+            function reset_scale() {
+                const framework = active_framework();
+                const own = default_levels_for(framework) || LEGACY_LEVELS;
+                if (!confirm_lost_answers(framework, own.map((l) => l.id))) return;
+                set_scale(framework, null);
+                clear_orphan_statuses(state, framework);
+                document.getElementById("scales-dialog").close();
+                render();
+            }
+
+            function show_scale_message(text) {
+                const box = document.getElementById("scales-message");
+                box.hidden = !text;
+                box.textContent = text;
+            }
+
+            function scale_field(labelText, control) {
+                const label = document.createElement("label");
+                label.className = "scale-field";
+                const span = document.createElement("span");
+                span.textContent = labelText;
+                label.append(span, control);
+                return label;
+            }
+
+            function scale_button(className, text, label, onClick, disabled) {
+                const button = document.createElement("button");
+                button.type = "button";
+                button.className = "outline scale-" + className;
+                button.textContent = text;
+                button.setAttribute("aria-label", label);
+                button.disabled = !!disabled;
+                button.addEventListener("click", onClick);
+                return button;
+            }
+
+            function scale_row(level, i) {
+                const row = document.createElement("div");
+                row.className = "scale-row";
+
+                const move = document.createElement("div");
+                move.className = "scale-move";
+                const swap = (from, to) => () => {
+                    scaleDraft.splice(to, 0, scaleDraft.splice(from, 1)[0]);
+                    render_scales_editor();
+                };
+                move.append(
+                    scale_button("up", "▲", "Move option up", swap(i, i - 1), i === 0),
+                    scale_button("down", "▼", "Move option down", swap(i, i + 1), i === scaleDraft.length - 1)
+                );
+
+                const preview = document.createElement("span");
+                preview.className = "scale-preview";
+                const paint = () => {
+                    preview.innerHTML = icon_markup_by_name(level.icon);
+                    preview.style.color = to_hex(level.color);
+                };
+                const icon = document.createElement("select");
+                icon.className = "scale-icon";
+                ICON_NAMES.forEach((name) => {
+                    const option = document.createElement("option");
+                    option.value = name;
+                    option.textContent = ICON_LABELS[name] || "Number " + name;
+                    icon.appendChild(option);
+                });
+                icon.value = level.icon;
+                icon.addEventListener("change", () => { level.icon = icon.value; paint(); });
+
+                const color = document.createElement("input");
+                color.type = "color";
+                color.className = "scale-color";
+                color.value = to_hex(level.color);
+                color.addEventListener("input", () => { level.color = color.value; paint(); });
+
+                const title = document.createElement("input");
+                title.type = "text";
+                title.className = "scale-title";
+                title.value = level.label;
+                title.maxLength = 60;
+                title.addEventListener("input", () => { level.label = title.value; show_scale_message(""); });
+
+                const description = document.createElement("input");
+                description.type = "text";
+                description.className = "scale-description";
+                description.value = level.description || "";
+                description.placeholder = "optional";
+                description.addEventListener("input", () => { level.description = description.value; });
+
+                const counts = document.createElement("input");
+                counts.type = "checkbox";
+                counts.className = "scale-counts";
+                counts.checked = !level.excludeFromScore;
+                counts.addEventListener("change", () => { level.excludeFromScore = !counts.checked; });
+                const countsLabel = document.createElement("label");
+                countsLabel.className = "scale-counts-field";
+                countsLabel.append(counts, "Counts toward score");
+
+                paint();
+                const iconWrap = document.createElement("div");
+                iconWrap.className = "scale-icon-field";
+                iconWrap.append(preview, scale_field("Icon", icon), scale_field("Color", color));
+                row.append(
+                    move,
+                    iconWrap,
+                    scale_field("Title", title),
+                    scale_field("Description", description),
+                    countsLabel,
+                    scale_button("remove", "✕", "Remove option", () => { scaleDraft.splice(i, 1); render_scales_editor(); }, scaleDraft.length <= 2)
+                );
+                return row;
+            }
+
+            function render_scales_editor() {
+                const content = document.getElementById("scales-dialog-content");
+                content.innerHTML = "";
+                const intro = document.createElement("p");
+                intro.textContent = "Options run from lowest (top) to highest (bottom), like the cards from left to right. Untick “Counts toward score” for an option such as Not applicable. Per-principle descriptions can’t be set here: to change them, edit a framework JSON file and use Import ▾ → Import Assessment Framework.";
+                content.appendChild(intro);
+                const message = document.createElement("div");
+                message.id = "scales-message";
+                message.setAttribute("role", "alert");
+                message.setAttribute("data-variant", "error");
+                message.hidden = true;
+                content.appendChild(message);
+                scaleDraft.forEach((level, i) => content.appendChild(scale_row(level, i)));
+                const framework = active_framework();
+                const add = document.createElement("button");
+                add.type = "button";
+                add.className = "outline";
+                add.textContent = "Add option";
+                add.disabled = scaleDraft.length >= 9;
+                add.addEventListener("click", () => {
+                    const taken = scaleDraft.map((l) => l.id).concat(principle_levels_for(framework).map((l) => l.id));
+                    let n = 1;
+                    while (taken.includes("level-" + n)) n++;
+                    scaleDraft.push({ id: "level-" + n, label: "", icon: String(Math.min(scaleDraft.length + 1, 9)), color: "#888888" });
+                    render_scales_editor();
+                });
+                content.appendChild(add);
             }
 
             function render_header() {
