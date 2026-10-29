@@ -63,6 +63,60 @@ export const run = (ctx, code) => vm.runInContext(code, ctx);
     }
 }
 
+{
+    // Scales: set/reset, validation, persistence, export/import
+    clearStorage();
+    const c = loadLogic();
+    const R = (s) => run(c, s);
+    R('globalThis.gorc = FRAMEWORKS.find((f) => f.id === "gorc"); globalThis.state = initial_state();');
+    check("legacy editor list is worst to best", R("editable_levels(gorc).map((l) => l.id).join()") === "non-compliant,progress,compliant");
+    check("a POSI-like levels framework lists as declared", R('editable_levels(FRAMEWORKS[0]).map((l) => l.id).join()') === "low-adoption,making-progress,high-adoption");
+    check("validate_scale", R('validate_scale([{id:"a",label:"A"},{id:"b",label:"B"}])') === true
+        && !R('validate_scale([{id:"a",label:"A"}])')
+        && !R('validate_scale([{id:"a",label:" "},{id:"b",label:"B"}])')
+        && !R('validate_scale([{id:"a",label:"A"},{id:"a",label:"B"}])')
+        && !R('validate_scale([{id:"a",label:"A",icon:"star"},{id:"b",label:"B"}])')
+        && !R('validate_scale([{id:"a",label:"A",color:"red"},{id:"b",label:"B"}])')
+        && !R('validate_scale(Array.from({length:10}, (_, i) => ({id:"x"+i,label:"L"})))'));
+    const keys = R("Object.keys(state.frameworks.gorc)");
+    R(`state.frameworks.gorc["${keys[0]}"].status = "progress"; state.frameworks.gorc["${keys[1]}"].status = "compliant";`);
+    R('set_scale(gorc, [{id:"compliant",label:"Great",icon:"check",color:"#00aa00",junk:1},{id:"level-1",label:"Not applicable",icon:"question",color:"#888888",excludeFromScore:true}])');
+    check("custom scale replaces the levels (only known fields kept)", R("gorc.levels.map((l) => l.label).join()") === "Great,Not applicable" && R("is_legacy_levels(gorc)") === false && R("gorc.levels[0].junk") === undefined);
+    check("orphan statuses are counted and cleared", R("clear_orphan_statuses(state, gorc)") === 1 && R(`state.frameworks.gorc["${keys[0]}"].status`) === null && R(`state.frameworks.gorc["${keys[1]}"].status`) === "compliant");
+    check("export carries the scales of customised built-ins", R("Object.keys(build_export_object(state).scales).join()") === "gorc");
+    check("the scale is persisted", /"gorc"/.test(storageGet("spii-principles-tool.scales.v1") || ""));
+    R("set_scale(gorc, null)");
+    check("reset restores the legacy scale", R("is_legacy_levels(gorc)") === true && R("build_export_object(state).scales") === undefined);
+    check("reset removes the persisted entry", storageGet("spii-principles-tool.scales.v1") === null);
+    // import
+    const c2 = loadLogic();
+    run(c2, 'merge_loaded_state({scales:{gorc:[{id:"x",label:"X"},{id:"y",label:"Y"}]}, frameworks:{gorc:{}}})');
+    check("importing a report applies its scales", run(c2, 'FRAMEWORKS.find((f) => f.id === "gorc").levels.map((l) => l.id).join()') === "x,y");
+    clearStorage();
+    const c3 = loadLogic();
+    run(c3, 'merge_loaded_state({scales:{gorc:[{id:"x"}]}})');
+    check("an invalid imported scale is ignored", run(c3, 'FRAMEWORKS.find((f) => f.id === "gorc").levels') === undefined);
+    // statuses of a customised scale survive an export/import round trip
+    const c4 = loadLogic();
+    run(c4, 'globalThis.fair = FRAMEWORKS.find((f) => f.id === "fair"); set_scale(fair, [{id:"a",label:"A"},{id:"b",label:"B"},{id:"c",label:"C"}]); globalThis.state = initial_state();');
+    const fkeys = run(c4, "Object.keys(state.frameworks.fair)");
+    run(c4, `state.frameworks.fair["${fkeys[0]}"].status = "b";`);
+    const exported = run(c4, "JSON.stringify(build_export_object(state))");
+    const c5 = loadLogic();
+    run(c5, "globalThis.back = merge_loaded_state(" + exported + ");");
+    check("custom-scale answers round trip", run(c5, `back.frameworks.fair["${fkeys[0]}"].status`) === "b" && run(c5, 'FRAMEWORKS.find((f) => f.id === "fair").levels.length') === 3);
+    // saved scales are applied on boot
+    clearStorage();
+    const c6 = loadLogic();
+    run(c6, 'set_scale(FRAMEWORKS.find((f) => f.id === "fair"), [{id:"a",label:"A"},{id:"b",label:"B"},{id:"c",label:"C"}])');
+    const c7 = loadLogic();
+    run(c7, "apply_saved_scales(FRAMEWORKS)");
+    check("a saved scale is applied again after a reload", run(c7, 'FRAMEWORKS.find((f) => f.id === "fair").levels.length') === 3);
+    clearStorage();
+    const c8 = loadLogic();
+    check("without storage nothing breaks", (() => { try { run(c8, 'delete globalThis.localStorage; set_scale(FRAMEWORKS[1], [{id:"a",label:"A"},{id:"b",label:"B"}]); apply_saved_scales(FRAMEWORKS); true'); return true; } catch (e) { return false; } })());
+}
+
 if (process.argv.includes("--ui")) await (await import("./test-app-ui.mjs")).default({ check, ROOT });
 
 console.log(failed ? `\n${failed} FAILED` : "\nall passed");

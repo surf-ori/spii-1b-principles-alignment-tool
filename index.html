@@ -853,6 +853,95 @@
             // Levels with `excludeFromScore` (e.g. "Not applicable") are shown and tallied, but ignored in the percentage.
             const counting_levels = (levels) => levels.filter((l) => !l.excludeFromScore);
 
+            // ---- Customizable scales ------------------------------------------------------------
+            // A customised scale replaces `framework.levels` in place, so cards, sidebar icons, summary,
+            // badge and exports follow without a second mechanism. The framework's own scale stays in
+            // DEFAULT_LEVELS (undefined = the legacy compliant/progress/non-compliant scale) for reset.
+            const SCALES_KEY = "spii-principles-tool.scales.v1";
+            const DEFAULT_LEVELS = new WeakMap();
+
+            function copy_levels(levels) {
+                return levels.map((l) => {
+                    const copy = { id: l.id, label: String(l.label).trim() };
+                    ["icon", "color", "description"].forEach((key) => { if (l[key] !== undefined && l[key] !== "") copy[key] = l[key]; });
+                    if (l.excludeFromScore) copy.excludeFromScore = true;
+                    return copy;
+                });
+            }
+
+            function default_levels_for(framework) {
+                return DEFAULT_LEVELS.has(framework) ? DEFAULT_LEVELS.get(framework) : framework.levels;
+            }
+
+            // What the scale dialog edits: worst first, best last. The legacy scale is stored best first, so it is flipped.
+            function editable_levels(framework) {
+                return copy_levels(is_legacy_levels(framework) ? LEGACY_LEVELS.slice().reverse() : framework.levels);
+            }
+
+            function validate_scale(levels) {
+                if (!Array.isArray(levels) || levels.length < 2 || levels.length > 9) return false;
+                const seen = new Set();
+                return levels.every(
+                    (l) =>
+                        l && typeof l.id === "string" && l.id && !seen.has(l.id) && seen.add(l.id) &&
+                        typeof l.label === "string" && l.label.trim() &&
+                        (l.icon === undefined || ICON_NAMES.includes(l.icon)) &&
+                        (l.color === undefined || /^(#[0-9a-f]{6}|--[\w-]+)$/i.test(l.color)) &&
+                        (l.description === undefined || typeof l.description === "string")
+                );
+            }
+
+            function customised_scales() {
+                const out = {};
+                FRAMEWORKS.forEach((f) => {
+                    if (DEFAULT_LEVELS.has(f) && f.levels !== DEFAULT_LEVELS.get(f)) out[f.id] = f.levels;
+                });
+                return out;
+            }
+
+            function persist_scales() {
+                try {
+                    const scales = customised_scales();
+                    if (Object.keys(scales).length) localStorage.setItem(SCALES_KEY, JSON.stringify(scales));
+                    else localStorage.removeItem(SCALES_KEY);
+                } catch (e) {
+                    // Storage unavailable (private window, blocked): the scale then lasts for this page view only.
+                }
+            }
+
+            // levels = null restores the framework's own scale.
+            function set_scale(framework, levels) {
+                if (!DEFAULT_LEVELS.has(framework)) DEFAULT_LEVELS.set(framework, framework.levels);
+                const original = DEFAULT_LEVELS.get(framework);
+                if (levels) framework.levels = copy_levels(levels);
+                else if (original === undefined) delete framework.levels;
+                else framework.levels = original;
+                persist_scales();
+            }
+
+            function apply_saved_scales(frameworks) {
+                let saved;
+                try {
+                    saved = JSON.parse(localStorage.getItem(SCALES_KEY) || "{}") || {};
+                } catch (e) {
+                    return;
+                }
+                frameworks.forEach((f) => { if (validate_scale(saved[f.id])) set_scale(f, saved[f.id]); });
+            }
+
+            // Answers that use an option the framework's scale no longer has are cleared; returns how many.
+            function clear_orphan_statuses(state, framework) {
+                const ids = principle_levels_for(framework).map((l) => l.id);
+                let cleared = 0;
+                Object.values(state.frameworks[framework.id] || {}).forEach((entry) => {
+                    if (entry.status && !ids.includes(entry.status)) {
+                        entry.status = null;
+                        cleared++;
+                    }
+                });
+                return cleared;
+            }
+
             // Oat's 12-column grid: as many equal columns as there are levels, e.g. 3
             // levels -> col-4 (unchanged legacy layout), 4 levels -> col-3.
             function grid_col_class(count) {
@@ -1101,6 +1190,7 @@
                     });
                     frameworks[frameworkId] = entries;
                 });
+                const scales = customised_scales();
                 return {
                     name: state.name,
                     description: state.description,
@@ -1109,6 +1199,7 @@
                     activities: state.activities.slice(),
                     customFrameworks: state.customFrameworks.slice(),
                     frameworks,
+                    ...(Object.keys(scales).length ? { scales } : {}),
                 };
             }
 
@@ -1128,6 +1219,9 @@
                         fresh.customFrameworks.push(framework);
                         fresh.frameworks[framework.id] = framework_state_slice(framework);
                     });
+                }
+                if (loaded.scales && typeof loaded.scales === "object") {
+                    FRAMEWORKS.forEach((f) => { if (validate_scale(loaded.scales[f.id])) set_scale(f, loaded.scales[f.id]); });
                 }
                 if (loaded.frameworks && typeof loaded.frameworks === "object") {
                     const knownFrameworks = FRAMEWORKS.concat(fresh.customFrameworks);
@@ -2535,6 +2629,7 @@
                     render_boot_error(err);
                     return;
                 }
+                apply_saved_scales(FRAMEWORKS);
                 activeFrameworkId = FRAMEWORKS[0].id;
                 // A URL hash naming a framework (e.g. "#gorc") opens straight
                 // to that framework's tab, with its sidebar group expanded.
