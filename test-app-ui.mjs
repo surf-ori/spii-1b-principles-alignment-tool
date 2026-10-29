@@ -48,7 +48,7 @@ export default async function ({ check, ROOT }) {
         {
             // POSI: adoption scale, intro accordion, complementary principles
             const { page, errors, ctx } = await open("index.html#posi");
-            const panel = page.locator('[role="tabpanel"]:visible');
+            const panel = page.locator('.framework-panel:visible');
             const first = panel.locator('details[id^="principle-posi-"]').first();
             await first.locator("summary").click();
             const labels = await first.locator(".status-label").allInnerTexts();
@@ -66,6 +66,59 @@ export default async function ({ check, ROOT }) {
             check("one High adoption answer gives 100% average score", heading === "Overall: 100% average score", heading);
             check("the status chip colours follow the level", (await first.locator('.status-card[data-status="high-adoption"]').evaluate((el) => getComputedStyle(el).getPropertyValue("--status-accent"))).trim() !== "");
             check("no console or page errors (POSI)", errors.length === 0, JSON.stringify(errors));
+            await ctx.close();
+        }
+        {
+            // Layout: intro, infrastructure accordion, selected framework; dropdown + sidebar accordions
+            const { page, errors, ctx } = await open("index.html");
+            check("no tab strip", (await page.locator('[role="tab"], [role="tablist"]').count()) === 0);
+            const groups = await page.$$eval("#framework-select optgroup", (gs) => gs.map((g) => [g.label, [...g.querySelectorAll("option")].map((o) => o.value)]));
+            check("dropdown groups: Approved / Other assessments", groups.length === 2 && groups[0][0] === "Approved" && groups[0][1].join() === "posi" && groups[1][0] === "Other assessments", JSON.stringify(groups));
+            check("other assessments order, SPII frameworks last", groups[1] && groups[1][1].join() === "gorc,fair,bd,osr,7gpri,care,forest,spii,spii-alignment,posi-spii", groups[1] && groups[1][1].join());
+            check("POSI is selected by default", (await page.inputValue("#framework-select")) === "posi");
+            check("option label shows the scored count", /^POSI v2\.0 Assessment \(0\/23 scored\)$/.test(await page.locator('#framework-select option[value="posi"]').innerText()));
+            const order = await page.$$eval("#app > *", (els) => els.map((e) => e.id || e.tagName.toLowerCase()));
+            check("main page: intro, infra description, selected framework", order.join() === "intro-section,infra-description-section,framework-section", order.join());
+            check("infra description is a closed accordion", await page.$eval("#infra-description-section", (e) => e.tagName === "DETAILS" && !e.open));
+            await page.click("#infra-description-section > summary");
+            await page.fill("#infra-name", "Test infra");
+            check("infra description fields work", (await page.inputValue("#infra-name")) === "Test infra");
+            check("11 framework panels, only POSI visible", (await page.locator(".framework-panel").count()) === 11 && (await page.locator(".framework-panel:visible").count()) === 1 && (await page.locator("#framework-panel-posi:visible").count()) === 1);
+            check("sidebar shows POSI's 4 section accordions", (await page.locator("#sidebar-sections details").count()) === 4);
+            check("sidebar principles carry status icons", (await page.locator("#sidebar-sections .nav-status-icon").count()) === 23);
+            await page.click('#sidebar-sections a[href="#principle-posi-autonomy"]');
+            check("sidebar link opens its principle", await page.$eval("#principle-posi-autonomy", (e) => e.open));
+            await page.selectOption("#framework-select", "forest");
+            check("selecting FOREST shows its panel only", (await page.locator(".framework-panel:visible").count()) === 1 && (await page.locator("#framework-panel-forest:visible").count()) === 1);
+            check("sidebar rebuilt for FOREST (6 sections)", (await page.locator("#sidebar-sections details").count()) === 6);
+            check("hash follows the selection", (await page.evaluate(() => location.hash)) === "#forest");
+            check("option label updates", /\(0\/96 scored\)$/.test(await page.locator('#framework-select option[value="forest"]').innerText()));
+            const banner = await page.locator("#framework-panel-forest [role=alert]").first().innerText();
+            check("experimental banner", /^Experimental/.test(banner), banner);
+            const optionTexts = await page.$$eval("#framework-select option", (os) => os.map((o) => o.textContent));
+            check("no 'draft' in the dropdown", !optionTexts.some((t) => /draft/i.test(t)), optionTexts.join("|"));
+            check("experimental suffix present", optionTexts.filter((t) => /\(experimental\)/.test(t)).length >= 8, optionTexts.join("|"));
+            check("no console or page errors (layout)", errors.length === 0, JSON.stringify(errors));
+            await ctx.close();
+        }
+        {
+            const { page, ctx } = await open("index.html#gorc");
+            check("#gorc selects GORC", (await page.inputValue("#framework-select")) === "gorc" && (await page.locator("#framework-panel-gorc:visible").count()) === 1);
+            await page.evaluate(() => { location.hash = "#fair"; });
+            await page.waitForTimeout(200);
+            check("hashchange selects FAIR", (await page.inputValue("#framework-select")) === "fair");
+            await ctx.close();
+        }
+        {
+            const { page, ctx } = await open("index.html?framework=data/frameworks/cris-tender-v0.1.json#cris-tender");
+            await page.waitForTimeout(800);
+            check("runtime-loaded framework opens from the hash and lands under Other", (await page.inputValue("#framework-select")) === "cris-tender" && (await page.locator('optgroup[label="Other assessments"] option[value="cris-tender"]').count()) === 1);
+            await ctx.close();
+        }
+        for (const width of [412, 375, 320]) {
+            const { page, ctx } = await open("index.html#forest", width, 800);
+            const [sw, iw] = await page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth]);
+            check("no horizontal overflow at " + width + "px", sw <= iw, sw + "/" + iw);
             await ctx.close();
         }
     } finally {

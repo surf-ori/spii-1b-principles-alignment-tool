@@ -510,20 +510,7 @@
 
             .status-card .status-icon { color: var(--status-accent, currentColor); }
 
-            [role="tablist"] {
-                margin-bottom: var(--space-4);
-                flex-wrap: wrap;
-            }
-
-            /* A long tab label ("CRIS Tender v0.1 Assessment (draft) (138/138
-               scored)") is nowrap in Oat and wider than a phone; let it wrap
-               once it would exceed the tab strip. No change while it fits. */
-            [role="tablist"] [role="tab"] {
-                max-width: 100%;
-                white-space: normal;
-            }
-
-            [role="tabpanel"] {
+            .framework-panel {
                 background-color: var(--card);
                 color: var(--card-foreground);
                 border: 1px solid var(--border);
@@ -551,8 +538,8 @@
                "Source:" link) otherwise force #app wider than a phone viewport
                (500px at 375px), which body's overflow-x: hidden then clips. Oat sets
                overflow-wrap: break-word on p itself, so inheriting is not enough. */
-            [role="tabpanel"],
-            [role="tabpanel"] * {
+            .framework-panel,
+            .framework-panel * {
                 overflow-wrap: anywhere;
             }
 
@@ -629,21 +616,14 @@
             }
 
             @media print {
-                [role="tablist"] {
-                    display: none;
-                }
-                [role="tabpanel"] {
+                .framework-panel {
                     padding: 0;
                     border: none;
                     background: none;
                 }
             }
 
-            body.printing [role="tablist"] {
-                display: none;
-            }
-
-            body.printing [role="tabpanel"] {
+            body.printing .framework-panel {
                 padding: 0;
                 border: none;
                 background: none;
@@ -894,7 +874,7 @@
                 return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
             }
 
-            const BUILTIN_FRAMEWORK_FILES = ["data/frameworks/posi-v2.0.json", "data/frameworks/posi+spii-merged-v0.5.json", "data/frameworks/spii-alignment-v0.3.json", "data/frameworks/spii-v0.1.json", "data/frameworks/gorc-v1.1.json", "data/frameworks/fair-v1.0.json", "data/frameworks/bd-v1.0.json", "data/frameworks/osr-v0.1.json", "data/frameworks/7gpri-v1.0.json", "data/frameworks/care-v1.0.json", "data/frameworks/forest-v2.0.json"];
+            const BUILTIN_FRAMEWORK_FILES = ["data/frameworks/posi-v2.0.json", "data/frameworks/gorc-v1.1.json", "data/frameworks/fair-v1.0.json", "data/frameworks/bd-v1.0.json", "data/frameworks/osr-v0.1.json", "data/frameworks/7gpri-v1.0.json", "data/frameworks/care-v1.0.json", "data/frameworks/forest-v2.0.json", "data/frameworks/spii-v0.1.json", "data/frameworks/spii-alignment-v0.3.json", "data/frameworks/posi+spii-merged-v0.5.json"];
 
             async function load_builtin_frameworks() {
                 const loaded = await Promise.all(
@@ -1286,7 +1266,10 @@
                 </form>
             </dialog>
             <aside data-sidebar>
-                <nav id="sidebar-nav"></nav>
+                <nav id="sidebar-nav">
+                    <div id="framework-picker"></div>
+                    <div id="sidebar-sections"></div>
+                </nav>
                 <footer id="sidebar-footer"></footer>
             </aside>
             <main id="app"></main>
@@ -1296,7 +1279,6 @@
         <script id="app-render">
             let state = null;
             let activeFrameworkId = null;
-            let activeTabId = "infra-description";
 
             function all_frameworks() {
                 return FRAMEWORKS.concat(state.customFrameworks);
@@ -1332,7 +1314,9 @@
                 const app = document.getElementById("app");
                 app.innerHTML = "";
                 app.appendChild(render_header());
-                app.appendChild(render_tabs());
+                app.appendChild(render_infra_description_section());
+                app.appendChild(render_framework_panels());
+                render_framework_picker();
                 render_sidebar_nav();
                 render_sidebar_footer();
                 wire_up_events();
@@ -1340,81 +1324,72 @@
                 update_badge();
             }
 
-            function tab_defs() {
-                return [{ id: "infra-description", label: "OS Infrastructure Description" }].concat(
-                    all_frameworks().map((framework) => ({ id: framework.id, label: framework.title }))
-                );
-            }
-
-            function tab_label_text(tabId, baseLabel) {
-                const framework = all_frameworks().find((f) => f.id === tabId);
-                if (!framework) return baseLabel;
+            function framework_option_label(framework) {
                 const summary = compute_summary(state, framework.id, framework);
-                return baseLabel + " (" + summary.scoredCount + "/" + summary.totalCount + " scored)";
+                const suffix = framework.draft && !/\((draft|experimental)\)/i.test(framework.title) ? " (experimental)" : "";
+                return framework.title + suffix + " (" + summary.scoredCount + "/" + summary.totalCount + " scored)";
             }
 
-            function render_tabs() {
-                const wrap = document.createElement("div");
-                wrap.id = "main-tabs";
-
-                const tablist = document.createElement("div");
-                tablist.setAttribute("role", "tablist");
-
-                const defs = tab_defs();
-                defs.forEach((def) => {
-                    const tab = document.createElement("button");
-                    tab.type = "button";
-                    tab.setAttribute("role", "tab");
-                    tab.id = "tab-" + def.id;
-                    tab.setAttribute("aria-controls", "tabpanel-" + def.id);
-                    tab.setAttribute("aria-selected", def.id === activeTabId ? "true" : "false");
-                    tab.dataset.tabId = def.id;
-                    tab.textContent = tab_label_text(def.id, def.label);
-                    tab.addEventListener("click", () => switch_tab(def.id));
-                    tablist.appendChild(tab);
+            // The framework chooser at the top of the sidebar: the approved framework(s) first, then everything else.
+            function render_framework_picker() {
+                const host = document.getElementById("framework-picker");
+                host.innerHTML = "";
+                const label = document.createElement("label");
+                label.htmlFor = "framework-select";
+                label.textContent = "Assessment framework";
+                const select = document.createElement("select");
+                select.id = "framework-select";
+                [["Approved", (f) => f.approved], ["Other assessments", (f) => !f.approved]].forEach(([name, test]) => {
+                    const group = document.createElement("optgroup");
+                    group.label = name;
+                    all_frameworks().filter(test).forEach((framework) => {
+                        const option = document.createElement("option");
+                        option.value = framework.id;
+                        option.textContent = framework_option_label(framework);
+                        group.appendChild(option);
+                    });
+                    if (group.children.length) select.appendChild(group);
                 });
-                wrap.appendChild(tablist);
+                select.value = activeFrameworkId;
+                select.addEventListener("change", () => {
+                    select_framework(select.value);
+                    close_sidebar();
+                    window.scrollTo(0, 0);
+                    document.getElementById("app").scrollTo(0, 0);
+                });
+                host.append(label, select);
+            }
 
-                const panelContent = {
-                    "infra-description": () => render_infra_description_section(),
-                };
+            // Every framework's panel stays in the DOM (print and PDF need them all); only the selected one is shown.
+            function render_framework_panels() {
+                const wrap = document.createElement("section");
+                wrap.id = "framework-section";
                 all_frameworks().forEach((framework) => {
-                    panelContent[framework.id] = () => render_framework_section(framework);
-                });
-
-                defs.forEach((def) => {
                     const panel = document.createElement("div");
-                    panel.setAttribute("role", "tabpanel");
-                    panel.id = "tabpanel-" + def.id;
-                    panel.setAttribute("aria-labelledby", "tab-" + def.id);
-                    panel.hidden = def.id !== activeTabId;
-                    panel.appendChild(panelContent[def.id]());
+                    panel.className = "framework-panel";
+                    panel.id = "framework-panel-" + framework.id;
+                    panel.hidden = framework.id !== activeFrameworkId;
+                    panel.appendChild(render_framework_section(framework));
                     wrap.appendChild(panel);
                 });
-
                 return wrap;
             }
 
-            function switch_tab(tabId) {
-                activeTabId = tabId;
-                document.querySelectorAll('[role="tab"]').forEach((tab) => {
-                    tab.setAttribute("aria-selected", tab.dataset.tabId === tabId ? "true" : "false");
+            function select_framework(frameworkId) {
+                activeFrameworkId = frameworkId;
+                document.querySelectorAll(".framework-panel").forEach((panel) => {
+                    panel.hidden = panel.id !== "framework-panel-" + frameworkId;
                 });
-                document.querySelectorAll('[role="tabpanel"]').forEach((panel) => {
-                    panel.hidden = panel.id !== "tabpanel-" + tabId;
-                });
-                // Sidebar framework groups are a single-open accordion: whichever
-                // group matches the active tab opens, every other one collapses.
-                document.querySelectorAll('#sidebar-nav details[data-framework-id]').forEach((details) => {
-                    details.open = details.dataset.frameworkId === tabId;
-                });
-                if (all_frameworks().some((f) => f.id === tabId)) {
-                    activeFrameworkId = tabId;
-                    update_badge();
-                    history.replaceState(null, "", "#" + tabId);
-                } else {
-                    history.replaceState(null, "", location.pathname + location.search);
-                }
+                const select = document.getElementById("framework-select");
+                if (select) select.value = frameworkId;
+                render_sidebar_nav();
+                update_badge();
+                history.replaceState(null, "", "#" + frameworkId);
+            }
+
+            function close_sidebar() {
+                document.getElementById("app-shell").removeAttribute("data-sidebar-open");
+                document.getElementById("sidebar-toggle").setAttribute("aria-expanded", "false");
             }
 
             // Reads the framework id from the URL hash (case-insensitive, so
@@ -1429,7 +1404,7 @@
             }
 
             function navigate_to(tabId, anchorId) {
-                if (tabId) switch_tab(tabId);
+                if (tabId && tabId !== activeFrameworkId) select_framework(tabId);
                 const target = document.getElementById(anchorId);
                 if (!target) return;
                 if (target.tagName === "DETAILS") target.open = true;
@@ -1448,65 +1423,36 @@
                 return span;
             }
 
+            // The sections of the selected framework as accordions, each with its principles and their status icons.
             function render_sidebar_nav() {
-                const nav = document.getElementById("sidebar-nav");
+                const nav = document.getElementById("sidebar-sections");
                 nav.innerHTML = "";
+                const framework = all_frameworks().find((f) => f.id === activeFrameworkId);
                 const ul = document.createElement("ul");
-
-                ul.appendChild(render_nav_link("infra-description-section", "OS Infrastructure Description", "infra-description"));
-
-                all_frameworks().forEach((framework) => {
+                framework.sections.forEach((section) => {
+                    const anchorId = section_id(framework.id, section);
                     const li = document.createElement("li");
-                    const groupDetails = document.createElement("details");
-                    groupDetails.dataset.frameworkId = framework.id;
-                    groupDetails.open = framework.id === activeTabId;
+                    const details = document.createElement("details");
+                    details.open = true;
                     const summary = document.createElement("summary");
                     const a = document.createElement("a");
-                    a.href = "#framework-" + framework.id;
-                    const showDraftSuffix = framework.draft && !/\(draft\)/i.test(framework.title);
-                    a.textContent = framework.title + (showDraftSuffix ? " (draft)" : "");
-                    if (framework.approved) a.prepend(approved_icon_element());
-                    summary.appendChild(a);
+                    a.href = "#" + anchorId;
+                    a.textContent = section.section;
                     a.addEventListener("click", (e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        navigate_to(framework.id, "framework-" + framework.id);
+                        navigate_to(framework.id, anchorId);
                     });
-                    groupDetails.appendChild(summary);
-
-                    const subUl = document.createElement("ul");
-                    framework.sections.forEach((section) => {
-                        const sectionLi = render_nav_link(section_id(framework.id, section), section.section, framework.id);
-
-                        const principleUl = document.createElement("ul");
-                        principleUl.className = "nav-principle-list";
-                        section.principles.forEach((principle) => {
-                            principleUl.appendChild(render_principle_nav_link(framework.id, principle));
-                        });
-                        sectionLi.appendChild(principleUl);
-
-                        subUl.appendChild(sectionLi);
-                    });
-                    groupDetails.appendChild(subUl);
-
-                    li.appendChild(groupDetails);
+                    summary.appendChild(a);
+                    details.appendChild(summary);
+                    const principleUl = document.createElement("ul");
+                    principleUl.className = "nav-principle-list";
+                    section.principles.forEach((principle) => principleUl.appendChild(render_principle_nav_link(framework.id, principle)));
+                    details.appendChild(principleUl);
+                    li.appendChild(details);
                     ul.appendChild(li);
                 });
-
                 nav.appendChild(ul);
-            }
-
-            function render_nav_link(anchorId, label, tabId) {
-                const li = document.createElement("li");
-                const a = document.createElement("a");
-                a.href = "#" + anchorId;
-                a.textContent = label;
-                a.addEventListener("click", (e) => {
-                    e.preventDefault();
-                    navigate_to(tabId, anchorId);
-                });
-                li.appendChild(a);
-                return li;
             }
 
             function render_principle_nav_link(frameworkId, principle) {
@@ -1573,7 +1519,8 @@
             }
 
             function render_header() {
-                const wrap = document.createElement("div");
+                const wrap = document.createElement("section");
+                wrap.id = "intro-section";
 
                 const intro = document.createElement("p");
                 intro.textContent = "Self-assess how your Open Science infrastructure puts open science values and principles into practice, against one or more community-recognised assessment frameworks.";
@@ -1617,7 +1564,7 @@
                     const alertBox = document.createElement("div");
                     alertBox.setAttribute("role", "alert");
                     alertBox.setAttribute("data-variant", "warning");
-                    alertBox.textContent = "Draft – work in progress. This framework's principles and scoring criteria may still change.";
+                    alertBox.textContent = "Experimental – work in progress. This framework's principles and scoring criteria may still change.";
                     section.appendChild(alertBox);
                 }
                 const h2 = document.createElement("h2");
@@ -1652,11 +1599,14 @@
             }
 
             function render_infra_description_section() {
-                const section = document.createElement("section");
+                const section = document.createElement("details");
+                section.className = "container";
                 section.id = "infra-description-section";
-                const h2 = document.createElement("h2");
-                h2.textContent = "OS Infrastructure Description";
-                section.appendChild(h2);
+                const summary = document.createElement("summary");
+                const heading = document.createElement("h4");
+                heading.textContent = "OS Infrastructure Description";
+                summary.appendChild(heading);
+                section.appendChild(summary);
 
                 section.appendChild(render_text_field("infra-name", "Infrastructure name", state.name, "text", "name of the infrastructure"));
                 section.appendChild(render_textarea_field("infra-description", "Description", state.description, "brief description of the infrastructure"));
@@ -1960,8 +1910,9 @@
                         heading.textContent = text.heading;
                         counts.textContent = text.counts;
                     }
-                    const tab = document.getElementById("tab-" + framework.id);
-                    if (tab) tab.textContent = tab_label_text(framework.id, framework.title);
+                    const select = document.getElementById("framework-select");
+                    const option = select && Array.from(select.options).find((o) => o.value === framework.id);
+                    if (option) option.textContent = framework_option_label(framework);
                 });
             }
 
@@ -2168,9 +2119,9 @@
                 const detailsElements = Array.from(document.querySelectorAll("details"));
                 const openStates = detailsElements.map((el) => el.open);
                 detailsElements.forEach((el) => el.setAttribute("open", ""));
-                const tabpanels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
-                const tabpanelHiddenStates = tabpanels.map((el) => el.hidden);
-                tabpanels.forEach((el) => { el.hidden = false; });
+                const panels = Array.from(document.querySelectorAll(".framework-panel"));
+                const panelHiddenStates = panels.map((el) => el.hidden);
+                panels.forEach((el) => { el.hidden = false; });
                 document.body.classList.add("printing");
 
                 const doc = new jspdf.jsPDF();
@@ -2181,7 +2132,7 @@
                         detailsElements.forEach((el, i) => {
                             if (!openStates[i]) el.removeAttribute("open");
                         });
-                        tabpanels.forEach((el, i) => { el.hidden = tabpanelHiddenStates[i]; });
+                        panels.forEach((el, i) => { el.hidden = panelHiddenStates[i]; });
                     },
                     x: 10,
                     width: 200,
@@ -2190,15 +2141,15 @@
             }
 
             let detailsOpenBeforePrint = null;
-            let tabpanelsHiddenBeforePrint = null;
+            let panelsHiddenBeforePrint = null;
 
             window.addEventListener("beforeprint", () => {
                 const detailsElements = Array.from(document.querySelectorAll("details"));
                 detailsOpenBeforePrint = detailsElements.map((el) => el.open);
                 detailsElements.forEach((el) => el.setAttribute("open", ""));
-                const tabpanels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
-                tabpanelsHiddenBeforePrint = tabpanels.map((el) => el.hidden);
-                tabpanels.forEach((el) => { el.hidden = false; });
+                const panels = Array.from(document.querySelectorAll(".framework-panel"));
+                panelsHiddenBeforePrint = panels.map((el) => el.hidden);
+                panels.forEach((el) => { el.hidden = false; });
             });
 
             window.addEventListener("afterprint", () => {
@@ -2208,10 +2159,10 @@
                     if (!detailsOpenBeforePrint[i]) el.removeAttribute("open");
                 });
                 detailsOpenBeforePrint = null;
-                if (tabpanelsHiddenBeforePrint) {
-                    const tabpanels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
-                    tabpanels.forEach((el, i) => { el.hidden = tabpanelsHiddenBeforePrint[i]; });
-                    tabpanelsHiddenBeforePrint = null;
+                if (panelsHiddenBeforePrint) {
+                    const panels = Array.from(document.querySelectorAll(".framework-panel"));
+                    panels.forEach((el, i) => { el.hidden = panelsHiddenBeforePrint[i]; });
+                    panelsHiddenBeforePrint = null;
                 }
             });
 
@@ -2537,7 +2488,6 @@
                 // to that framework's tab, with its sidebar group expanded.
                 const hashFrameworkId = framework_id_from_hash();
                 if (hashFrameworkId) {
-                    activeTabId = hashFrameworkId;
                     activeFrameworkId = hashFrameworkId;
                 }
                 state = initial_state();
@@ -2547,11 +2497,11 @@
                 // load_from_url_params() has added it, so a hash naming it
                 // (e.g. "#cris-tender") could not be matched above; check again.
                 const lateHashFrameworkId = framework_id_from_hash();
-                if (lateHashFrameworkId && lateHashFrameworkId !== activeTabId) switch_tab(lateHashFrameworkId);
+                if (lateHashFrameworkId && lateHashFrameworkId !== activeFrameworkId) select_framework(lateHashFrameworkId);
             }
             window.addEventListener("hashchange", () => {
                 const hashFrameworkId = framework_id_from_hash();
-                if (hashFrameworkId && hashFrameworkId !== activeTabId) switch_tab(hashFrameworkId);
+                if (hashFrameworkId && hashFrameworkId !== activeFrameworkId) select_framework(hashFrameworkId);
             });
             boot();
         </script>
