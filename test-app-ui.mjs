@@ -45,6 +45,29 @@ export default async function ({ check, ROOT }) {
             await ctx.close();
         }
         // ---- UI tests per task are added below ----
+        {
+            // POSI: adoption scale, intro accordion, complementary principles
+            const { page, errors, ctx } = await open("index.html#posi");
+            const panel = page.locator('[role="tabpanel"]:visible');
+            const first = panel.locator('details[id^="principle-posi-"]').first();
+            await first.locator("summary").click();
+            const labels = await first.locator(".status-label").allInnerTexts();
+            check("POSI cards: Low adoption / Making progress / High adoption", labels.join() === "Low adoption,Making progress,High adoption", labels.join());
+            const detailsTitles = await panel.locator("#framework-posi > details > summary").allInnerTexts();
+            check("intro accordion sits above About POSI", detailsTitles[0] === "Introduction to Strategic Plan on Integrated Infrastructure" && detailsTitles[1] === "About POSI", detailsTitles.join("|"));
+            check("About POSI has no approved paragraph", !/Approved assessment framework/.test(await panel.locator("#framework-posi > details").nth(1).innerText()));
+            check("23 principle accordions", (await panel.locator('details[id^="principle-posi-"]').count()) === 23);
+            const aut = panel.locator("#principle-posi-autonomy");
+            await aut.locator("summary").click();
+            check("Autonomy text links to the DAAF", (await aut.locator('a[href="https://utrechtuniversity.github.io/digital-autonomy-assessment-tool/"]').count()) === 2);
+            check("cards show the criteria from SPII v0.1", /Data, infrastructure control, and critical decisions remain/.test(await aut.innerText()));
+            await first.locator('.status-card[data-status="high-adoption"]').click();
+            const heading = (await panel.locator('[id^="summary-heading-posi"]').first().innerText()).trim();
+            check("one High adoption answer gives 100% average score", heading === "Overall: 100% average score", heading);
+            check("the status chip colours follow the level", (await first.locator('.status-card[data-status="high-adoption"]').evaluate((el) => getComputedStyle(el).getPropertyValue("--status-accent"))).trim() !== "");
+            check("no console or page errors (POSI)", errors.length === 0, JSON.stringify(errors));
+            await ctx.close();
+        }
     } finally {
         await browser.close();
         server.close();

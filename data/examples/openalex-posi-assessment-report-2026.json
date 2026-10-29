@@ -8,55 +8,55 @@
   "frameworks": {
     "posi": {
       "coverage": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "OpenAlex aims to index and support the entire research ecosystem — across disciplines, geographies, languages, output types, and stakeholder groups — and continues to expand beyond the traditional DOI-centered literature."
       },
       "stakeholder-governed": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "OpenAlex is a nonprofit with a public-interest mission and a governing board, and has added a Community Advisory Board bringing broader stakeholder perspectives, selected through a community vote."
       },
       "non-discriminatory": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "Anyone can use OpenAlex, access the data, use the API or snapshots, report bugs, suggest features, or engage with the team publicly."
       },
       "transparent-governance": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "OpenAlex publishes pricing information, member information, nonprofit transparency materials, and public information about its grant funding, including openly depositing grant proposals on Open Grants."
       },
       "cannot-lobby": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "OpenAlex does not lobby for narrow organizational advantage, while it does advocate publicly for the adoption of open science, open infrastructure, and open metadata."
       },
       "living-will": {
-        "status": "progress",
+        "status": "making-progress",
         "notes": "OpenAlex has many of the practical ingredients of a living will (open code, open data, community-hosted snapshots), but does not yet have a more formal public statement of wind-down and successor conditions."
       },
       "regular-review": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "OpenAlex is not trying to exist forever for its own sake — much of what it builds responds directly to failures and gaps in scholarly communication infrastructure."
       },
       "transparent-operations": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "OpenAlex publishes pricing information, member information, nonprofit transparency materials, and public information about its grant funding and roadmap."
       },
       "time-limited-funds": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "Grants continue to support bounded development work, major new initiatives, and strategic expansion, while day-to-day operations are meant to run on sustainable service revenue."
       },
       "generate-surplus": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "“We agree with this more strongly now than we did in 2021 ... infrastructure at global scale needs slack.” OpenAlex aims to generate surplus in future operational phases."
       },
       "financial-reserves": {
-        "status": "progress",
+        "status": "making-progress",
         "notes": "OpenAlex currently has funds available to support operations for the next year but has not yet set aside a formal contingency fund — named as ongoing work."
       },
       "mission-consistent-revenue": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "“Revenue should come from services, not from locking up the data itself.” Built on memberships and support rather than data access fees."
       },
       "revenue-not-data": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "OpenAlex data remains open and will always be open. What is charged for are services around that infrastructure: support, enhanced access, memberships."
       },
       "volunteer-labour": {
@@ -64,27 +64,27 @@
         "notes": "Not directly addressed in OpenAlex's published recommitment post."
       },
       "transition-planning": {
-        "status": "progress",
+        "status": "making-progress",
         "notes": "Following a co-founder's departure, OpenAlex has worked to reduce key-person risk through better documentation and its new “Walden” architecture."
       },
       "open-source": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "OpenAlex's code is openly available and openly developed, and is also archived through Software Heritage."
       },
       "open-secure-data": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "The core data behind OpenAlex is open and intended to remain open; private data shared to OpenAlex for a service is not shared onward."
       },
       "available-preserved": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "OpenAlex data is completely open through full snapshots that are free to download, plus an open UI/API with generous free limits, all under CC0."
       },
       "patent-non-assertion": {
-        "status": "progress",
+        "status": "making-progress",
         "notes": "“We do not believe patents belong at the core of scholarly infrastructure ... we would not pursue or assert patents and would look into formalizing that commitment” — a stated intent, not yet a formal covenant."
       },
       "interoperability-standards": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "Interoperability has always been central to what OpenAlex is trying to do, relying on shared identifiers, open metadata flows, public snapshots, and open APIs."
       }
     },

@@ -786,13 +786,13 @@
             // is_legacy_levels()/principle_levels_for() are the single place that decides
             // which of the two a given framework uses; every renderer below (status
             // cards, sidebar dot, badge ring) goes through level_icon_markup()/
-            // level_color() rather than touching ICONS/STATUS_COLOR_VAR directly, so a
+            // level_color() rather than touching ICONS and the level colors directly, so a
             // framework's declared `levels` is the only thing that needs to change to
             // support a new scale shape.
             const LEGACY_LEVELS = [
-                { id: "compliant", label: "Compliant" },
-                { id: "progress", label: "Making progress" },
-                { id: "non-compliant", label: "Not compliant" },
+                { id: "compliant", label: "Compliant", icon: "check", color: "--compliant" },
+                { id: "progress", label: "Making progress", icon: "clock", color: "--warning" },
+                { id: "non-compliant", label: "Not compliant", icon: "cross", color: "--destructive" },
             ];
 
             function is_legacy_levels(framework) {
@@ -812,11 +812,23 @@
                 );
             }
 
+            // A level's `icon` is one of ICON_NAMES: the tick/clock/cross set, the numbers 1-9, or a question mark.
+            const ICON_NAMES = ["check", "clock", "cross", "1", "2", "3", "4", "5", "6", "7", "8", "9", "question"];
+
+            function icon_markup_by_name(name) {
+                if (name === "check") return ICONS.compliant;
+                if (name === "clock") return ICONS.progress;
+                if (name === "cross") return ICONS["non-compliant"];
+                if (name === "question") return numbered_circle_icon("?");
+                return /^[1-9]$/.test(name) ? numbered_circle_icon(name) : ICONS.unanswered;
+            }
+
             function level_icon_markup(framework, statusId) {
                 if (!statusId) return ICONS.unanswered;
-                if (is_legacy_levels(framework)) return ICONS[statusId] || ICONS.unanswered;
-                const idx = framework.levels.findIndex((l) => l.id === statusId);
-                return idx === -1 ? ICONS.unanswered : numbered_circle_icon(idx + 1);
+                const levels = principle_levels_for(framework);
+                const idx = levels.findIndex((l) => l.id === statusId);
+                if (idx === -1) return ICONS.unanswered;
+                return levels[idx].icon ? icon_markup_by_name(levels[idx].icon) : numbered_circle_icon(idx + 1);
             }
 
             // Red (worst) to green (best) across an ordinal scale of any length, via HSL
@@ -828,12 +840,23 @@
                 return "hsl(" + hue + " 65% 45%)";
             }
 
+            // A level's `color` is "#rrggbb" or the name of a CSS custom property ("--warning").
+            function resolve_color(color) {
+                if (typeof color !== "string") return "#cccccc";
+                if (!color.startsWith("--")) return color;
+                return getComputedStyle(document.documentElement).getPropertyValue(color).trim() || "#cccccc";
+            }
+
             function level_color(framework, statusId) {
                 if (!statusId) return "#cccccc";
-                if (is_legacy_levels(framework)) return status_color(statusId);
-                const idx = framework.levels.findIndex((l) => l.id === statusId);
-                return idx === -1 ? "#cccccc" : level_gradient_color(idx, framework.levels.length);
+                const levels = principle_levels_for(framework);
+                const idx = levels.findIndex((l) => l.id === statusId);
+                if (idx === -1) return "#cccccc";
+                return levels[idx].color ? resolve_color(levels[idx].color) : level_gradient_color(idx, levels.length);
             }
+
+            // Levels with `excludeFromScore` (e.g. "Not applicable") are shown and tallied, but ignored in the percentage.
+            const counting_levels = (levels) => levels.filter((l) => !l.excludeFromScore);
 
             // Oat's 12-column grid: as many equal columns as there are levels, e.g. 3
             // levels -> col-4 (unchanged legacy layout), 4 levels -> col-3.
@@ -1013,18 +1036,17 @@
                 const scored = entries.filter((e) => e.status !== null);
                 if (framework && !is_legacy_levels(framework)) {
                     const levels = framework.levels;
-                    const maxIdx = levels.length - 1;
+                    const counting = counting_levels(levels);
                     const counts = levels.map((l) => scored.filter((e) => e.status === l.id).length);
-                    const avgIdx = scored.length
-                        ? scored.reduce((sum, e) => sum + Math.max(0, levels.findIndex((l) => l.id === e.status)), 0) / scored.length
-                        : 0;
+                    const graded = scored.filter((e) => counting.some((l) => l.id === e.status));
+                    const avgIdx = graded.length ? graded.reduce((sum, e) => sum + counting.findIndex((l) => l.id === e.status), 0) / graded.length : 0;
                     return {
                         legacy: false,
                         levels,
                         counts,
                         scoredCount: scored.length,
                         totalCount: entries.length,
-                        percentMature: maxIdx > 0 ? Math.round((avgIdx / maxIdx) * 100) : 0,
+                        percentMature: counting.length > 1 ? Math.round((avgIdx / (counting.length - 1)) * 100) : 0,
                     };
                 }
                 const compliant = scored.filter((e) => e.status === "compliant").length;
@@ -1574,6 +1596,20 @@
                 return section;
             }
 
+            // Plain text with [label](https://url) links, built as DOM nodes (see description_segments).
+            function append_linked_text(el, text) {
+                description_segments(text).forEach((segment) => {
+                    if (segment.url) {
+                        const a = document.createElement("a");
+                        a.href = segment.url;
+                        a.textContent = segment.label;
+                        el.appendChild(a);
+                    } else {
+                        el.appendChild(document.createTextNode(segment.text));
+                    }
+                });
+            }
+
             function render_framework_section(framework) {
                 const section = document.createElement("section");
                 section.id = "framework-" + framework.id;
@@ -1590,17 +1626,17 @@
                 section.appendChild(h2);
 
                 const desc = document.createElement("p");
-                description_segments(framework.description).forEach((segment) => {
-                    if (segment.url) {
-                        const a = document.createElement("a");
-                        a.href = segment.url;
-                        a.textContent = segment.label;
-                        desc.appendChild(a);
-                    } else {
-                        desc.appendChild(document.createTextNode(segment.text));
-                    }
-                });
+                append_linked_text(desc, framework.description);
                 section.appendChild(desc);
+
+                // Optional `intro: {title, html}` (trusted framework data, like aboutHtml) opens above "About".
+                if (framework.intro && typeof framework.intro.title === "string" && typeof framework.intro.html === "string") {
+                    const intro = document.createElement("details");
+                    intro.open = true;
+                    intro.innerHTML = "<summary></summary>" + framework.intro.html;
+                    intro.querySelector("summary").textContent = framework.intro.title;
+                    section.appendChild(intro);
+                }
 
                 const about = document.createElement("details");
                 about.innerHTML = "<summary>About " + framework.shortName + "</summary>" + framework.aboutHtml;
@@ -1790,7 +1826,7 @@
                 details.appendChild(summary);
 
                 const text = document.createElement("p");
-                text.textContent = principle.text;
+                append_linked_text(text, principle.text);
                 details.appendChild(text);
 
                 const levels = principle_levels_for(framework);
@@ -1821,10 +1857,12 @@
                     label.textContent = answer_label(framework, option);
                     card.appendChild(label);
 
-                    if (principle.criteria && principle.criteria[option.id]) {
+                    // The principle's own criteria win; a custom level's generic description is the fallback.
+                    const criteria = (principle.criteria && principle.criteria[option.id]) || option.description;
+                    if (criteria) {
                         const criteriaText = document.createElement("p");
                         criteriaText.className = "status-criteria";
-                        criteriaText.textContent = principle.criteria[option.id];
+                        criteriaText.textContent = criteria;
                         card.appendChild(criteriaText);
                     }
 
@@ -1841,7 +1879,8 @@
                 if (principle.improvementAction) {
                     const improvement = document.createElement("p");
                     improvement.className = "improvement-action";
-                    improvement.textContent = "To improve: " + principle.improvementAction;
+                    improvement.append("To improve: ");
+                    append_linked_text(improvement, principle.improvementAction);
                     details.appendChild(improvement);
                 }
 
@@ -2183,19 +2222,6 @@
                     section: section,
                     radius: 34 + i * step,
                 }));
-            }
-
-            const STATUS_COLOR_VAR = {
-                compliant: "--compliant",
-                progress: "--warning",
-                "non-compliant": "--destructive",
-            };
-
-            function status_color(status) {
-                const varName = STATUS_COLOR_VAR[status];
-                if (!varName) return "#cccccc";
-                const value = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
-                return value || "#cccccc";
             }
 
             function escape_xml(str) {

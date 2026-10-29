@@ -8,55 +8,55 @@
   "frameworks": {
     "posi": {
       "coverage": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "The OpenAIRE portfolio offers services for research lifecycle activities across countries, disciplines, and research actors — researchers, research performing organisations, policy-makers, publishers, funders, research communities, innovators, and infrastructures."
       },
       "stakeholder-governed": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "OpenAIRE is governed by an elected Executive Board and General Assembly, built on contributions and open discussions among member organisations."
       },
       "non-discriminatory": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "Membership is open to organisations or associations that commit to Open Science and align with the OpenAIRE mission; National Open Access Desks (NOADs) take part as Regular Members."
       },
       "transparent-governance": {
-        "status": "progress",
+        "status": "making-progress",
         "notes": "OpenAIRE is a Non-Profit Partnership (NPP) incorporated under Greek law; beyond this legal-status disclosure, governance-specific transparency detail is limited on the published assessment."
       },
       "cannot-lobby": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "OpenAIRE is a community-based non-profit with a mandate to push for Open Science, but does not lobby for its own infrastructure, following an inclusive approach that promotes any service or infrastructure supporting open science."
       },
       "living-will": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "OpenAIRE AMKE owns all software, data and services, which are all open; operation and maintenance can be split among member organisations and companies, and all necessary knowledge can be transferred at any time."
       },
       "regular-review": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "OpenAIRE has a statutory duration of twenty years within which it must complete its mission (art. 23) and wind down (art. 24) — a legally binding provision forcing periodic reassessment of its continued necessity."
       },
       "transparent-operations": {
-        "status": "progress",
+        "status": "making-progress",
         "notes": "“Partially implemented. OpenAIRE publishes its governance documents, policies and procedures openly, including its services sustainability models (subscriptions, free usage) and roadmaps.”"
       },
       "time-limited-funds": {
-        "status": "progress",
+        "status": "making-progress",
         "notes": "OpenAIRE's main activities are still funded largely through third-party funding; it recognises the need to diversify income and has introduced hybrid financial models, including subscription plans for OpenAIRE CONNECT, MONITOR, and ARGOS."
       },
       "generate-surplus": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "OpenAIRE has an operational goal to develop a surplus of around 5–10% of its total revenue per year for the next five years."
       },
       "financial-reserves": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "OpenAIRE ensures that at any point in time it has reserves for three years of operation."
       },
       "mission-consistent-revenue": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "Revenue sources cover development of new features and services (funded by public or private open-science funders), administrative costs (by members), and service provision (by customers deploying open science services)."
       },
       "revenue-not-data": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "OpenAIRE fully aligns with this principle by ensuring all underlying data used in its services remains openly accessible and treated as community-owned, with exceptions where privacy/GDPR is concerned."
       },
       "volunteer-labour": {
@@ -64,27 +64,27 @@
         "notes": "Not directly addressed in OpenAIRE's published v2 self-assessment."
       },
       "transition-planning": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "OpenAIRE acknowledges that reliance on individuals imposes risk, and has governance structures, committees and working groups in place to reduce single-point dependencies."
       },
       "open-source": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "The software powering OpenAIRE services results from the integration of open-source software solutions and is made available online via open software repositories."
       },
       "open-secure-data": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "All OpenAIRE-generated data is published as CC-BY or CC0, depending on the service and underlying data licensing dependencies."
       },
       "available-preserved": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "OpenAIRE-generated data is published via regular data dumps on Zenodo.org and via open REST APIs."
       },
       "patent-non-assertion": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "OpenAIRE's technical roadmap is committed to a patent non-assertion covenant policy."
       },
       "interoperability-standards": {
-        "status": "compliant",
+        "status": "high-adoption",
         "notes": "OpenAIRE uses open standards and supports interoperability (APIs, metadata standards, integrated OpenAIRE services), aligning with this principle."
       }
     },
