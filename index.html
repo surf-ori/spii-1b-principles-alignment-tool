@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Open Science Infrastructure Self-Assessment Tool</title>
-        <meta name="description" content="Self-assess an Open Science infrastructure against POSI, SPII, and OSR — score principles as compliant, in progress, or not compliant, classify its activities, and export a report or a shareable badge.">
+        <meta name="description" content="Self-assess an Open Science infrastructure against POSI and other assessment frameworks — score principles on a low-to-high adoption scale (or your own scale), classify its activities, and export a report or a shareable badge.">
         <meta property="og:title" content="Open Science Infrastructure Self-Assessment Tool">
         <meta property="og:description" content="Self-assess an Open Science infrastructure against POSI, SPII, and OSR, then export a report or a shareable badge.">
         <meta property="og:type" content="website">
@@ -812,6 +812,7 @@
 
             const CHANGELOG_HTML =
                 "<dl>" +
+                '<dt>2026-10-29</dt><dd>Changes to the page, following comments from colleagues. <strong>Layout:</strong> the tab strip is gone. The page now shows the introduction, the infrastructure description as one accordion, and the selected framework. The sidebar starts with a framework dropdown (POSI v2.0 under “Approved”, all other frameworks under “Other assessments”, with the SPII v0.1, SPII Alignment v0.3 and POSI+SPII v0.5 frameworks at the bottom), followed by the sections of the selected framework as accordions. “Draft” is now called “experimental”. <strong>POSI:</strong> scored on a new scale — Low adoption, Making progress, High adoption — with an introduction to the Strategic Plan on Integrated Infrastructure above “About POSI” (whose first paragraph is removed) and a new section “Complementary Principles” (Autonomy and the two Researcher-centric principles from SPII v0.1) at the end. Reports saved for POSI before this change no longer load their POSI scores. <strong>Settings</strong> (bottom of the sidebar): <em>Customize scales</em> lets you define your own scale for the selected framework — icon, color, title, optional description, and whether an option such as “Not applicable” counts toward the score. It is kept in your browser (localStorage), included in the exported report and framework files, and can be reset. <em>Show badge (experimental)</em> opens the assessment badge in an overlay instead of the sidebar.</dd>' +
                 '<dt>2026-10-13</dt><dd>Added an eleventh framework, the FOREST v2.0 Assessment (draft) — a transcription of the <a href="https://doi.org/10.5281/zenodo.6557302">FOREST Framework for Values-Driven Scholarly Communication</a> (Lippincott &amp; Skinner, Educopia Institute, Framework 2.0, Spring 2022; CC BY 4.0). 96 indicators under 23 principles and six values — Financial and organizational resilience, Openness, Responsible governance, Equity, accessibility and anti-oppression, Sharing of knowledge, Transparency — each scored on FOREST’s own four-step progress bar (Not planning, Considering, In progress, Implemented; leave an indicator unanswered for “Not applicable”). Each item says whether it applies to mature communities, to publishers or to software &amp; infrastructure providers, and lists the evidence FOREST proposes. FOREST itself discourages tallying a final score, so read the summary percentage as an overview only. Transcribed with AI assistance, pending review.</dd>' +
                 '<dt>2026-10-08</dt><dd>The CRIS Tender framework now follows the tender’s own definitions. Sections and principles carry the tender’s question numbers; every principle is a <strong>Must have</strong> (a knock-out question) or a <strong>Should have</strong> (a question that earns points), shown as chips in its title together with the answer given (Yes / Partly / No, with its icon) and the points earned; the plans and the price keep their own labels. Compliance is now the points earned out of the 997 points on offer, and drops to 0% as soon as a Must have is not answered Yes. This is a new optional <code>scoring</code> block in a framework’s JSON (with <code>points</code> and <code>knockOut</code> per principle); frameworks without it are unchanged, and the CRIS framework keeps its ids, criteria and scale, so existing reports still load. Aligned with AI assistance (Claude) from the tender documents; pending review.</dd>' +
                 '<dt>2026-10-08</dt><dd>Fixed importing an assessment report for a framework with its own levels (POSI+SPII, SPII Alignment, or a custom one): the scores were silently dropped on load — only the notes survived — because import only recognised compliant / making progress / not compliant. A status is now checked against the framework’s own scale.</dd>' +
@@ -2432,13 +2433,17 @@
             }
 
             // This template uses the default 3-status compliant/progress/non-compliant
-            // scale (LEGACY_LEVELS). To use a different ordinal scale instead — any
-            // length, not just 3 — add a top-level `levels: [{id, label}, ...]` array
-            // (worst first, best last) and key each principle's `criteria` by those
-            // same ids instead of compliant/progress/"non-compliant". A framework with
-            // its own `levels` renders as numbered circles colored red (worst) to green
-            // (best) instead of the tick/clock/cross icons — see data/frameworks/spii-alignment-v0.3.json
-            // for a working 4-level example.
+            // scale (LEGACY_LEVELS). To use a different ordinal scale instead — 2 to 9
+            // options — add a top-level `levels: [{id, label}, ...]` array (worst first,
+            // best last) and key each principle's `criteria` by those same ids instead of
+            // compliant/progress/"non-compliant". Each level may also have an `icon`
+            // ("check", "clock", "cross", "1"-"9" or "question"), a `color` ("#rrggbb"), a
+            // generic `description` (shown on a card when the principle has no criteria for
+            // that level) and `excludeFromScore: true` (for "Not applicable"). Without an
+            // icon a level renders as a numbered circle, without a color it is colored red
+            // (worst) to green (best) — see data/frameworks/posi-v2.0.json (3 levels with
+            // icons) and spii-alignment-v0.3.json (4 levels). An optional top-level
+            // `intro: {title, html}` adds an accordion above "About".
             const FRAMEWORK_TEMPLATE = {
                 id: "my-framework",
                 title: "My Framework v1.0",

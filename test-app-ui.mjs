@@ -243,6 +243,25 @@ export default async function ({ check, ROOT }) {
             check("Escape closes the scales dialog and flips the switch off", !(await page.$eval("#scales-dialog", (d) => d.open)) && !(await page.isChecked("#toggle-scales")));
             await ctx.close();
         }
+        {
+            // Every framework opens without errors; example reports load on the new POSI scale
+            const { page, errors, ctx } = await open("index.html");
+            const values = await page.$$eval("#framework-select option", (os) => os.map((o) => o.value));
+            for (const v of values) {
+                await page.selectOption("#framework-select", v);
+                const ok = (await page.locator(".framework-panel:visible").count()) === 1 && (await page.locator("#sidebar-sections details").count()) > 0;
+                if (!ok) check("framework " + v + " opens", false);
+            }
+            check("all " + values.length + " frameworks open", true);
+            check("no console or page errors across frameworks", errors.length === 0, JSON.stringify(errors));
+            await ctx.close();
+            const ex = await open("index.html?report=data/examples/openaire-posi-assessment-report-2026.json#posi");
+            await ex.page.waitForTimeout(800);
+            const opt = await ex.page.locator('#framework-select option[value="posi"]').innerText();
+            check("OpenAIRE example loads its POSI scores", /\(20\/23 scored\)$/.test(opt) || /\(19\/23 scored\)$/.test(opt), opt);
+            check("example report shows no console errors", ex.errors.length === 0, JSON.stringify(ex.errors));
+            await ex.ctx.close();
+        }
     } finally {
         await browser.close();
         server.close();
