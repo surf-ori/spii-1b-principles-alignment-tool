@@ -263,6 +263,19 @@ export default async function ({ check, ROOT }) {
             check("example report shows no console errors", ex.errors.length === 0, JSON.stringify(ex.errors));
             await ex.ctx.close();
         }
+        {
+            // Classify: heading, stable stored values, cog icon
+            const { page, errors, ctx } = await open("index.html");
+            await page.click("#infra-description-section > summary");
+            const headings = await page.locator("#infra-description-section h4").allInnerTexts();
+            check("Classify headings", headings.includes("Research life cycle activities") && headings.includes("Research administrative activities") && !headings.some((h) => /related/i.test(h)), headings.join("|"));
+            check("checkbox values keep the stored key", (await page.locator('input[value="Research related activities > Manage & Organise"]').count()) === 1);
+            check("an old saved selection still counts", await page.evaluate(() => { state.activities = ["Research related activities > Manage & Organise"]; return selected_activity_items(state).join() === "Manage & Organise"; }));
+            const process = page.locator('label:has(input[value="Research life cycle activities > Process"]) svg');
+            check("Process icon is a cog", (await process.locator("path").first().getAttribute("d")).startsWith("M19.4 15") || (await process.innerHTML()).includes("M19.4 15"));
+            check("no console or page errors (classify)", errors.length === 0, JSON.stringify(errors));
+            await ctx.close();
+        }
     } finally {
         await browser.close();
         server.close();
