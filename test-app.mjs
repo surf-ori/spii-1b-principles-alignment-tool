@@ -117,6 +117,16 @@ export const run = (ctx, code) => vm.runInContext(code, ctx);
     check("without storage nothing breaks", (() => { try { run(c8, 'delete globalThis.localStorage; set_scale(FRAMEWORKS[1], [{id:"a",label:"A"},{id:"b",label:"B"}]); apply_saved_scales(FRAMEWORKS); true'); return true; } catch (e) { return false; } })());
 }
 
+{
+    // Activities: the Process icon is a cog; the right-hand group is called "Research administrative activities"
+    const c = loadLogic();
+    const R = (s) => run(c, s);
+    check("Process activity icon is a cog, not rays", R('ACTIVITY_ICONS.Process').includes("M19.4 15") && !R('ACTIVITY_ICONS.Process').includes("M10 3.5v2"));
+    check("every activity still has an icon", R("[...ACTIVITIES.primary.items, ...ACTIVITIES.related.items].every((i) => !!ACTIVITY_ICONS[i])"));
+    check("right-hand group is titled administrative", R("ACTIVITIES.related.title") === "Research administrative activities");
+    check("its stored key stays the old one (saved reports keep their selections)", R("ACTIVITIES.related.key") === "Research related activities");
+}
+
 if (process.argv.includes("--ui")) await (await import("./test-app-ui.mjs")).default({ check, ROOT });
 
 console.log(failed ? `\n${failed} FAILED` : "\nall passed");
