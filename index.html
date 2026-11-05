@@ -403,6 +403,13 @@
                 display: none;
             }
 
+            /* Oat leaves the font of buttons to the browser (Arial here); the new Feedback link is an <a>,
+               which inherits the page font, so give the whole top menu the page font to keep them alike. */
+            nav[data-topnav] button,
+            nav[data-topnav] a.button {
+                font-family: inherit;
+            }
+
             #scales-dialog-footer {
                 display: flex;
                 gap: var(--space-2);
@@ -1426,6 +1433,7 @@
                 </ot-dropdown>
                 <button type="button" class="ghost" commandfor="about-dialog" command="show-modal">About</button>
                 <button type="button" class="ghost" commandfor="changelog-dialog" command="show-modal">Changelog</button>
+                <a class="button ghost" href="https://github.com/surf-ori/spii-1b-principles-alignment-tool/issues/new?template=feedback.yml" target="_blank" rel="noopener">Feedback</a>
                 <input type="file" id="import-report-input" accept="application/json" hidden>
                 <input type="file" id="import-framework-input" accept="application/json" hidden>
             </nav>

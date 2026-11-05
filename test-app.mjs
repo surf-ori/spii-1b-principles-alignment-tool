@@ -127,6 +127,17 @@ export const run = (ctx, code) => vm.runInContext(code, ctx);
     check("its stored key stays the old one (saved reports keep their selections)", R("ACTIVITIES.related.key") === "Research related activities");
 }
 
+{
+    // One feedback issue template; the top-menu Feedback link points at it
+    const templates = fs.readdirSync(path.join(ROOT, ".github/ISSUE_TEMPLATE")).filter((f) => f !== "config.yml");
+    check("exactly one issue template", templates.join() === "feedback.yml", templates.join());
+    const link = html.match(/<a [^>]*href="([^"]*issues\/new\?template=([^"&]+))"[^>]*>Feedback<\/a>/);
+    check("top menu has a Feedback link to that template", !!link && link[1] === "https://github.com/surf-ori/spii-1b-principles-alignment-tool/issues/new?template=feedback.yml" && fs.existsSync(path.join(ROOT, ".github/ISSUE_TEMPLATE", link[2])), link && link[1]);
+    const form = fs.readFileSync(path.join(ROOT, ".github/ISSUE_TEMPLATE/feedback.yml"), "utf8");
+    const questions = ["Is the tool easy to navigate and understand?", "Is the overall layout and design clear?", "Was it clear that you can define your own assessment criteria and definitions?", "Were you able to generate and export the assessment report without difficulty?", "Did you know you can also import an existing assessment and then review it in the tool?", "Are the principles and explanations clear and easy to understand?", "Is the level of detail sufficient?", "Would additional guidance or examples help you better interpret and assess the principles?", "Do you miss any principles?"];
+    check("the template asks all 9 tester questions", questions.every((q) => form.includes("label: " + q)), questions.filter((q) => !form.includes("label: " + q)).join("|"));
+}
+
 if (process.argv.includes("--ui")) await (await import("./test-app-ui.mjs")).default({ check, ROOT });
 
 console.log(failed ? `\n${failed} FAILED` : "\nall passed");

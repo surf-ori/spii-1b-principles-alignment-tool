@@ -217,11 +217,11 @@ framework it's scored against.
 This repository is also SPII deliverable 1B's feedback and issue tracker.
 Open an issue to propose a correction, flag a gap, or suggest an
 addition, using the feedback template (name, organisation, role, and
-"representing infrastructure"). If you tried the tool as a tester, use the
-"Tester feedback" template instead: it asks about usability (navigation,
-layout, defining your own scale, exporting and importing a report) and
-content (clarity and level of detail of the principles, guidance or examples
-that would help, missing principles). See the ["Way of
+"representing infrastructure"), also reachable from the **Feedback** link in
+the tool's top menu. If you tried the tool as a tester, the same form asks
+about usability (navigation, layout, defining your own scale, exporting and
+importing a report) and content (clarity and level of detail of the
+principles, guidance or examples that would help, missing principles). See the ["Way of
 working"](https://surf-ori.github.io/spii-overview/#way-of-working)
 section on the SPII overview for how a curator reviews issues and records
 the outcome (accepted, rejected, or already covered) directly on the
