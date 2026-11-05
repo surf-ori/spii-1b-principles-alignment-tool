@@ -82,6 +82,12 @@ This repository also doubles as SPII deliverable 1B's feedback and issue tracker
 [spii-overview](https://github.com/surf-ori/spii-overview) project). `.github/ISSUE_TEMPLATE/feedback.yml`
 collects name, organisation, role, and "representing infrastructure" alongside a feedback issue,
 so its origin stays traceable — this is separate from the app code above, and doesn't affect it.
+`.github/ISSUE_TEMPLATE/tester-feedback.yml` (added 2026-11-05 for the colleagues' test round) has the
+same four identity fields plus the frameworks used and the browser/device, then the tester questions:
+five on usability (navigation, layout, defining your own criteria/scales, exporting a report, importing
+an assessment) and four on content (clarity, level of detail, guidance/examples, missing principles) and
+a free "Anything else?". Every question is an optional textarea whose label is the question itself, so the
+issue body reads as a questionnaire; keep the question wording in sync with the invitation text.
 See `AGENTS.md` for the day-to-day triage checklist, and the ["Way of
 working"](https://surf-ori.github.io/spii-overview/#way-of-working) section on spii-overview for
 the full process: a curator triages each issue and records the outcome (accepted, rejected, or
