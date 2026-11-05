@@ -276,6 +276,23 @@ export default async function ({ check, ROOT }) {
             check("no console or page errors (classify)", errors.length === 0, JSON.stringify(errors));
             await ctx.close();
         }
+        {
+            const { page, errors, ctx } = await open("index.html");
+            const items = await page.$$eval("nav[data-topnav] > button, nav[data-topnav] > a", (els) => els.map((e) => e.textContent.trim()).filter((t) => /^(About|Changelog|Feedback)$/.test(t)));
+            check("top menu: About, Changelog, Feedback in that order", items.join() === "About,Changelog,Feedback", items.join());
+            const fb = page.locator('nav[data-topnav] a:has-text("Feedback")');
+            check("Feedback opens the issue form in a new tab", (await fb.getAttribute("href")) === "https://github.com/surf-ori/spii-1b-principles-alignment-tool/issues/new?template=feedback.yml" && (await fb.getAttribute("target")) === "_blank" && /noopener/.test(await fb.getAttribute("rel")));
+            const same = await page.$eval('nav[data-topnav] a:has-text("Feedback")', (a) => { const b = [...document.querySelectorAll("nav[data-topnav] button.ghost")].find((x) => x.textContent.trim() === "Changelog"); return Math.abs(a.getBoundingClientRect().height - b.getBoundingClientRect().height) < 3; });
+            check("Feedback is styled like its neighbours", same);
+            check("no console or page errors (menu)", errors.length === 0, JSON.stringify(errors));
+            await ctx.close();
+            for (const width of [412, 375, 320]) {
+                const m = await open("index.html", width, 800);
+                const [sw, iw] = await m.page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth]);
+                check("no horizontal overflow with the Feedback link at " + width + "px", sw <= iw, sw + "/" + iw);
+                await m.ctx.close();
+            }
+        }
     } finally {
         await browser.close();
         server.close();
