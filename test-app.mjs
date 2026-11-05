@@ -138,6 +138,17 @@ export const run = (ctx, code) => vm.runInContext(code, ctx);
     check("the template asks all 9 tester questions", questions.every((q) => form.includes("label: " + q)), questions.filter((q) => !form.includes("label: " + q)).join("|"));
 }
 
+{
+    // Theme: dark / system / light
+    const c = loadLogic();
+    const R = (s) => run(c, s);
+    check("effective_theme resolves system through the OS setting", R('effective_theme("system", true)') === "dark" && R('effective_theme("system", false)') === "light");
+    check("an explicit theme ignores the OS setting", R('effective_theme("dark", false)') === "dark" && R('effective_theme("light", true)') === "light");
+    check("unknown stored values fall back to system", R('normalise_theme("blue")') === "system" && R("normalise_theme(null)") === "system" && R('normalise_theme("dark")') === "dark");
+    check("token colors can be resolved live (var(--x)) for inline styles", R('level_color(FRAMEWORKS[0], "high-adoption", true)') === "var(--compliant)" && R('level_color(FRAMEWORKS[0], "high-adoption")') === "#1f5c43");
+    check("the dark tokens hang on data-theme, not on a media query", !/@media \(prefers-color-scheme: dark\)/.test(html) && /:root\[data-theme="dark"\]/.test(html));
+}
+
 if (process.argv.includes("--ui")) await (await import("./test-app-ui.mjs")).default({ check, ROOT });
 
 console.log(failed ? `\n${failed} FAILED` : "\nall passed");

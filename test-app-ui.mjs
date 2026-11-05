@@ -293,6 +293,55 @@ export default async function ({ check, ROOT }) {
                 await m.ctx.close();
             }
         }
+        {
+            // Theme toggle
+            const mk = async (scheme, width = 1280) => {
+                const ctx = await browser.newContext({ viewport: { width, height: 900 }, colorScheme: scheme });
+                const page = await ctx.newPage();
+                const errors = [];
+                page.on("pageerror", (e) => errors.push(e.message));
+                await page.route(/unpkg\.com|html2canvas/, (r) => r.abort());
+                await page.goto(base + "index.html");
+                await page.waitForSelector("#app > *");
+                return { page, ctx, errors };
+            };
+            const bg = (page) => page.evaluate(() => getComputedStyle(document.body).backgroundColor);
+            const { page, ctx, errors } = await mk("dark");
+            const radios = await page.$$eval('#sidebar-footer [role="radiogroup"] input[type="radio"]', (els) => els.map((e) => e.value + (e.checked ? "*" : "")));
+            check("theme toggle: Dark / System / Light, System selected", radios.join() === "dark,system*,light", radios.join());
+            check("the group is labelled", (await page.locator('#sidebar-footer [role="radiogroup"]').getAttribute("aria-label")) === "Theme");
+            check("System follows a dark OS", (await page.evaluate(() => document.documentElement.dataset.theme)) === "dark" && (await bg(page)) === "rgb(16, 20, 15)");
+            await page.locator("#sidebar-footer label:has(input[value=light])").click();
+            check("Light overrides a dark OS", (await page.evaluate(() => document.documentElement.dataset.theme)) === "light" && (await bg(page)) === "rgb(246, 244, 236)");
+            check("the choice is stored", (await page.evaluate(() => localStorage.getItem("spii-principles-tool.theme"))) === "light");
+            // colors that are set per answer follow the theme without a re-render
+            await page.locator("#framework-panel-posi details[id^=principle-posi-]").first().locator("summary").click();
+            const card = page.locator("#framework-panel-posi details[id^=principle-posi-]").first().locator('.status-card[data-status="high-adoption"]');
+            await card.click();
+            const accent = () => card.evaluate((el) => getComputedStyle(el).getPropertyValue("--status-accent").trim());
+            const lightAccent = await accent();
+            await page.locator("#sidebar-footer label:has(input[value=dark])").click();
+            const darkAccent = await accent();
+            check("answer colors follow the theme (#1f5c43 light, #59b98a dark)", lightAccent === "#1f5c43" && darkAccent === "#59b98a", lightAccent + " / " + darkAccent);
+            await page.reload();
+            await page.waitForSelector("#app > *");
+            check("the choice survives a reload", (await page.evaluate(() => document.documentElement.dataset.theme)) === "dark" && await page.isChecked('#sidebar-footer input[value="dark"]'));
+            await page.locator("#sidebar-footer label:has(input[value=system])").click();
+            await page.emulateMedia({ colorScheme: "light" });
+            await page.waitForTimeout(100);
+            check("System follows the OS live", (await page.evaluate(() => document.documentElement.dataset.theme)) === "light");
+            check("no page errors (theme)", errors.length === 0, errors.join("|"));
+            await ctx.close();
+            const a = await mk("light");
+            check("System with a light OS is light", (await a.page.evaluate(() => document.documentElement.dataset.theme)) === "light");
+            await a.ctx.close();
+            const mobile = await mk("dark", 320);
+            await mobile.page.click("#sidebar-toggle");
+            const [sw, iw] = await mobile.page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth]);
+            const fits = await mobile.page.$eval("#sidebar-footer .theme-toggle", (e) => e.getBoundingClientRect().right <= document.querySelector("aside[data-sidebar]").getBoundingClientRect().right + 1);
+            check("theme toggle fits at 320px", sw <= iw && fits, sw + "/" + iw);
+            await mobile.ctx.close();
+        }
     } finally {
         await browser.close();
         server.close();
