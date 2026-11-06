@@ -153,6 +153,8 @@ principle), so it needs no code change for other tender-style frameworks.
 - **Export as JSON** — download your results and reload them later to
   continue or revise an assessment.
 - **Export as PDF** — download a report of the full assessment.
+- **Theme** — a Dark / System / Light switch at the bottom of Settings;
+  System (the default) follows the device, the choice is kept in the browser.
 - **Assessment badge (experimental)** — switch on "Show badge" in Settings to
   open, in an overlay, a doughnut-style SVG/PNG badge
   summarizing the score for the active framework, including the classified

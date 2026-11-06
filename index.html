@@ -83,31 +83,37 @@
                 --focus-ring: var(--primary);
                 --sidebar-width: 18rem;
             }
-            @media (prefers-color-scheme: dark) {
-                :root {
-                    --background: #10140f;
-                    --foreground: #eae7db;
-                    --card: #161c15;
-                    --card-foreground: #eae7db;
-                    --border: #2b342a;
-                    --input: #2b342a;
-                    --muted: #1c231b;
-                    --muted-foreground: #9fad9f;
-                    --accent: #1e2c22;
-                    --accent-foreground: #eae7db;
-                    --secondary: #1c231b;
-                    --secondary-foreground: #eae7db;
-                    --ring: #59b98a;
-                    --primary: #59b98a;
-                    --primary-foreground: #10140f;
-                    --warning: rgba(250,204,21,1);
-                    --destructive: rgba(248,113,113,1);
-                    --compliant: #59b98a;
-                    --focus-ring: var(--primary);
-                }
-                a {
-                    color: #7fd1a6;
-                }
+            /* Theme: scripts set data-theme on <html> to "light" or "dark" (the visitor's choice, or the OS
+               setting for "System"), see apply_theme(). Without it the browser's own light/dark applies. */
+            :root[data-theme="light"] {
+                color-scheme: light;
+            }
+            :root[data-theme="dark"] {
+                color-scheme: dark;
+                --background: #10140f;
+                --foreground: #eae7db;
+                --card: #161c15;
+                --card-foreground: #eae7db;
+                --border: #2b342a;
+                --input: #2b342a;
+                --muted: #1c231b;
+                --muted-foreground: #9fad9f;
+                --accent: #1e2c22;
+                --accent-foreground: #eae7db;
+                --secondary: #1c231b;
+                --secondary-foreground: #eae7db;
+                --ring: #59b98a;
+                --primary: #59b98a;
+                --primary-foreground: #10140f;
+                --warning: rgba(250,204,21,1);
+                --destructive: rgba(248,113,113,1);
+                --compliant: #59b98a;
+                --focus-ring: var(--primary);
+            }
+            /* :where() keeps the specificity of a plain `a`, so rules such as .back-bar a still win. */
+            :where(:root[data-theme="dark"]) a {
+                color: #7fd1a6;
+            }
             }
 
             .back-bar {
@@ -486,6 +492,54 @@
                 margin-top: var(--space-3);
             }
 
+            .theme-toggle {
+                display: flex;
+                margin: var(--space-3) 0 0;
+                border: 1px solid var(--border);
+                border-radius: var(--radius-medium);
+                overflow: hidden;
+            }
+
+            #sidebar-footer .theme-toggle label {
+                display: block;
+                flex: 1 1 0;
+                min-width: 0;
+                margin: 0;
+                position: relative;
+            }
+
+            .theme-toggle input {
+                position: absolute;
+                opacity: 0;
+                inset: 0;
+                margin: 0;
+                cursor: pointer;
+            }
+
+            .theme-toggle span {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: var(--space-1);
+                padding: var(--space-1) var(--space-1);
+                font-size: var(--text-7);
+                white-space: nowrap;
+            }
+
+            .theme-toggle svg {
+                flex-shrink: 0;
+            }
+
+            .theme-toggle input:checked + span {
+                background: var(--primary);
+                color: var(--primary-foreground);
+            }
+
+            .theme-toggle input:focus-visible + span {
+                outline: 2px solid var(--focus-ring);
+                outline-offset: -2px;
+            }
+
             #badge-dialog-content button {
                 display: block;
                 width: 100%;
@@ -821,6 +875,7 @@
 
             const CHANGELOG_HTML =
                 "<dl>" +
+                '<dt>2026-11-06</dt><dd>Theme: a Dark / System / Light switch at the bottom of the sidebar’s Settings. System (the default) follows your device; the choice is kept in your browser. The colors of answered principles now follow the theme without reloading.</dd>' +
                 '<dt>2026-11-05</dt><dd>Added a “Feedback” link to the top menu, next to Changelog. It opens the feedback form on GitHub, which now also asks the questions of the test round: usability (navigation, layout, defining your own scale, exporting and importing a report) and content (clarity, level of detail, guidance, missing principles).</dd>' +
                 '<dt>2026-11-04</dt><dd>Classify: the “Process” activity now has a cog icon instead of a sun, and the right-hand group is called “Research administrative activities” (was “Research related activities”). Selections saved in earlier reports still apply.</dd>' +
                 '<dt>2026-10-29</dt><dd>Changes to the page, following comments from colleagues. <strong>Layout:</strong> the tab strip is gone. The page now shows the introduction, the infrastructure description as one accordion, and the selected framework. The sidebar starts with a framework dropdown (POSI v2.0 under “Approved”, all other frameworks under “Other assessments”, with the SPII v0.1, SPII Alignment v0.3 and POSI+SPII v0.5 frameworks at the bottom), followed by the sections of the selected framework as accordions. “Draft” is now called “experimental”. <strong>POSI:</strong> scored on a new scale — Low adoption, Making progress, High adoption — with an introduction to the Strategic Plan on Integrated Infrastructure above “About POSI” (whose first paragraph is removed) and a new section “Complementary Principles” (Autonomy and the two Researcher-centric principles from SPII v0.1) at the end. Reports saved for POSI before this change no longer load their POSI scores. <strong>Settings</strong> (bottom of the sidebar): <em>Customize scales</em> lets you define your own scale for the selected framework — icon, color, title, optional description, and whether an option such as “Not applicable” counts toward the score. It is kept in your browser (localStorage), included in the exported report and framework files, and can be reset. <em>Show badge (experimental)</em> opens the assessment badge in an overlay instead of the sidebar.</dd>' +
@@ -935,12 +990,16 @@
                 return getComputedStyle(document.documentElement).getPropertyValue(color).trim() || "#cccccc";
             }
 
-            function level_color(framework, statusId) {
+            // `live` = for inline styles: a token color stays "var(--x)" so it follows a theme change; the badge
+            // and the color pickers need the concrete value of the moment instead.
+            function level_color(framework, statusId, live) {
                 if (!statusId) return "#cccccc";
                 const levels = principle_levels_for(framework);
                 const idx = levels.findIndex((l) => l.id === statusId);
                 if (idx === -1) return "#cccccc";
-                return levels[idx].color ? resolve_color(levels[idx].color) : level_gradient_color(idx, levels.length);
+                const color = levels[idx].color;
+                if (!color) return level_gradient_color(idx, levels.length);
+                return live && color.startsWith("--") ? "var(" + color + ")" : resolve_color(color);
             }
 
             // Levels with `excludeFromScore` (e.g. "Not applicable") are shown and tallied, but ignored in the percentage.
@@ -1033,6 +1092,39 @@
                     }
                 });
                 return cleared;
+            }
+
+            // ---- Theme (dark / system / light) -----------------------------------------------------
+            const THEME_KEY = "spii-principles-tool.theme";
+            const THEMES = ["dark", "system", "light"];
+            let themePref = "system";
+
+            function normalise_theme(theme) {
+                return THEMES.includes(theme) ? theme : "system";
+            }
+
+            function effective_theme(pref, systemDark) {
+                return pref === "system" ? (systemDark ? "dark" : "light") : pref;
+            }
+
+            function stored_theme() {
+                try {
+                    return normalise_theme(localStorage.getItem(THEME_KEY));
+                } catch (e) {
+                    return "system";
+                }
+            }
+
+            // Sets <html data-theme>; `save` keeps the visitor's choice in localStorage (try/catch: it may be blocked).
+            function apply_theme(pref, save) {
+                themePref = normalise_theme(pref);
+                document.documentElement.dataset.theme = effective_theme(themePref, window.matchMedia("(prefers-color-scheme: dark)").matches);
+                if (!save) return;
+                try {
+                    localStorage.setItem(THEME_KEY, themePref);
+                } catch (e) {
+                    // The choice then lasts for this page view only.
+                }
             }
 
             // Oat's 12-column grid: as many equal columns as there are levels, e.g. 3
@@ -1373,6 +1465,13 @@
                 return offsets;
             }
         </script>
+        <script>
+            // Before the body paints, so a stored choice never flashes the other theme.
+            apply_theme(stored_theme());
+            window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+                if (themePref === "system") apply_theme("system");
+            });
+        </script>
     </head>
     
     <body>
@@ -1694,7 +1793,7 @@
                 const status = state.frameworks[frameworkId][principle.id].status;
                 icon.dataset.status = status || "unanswered";
                 icon.innerHTML = level_icon_markup(framework, status);
-                if (status) icon.style.setProperty("--status-accent", level_color(framework, status));
+                if (status) icon.style.setProperty("--status-accent", level_color(framework, status, true));
                 a.appendChild(icon);
                 a.appendChild(document.createTextNode(principle.title));
                 a.addEventListener("click", (e) => {
@@ -1703,6 +1802,34 @@
                 });
                 li.appendChild(a);
                 return li;
+            }
+
+            const THEME_OPTIONS = [
+                ["dark", "Dark", '<path d="M16.5 11.5A7 7 0 1 1 8.5 3.5a5.5 5.5 0 0 0 8 8z" stroke-linejoin="round" />'],
+                ["system", "System", '<rect x="2.5" y="3.5" width="15" height="10" rx="1.5" /><path d="M7 17h6M10 13.5V17" stroke-linecap="round" />'],
+                ["light", "Light", '<circle cx="10" cy="10" r="3.2" /><path d="M10 2.5v2M10 15.5v2M17.5 10h-2M4.5 10h-2M15.3 4.7l-1.4 1.4M6.1 13.9l-1.4 1.4M15.3 15.3l-1.4-1.4M6.1 6.1L4.7 4.7" stroke-linecap="round" />'],
+            ];
+
+            // Three radio buttons styled as one segmented control: Dark / System / Light.
+            function render_theme_toggle() {
+                const wrap = document.createElement("div");
+                wrap.className = "theme-toggle";
+                wrap.setAttribute("role", "radiogroup");
+                wrap.setAttribute("aria-label", "Theme");
+                THEME_OPTIONS.forEach(([value, text, icon]) => {
+                    const label = document.createElement("label");
+                    const input = document.createElement("input");
+                    input.type = "radio";
+                    input.name = "theme";
+                    input.value = value;
+                    input.checked = themePref === value;
+                    input.addEventListener("change", () => apply_theme(value, true));
+                    const face = document.createElement("span");
+                    face.innerHTML = '<svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">' + icon + "</svg>" + text;
+                    label.append(input, face);
+                    wrap.appendChild(label);
+                });
+                return wrap;
             }
 
             function settings_switch(id, text) {
@@ -1731,6 +1858,7 @@
                 const badgeSwitch = settings_switch("toggle-badge", "Show badge (experimental)");
                 badgeSwitch.querySelector("input").addEventListener("change", (e) => { if (e.target.checked) open_badge_dialog(); });
                 footer.appendChild(badgeSwitch);
+                footer.appendChild(render_theme_toggle());
             }
 
             // Frameworks that score points per fixed answer (`scoring`) cannot get another scale.
@@ -2198,7 +2326,7 @@
                     const level = principle_levels_for(framework).find((l) => l.id === status);
                     const chip = document.createElement("span");
                     chip.className = "chip chip-answer";
-                    chip.style.setProperty("--status-accent", level_color(framework, status));
+                    chip.style.setProperty("--status-accent", level_color(framework, status, true));
                     const icon = document.createElement("span");
                     icon.className = "chip-icon";
                     icon.setAttribute("aria-hidden", "true");
@@ -2256,7 +2384,7 @@
                     const isSelected = state.frameworks[frameworkId][principle.id].status === option.id;
                     card.setAttribute("aria-pressed", isSelected ? "true" : "false");
                     if (isSelected) card.classList.add("selected");
-                    card.style.setProperty("--status-accent", level_color(framework, option.id));
+                    card.style.setProperty("--status-accent", level_color(framework, option.id, true));
 
                     const icon = document.createElement("span");
                     icon.className = "status-icon";
@@ -2357,7 +2485,7 @@
                 const framework = all_frameworks().find((f) => f.id === frameworkId);
                 icon.dataset.status = status || "unanswered";
                 icon.innerHTML = level_icon_markup(framework, status);
-                if (status) icon.style.setProperty("--status-accent", level_color(framework, status));
+                if (status) icon.style.setProperty("--status-accent", level_color(framework, status, true));
                 else icon.style.removeProperty("--status-accent");
             }
 
