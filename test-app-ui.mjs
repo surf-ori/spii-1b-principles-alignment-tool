@@ -402,7 +402,7 @@ export default async function ({ check, ROOT }) {
             const { page, errors, ctx } = await open("index.html");
             const menu = (id) => page.$$eval("#" + id + " > *", (els) => els.map((e) => e.getAttribute("role") === "separator" ? "---" : e.querySelector(".menuitem-title").textContent.trim()));
             const exp = await menu("export-menu");
-            check("Export: GitHub tracker on top, frameworks last after a separator", exp.join("|") === "Save Report to GitHub Tracker|Export Assessment Report (JSON)|Print report / save as PDF|---|Download Assessment Frameworks (JSON)", exp.join("|"));
+            check("Export: GitHub tracker on top, frameworks last after a separator", exp.join("|") === "Save Report to GitHub Tracker|Export Assessment Report (JSON)|Print report / save as PDF|---|Download Assessment Framework (JSON)", exp.join("|"));
             const imp = await menu("import-menu");
             check("Import: report first, frameworks after a separator", imp.join("|") === "Import Assessment Report (JSON)|---|Import Assessment Framework (JSON)|Download Assessment Framework Template (JSON)", imp.join("|"));
             check("every menu item has an icon", (await page.locator('[role="menuitem"]').count()) === 7 && (await page.locator('[role="menuitem"] > svg.menuitem-icon').count()) === 7);
@@ -411,6 +411,28 @@ export default async function ({ check, ROOT }) {
             const box = await page.$eval("#export-menu", (m) => { const r = m.getBoundingClientRect(); return r.right <= window.innerWidth + 1; });
             check("Export menu fits in the window", box);
             check("no console or page errors (menus)", errors.length === 0, JSON.stringify(errors));
+            await ctx.close();
+        }
+        {
+            // Export downloads: names and content
+            const { page, errors, ctx } = await open("index.html");
+            await page.click("#infra-description-section > summary");
+            await page.fill("#infra-name", "OpenAIRE");
+            await page.fill("#infra-assessed-on", "2026-11-09");
+            const dl = async (id) => {
+                await page.click('button:has-text("Export")');
+                const [d] = await Promise.all([page.waitForEvent("download"), page.click("#" + id)]);
+                return { name: d.suggestedFilename(), json: JSON.parse(fs.readFileSync(await d.path(), "utf8")) };
+            };
+            const rep = await dl("export-report-btn");
+            check("report download name", rep.name === "2026-11-09-posi-v2-0-assessment-openaire.json", rep.name);
+            check("report download: selected framework only, with readme", Object.keys(rep.json.frameworks).join() === "posi" && typeof rep.json._readme === "string");
+            const fw = await dl("download-frameworks-btn");
+            const today = await page.evaluate(() => today_iso_date());
+            check("framework download name", fw.name === today + "-posi-v2-0-assessment-framework.json", fw.name);
+            check("framework download: the selected framework only", !Array.isArray(fw.json) && fw.json.id === "posi" && typeof fw.json._readme === "string");
+            check("menu says it is the selected framework", /selected framework/i.test(await page.locator("#download-frameworks-btn").innerText()) && /selected framework/i.test(await page.locator("#export-report-btn").innerText()));
+            check("no console or page errors (downloads)", errors.length === 0, JSON.stringify(errors));
             await ctx.close();
         }
     } finally {
