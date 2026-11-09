@@ -149,6 +149,43 @@ export const run = (ctx, code) => vm.runInContext(code, ctx);
     check("the dark tokens hang on data-theme, not on a media query", !/@media \(prefers-color-scheme: dark\)/.test(html) && /:root\[data-theme="dark"\]/.test(html));
 }
 
+{
+    // Not applicable on every framework; the short report
+    clearStorage();
+    const c = loadLogic();
+    const R = (s) => run(c, s);
+    R('globalThis.byId = (id) => FRAMEWORKS.find((f) => f.id === id);');
+    check("legacy frameworks offer Not applicable", R('answer_options(byId("gorc")).map((l) => l.id).join()') === "compliant,progress,non-compliant,not-applicable");
+    check("POSI offers Not applicable last", R('answer_options(byId("posi")).map((l) => l.id).join()') === "low-adoption,making-progress,high-adoption,not-applicable");
+    check("a scale with its own N/A gets no second one", R('answer_options(byId("fair"), [{id:"a",label:"A"},{id:"b",label:"B"},{id:"x",label:"N/A",excludeFromScore:true}]).length') === 3);
+    const cris = JSON.parse(fs.readFileSync(path.join(ROOT, "data/frameworks/cris-tender-v0.1.json"), "utf8"));
+    c.__cris = cris;
+    check("points-based frameworks get no N/A", R("answer_options(__cris).length") === 3);
+    check("N/A has a dash icon and a muted color", R('level_icon_markup(byId("gorc"), "not-applicable")').includes("M6.5 10h7") && R('level_color(byId("gorc"), "not-applicable", true)') === "var(--muted-foreground)");
+    R('globalThis.state = initial_state(); globalThis.k = Object.keys(state.frameworks.gorc);');
+    R('state.frameworks.gorc[k[0]].status = "compliant"; state.frameworks.gorc[k[1]].status = "non-compliant"; state.frameworks.gorc[k[2]].status = "not-applicable";');
+    const g = R('compute_summary(state, "gorc", byId("gorc"))');
+    check("legacy: N/A is answered but not in the percentage", g.scoredCount === 3 && g.notApplicable === 1 && g.percentCompliant === 50, JSON.stringify(g));
+    check("legacy summary text mentions N/A", /1 not applicable \(3\/\d+ scored\)$/.test(R('summary_text(compute_summary(state, "gorc", byId("gorc")), byId("gorc")).counts')));
+    R('globalThis.pk = Object.keys(state.frameworks.posi); state.frameworks.posi[pk[0]].status = "high-adoption"; state.frameworks.posi[pk[1]].status = "not-applicable"; state.frameworks.posi[pk[1]].notes = "We do not <publish> & curate";');
+    const p = R('compute_summary(state, "posi", byId("posi"))');
+    check("levels: N/A is answered but not in the percentage", p.scoredCount === 2 && p.notApplicable === 1 && p.percentMature === 100, JSON.stringify(p));
+    check("levels summary text mentions N/A", /· 1 not applicable \(2\/23 scored\)$/.test(R('summary_text(compute_summary(state, "posi", byId("posi")), byId("posi")).counts')));
+    const exported = R("JSON.stringify(build_export_object(state))");
+    const c2 = loadLogic();
+    run(c2, "globalThis.back = merge_loaded_state(" + exported + ");");
+    check("import keeps Not applicable", run(c2, `back.frameworks.posi["${R("pk[1]")}"].status`) === "not-applicable");
+    check("orphan clearing keeps Not applicable", R('clear_orphan_statuses(state, byId("posi"))') === 0);
+    // report
+    R('state.name = "Repo <X>"; state.assessedOn = "2026-11-09"; state.activities = ["Research life cycle activities > Discover"];');
+    const html = R("build_report_html(state, FRAMEWORKS)");
+    check("report: header with escaped name, date and activities", html.includes("Repo &lt;X&gt;") && html.includes("2026-11-09") && html.includes("Discover"));
+    check("report: only frameworks with answers", html.includes("POSI v2.0 Assessment") && html.includes("GORC") && !html.includes("FAIR v1.0") && !html.includes("FOREST"));
+    check("report: answers, N/A and escaped notes, no criteria", html.includes("High adoption") && html.includes("Not applicable") && html.includes("We do not &lt;publish&gt; &amp; curate") && !html.includes("Data, infrastructure control, and critical decisions remain"));
+    check("report: score lines", html.includes("Overall: 100% average score") && html.includes("Overall: 50% compliant"));
+    check("report without answers says so", run(loadLogic(), "build_report_html(initial_state(), FRAMEWORKS)").includes("No answers yet"));
+}
+
 if (process.argv.includes("--ui")) await (await import("./test-app-ui.mjs")).default({ check, ROOT });
 
 console.log(failed ? `\n${failed} FAILED` : "\nall passed");

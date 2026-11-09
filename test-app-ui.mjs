@@ -37,6 +37,10 @@ export default async function ({ check, ROOT }) {
         return { page, errors, ctx };
     }
 
+    // A dialog's "close" event (which switches its toggle off) fires asynchronously: wait for it.
+    const closedAndOff = (page, dialog, toggle) =>
+        page.waitForFunction(([d, t]) => !document.getElementById(d).open && !document.getElementById(t).checked, [dialog, toggle], { timeout: 3000 }).then(() => true, () => false);
+
     try {
         {
             const { page, errors, ctx } = await open();
@@ -52,7 +56,7 @@ export default async function ({ check, ROOT }) {
             const first = panel.locator('details[id^="principle-posi-"]').first();
             await first.locator("summary").click();
             const labels = await first.locator(".status-label").allInnerTexts();
-            check("POSI cards: Low adoption / Making progress / High adoption", labels.join() === "Low adoption,Making progress,High adoption", labels.join());
+            check("POSI cards: Low adoption / Making progress / High adoption (+ Not applicable)", labels.join() === "Low adoption,Making progress,High adoption,Not applicable", labels.join());
             const detailsTitles = await panel.locator("#framework-posi > details > summary").allInnerTexts();
             check("intro accordion sits above About POSI", detailsTitles[0] === "Introduction to Strategic Plan on Integrated Infrastructure" && detailsTitles[1] === "About POSI", detailsTitles.join("|"));
             check("About POSI has no approved paragraph", !/Approved assessment framework/.test(await panel.locator("#framework-posi > details").nth(1).innerText()));
@@ -138,10 +142,10 @@ export default async function ({ check, ROOT }) {
             const [download] = await Promise.all([page.waitForEvent("download"), page.click("#badge-dialog >> text=Download badge (SVG)")]);
             check("SVG download works", download.suggestedFilename() === "badge.svg");
             await page.keyboard.press("Escape");
-            check("Escape closes the overlay and flips the switch off", !(await page.$eval("#badge-dialog", (d) => d.open)) && !(await page.isChecked("#toggle-badge")));
+            check("Escape closes the overlay and flips the switch off", await closedAndOff(page, "badge-dialog", "toggle-badge"));
             await page.check("#toggle-badge");
             await page.click("#badge-dialog footer >> text=Close");
-            check("Close button also flips the switch off", !(await page.isChecked("#toggle-badge")));
+            check("Close button also flips the switch off", await closedAndOff(page, "badge-dialog", "toggle-badge"));
             check("no console or page errors (badge)", errors.length === 0, JSON.stringify(errors));
             await ctx.close();
         }
@@ -154,7 +158,7 @@ export default async function ({ check, ROOT }) {
             check("switch opens the scales dialog with POSI's 3 options", (await page.$eval("#scales-dialog", (d) => d.open)) && (await rows().count()) === 3);
             check("rows run worst to best", (await rows().locator(".scale-title").evaluateAll((els) => els.map((e) => e.value))).join() === "Low adoption,Making progress,High adoption");
             const row0 = rows().first();
-            check("a row has icon, colour, title, description, counts, move and remove controls", (await row0.locator("select.scale-icon option").count()) === 13 && (await row0.locator('input[type="color"]').count()) === 1 && (await row0.locator("input.scale-description").count()) === 1 && (await row0.locator("input.scale-counts").isChecked()) && (await row0.locator(".scale-up, .scale-down, .scale-remove").count()) === 3);
+            check("a row has icon, colour, title, description, counts, move and remove controls", (await row0.locator("select.scale-icon option").count()) === 14 && (await row0.locator('input[type="color"]').count()) === 1 && (await row0.locator("input.scale-description").count()) === 1 && (await row0.locator("input.scale-counts").isChecked()) && (await row0.locator(".scale-up, .scale-down, .scale-remove").count()) === 3);
             check("footer: Save, Cancel and a labelled reset icon button", (await page.locator('#scales-dialog-footer button[aria-label="Reset to the default scale"]').count()) === 1 && (await page.locator("#scales-dialog-footer >> text=Save").count()) === 1 && (await page.locator("#scales-dialog-footer >> text=Cancel").count()) === 1);
             // an empty title is refused
             await page.click("#scales-dialog >> text=Add option");
@@ -167,7 +171,7 @@ export default async function ({ check, ROOT }) {
             await last.locator("input.scale-counts").uncheck();
             await last.locator(".scale-description").fill("Does not apply to us");
             await page.click("#scales-dialog-footer >> text=Save");
-            check("Save closes the dialog and switches the toggle off", !(await page.$eval("#scales-dialog", (d) => d.open)) && !(await page.isChecked("#toggle-scales")));
+            check("Save closes the dialog and switches the toggle off", await closedAndOff(page, "scales-dialog", "toggle-scales"));
             await page.locator("#framework-panel-posi details[id^=principle-posi-]").first().locator("summary").click();
             check("POSI now has 4 cards, the last one is Not applicable", (await cards().count()) === 4 && (await cards().nth(3).locator(".status-label").innerText()) === "Not applicable");
             check("the generic description shows on the card", /Does not apply to us/.test(await cards().nth(3).innerText()));
@@ -205,7 +209,7 @@ export default async function ({ check, ROOT }) {
             page.once("dialog", (d) => { confirms++; d.accept(); });
             await page.click('#scales-dialog-footer button[aria-label="Reset to the default scale"]');
             await page.waitForFunction(() => !document.getElementById("scales-dialog").open);
-            check("reset restores 3 default cards", (await cards().count()) === 3);
+            check("reset restores the default cards (3 + Not applicable)", (await cards().count()) === 4);
             check("reset removes the saved scale", (await page.evaluate(() => localStorage.getItem("spii-principles-tool.scales.v1"))) === null);
             check("the answer on a removed option is cleared, the others stay", /\(1\/23 scored\)$/.test(await page.locator('#framework-select option[value="posi"]').innerText()));
             check("no console or page errors (scales)", errors.length === 0, JSON.stringify(errors));
@@ -224,7 +228,7 @@ export default async function ({ check, ROOT }) {
             await page.click("#scales-dialog-footer >> text=Save");
             await page.locator("#framework-panel-gorc details[id^=principle-gorc-]").first().locator("summary").click();
             const labels = await page.locator("#framework-panel-gorc details[id^=principle-gorc-]").first().locator(".status-label").allInnerTexts();
-            check("saved legacy scale: cards follow the new order", labels.join() === "Making progress,Compliant", labels.join());
+            check("saved legacy scale: cards follow the new order", labels.join() === "Making progress,Compliant,Not applicable", labels.join());
             await ctx.close();
         }
         {
@@ -241,7 +245,7 @@ export default async function ({ check, ROOT }) {
             const fits = await page.$eval("#scales-dialog", (d) => d.getBoundingClientRect().right <= window.innerWidth + 1 && d.scrollWidth <= d.clientWidth + 1);
             check("scales dialog fits a 375px phone", sw <= iw && fits, sw + "/" + iw);
             await page.keyboard.press("Escape");
-            check("Escape closes the scales dialog and flips the switch off", !(await page.$eval("#scales-dialog", (d) => d.open)) && !(await page.isChecked("#toggle-scales")));
+            check("Escape closes the scales dialog and flips the switch off", await closedAndOff(page, "scales-dialog", "toggle-scales"));
             await ctx.close();
         }
         {
@@ -341,6 +345,57 @@ export default async function ({ check, ROOT }) {
             const fits = await mobile.page.$eval("#sidebar-footer .theme-toggle", (e) => e.getBoundingClientRect().right <= document.querySelector("aside[data-sidebar]").getBoundingClientRect().right + 1);
             check("theme toggle fits at 320px", sw <= iw && fits, sw + "/" + iw);
             await mobile.ctx.close();
+        }
+        {
+            // Not applicable, the short printed report, copy changes
+            const { page, errors, ctx } = await open("index.html");
+            check("no external PDF scripts any more", (await page.locator('script[src*="jspdf"], script[src*="html2canvas"]').count()) === 0);
+            const intro = await page.locator("#intro-section").innerText();
+            check("intro mentions the dropdown, POSI default and About", /Select an assessment framework from the dropdown in the sidebar/.test(intro) && /POSI/.test(intro) && /About/.test(intro), intro);
+            await page.click('#intro-section a:has-text("About")');
+            check("the About link opens the About dialog", await page.$eval("#about-dialog", (d) => d.open));
+            await page.keyboard.press("Escape");
+            check("infra accordion title says what it is for (while collapsed)", /Fill in some basic details about the Open Science infrastructure this alignment is for\./.test(await page.locator("#infra-description-section > summary").innerText()));
+            await page.click("#infra-description-section > summary");
+            check("new Classify sentence", /Tell us what activities this infrastructure fits in the research activities landscape:/.test(await page.locator("#infra-description-section").innerText()));
+            await page.click("#infra-description-section > summary");
+            const first = page.locator("#framework-panel-posi details[id^=principle-posi-]").first();
+            await first.locator("summary").click();
+            const labels = await first.locator(".status-label").allInnerTexts();
+            check("POSI cards end with Not applicable", labels.join() === "Low adoption,Making progress,High adoption,Not applicable", labels.join());
+            await first.locator('.status-card[data-status="not-applicable"]').click();
+            const second = page.locator("#framework-panel-posi details[id^=principle-posi-]").nth(1);
+            await second.locator("summary").click();
+            await second.locator('.status-card[data-status="making-progress"]').click();
+            const heading = (await page.locator('[id^="summary-heading-posi"]').first().innerText()).trim();
+            check("N/A does not pull the score down", heading === "Overall: 50% average score", heading);
+            await page.selectOption("#framework-select", "gorc");
+            const g = page.locator("#framework-panel-gorc details[id^=principle-gorc-]").first();
+            await g.locator("summary").click();
+            check("legacy frameworks have Not applicable too", (await g.locator(".status-label").allInnerTexts()).join() === "Compliant,Making progress,Not compliant,Not applicable");
+            await page.selectOption("#framework-select", "posi");
+            // answer all of POSI, with notes, then print
+            await page.evaluate(() => {
+                const posi = all_frameworks().find((f) => f.id === "posi");
+                posi.sections.flatMap((s) => s.principles).forEach((p, i) => {
+                    state.frameworks.posi[p.id].status = ["low-adoption", "making-progress", "high-adoption", "not-applicable"][i % 4];
+                    state.frameworks.posi[p.id].notes = "A short explanation of why we chose this answer for this principle, two lines at most.";
+                });
+                window.__printed = 0;
+                window.print = () => { window.__printed++; };
+            });
+            await page.click('button:has-text("Export")');
+            await page.click("#print-report-btn");
+            check("Export → Print report fills the report and opens the print dialog", (await page.evaluate(() => window.__printed)) === 1 && (await page.locator("#print-report h2").count()) === 1);
+            await page.emulateMedia({ media: "print" });
+            check("printing shows only the report", (await page.locator("#print-report").isVisible()) && !(await page.locator("#app-shell").isVisible()) && !(await page.locator(".back-bar").isVisible()));
+            const pdf = await page.pdf({ format: "A4" });
+            const pages = (pdf.toString("latin1").match(/\/Type\s*\/Page[^s]/g) || []).length;
+            check("a fully answered POSI report fits in at most 5 A4 pages", pages >= 1 && pages <= 5, pages + " pages");
+            await page.emulateMedia({ media: "screen" });
+            check("the menu item says what it does", /Print report \/ save as PDF/.test(await page.locator("#print-report-btn").innerText()));
+            check("no console or page errors (N/A, report)", errors.length === 0, JSON.stringify(errors));
+            await ctx.close();
         }
     } finally {
         await browser.close();
