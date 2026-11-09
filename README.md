@@ -152,7 +152,12 @@ principle), so it needs no code change for other tender-style frameworks.
   frameworks are currently loaded.
 - **Export as JSON** — download your results and reload them later to
   continue or revise an assessment.
-- **Export as PDF** — download a report of the full assessment.
+- **Print report / save as PDF** — a short report (Export menu, or the
+  browser's Print): for each framework you filled in, the score and one table
+  per section with your answer and notes. Choose "Save as PDF" in the print
+  dialog. A fully answered POSI assessment fits on a few A4 pages.
+- **Not applicable** — every principle has a "Not applicable" answer, which
+  counts as answered but is left out of the score.
 - **Theme** — a Dark / System / Light switch at the bottom of Settings;
   System (the default) follows the device, the choice is kept in the browser.
 - **Assessment badge (experimental)** — switch on "Show badge" in Settings to

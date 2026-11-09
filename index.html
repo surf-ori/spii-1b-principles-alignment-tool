@@ -229,9 +229,12 @@
                stop menu items looking like solid buttons — silently ate
                Oat's own hover highlight too. Restating hover/focus here
                keeps that highlight working. */
+            /* Icon in its own column, title and description stacked next to it. */
             [role="menuitem"] {
-                flex-direction: column;
-                align-items: flex-start;
+                display: grid;
+                grid-template-columns: auto 1fr;
+                column-gap: var(--space-3);
+                justify-items: start;
                 text-align: left;
                 background-color: transparent;
                 color: var(--foreground);
@@ -247,6 +250,25 @@
 
             .menuitem-title {
                 font-weight: var(--font-medium);
+            }
+
+            .menuitem-icon {
+                grid-row: span 2;
+                align-self: start;
+                margin-top: 2px;
+                color: var(--primary);
+            }
+
+            .menuitem-desc {
+                white-space: normal;
+                max-width: 22rem;
+            }
+
+            /* Reports above, frameworks below. */
+            [role="menu"] hr[role="separator"] {
+                margin: var(--space-1) 0;
+                border: none;
+                border-top: 1px solid var(--border);
             }
 
             .menuitem-desc {
@@ -383,6 +405,17 @@
             .field input,
             .field textarea {
                 width: 100%;
+            }
+
+            .summary-hint {
+                margin: var(--space-1) 0 0;
+                font-size: var(--text-7);
+                font-weight: normal;
+                color: var(--muted-foreground);
+            }
+
+            #infra-description-section > summary h4 {
+                margin: 0;
             }
 
             .settings-heading {
@@ -600,60 +633,6 @@
                 color: var(--foreground);
             }
 
-            @media print {
-                #sidebar-footer,
-                [data-sidebar-toggle],
-                nav[data-topnav],
-                .back-bar,
-                aside[data-sidebar] > nav {
-                    display: none;
-                }
-                .status-card:not(.selected) {
-                    display: none;
-                }
-                /* [data-sidebar-layout] fixes the page to 100dvh with an internally
-                   scrolling <main> (oat.min.css) — reset to normal document flow so
-                   jsPDF/print capture the whole assessment, not one viewport's worth. */
-                #app-shell {
-                    display: block;
-                    height: auto;
-                }
-                #app-shell > aside[data-sidebar] {
-                    height: auto;
-                    border: none;
-                    box-shadow: none;
-                }
-                #app-shell > main {
-                    height: auto;
-                    overflow: visible;
-                }
-            }
-
-            body.printing #sidebar-footer,
-            body.printing [data-sidebar-toggle],
-            body.printing nav[data-topnav],
-            body.printing .back-bar,
-            body.printing aside[data-sidebar] > nav,
-            body.printing .status-card:not(.selected) {
-                display: none;
-            }
-
-            body.printing #app-shell {
-                display: block;
-                height: auto;
-            }
-
-            body.printing #app-shell > aside[data-sidebar] {
-                height: auto;
-                border: none;
-                box-shadow: none;
-            }
-
-            body.printing #app-shell > main {
-                height: auto;
-                overflow: visible;
-            }
-
             .status-icon {
                 display: block;
             }
@@ -666,6 +645,8 @@
             }
 
             .status-card .status-icon { color: var(--status-accent, currentColor); }
+
+            .status-card[data-status="not-applicable"]:not(.selected) { border-style: dashed; }
 
             .framework-panel {
                 background-color: var(--card);
@@ -772,19 +753,6 @@
                 height: 16px;
             }
 
-            @media print {
-                .framework-panel {
-                    padding: 0;
-                    border: none;
-                    background: none;
-                }
-            }
-
-            body.printing .framework-panel {
-                padding: 0;
-                border: none;
-                background: none;
-            }
 
             /* nav[data-topnav] is position: sticky and sits at the very top of
                the viewport (Oat's own layout); a fixed-position toast anchored
@@ -834,18 +802,39 @@
                 to { opacity: 1; transform: translateY(0); }
             }
 
-            @media print {
-                #toast-region {
-                    display: none;
-                }
-            }
-
-            body.printing #toast-region {
+            /* The printed report (build_report_html): hidden on screen, the only thing on paper. */
+            #print-report {
                 display: none;
             }
+
+            @media print {
+                body > *:not(#print-report) {
+                    display: none !important;
+                }
+                body {
+                    background: #ffffff;
+                }
+                #print-report {
+                    display: block;
+                    color: #000000;
+                    font-size: 9.5pt;
+                    line-height: 1.35;
+                }
+                #print-report h1 { font-size: 16pt; margin: 0 0 4pt; }
+                #print-report h2 { font-size: 13pt; margin: 14pt 0 2pt; break-after: avoid; }
+                #print-report h3 { font-size: 10.5pt; margin: 8pt 0 3pt; break-after: avoid; }
+                #print-report p { margin: 0 0 4pt; }
+                #print-report .report-meta, #print-report .report-foot, #print-report .report-none { color: #555555; }
+                #print-report .report-foot { margin-top: 12pt; font-size: 8pt; }
+                #print-report table { width: 100%; border-collapse: collapse; }
+                #print-report th, #print-report td { border-bottom: 0.5pt solid #bbbbbb; padding: 2pt 4pt; text-align: left; vertical-align: top; }
+                #print-report th { font-size: 8.5pt; color: #333333; }
+                #print-report td:first-child { width: 38%; }
+                #print-report td:nth-child(2) { width: 20%; white-space: nowrap; }
+                #print-report tr { break-inside: avoid; }
+                #print-report .report-icon svg { width: 11pt; height: 11pt; vertical-align: -2pt; margin-right: 3pt; }
+            }
         </style>
-        <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
-        <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
         <script id="app-logic">
             const ACTIVITIES = {
                 primary: {
@@ -875,6 +864,7 @@
 
             const CHANGELOG_HTML =
                 "<dl>" +
+                '<dt>2026-11-09</dt><dd>Following tester feedback: every principle in every framework now has a <strong>Not applicable</strong> answer. It counts as answered but is left out of the percentage (frameworks that score points per answer, such as the CRIS tender, do not get it). <strong>Export → Print report / save as PDF</strong> replaces the old PDF export, which put the whole page — all frameworks, every explanation — into one very long PDF (141 pages in one test). The report now lists, for each framework you filled in, the score and one table per section with your answer and notes; choose “Save as PDF” in the print dialog. The browser’s own Print prints the same report, and the tool no longer loads the two external PDF scripts. The Import and Export menus have icons, and put reports first and frameworks below a divider; “Download Assessment Frameworks” explains that you can edit a downloaded framework and import it again as the basis for your own alternative. Also: a short how-to in the introduction (with a link to About), a description line on the infrastructure accordion, and a clearer sentence above the activities.</dd>' +
                 '<dt>2026-11-06</dt><dd>Theme: a Dark / System / Light switch at the bottom of the sidebar’s Settings. System (the default) follows your device; the choice is kept in your browser. The colors of answered principles now follow the theme without reloading.</dd>' +
                 '<dt>2026-11-05</dt><dd>Added a “Feedback” link to the top menu, next to Changelog. It opens the feedback form on GitHub, which now also asks the questions of the test round: usability (navigation, layout, defining your own scale, exporting and importing a report) and content (clarity, level of detail, guidance, missing principles).</dd>' +
                 '<dt>2026-11-04</dt><dd>Classify: the “Process” activity now has a cog icon instead of a sun, and the right-hand group is called “Research administrative activities” (was “Research related activities”). Selections saved in earlier reports still apply.</dd>' +
@@ -946,6 +936,16 @@
                 return is_legacy_levels(framework) ? LEGACY_LEVELS : framework.levels;
             }
 
+            // "Not applicable" is offered on every principle of every framework, after its own scale. It is answered
+            // but never part of the percentage. Not added when the scale already has an option that does not count
+            // (a custom N/A), nor for frameworks that score points per fixed answer (`scoring`).
+            const NOT_APPLICABLE = { id: "not-applicable", label: "Not applicable", icon: "dash", color: "--muted-foreground", excludeFromScore: true };
+
+            function answer_options(framework, levels = principle_levels_for(framework)) {
+                if (tender_scoring(framework) || levels.some((l) => l.excludeFromScore)) return levels;
+                return levels.concat(NOT_APPLICABLE);
+            }
+
             function numbered_circle_icon(n) {
                 return (
                     '<svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6">' +
@@ -956,22 +956,23 @@
             }
 
             // A level's `icon` is one of ICON_NAMES: the tick/clock/cross set, the numbers 1-9, or a question mark.
-            const ICON_NAMES = ["check", "clock", "cross", "1", "2", "3", "4", "5", "6", "7", "8", "9", "question"];
+            const ICON_NAMES = ["check", "clock", "cross", "1", "2", "3", "4", "5", "6", "7", "8", "9", "question", "dash"];
 
             function icon_markup_by_name(name) {
                 if (name === "check") return ICONS.compliant;
                 if (name === "clock") return ICONS.progress;
                 if (name === "cross") return ICONS["non-compliant"];
                 if (name === "question") return numbered_circle_icon("?");
+                if (name === "dash") return ICONS.unanswered.replace("</svg>", '<path d="M6.5 10h7" stroke-linecap="round" /></svg>');
                 return /^[1-9]$/.test(name) ? numbered_circle_icon(name) : ICONS.unanswered;
             }
 
             function level_icon_markup(framework, statusId) {
                 if (!statusId) return ICONS.unanswered;
-                const levels = principle_levels_for(framework);
-                const idx = levels.findIndex((l) => l.id === statusId);
+                const options = answer_options(framework);
+                const idx = options.findIndex((l) => l.id === statusId);
                 if (idx === -1) return ICONS.unanswered;
-                return levels[idx].icon ? icon_markup_by_name(levels[idx].icon) : numbered_circle_icon(idx + 1);
+                return options[idx].icon ? icon_markup_by_name(options[idx].icon) : numbered_circle_icon(idx + 1);
             }
 
             // Red (worst) to green (best) across an ordinal scale of any length, via HSL
@@ -995,9 +996,10 @@
             function level_color(framework, statusId, live) {
                 if (!statusId) return "#cccccc";
                 const levels = principle_levels_for(framework);
-                const idx = levels.findIndex((l) => l.id === statusId);
-                if (idx === -1) return "#cccccc";
-                const color = levels[idx].color;
+                const option = answer_options(framework).find((l) => l.id === statusId);
+                if (!option) return "#cccccc";
+                const idx = levels.indexOf(option);
+                const color = option.color;
                 if (!color) return level_gradient_color(idx, levels.length);
                 return live && color.startsWith("--") ? "var(" + color + ")" : resolve_color(color);
             }
@@ -1083,7 +1085,7 @@
 
             // Answers that use an option the framework's scale no longer has are cleared; returns how many.
             function clear_orphan_statuses(state, framework) {
-                const ids = principle_levels_for(framework).map((l) => l.id);
+                const ids = answer_options(framework).map((l) => l.id);
                 let cleared = 0;
                 Object.values(state.frameworks[framework.id] || {}).forEach((entry) => {
                     if (entry.status && !ids.includes(entry.status)) {
@@ -1306,6 +1308,7 @@
             function compute_summary(state, frameworkId, framework) {
                 const entries = Object.values(state.frameworks[frameworkId] || {});
                 const scored = entries.filter((e) => e.status !== null);
+                const notApplicable = scored.filter((e) => e.status === NOT_APPLICABLE.id).length;
                 if (framework && !is_legacy_levels(framework)) {
                     const levels = framework.levels;
                     const counting = counting_levels(levels);
@@ -1316,6 +1319,7 @@
                         legacy: false,
                         levels,
                         counts,
+                        notApplicable,
                         scoredCount: scored.length,
                         totalCount: entries.length,
                         percentMature: counting.length > 1 ? Math.round((avgIdx / (counting.length - 1)) * 100) : 0,
@@ -1326,12 +1330,14 @@
                 const nonCompliant = scored.filter((e) => e.status === "non-compliant").length;
                 const scoring = tender_scoring(framework);
                 const tender = scoring ? tender_summary(state, frameworkId, framework, scoring) : null;
-                const percentCompliant = tender ? tender.percent : scored.length ? Math.round((compliant / scored.length) * 100) : 0;
+                const graded = scored.length - notApplicable;
+                const percentCompliant = tender ? tender.percent : graded ? Math.round((compliant / graded) * 100) : 0;
                 return {
                     legacy: true,
                     compliant,
                     progress,
                     nonCompliant,
+                    notApplicable,
                     scoredCount: scored.length,
                     totalCount: entries.length,
                     percentCompliant,
@@ -1346,6 +1352,7 @@
                         heading: "Overall: " + summary.percentMature + "% average score",
                         counts:
                             summary.levels.map((l, i) => summary.counts[i] + " " + l.label).join(" · ") +
+                            (summary.notApplicable ? " · " + summary.notApplicable + " not applicable" : "") +
                             " (" + summary.scoredCount + "/" + summary.totalCount + " scored)",
                     };
                 }
@@ -1354,7 +1361,9 @@
                 if (!t) {
                     return {
                         heading: "Overall: " + summary.percentCompliant + "% compliant",
-                        counts: summary.compliant + " compliant · " + summary.progress + " making progress · " + summary.nonCompliant + " not compliant" + scored,
+                        counts:
+                            summary.compliant + " compliant · " + summary.progress + " making progress · " + summary.nonCompliant + " not compliant" +
+                            (summary.notApplicable ? " · " + summary.notApplicable + " not applicable" : "") + scored,
                     };
                 }
                 const labels = LEGACY_LEVELS.map((level) => answer_label(framework, level));
@@ -1367,6 +1376,46 @@
                         t.earned + " of " + t.possible + " points · " + must + " · " +
                         summary.compliant + " " + labels[0] + " · " + summary.progress + " " + labels[1] + " · " + summary.nonCompliant + " " + labels[2] + scored,
                 };
+            }
+
+            function escape_html(value) {
+                return String(value == null ? "" : value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+            }
+
+            // The printable report: the infrastructure, then every framework with at least one answer or note, as
+            // one table per section (principle, answer, notes). No criteria or explanations, so it stays short.
+            function build_report_html(state, frameworks) {
+                const activities = [];
+                [ACTIVITIES.primary, ACTIVITIES.related].forEach((group) => {
+                    group.items.forEach((item) => { if (state.activities.includes((group.key || group.title) + " > " + item)) activities.push(item); });
+                });
+                let html = '<header class="report-head"><h1>' + escape_html(state.name || "Unnamed infrastructure") + "</h1>";
+                html += '<p class="report-meta">Open Science Infrastructure Self-Assessment' + (state.assessedOn ? " · assessed on " + escape_html(state.assessedOn) : "") + (state.url ? " · " + escape_html(state.url) : "") + "</p>";
+                if (state.description) html += "<p>" + escape_html(state.description) + "</p>";
+                if (activities.length) html += "<p><strong>Activities:</strong> " + activities.map(escape_html).join(", ") + "</p>";
+                html += "</header>";
+                const filled = frameworks.filter((f) => Object.values(state.frameworks[f.id] || {}).some((e) => e.status || (e.notes || "").trim()));
+                if (!filled.length) html += "<p>No answers yet.</p>";
+                filled.forEach((framework) => {
+                    const text = summary_text(compute_summary(state, framework.id, framework), framework);
+                    html += '<section class="report-framework"><h2>' + escape_html(framework.title) + "</h2>";
+                    html += '<p class="report-score"><strong>' + escape_html(text.heading) + "</strong> · " + escape_html(text.counts) + "</p>";
+                    framework.sections.forEach((section) => {
+                        html += "<h3>" + escape_html(section.section) + '</h3><table><thead><tr><th>Principle</th><th>Answer</th><th>Notes</th></tr></thead><tbody>';
+                        section.principles.forEach((principle) => {
+                            const entry = state.frameworks[framework.id][principle.id];
+                            const option = entry.status && answer_options(framework).find((l) => l.id === entry.status);
+                            const answer = option
+                                ? '<span class="report-icon" style="color:' + escape_html(level_color(framework, entry.status)) + '">' + level_icon_markup(framework, entry.status) + "</span>" + escape_html(answer_label(framework, option))
+                                : '<span class="report-none">Not answered</span>';
+                            html += "<tr><td>" + escape_html(principle.title) + "</td><td>" + answer + "</td><td>" + escape_html(entry.notes) + "</td></tr>";
+                        });
+                        html += "</tbody></table>";
+                    });
+                    html += "</section>";
+                });
+                html += '<p class="report-foot">Open Science Infrastructure Self-Assessment Tool — https://surf-ori.github.io/spii-1b-principles-alignment-tool/</p>';
+                return html;
             }
 
             function build_export_object(state) {
@@ -1419,7 +1468,7 @@
                         // A status is valid only if it is one of this framework's own level ids
                         // (compliant/progress/non-compliant, or the framework's `levels`).
                         const framework = knownFrameworks.find((f) => f.id === frameworkId);
-                        const validStatuses = (framework ? principle_levels_for(framework) : LEGACY_LEVELS).map((level) => level.id);
+                        const validStatuses = (framework ? answer_options(framework) : LEGACY_LEVELS).map((level) => level.id);
                         Object.keys(fresh.frameworks[frameworkId]).forEach((id) => {
                             const entry = loadedFramework[id];
                             if (entry && typeof entry === "object") {
@@ -1497,14 +1546,18 @@
                     <button type="button" popovertarget="import-menu">Import ▾</button>
                     <div id="import-menu" popover role="menu">
                         <button type="button" role="menuitem" id="import-report-btn">
+                            <svg class="menuitem-icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5V15a1 1 0 001 1h10a1 1 0 001-1v-2.5" /><path d="M10 12V3M6.5 6.5L10 3l3.5 3.5" /></svg>
                             <span class="menuitem-title">Import Assessment Report (JSON)</span>
                             <span class="menuitem-desc">Import an earlier saved assessment</span>
                         </button>
+                        <hr role="separator">
                         <button type="button" role="menuitem" id="import-framework-btn">
+                            <svg class="menuitem-icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h6l3 3v11a1 1 0 01-1 1H6a1 1 0 01-1-1v-13a1 1 0 011-1z" /><path d="M12 2.5v3h3M10 9v5M7.5 11.5h5" /></svg>
                             <span class="menuitem-title">Import Assessment Framework (JSON)</span>
-                            <span class="menuitem-desc">Add another assessment framework to evaluate</span>
+                            <span class="menuitem-desc">Add another assessment framework to evaluate, or your own edited version</span>
                         </button>
                         <button type="button" role="menuitem" id="download-template-btn">
+                            <svg class="menuitem-icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5H6a1 1 0 00-1 1v13a1 1 0 001 1h3" /><path d="M12 2.5v3h3v3" /><path d="M15.5 10.5l2 2-5 5H10.5v-2z" /></svg>
                             <span class="menuitem-title">Download Assessment Framework Template (JSON)</span>
                             <span class="menuitem-desc">Download a template to create your own assessment framework</span>
                         </button>
@@ -1513,21 +1566,26 @@
                 <ot-dropdown>
                     <button type="button" popovertarget="export-menu">Export ▾</button>
                     <div id="export-menu" popover role="menu">
+                        <button type="button" role="menuitem" id="save-report-github-btn">
+                            <svg class="menuitem-icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.5 2.5L9 11M17.5 2.5L12 17.5l-3-6.5-6.5-3z" /></svg>
+                            <span class="menuitem-title">Save Report to GitHub Tracker</span>
+                            <span class="menuitem-desc">Contribute this assessment to the public tracker</span>
+                        </button>
                         <button type="button" role="menuitem" id="export-report-btn">
+                            <svg class="menuitem-icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5V15a1 1 0 001 1h10a1 1 0 001-1v-2.5" /><path d="M10 3v9M6.5 8.5L10 12l3.5-3.5" /></svg>
                             <span class="menuitem-title">Export Assessment Report (JSON)</span>
                             <span class="menuitem-desc">Download your results to continue or share later</span>
                         </button>
                         <button type="button" role="menuitem" id="print-report-btn">
-                            <span class="menuitem-title">Print Assessment Report (PDF)</span>
-                            <span class="menuitem-desc">Download a PDF report of the full assessment</span>
+                            <svg class="menuitem-icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7V3h8v4" /><rect x="3" y="7" width="14" height="7" rx="1.5" /><path d="M6 12h8v5H6z" /></svg>
+                            <span class="menuitem-title">Print report / save as PDF</span>
+                            <span class="menuitem-desc">A short report of your answers, for each framework you filled in</span>
                         </button>
+                        <hr role="separator">
                         <button type="button" role="menuitem" id="download-frameworks-btn">
+                            <svg class="menuitem-icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h6l3 3v11a1 1 0 01-1 1H6a1 1 0 01-1-1v-13a1 1 0 011-1z" /><path d="M12 2.5v3h3M10 8.5v6M7.5 12l2.5 2.5 2.5-2.5" /></svg>
                             <span class="menuitem-title">Download Assessment Frameworks (JSON)</span>
-                            <span class="menuitem-desc">Download the frameworks currently loaded, including any custom ones</span>
-                        </button>
-                        <button type="button" role="menuitem" id="save-report-github-btn">
-                            <span class="menuitem-title">Save Report to GitHub Tracker</span>
-                            <span class="menuitem-desc">Contribute this assessment to the public tracker</span>
+                            <span class="menuitem-desc">Save the frameworks as they are now (with your custom scales), edit them and import them again as the basis for your own alternative</span>
                         </button>
                     </div>
                 </ot-dropdown>
@@ -1600,6 +1658,7 @@
             <main id="app"></main>
         </div>
         <div id="toast-region" aria-live="assertive" aria-atomic="true"></div>
+        <div id="print-report"></div>
 
         <script id="app-render">
             let state = null;
@@ -1959,7 +2018,7 @@
                     show_scale_message("Every option needs a title.");
                     return;
                 }
-                if (!confirm_lost_answers(framework, scaleDraft.map((l) => l.id))) return;
+                if (!confirm_lost_answers(framework, answer_options(framework, scaleDraft).map((l) => l.id))) return;
                 set_scale(framework, scaleDraft);
                 clear_orphan_statuses(state, framework);
                 document.getElementById("scales-dialog").close();
@@ -1969,7 +2028,7 @@
             function reset_scale() {
                 const framework = active_framework();
                 const own = default_levels_for(framework) || LEGACY_LEVELS;
-                if (!confirm_lost_answers(framework, own.map((l) => l.id))) return;
+                if (!confirm_lost_answers(framework, answer_options(framework, own).map((l) => l.id))) return;
                 set_scale(framework, null);
                 clear_orphan_statuses(state, framework);
                 document.getElementById("scales-dialog").close();
@@ -2112,7 +2171,15 @@
                 wrap.id = "intro-section";
 
                 const intro = document.createElement("p");
-                intro.textContent = "Self-assess how your Open Science infrastructure puts open science values and principles into practice, against one or more community-recognised assessment frameworks.";
+                intro.textContent = "Self-assess how your Open Science infrastructure puts open science values and principles into practice, against one or more community-recognised assessment frameworks. Select an assessment framework from the dropdown in the sidebar; the default is POSI. For examples, read the ";
+                const about = document.createElement("a");
+                about.href = "#about";
+                about.textContent = "About";
+                about.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    document.getElementById("about-dialog").showModal();
+                });
+                intro.append(about, ".");
                 wrap.appendChild(intro);
 
                 return wrap;
@@ -2194,7 +2261,12 @@
                 const summary = document.createElement("summary");
                 const heading = document.createElement("h4");
                 heading.textContent = "OS Infrastructure Description";
-                summary.appendChild(heading);
+                const hint = document.createElement("p");
+                hint.className = "summary-hint";
+                hint.textContent = "Fill in some basic details about the Open Science infrastructure this alignment is for.";
+                const titles = document.createElement("div");
+                titles.append(heading, hint);
+                summary.appendChild(titles);
                 section.appendChild(summary);
 
                 section.appendChild(render_text_field("infra-name", "Infrastructure name", state.name, "text", "name of the infrastructure"));
@@ -2214,7 +2286,7 @@
                 classifyHeading.textContent = "Classify";
                 section.appendChild(classifyHeading);
                 const classifyIntro = document.createElement("p");
-                classifyIntro.textContent = "This infrastructure supports the following activities:";
+                classifyIntro.textContent = "Tell us what activities this infrastructure fits in the research activities landscape:";
                 section.appendChild(classifyIntro);
 
                 const columns = document.createElement("div");
@@ -2368,7 +2440,7 @@
                 append_linked_text(text, principle.text);
                 details.appendChild(text);
 
-                const levels = principle_levels_for(framework);
+                const levels = answer_options(framework);
                 const colClass = grid_col_class(levels.length);
 
                 const cards = document.createElement("div");
@@ -2708,56 +2780,17 @@
                 });
             }
 
-            function download_pdf() {
-                const detailsElements = Array.from(document.querySelectorAll("details"));
-                const openStates = detailsElements.map((el) => el.open);
-                detailsElements.forEach((el) => el.setAttribute("open", ""));
-                const panels = Array.from(document.querySelectorAll(".framework-panel"));
-                const panelHiddenStates = panels.map((el) => el.hidden);
-                panels.forEach((el) => { el.hidden = false; });
-                document.body.classList.add("printing");
-
-                const doc = new jspdf.jsPDF();
-                doc.html(document.body, {
-                    callback: (doc) => {
-                        doc.save("report.pdf");
-                        document.body.classList.remove("printing");
-                        detailsElements.forEach((el, i) => {
-                            if (!openStates[i]) el.removeAttribute("open");
-                        });
-                        panels.forEach((el, i) => { el.hidden = panelHiddenStates[i]; });
-                    },
-                    x: 10,
-                    width: 200,
-                    windowWidth: 1000,
-                });
+            // Printing (Export → Print report, or the browser's own Print) always prints the short report.
+            function fill_print_report() {
+                document.getElementById("print-report").innerHTML = build_report_html(state, all_frameworks());
             }
 
-            let detailsOpenBeforePrint = null;
-            let panelsHiddenBeforePrint = null;
+            function print_report() {
+                fill_print_report();
+                window.print();
+            }
 
-            window.addEventListener("beforeprint", () => {
-                const detailsElements = Array.from(document.querySelectorAll("details"));
-                detailsOpenBeforePrint = detailsElements.map((el) => el.open);
-                detailsElements.forEach((el) => el.setAttribute("open", ""));
-                const panels = Array.from(document.querySelectorAll(".framework-panel"));
-                panelsHiddenBeforePrint = panels.map((el) => el.hidden);
-                panels.forEach((el) => { el.hidden = false; });
-            });
-
-            window.addEventListener("afterprint", () => {
-                if (!detailsOpenBeforePrint) return;
-                const detailsElements = Array.from(document.querySelectorAll("details"));
-                detailsElements.forEach((el, i) => {
-                    if (!detailsOpenBeforePrint[i]) el.removeAttribute("open");
-                });
-                detailsOpenBeforePrint = null;
-                if (panelsHiddenBeforePrint) {
-                    const panels = Array.from(document.querySelectorAll(".framework-panel"));
-                    panels.forEach((el, i) => { el.hidden = panelsHiddenBeforePrint[i]; });
-                    panelsHiddenBeforePrint = null;
-                }
-            });
+            window.addEventListener("beforeprint", fill_print_report);
 
             function ring_config_for(framework) {
                 const count = framework.sections.length;
@@ -3015,7 +3048,7 @@
             });
             document.getElementById("download-template-btn").addEventListener("click", download_framework_template);
             document.getElementById("export-report-btn").addEventListener("click", download_json);
-            document.getElementById("print-report-btn").addEventListener("click", download_pdf);
+            document.getElementById("print-report-btn").addEventListener("click", print_report);
             document.getElementById("download-frameworks-btn").addEventListener("click", download_all_frameworks);
             document.getElementById("save-report-github-btn").addEventListener("click", open_save_report_dialog);
             document.getElementById("save-report-dialog-content").addEventListener("click", (e) => {
