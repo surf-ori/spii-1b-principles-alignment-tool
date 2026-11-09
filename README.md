@@ -148,10 +148,14 @@ principle), so it needs no code change for other tender-style frameworks.
   framework's own scale.
 - **Bring your own framework** — import a custom assessment framework
   (JSON) at runtime alongside POSI, GORC, FAIR, BD, OSR, 7GPRI, CARE, FOREST,
-  and the SPII frameworks, download a template to help author one, and export whichever
-  frameworks are currently loaded.
-- **Export as JSON** — download your results and reload them later to
-  continue or revise an assessment.
+  and the SPII frameworks, download a template to help author one, or download
+  the selected framework (with your custom scale), edit it and import it again
+  as the basis for your own alternative. The file is named like
+  `2026-11-10-posi-v2-0-assessment-framework.json`.
+- **Export as JSON** — download your answers for the selected framework
+  (named like `2026-11-09-posi-v2-0-assessment-openaire.json`) and reload them
+  later to continue or revise an assessment. Every exported file starts with a
+  short `_readme` explaining what it is and where to import it.
 - **Print report / save as PDF** — a short report (Export menu, or the
   browser's Print): for each framework you filled in, the score and one table
   per section with your answer and notes. Choose "Save as PDF" in the print

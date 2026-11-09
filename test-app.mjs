@@ -186,6 +186,27 @@ export const run = (ctx, code) => vm.runInContext(code, ctx);
     check("report without answers says so", run(loadLogic(), "build_report_html(initial_state(), FRAMEWORKS)").includes("No answers yet"));
 }
 
+{
+    // Export file names and self-describing JSON
+    clearStorage();
+    const c = loadLogic();
+    const R = (s) => run(c, s);
+    R('globalThis.posi = FRAMEWORKS.find((f) => f.id === "posi"); globalThis.state = initial_state(); state.name = "OpenAIRE"; state.assessedOn = "2026-11-09"; globalThis.k = Object.keys(state.frameworks.posi); state.frameworks.posi[k[0]].status = "high-adoption"; state.frameworks.gorc[Object.keys(state.frameworks.gorc)[0]].status = "compliant";');
+    check("report file name: date, framework, infrastructure", R("report_filename(state, posi)") === "2026-11-09-posi-v2-0-assessment-openaire.json", R("report_filename(state, posi)"));
+    check("report file name without a name", R('report_filename(Object.assign({}, state, {name: ""}), posi)') === "2026-11-09-posi-v2-0-assessment-unnamed-infrastructure.json");
+    check("framework file name: date and framework", R('framework_filename(posi, "2026-11-09")') === "2026-11-09-posi-v2-0-assessment-framework.json");
+    const rep = R('build_export_object(state, "posi")');
+    check("report export holds only the selected framework", Object.keys(rep.frameworks).join() === "posi" && rep.customFrameworks.length === 0);
+    check("report export explains itself", Object.keys(rep)[0] === "_readme" && rep._readme.includes("POSI v2.0 Assessment") && rep._readme.includes("https://surf-ori.github.io/spii-1b-principles-alignment-tool/") && /Import Assessment Report/.test(rep._readme));
+    const c2 = loadLogic();
+    run(c2, "globalThis.back = merge_loaded_state(" + JSON.stringify(rep) + ");");
+    check("a single-framework report imports", run(c2, `back.frameworks.posi["${R("k[0]")}"].status`) === "high-adoption" && run(c2, "back.name") === "OpenAIRE");
+    const fw = R('build_framework_export(posi, "2026-11-09")');
+    check("framework export: one framework, readme first, valid", !Array.isArray(fw) && Object.keys(fw)[0] === "_readme" && fw.id === "posi" && R("validate_framework_shape")(fw) === true);
+    check("framework readme says what to edit, to change the id, and where to import", /criteria/.test(fw._readme) && /new `id`|new id/i.test(fw._readme) && fw._readme.includes("https://surf-ori.github.io/spii-1b-principles-alignment-tool/") && /Import Assessment Framework/.test(fw._readme));
+    check("an old _readme is replaced, not kept", R('build_framework_export(Object.assign({_readme: "old"}, posi), "2026-11-09")._readme') !== "old");
+}
+
 if (process.argv.includes("--ui")) await (await import("./test-app-ui.mjs")).default({ check, ROOT });
 
 console.log(failed ? `\n${failed} FAILED` : "\nall passed");

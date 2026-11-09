@@ -864,6 +864,7 @@
 
             const CHANGELOG_HTML =
                 "<dl>" +
+                '<dt>2026-11-10</dt><dd>Exports are about the selected framework and have descriptive file names. <em>Export Assessment Report</em> saves the answers for the selected framework as, for example, <code>2026-11-09-posi-v2-0-assessment-openaire.json</code> (assessment date, framework, infrastructure); <em>Download Assessment Framework</em> saves the selected framework, with your custom scale, as for example <code>2026-11-10-posi-v2-0-assessment-framework.json</code>. Both files start with a short explanation (<code>_readme</code>) of what they are, what you can do with them and where to import them again.</dd>' +
                 '<dt>2026-11-09</dt><dd>Following tester feedback: every principle in every framework now has a <strong>Not applicable</strong> answer. It counts as answered but is left out of the percentage (frameworks that score points per answer, such as the CRIS tender, do not get it). <strong>Export → Print report / save as PDF</strong> replaces the old PDF export, which put the whole page — all frameworks, every explanation — into one very long PDF (141 pages in one test). The report now lists, for each framework you filled in, the score and one table per section with your answer and notes; choose “Save as PDF” in the print dialog. The browser’s own Print prints the same report, and the tool no longer loads the two external PDF scripts. The Import and Export menus have icons, and put reports first and frameworks below a divider; “Download Assessment Frameworks” explains that you can edit a downloaded framework and import it again as the basis for your own alternative. Also: a short how-to in the introduction (with a link to About), a description line on the infrastructure accordion, and a clearer sentence above the activities.</dd>' +
                 '<dt>2026-11-06</dt><dd>Theme: a Dark / System / Light switch at the bottom of the sidebar’s Settings. System (the default) follows your device; the choice is kept in your browser. The colors of answered principles now follow the theme without reloading.</dd>' +
                 '<dt>2026-11-05</dt><dd>Added a “Feedback” link to the top menu, next to Changelog. It opens the feedback form on GitHub, which now also asks the questions of the test round: usability (navigation, layout, defining your own scale, exporting and importing a report) and content (clarity, level of detail, guidance, missing principles).</dd>' +
@@ -1418,9 +1419,47 @@
                 return html;
             }
 
-            function build_export_object(state) {
+            const TOOL_URL = "https://surf-ori.github.io/spii-1b-principles-alignment-tool/";
+
+            function slugify(str, fallback) {
+                const slug = (str || "").toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+                return slug || fallback || "unnamed";
+            }
+
+            // e.g. 2026-11-09-posi-v2-0-assessment-openaire.json: assessment date, framework, infrastructure.
+            function report_filename(state, framework) {
+                return (state.assessedOn || today_iso_date()) + "-" + slugify(framework.title) + "-" + slugify(state.name, "unnamed-infrastructure") + ".json";
+            }
+
+            // e.g. 2026-11-09-posi-v2-0-assessment-framework.json: download date and framework.
+            function framework_filename(framework, date) {
+                return date + "-" + slugify(framework.title) + "-framework.json";
+            }
+
+            function report_readme(state, framework) {
+                return (
+                    "Assessment report from the Open Science Infrastructure Self-Assessment Tool (SPII deliverable 1B): " +
+                    (state.name || "an unnamed infrastructure") + (framework ? ", assessed against " + framework.title : "") +
+                    (state.assessedOn ? " on " + state.assessedOn : "") + ". It holds the infrastructure description, the answers and the notes. " +
+                    "To continue, review or compare it, open " + TOOL_URL + " and choose Import > Import Assessment Report (JSON). " +
+                    "It stays private unless you share it, for example with Export > Save Report to GitHub Tracker."
+                );
+            }
+
+            // One framework as a self-describing file that can be edited and imported again as a new framework.
+            function build_framework_export(framework, date) {
+                const readme =
+                    "Assessment framework \"" + framework.title + "\", downloaded from the Open Science Infrastructure Self-Assessment Tool (SPII deliverable 1B) on " + date + ". " +
+                    "Use it as the basis for your own variant: edit it in a text editor — for example the principles and their text, the maturity level descriptions per principle (\"criteria\"), " +
+                    "the suggestions to improve (\"improvementAction\") or the scale (\"levels\") — and give it a new id and title (a framework with the id of one already in the tool is not imported). " +
+                    "Then open " + TOOL_URL + " and choose Import > Import Assessment Framework (JSON). Import > Download Assessment Framework Template (JSON) explains every field.";
+                return Object.assign({ _readme: readme }, framework, { _readme: readme });
+            }
+
+            // frameworkId: only that framework's answers (and its custom scale, or its definition if it was imported).
+            function build_export_object(state, frameworkId) {
                 const frameworks = {};
-                Object.keys(state.frameworks).forEach((frameworkId) => {
+                Object.keys(state.frameworks).filter((id) => !frameworkId || id === frameworkId).forEach((frameworkId) => {
                     const entries = {};
                     Object.keys(state.frameworks[frameworkId]).forEach((id) => {
                         entries[id] = { status: state.frameworks[frameworkId][id].status, notes: state.frameworks[frameworkId][id].notes };
@@ -1428,13 +1467,16 @@
                     frameworks[frameworkId] = entries;
                 });
                 const scales = customised_scales();
+                if (frameworkId) Object.keys(scales).forEach((id) => { if (id !== frameworkId) delete scales[id]; });
+                const framework = frameworkId && FRAMEWORKS.concat(state.customFrameworks).find((f) => f.id === frameworkId);
                 return {
+                    _readme: report_readme(state, framework),
                     name: state.name,
                     description: state.description,
                     url: state.url,
                     assessedOn: state.assessedOn,
                     activities: state.activities.slice(),
-                    customFrameworks: state.customFrameworks.slice(),
+                    customFrameworks: state.customFrameworks.filter((f) => !frameworkId || f.id === frameworkId),
                     frameworks,
                     ...(Object.keys(scales).length ? { scales } : {}),
                 };
@@ -1574,7 +1616,7 @@
                         <button type="button" role="menuitem" id="export-report-btn">
                             <svg class="menuitem-icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5V15a1 1 0 001 1h10a1 1 0 001-1v-2.5" /><path d="M10 3v9M6.5 8.5L10 12l3.5-3.5" /></svg>
                             <span class="menuitem-title">Export Assessment Report (JSON)</span>
-                            <span class="menuitem-desc">Download your results to continue or share later</span>
+                            <span class="menuitem-desc">Your answers for the selected framework, to continue or share later</span>
                         </button>
                         <button type="button" role="menuitem" id="print-report-btn">
                             <svg class="menuitem-icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7V3h8v4" /><rect x="3" y="7" width="14" height="7" rx="1.5" /><path d="M6 12h8v5H6z" /></svg>
@@ -1584,8 +1626,8 @@
                         <hr role="separator">
                         <button type="button" role="menuitem" id="download-frameworks-btn">
                             <svg class="menuitem-icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h6l3 3v11a1 1 0 01-1 1H6a1 1 0 01-1-1v-13a1 1 0 011-1z" /><path d="M12 2.5v3h3M10 8.5v6M7.5 12l2.5 2.5 2.5-2.5" /></svg>
-                            <span class="menuitem-title">Download Assessment Frameworks (JSON)</span>
-                            <span class="menuitem-desc">Save the frameworks as they are now (with your custom scales), edit them and import them again as the basis for your own alternative</span>
+                            <span class="menuitem-title">Download Assessment Framework (JSON)</span>
+                            <span class="menuitem-desc">The selected framework as it is now (with your custom scale): edit it and import it again as the basis for your own alternative</span>
                         </button>
                     </div>
                 </ot-dropdown>
@@ -2584,21 +2626,14 @@
             }
 
             function download_json() {
-                download_json_blob(build_export_object(state), "results.json");
+                const framework = all_frameworks().find((f) => f.id === activeFrameworkId);
+                download_json_blob(build_export_object(state, framework.id), report_filename(state, framework));
             }
 
             // This app doubles as SPII deliverable 1B's own feedback tracker
             // (see CLAUDE.md), so "save to GitHub" targets this same repo.
             const REPORT_TRACKER_REPO = "surf-ori/spii-1b-principles-alignment-tool";
 
-            function slugify(str) {
-                const slug = (str || "").toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
-                return slug || "unnamed-infrastructure";
-            }
-
-            function report_filename(state, framework) {
-                return slugify(state.name) + "-" + framework.id + "-" + (state.assessedOn || today_iso_date()) + ".json";
-            }
 
             function build_save_report_dialog_html(state, framework, filename) {
                 const summary = compute_summary(state, framework.id, framework);
@@ -2691,8 +2726,10 @@
                 download_json_blob(FRAMEWORK_TEMPLATE, "framework-template.json");
             }
 
-            function download_all_frameworks() {
-                download_json_blob(all_frameworks(), "assessment-frameworks.json");
+            function download_selected_framework() {
+                const framework = all_frameworks().find((f) => f.id === activeFrameworkId);
+                const date = today_iso_date();
+                download_json_blob(build_framework_export(framework, date), framework_filename(framework, date));
             }
 
             function load_custom_frameworks(file) {
@@ -3049,12 +3086,12 @@
             document.getElementById("download-template-btn").addEventListener("click", download_framework_template);
             document.getElementById("export-report-btn").addEventListener("click", download_json);
             document.getElementById("print-report-btn").addEventListener("click", print_report);
-            document.getElementById("download-frameworks-btn").addEventListener("click", download_all_frameworks);
+            document.getElementById("download-frameworks-btn").addEventListener("click", download_selected_framework);
             document.getElementById("save-report-github-btn").addEventListener("click", open_save_report_dialog);
             document.getElementById("save-report-dialog-content").addEventListener("click", (e) => {
                 const link = e.target.closest(".save-report-link");
                 if (!link) return;
-                download_json_blob(build_export_object(state), link.dataset.filename);
+                download_json_blob(build_export_object(state, activeFrameworkId), link.dataset.filename);
             });
 
             function position_popover(button, popover) {
