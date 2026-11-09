@@ -397,6 +397,22 @@ export default async function ({ check, ROOT }) {
             check("no console or page errors (N/A, report)", errors.length === 0, JSON.stringify(errors));
             await ctx.close();
         }
+        {
+            // Import/Export menus: icons, reports first, frameworks after a separator
+            const { page, errors, ctx } = await open("index.html");
+            const menu = (id) => page.$$eval("#" + id + " > *", (els) => els.map((e) => e.getAttribute("role") === "separator" ? "---" : e.querySelector(".menuitem-title").textContent.trim()));
+            const exp = await menu("export-menu");
+            check("Export: GitHub tracker on top, frameworks last after a separator", exp.join("|") === "Save Report to GitHub Tracker|Export Assessment Report (JSON)|Print report / save as PDF|---|Download Assessment Frameworks (JSON)", exp.join("|"));
+            const imp = await menu("import-menu");
+            check("Import: report first, frameworks after a separator", imp.join("|") === "Import Assessment Report (JSON)|---|Import Assessment Framework (JSON)|Download Assessment Framework Template (JSON)", imp.join("|"));
+            check("every menu item has an icon", (await page.locator('[role="menuitem"]').count()) === 7 && (await page.locator('[role="menuitem"] > svg.menuitem-icon').count()) === 7);
+            check("the frameworks item explains save, edit, import again", /edit/i.test(await page.locator("#download-frameworks-btn .menuitem-desc").textContent()) && /import/i.test(await page.locator("#download-frameworks-btn .menuitem-desc").textContent()));
+            await page.click('button:has-text("Export")');
+            const box = await page.$eval("#export-menu", (m) => { const r = m.getBoundingClientRect(); return r.right <= window.innerWidth + 1; });
+            check("Export menu fits in the window", box);
+            check("no console or page errors (menus)", errors.length === 0, JSON.stringify(errors));
+            await ctx.close();
+        }
     } finally {
         await browser.close();
         server.close();
