@@ -46,7 +46,7 @@ export const run = (ctx, code) => vm.runInContext(code, ctx);
     check("POSI icons and colors", (posi.levels || []).map((l) => l.icon + l.color).join() === "cross--destructive,clock--warning,check--compliant");
     check("complementary criteria use level ids", posi.sections.at(-1).principles.every((p) => p.criteria && Object.keys(p.criteria).sort().join() === "high-adoption,low-adoption,making-progress"));
     check("About POSI lost the approved paragraph", !/Approved assessment framework/.test(posi.aboutHtml) && /Principles of Open Scholarly Infrastructure \(POSI\) is/.test(posi.aboutHtml));
-    check("intro present", !!posi.intro && /Strategic Plan on Integrated Infrastructure/.test(posi.intro.title) && /Complementary principles/.test(posi.intro.html) && !/Complimentary/.test(posi.intro.html));
+    check("intro present", !!posi.intro && /Strategic Plan for Integrated Infrastructure/.test(posi.intro.title) && /Complementary principles/.test(posi.intro.html) && !/Complimentary/.test(posi.intro.html));
     check("validate_framework_shape accepts POSI", R("validate_framework_shape")(posi) === true);
     check("icon markup by name", R('icon_markup_by_name("cross")').includes("M7 7l6 6") && R('icon_markup_by_name("3")').includes(">3<") && R('icon_markup_by_name("question")').includes(">?<"));
     check("level_color resolves tokens", R('level_color(FRAMEWORKS[0], "high-adoption")') === "#1f5c43");
@@ -182,7 +182,7 @@ export const run = (ctx, code) => vm.runInContext(code, ctx);
     check("report: header with escaped name, date and activities", html.includes("Repo &lt;X&gt;") && html.includes("2026-11-09") && html.includes("Discover"));
     check("report: only frameworks with answers", html.includes("POSI v2.0 Assessment") && html.includes("GORC") && !html.includes("FAIR v1.0") && !html.includes("FOREST"));
     check("report: answers, N/A and escaped notes, no criteria", html.includes("High adoption") && html.includes("Not applicable") && html.includes("We do not &lt;publish&gt; &amp; curate") && !html.includes("Data, infrastructure control, and critical decisions remain"));
-    check("report: score lines", html.includes("Overall: 100% average score") && html.includes("Overall: 50% compliant"));
+    check("report: score lines", html.includes("Self-assessment score: 100%") && html.includes("Self-assessment score: 50% compliant"));
     check("report without answers says so", run(loadLogic(), "build_report_html(initial_state(), FRAMEWORKS)").includes("No answers yet"));
 }
 
@@ -205,6 +205,43 @@ export const run = (ctx, code) => vm.runInContext(code, ctx);
     check("framework export: one framework, readme first, valid", !Array.isArray(fw) && Object.keys(fw)[0] === "_readme" && fw.id === "posi" && R("validate_framework_shape")(fw) === true);
     check("framework readme says what to edit, to change the id, and where to import", /criteria/.test(fw._readme) && /new `id`|new id/i.test(fw._readme) && fw._readme.includes("https://surf-ori.github.io/spii-1b-principles-alignment-tool/") && /Import Assessment Framework/.test(fw._readme));
     check("an old _readme is replaced, not kept", R('build_framework_export(Object.assign({_readme: "old"}, posi), "2026-11-09")._readme') !== "old");
+}
+
+{
+    // Nida's feedback: frameworks, wording, score view; Ben: no script in imported HTML (see the UI tests)
+    clearStorage();
+    const c = loadLogic();
+    const R = (s) => run(c, s);
+    check("the SPII frameworks are no longer built in", R("FRAMEWORKS.map((f) => f.id).join()") === "posi,gorc,fair,bd,osr,7gpri,care,forest");
+    const posi = R('FRAMEWORKS[0]');
+    check("SPII is the Strategic Plan for Integrated Infrastructure", posi.intro.title === "Introduction to Strategic Plan for Integrated Infrastructure" && /Strategic Plan for Integrated Infrastructure \(SPII\)/.test(posi.intro.html) && !/ on Integrated/.test(R("ABOUT_TOOL_HTML") + JSON.stringify(posi)));
+    check("the 'Other frameworks' line is gone from the POSI intro", !/Other frameworks:/.test(posi.intro.html));
+    check("About: SPII spelled out, AI statement, no values/CRIS paragraphs", /Strategic Plan for Integrated Infrastructure \(SPII\)/.test(R("ABOUT_TOOL_HTML")) && /developed with AI assistance \(Claude\)/.test(R("ABOUT_TOOL_HTML")) && !/UNESCO/.test(R("ABOUT_TOOL_HTML")) && !/Current Research Information System/.test(R("ABOUT_TOOL_HTML")));
+    R('globalThis.posi = FRAMEWORKS[0]; globalThis.state = initial_state(); globalThis.k = posi.sections[0].principles.map((p) => p.id);');
+    R('state.frameworks.posi[k[0]].status = "high-adoption"; state.frameworks.posi[k[1]].status = "low-adoption"; state.frameworks.posi[k[2]].status = "not-applicable";');
+    check("summary heading is the self-assessment score", R('summary_text(compute_summary(state, "posi", posi), posi).heading') === "Self-assessment score: 50%");
+    check("the score is explained", /Low adoption.*0%.*High adoption.*100%/.test(R("score_explanation(posi)")) && /Not applicable/.test(R("score_explanation(posi)")));
+    const rows = R('section_breakdown(state, posi)');
+    check("breakdown per section: counts per answer, unanswered and score", rows.length === 4 && rows[0].section === "Governance" && rows[0].total === 7 && rows[0].counts["high-adoption"] === 1 && rows[0].counts["not-applicable"] === 1 && rows[0].unanswered === 4 && rows[0].score === 50 && rows[1].score === null, JSON.stringify(rows[0]));
+    const rel = R('build_chart_html(state, posi, "relative")');
+    const abs = R('build_chart_html(state, posi, "absolute")');
+    check("chart: legend with every answer and Not answered", ["Low adoption", "Making progress", "High adoption", "Not applicable", "Not answered"].every((l) => rel.includes(l)));
+    check("chart: relative widths fill a row (1 of 7 = 14.29%)", rel.includes("width:14.29%") && rel.includes("Governance"));
+    check("chart: absolute widths are relative to the longest section (1 of 8)", abs.includes("width:12.5%"));
+    check("chart: section scores shown", />50%</.test(rel));
+    check("chart colors print", rel.includes("print-color-adjust:exact"));
+    R('state.name = "Repo <b>"; state.assessedOn = "2026-11-10";');
+    const embed = R('build_embed_html(state, posi, "relative")');
+    check("embed snippet: self-contained, escaped, score and link back", embed.startsWith("<div") && embed.includes("Repo &lt;b&gt;") && embed.includes("Self-assessment score: 50%") && embed.includes("https://surf-ori.github.io/spii-1b-principles-alignment-tool/") && !embed.includes("var(--"));
+    check("report starts each framework with the chart", R("build_report_html(state, FRAMEWORKS)").includes("score-chart"));
+    // autosave
+    R("save_assessment(state)");
+    check("the assessment is saved in the browser", JSON.parse(storageGet("spii-principles-tool.assessment.v1")).name === "Repo <b>");
+    const c2 = loadLogic();
+    check("and restored on the next visit", run(c2, "load_saved_assessment(initial_state()).name") === "Repo <b>" && run(c2, `load_saved_assessment(initial_state()).frameworks.posi["${R("k[0]")}"].status`) === "high-adoption");
+    run(c2, "forget_saved_assessment()");
+    check("starting a new assessment forgets it", storageGet("spii-principles-tool.assessment.v1") === null && run(c2, "load_saved_assessment(initial_state()).name") === "");
+    clearStorage();
 }
 
 if (process.argv.includes("--ui")) await (await import("./test-app-ui.mjs")).default({ check, ROOT });

@@ -11,7 +11,7 @@ not compliant, and a framework can define its own ordinal scale (see SPII
 Alignment below); you can also define your own scale for any framework
 (Settings → Customize scales) — with optional notes, then export the result.
 
-Eleven frameworks are included today, each as its own JSON file under
+Eight frameworks are included today, each as its own JSON file under
 [`data/frameworks/`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/tree/main/data/frameworks/) — edit them directly to tweak
 principles, criteria, or copy, no code changes needed:
 
@@ -19,7 +19,7 @@ principles, criteria, or copy, no code changes needed:
   ([`posi-v2.0.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/posi-v2.0.json)) — 20 principles across
   Governance, Sustainability, and Insurance. **The official, approved
   assessment framework** (marked with a seal icon in the tool), the only
-  framework under "Approved" in the framework dropdown and the default.
+  framework under "Default" in the framework dropdown.
   Scored low adoption / making progress / high adoption. Three
   complementary SPII principles (Autonomy, and the Researcher-centric
   principles Seamless user-experience and Recognition and rewards) are
@@ -29,23 +29,11 @@ principles, criteria, or copy, no code changes needed:
   scale and SPII additions of POSI+SPII with POSI's authors and the POSI
   community, aiming for a mandate for POSI to adopt them officially, on a
   global scale.
-- **POSI+SPII merged v0.5** (experimental, [`posi+spii-merged-v0.5.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/posi%2Bspii-merged-v0.5.json))
-  — a proposal for discussion with the POSI community: POSI v2.0's 20
-  principles quoted verbatim, followed by 17 SPII principles POSI does not
-  already cover, all on a four-level maturity scale. Not an official
-  framework; the overlap analysis behind it is on the [deliverable 1A
-  page](https://surf-ori.github.io/spii-1a-values-and-principles/#posi-spii).
-- **SPII Alignment v0.3** (experimental, [`spii-alignment-v0.3.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/spii-alignment-v0.3.json))
-  — 17 subprinciples across Openness, Autonomy, Sustainable, and Researcher
-  centric, transcribed verbatim from a table Till Bey shared by email
-  (CC-BY licensed), scoring the same territory as deliverable 1A's
-  published values and principles on a four-level maturity scale (Level
-  1–4, shown as numbered circles colored red to green) instead of
-  compliant/progress/non-compliant; six subprinciples have no level
-  descriptions yet.
-- **SPII v0.1** (experimental, [`spii-v0.1.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/spii-v0.1.json)) — 19
-  principles across Openness, Autonomy, Sustainability, Interoperability,
-  and Researcher-centric.
+The earlier SPII frameworks (SPII v0.1, SPII Alignment v0.3 and POSI+SPII
+merged v0.5) are no longer in the list, since their principles have been
+mapped to POSI (see "Complementary Principles"); their files stay in
+`data/frameworks/` and can still be loaded with `?framework=`.
+
 - **GORC v1.1 Assessment** (experimental, [`gorc-v1.1.json`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/blob/main/data/frameworks/gorc-v1.1.json))
   — 55 principles adapting the Research Data Alliance's [Global Open
   Research Commons (GORC) International Model, version
@@ -134,7 +122,7 @@ principle), so it needs no code change for other tender-style frameworks.
   managing, documenting, reviewing, publishing, and evaluating), each with
   its own icon.
 - **Score** — pick a framework in the sidebar dropdown (POSI under
-  "Approved", the others under "Other assessments") and rate every
+  "Default", the others under "Other assessments") and rate every
   principle. The dropdown shows a live scored/total count per framework,
   and the sidebar lists the selected framework's sections as accordions with
   a status icon next to every principle, so you can see progress at a
@@ -148,11 +136,17 @@ principle), so it needs no code change for other tender-style frameworks.
   framework's own scale.
 - **Bring your own framework** — import a custom assessment framework
   (JSON) at runtime alongside POSI, GORC, FAIR, BD, OSR, 7GPRI, CARE, FOREST,
-  and the SPII frameworks, download a template to help author one, or download
+  download a template to help author one, or download
   the selected framework (with your custom scale), edit it and import it again
   as the basis for your own alternative. The file is named like
   `2026-11-10-posi-v2-0-assessment-framework.json`.
-- **Export as JSON** — download your answers for the selected framework
+- **Saved as you work** — your work is saved automatically in this browser
+  (on this device only) and is still there when you come back; "Start a new
+  assessment" in Settings clears it.
+- **Self-assessment score and chart** — per framework a score with a short
+  explanation and a bar per section, stacked by answer, as % or as number of
+  principles, with an embed button for other web pages.
+- **Save assessment to a file (JSON)** — download your answers for the selected framework
   (named like `2026-11-09-posi-v2-0-assessment-openaire.json`) and reload them
   later to continue or revise an assessment. Every exported file starts with a
   short `_readme` explaining what it is and where to import it.
@@ -177,7 +171,7 @@ Also live at **[surf-ori.github.io/spii-1b-principles-alignment-tool](https://su
 step). Or serve the directory with any static file server (for example
 `python3 -m http.server`) and open `index.html` over http(s); there is
 nothing to install or build beyond that. **Opening `index.html` directly
-as a `file://` page no longer works** — the eleven built-in frameworks are
+as a `file://` page no longer works** — the eight built-in frameworks are
 loaded from [`data/frameworks/`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/tree/main/data/frameworks/) via `fetch()` at
 startup, and browsers block that kind of request from a `file://` page;
 you'll see a clear on-page message explaining this instead of a blank
@@ -215,7 +209,7 @@ report and/or a custom framework automatically from query parameters:
 
 ### Linking directly to a framework
 
-`index.html#gorc` (or any framework id — `posi-spii`, `spii`, `spii-alignment`, `posi`, `gorc`, `fair`, `bd`, `osr`, `7gpri`, `care`, `forest`, matched
+`index.html#gorc` (or any framework id — `posi`, `gorc`, `fair`, `bd`, `osr`, `7gpri`, `care`, `forest`, matched
 case-insensitively) opens straight to that framework, selected in the dropdown with its
 sections in the sidebar. Selecting a framework in the app updates the
 URL the same way, so the address bar always reflects which framework is open and can be shared

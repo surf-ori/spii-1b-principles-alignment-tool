@@ -58,7 +58,7 @@ export default async function ({ check, ROOT }) {
             const labels = await first.locator(".status-label").allInnerTexts();
             check("POSI cards: Low adoption / Making progress / High adoption (+ Not applicable)", labels.join() === "Low adoption,Making progress,High adoption,Not applicable", labels.join());
             const detailsTitles = await panel.locator("#framework-posi > details > summary").allInnerTexts();
-            check("intro accordion sits above About POSI", detailsTitles[0] === "Introduction to Strategic Plan on Integrated Infrastructure" && detailsTitles[1] === "About POSI", detailsTitles.join("|"));
+            check("intro accordion sits above About POSI", detailsTitles[0] === "Introduction to Strategic Plan for Integrated Infrastructure" && detailsTitles[1] === "About POSI", detailsTitles.join("|"));
             check("About POSI has no approved paragraph", !/Approved assessment framework/.test(await panel.locator("#framework-posi > details").nth(1).innerText()));
             check("23 principle accordions", (await panel.locator('details[id^="principle-posi-"]').count()) === 23);
             const aut = panel.locator("#principle-posi-autonomy");
@@ -67,7 +67,7 @@ export default async function ({ check, ROOT }) {
             check("cards show the criteria from SPII v0.1", /Data, infrastructure control, and critical decisions remain/.test(await aut.innerText()));
             await first.locator('.status-card[data-status="high-adoption"]').click();
             const heading = (await panel.locator('[id^="summary-heading-posi"]').first().innerText()).trim();
-            check("one High adoption answer gives 100% average score", heading === "Overall: 100% average score", heading);
+            check("one High adoption answer gives 100% average score", heading === "Self-assessment score: 100%", heading);
             check("the status chip colours follow the level", (await first.locator('.status-card[data-status="high-adoption"]').evaluate((el) => getComputedStyle(el).getPropertyValue("--status-accent"))).trim() !== "");
             check("no console or page errors (POSI)", errors.length === 0, JSON.stringify(errors));
             await ctx.close();
@@ -77,8 +77,8 @@ export default async function ({ check, ROOT }) {
             const { page, errors, ctx } = await open("index.html");
             check("no tab strip", (await page.locator('[role="tab"], [role="tablist"]').count()) === 0);
             const groups = await page.$$eval("#framework-select optgroup", (gs) => gs.map((g) => [g.label, [...g.querySelectorAll("option")].map((o) => o.value)]));
-            check("dropdown groups: Approved / Other assessments", groups.length === 2 && groups[0][0] === "Approved" && groups[0][1].join() === "posi" && groups[1][0] === "Other assessments", JSON.stringify(groups));
-            check("other assessments order, SPII frameworks last", groups[1] && groups[1][1].join() === "gorc,fair,bd,osr,7gpri,care,forest,spii,spii-alignment,posi-spii", groups[1] && groups[1][1].join());
+            check("dropdown groups: Default / Other assessments", groups.length === 2 && groups[0][0] === "Default" && groups[0][1].join() === "posi" && groups[1][0] === "Other assessments", JSON.stringify(groups));
+            check("other assessments order", groups[1] && groups[1][1].join() === "gorc,fair,bd,osr,7gpri,care,forest", groups[1] && groups[1][1].join());
             check("POSI is selected by default", (await page.inputValue("#framework-select")) === "posi");
             check("option label shows the scored count", /^POSI v2\.0 Assessment \(0\/23 scored\)$/.test(await page.locator('#framework-select option[value="posi"]').innerText()));
             const order = await page.$$eval("#app > *", (els) => els.map((e) => e.id || e.tagName.toLowerCase()));
@@ -87,7 +87,7 @@ export default async function ({ check, ROOT }) {
             await page.click("#infra-description-section > summary");
             await page.fill("#infra-name", "Test infra");
             check("infra description fields work", (await page.inputValue("#infra-name")) === "Test infra");
-            check("11 framework panels, only POSI visible", (await page.locator(".framework-panel").count()) === 11 && (await page.locator(".framework-panel:visible").count()) === 1 && (await page.locator("#framework-panel-posi:visible").count()) === 1);
+            check("8 framework panels, only POSI visible", (await page.locator(".framework-panel").count()) === 8 && (await page.locator(".framework-panel:visible").count()) === 1 && (await page.locator("#framework-panel-posi:visible").count()) === 1);
             check("sidebar shows POSI's 4 section accordions", (await page.locator("#sidebar-sections details").count()) === 4);
             check("sidebar principles carry status icons", (await page.locator("#sidebar-sections .nav-status-icon").count()) === 23);
             await page.click('#sidebar-sections a[href="#principle-posi-autonomy"]');
@@ -101,7 +101,7 @@ export default async function ({ check, ROOT }) {
             check("experimental banner", /^Experimental/.test(banner), banner);
             const optionTexts = await page.$$eval("#framework-select option", (os) => os.map((o) => o.textContent));
             check("no 'draft' in the dropdown", !optionTexts.some((t) => /draft/i.test(t)), optionTexts.join("|"));
-            check("experimental suffix present", optionTexts.filter((t) => /\(experimental\)/.test(t)).length >= 8, optionTexts.join("|"));
+            check("experimental suffix present", optionTexts.filter((t) => /\(experimental\)/.test(t)).length >= 7, optionTexts.join("|"));
             check("no console or page errors (layout)", errors.length === 0, JSON.stringify(errors));
             await ctx.close();
         }
@@ -181,19 +181,13 @@ export default async function ({ check, ROOT }) {
             await second.locator("summary").click();
             await second.locator('.status-card[data-status^="level-"]').click();
             const heading = (await page.locator('[id^="summary-heading-posi"]').first().innerText()).trim();
-            check("Not applicable is not part of the average", heading === "Overall: 100% average score", heading);
+            check("Not applicable is not part of the average", heading === "Self-assessment score: 100%", heading);
             check("both answers count as scored", /\(2\/23 scored\)$/.test(await page.locator('#framework-select option[value="posi"]').innerText()));
             // persistence
             await page.reload();
             await page.waitForSelector("#framework-panel-posi");
             check("the scale survives a reload (localStorage)", (await page.locator("#framework-panel-posi details[id^=principle-posi-]").first().locator(".status-card").count()) === 4);
-            // answers are not persisted, so answer again before exporting and resetting
-            const firstP = page.locator("#framework-panel-posi details[id^=principle-posi-]").first();
-            await firstP.locator("summary").click();
-            await firstP.locator('.status-card[data-status="high-adoption"]').click();
-            const secondP = page.locator("#framework-panel-posi details[id^=principle-posi-]").nth(1);
-            await secondP.locator("summary").click();
-            await secondP.locator('.status-card[data-status^="level-"]').click();
+            // answers are saved in the browser, so they are still there after the reload
             // export
             await page.click('button:has-text("Export")');
             const [download] = await Promise.all([page.waitForEvent("download"), page.click("#export-report-btn")]);
@@ -368,7 +362,7 @@ export default async function ({ check, ROOT }) {
             await second.locator("summary").click();
             await second.locator('.status-card[data-status="making-progress"]').click();
             const heading = (await page.locator('[id^="summary-heading-posi"]').first().innerText()).trim();
-            check("N/A does not pull the score down", heading === "Overall: 50% average score", heading);
+            check("N/A does not pull the score down", heading === "Self-assessment score: 50%", heading);
             await page.selectOption("#framework-select", "gorc");
             const g = page.locator("#framework-panel-gorc details[id^=principle-gorc-]").first();
             await g.locator("summary").click();
@@ -402,7 +396,7 @@ export default async function ({ check, ROOT }) {
             const { page, errors, ctx } = await open("index.html");
             const menu = (id) => page.$$eval("#" + id + " > *", (els) => els.map((e) => e.getAttribute("role") === "separator" ? "---" : e.querySelector(".menuitem-title").textContent.trim()));
             const exp = await menu("export-menu");
-            check("Export: GitHub tracker on top, frameworks last after a separator", exp.join("|") === "Save Report to GitHub Tracker|Export Assessment Report (JSON)|Print report / save as PDF|---|Download Assessment Framework (JSON)", exp.join("|"));
+            check("Export: GitHub tracker on top, frameworks last after a separator", exp.join("|") === "Save Report to GitHub Tracker|Save assessment to a file (JSON)|Print report / save as PDF|---|Download Assessment Framework (JSON)", exp.join("|"));
             const imp = await menu("import-menu");
             check("Import: report first, frameworks after a separator", imp.join("|") === "Import Assessment Report (JSON)|---|Import Assessment Framework (JSON)|Download Assessment Framework Template (JSON)", imp.join("|"));
             check("every menu item has an icon", (await page.locator('[role="menuitem"]').count()) === 7 && (await page.locator('[role="menuitem"] > svg.menuitem-icon').count()) === 7);
@@ -433,6 +427,86 @@ export default async function ({ check, ROOT }) {
             check("framework download: the selected framework only", !Array.isArray(fw.json) && fw.json.id === "posi" && typeof fw.json._readme === "string");
             check("menu says it is the selected framework", /selected framework/i.test(await page.locator("#download-frameworks-btn").innerText()) && /selected framework/i.test(await page.locator("#export-report-btn").innerText()));
             check("no console or page errors (downloads)", errors.length === 0, JSON.stringify(errors));
+            await ctx.close();
+        }
+        {
+            // Ben: HTML from a framework file cannot run script
+            const evil = {
+                id: "import-alert-repro", title: "Import alert reproduction", shortName: "<img src=x onerror=window.__x=3>",
+                aboutHtml: "<img src=\"/missing-review-image.png\" onerror=\"window.__x=1\"><p>Kept <strong>bold</strong> <a href=\"javascript:window.__x=4\">bad link</a> <a href=\"https://example.org\" onclick=\"window.__x=5\">good link</a></p><script>window.__x=6<\/script>",
+                intro: { title: "Intro", html: "<p onmouseover=\"window.__x=2\">Intro text</p><svg onload=\"window.__x=7\"></svg>" },
+                levels: [{ id: "a", label: "A", color: "red\" onload=\"window.__x=8" }, { id: "b", label: "B" }],
+                sections: [{ section: "S", sourceUrl: "javascript:window.__x=9", principles: [{ id: "p", title: "P", text: "T" }] }],
+            };
+            const { page, errors, ctx } = await open("index.html");
+            await page.evaluate((fw) => { import_custom_frameworks([fw]); }, evil);
+            await page.selectOption("#framework-select", "import-alert-repro");
+            const panel = page.locator("#framework-panel-import-alert-repro");
+            await page.evaluate(() => document.querySelectorAll("#framework-panel-import-alert-repro details").forEach((d) => { d.open = true; }));
+            await panel.locator("p:has-text('Intro text')").hover();
+            await page.locator("#framework-panel-import-alert-repro .status-card").first().click({ trial: false }).catch(() => {});
+            await page.waitForTimeout(300);
+            check("no script from an imported framework ran", (await page.evaluate(() => window.__x)) === undefined, String(await page.evaluate(() => window.__x)));
+            const aboutHtml = await panel.locator("section > details").nth(1).evaluate((d) => [...d.children].filter((c) => c.tagName !== "SUMMARY").map((c) => c.outerHTML).join(""));
+            check("unsafe markup is removed, simple formatting kept", !/\son\w+=|<script|<img|<svg|href="javascript/i.test(aboutHtml + await panel.locator("section > details").first().evaluate((d) => [...d.children].filter((c) => c.tagName !== "SUMMARY").map((c) => c.outerHTML).join(""))) && /<strong>bold<\/strong>/.test(aboutHtml) && /href="https:\/\/example.org"/.test(aboutHtml), aboutHtml);
+            check("the short name is shown as text", (await panel.locator("section > details").nth(1).locator("summary").innerText()).includes("<img src=x"));
+            check("a non-http source is not a link", (await panel.locator('a[href^="javascript"]').count()) === 0);
+            check("no console or page errors (sanitizer)", errors.filter((e) => !/missing-review-image/.test(e)).length === 0, JSON.stringify(errors));
+            await ctx.close();
+        }
+        {
+            // built-in frameworks look the same after sanitizing
+            const { page, ctx } = await open("index.html");
+            const same = await page.evaluate(() => FRAMEWORKS.every((f) => {
+                const tmp = document.createElement("div");
+                tmp.appendChild(sanitized_fragment(f.aboutHtml));
+                const raw = document.createElement("div");
+                raw.innerHTML = f.aboutHtml;
+                return tmp.textContent === raw.textContent && tmp.querySelectorAll("a, strong, em, p").length === raw.querySelectorAll("a, strong, em, p").length;
+            }));
+            check("built-in About texts are unchanged by the sanitizer", same);
+            await ctx.close();
+        }
+        {
+            // Nida: dropdown, score chart, embed, autosave
+            const { page, errors, ctx } = await open("index.html");
+            const groups = await page.$$eval("#framework-select optgroup", (gs) => gs.map((g) => g.label + ":" + [...g.querySelectorAll("option")].map((o) => o.value).join(",")));
+            check("dropdown: Default (POSI) and Other assessments without the SPII frameworks", groups.join("|") === "Default:posi|Other assessments:gorc,fair,bd,osr,7gpri,care,forest", groups.join("|"));
+            const first = page.locator("#framework-panel-posi details[id^=principle-posi-]").first();
+            await first.locator("summary").click();
+            await first.locator('.status-card[data-status="high-adoption"]').click();
+            check("summary heading: Self-assessment score", (await page.locator("#summary-heading-posi").innerText()).trim() === "Self-assessment score: 100%");
+            check("the score is explained on the page", /from Low adoption \(0%\) to High adoption \(100%\)/.test(await page.locator("#framework-panel-posi .summary-explanation").innerText()));
+            const chart = page.locator("#summary-chart-posi");
+            check("chart: one bar per section with a legend", (await chart.innerText()).includes("Governance") && (await chart.innerText()).includes("Not answered") && (await chart.innerText()).includes("Complementary Principles"));
+            check("relative is the default", (await page.locator('#framework-panel-posi .chart-mode[data-mode="relative"]').getAttribute("aria-pressed")) === "true");
+            const width = () => chart.locator('span[title^="High adoption"]').first().evaluate((el) => el.style.width);
+            const rel = await width();
+            await page.click('#framework-panel-posi .chart-mode[data-mode="absolute"]');
+            const abs = await width();
+            check("switching to absolute changes the bars", rel === "14.29%" && abs === "12.5%" && (await page.locator('#framework-panel-posi .chart-mode[data-mode="absolute"]').getAttribute("aria-pressed")) === "true", rel + " / " + abs);
+            await page.click('#framework-panel-posi .chart-mode[data-mode="relative"]');
+            await page.click("#framework-panel-posi .chart-embed");
+            const code = await page.inputValue("#embed-code");
+            check("embed dialog gives a self-contained snippet", (await page.$eval("#embed-dialog", (d) => d.open)) && code.startsWith("<div") && code.includes("Self-assessment score: 100%") && code.includes("spii-1b-principles-alignment-tool"));
+            await page.keyboard.press("Escape");
+            check("badge is titled self-assessment score", (await page.evaluate(() => build_badge_svg_markup(state))).includes("POSI self-assessment score"));
+            // autosave
+            await page.click("#infra-description-section > summary");
+            await page.fill("#infra-name", "Saved Repo");
+            await page.waitForTimeout(500);
+            await page.reload();
+            await page.waitForSelector("#app > *");
+            check("answers and description survive a reload", (await page.inputValue("#infra-name")) === "Saved Repo" && (await page.locator("#summary-heading-posi").innerText()).trim() === "Self-assessment score: 100%");
+            check("the saving is explained in Settings", /saved automatically in this browser/.test(await page.locator("#sidebar-footer .saved-note").innerText()));
+            page.once("dialog", (d) => d.accept());
+            await page.click("#sidebar-footer .start-new");
+            await page.waitForTimeout(400);
+            await page.reload();
+            await page.waitForSelector("#app > *");
+            check("Start a new assessment clears it", (await page.inputValue("#infra-name")) === "" && /\(0\/23 scored\)$/.test(await page.locator('#framework-select option[value="posi"]').innerText()));
+            check("Export menu: Save assessment to a file", /Save assessment to a file \(JSON\)/.test(await page.locator("#export-report-btn").innerText()));
+            check("no console or page errors (Nida)", errors.length === 0, JSON.stringify(errors));
             await ctx.close();
         }
     } finally {
