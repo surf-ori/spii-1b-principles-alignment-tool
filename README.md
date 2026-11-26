@@ -184,6 +184,12 @@ principle), so it needs no code change for other tender-style frameworks.
   activities as small icons, suitable for hosting on the infrastructure's
   own site.
 
+## Presentation
+
+Slides for Open Science NL (2 December 2026), with speaker notes:
+[docs/presentation/2026-12-02-osnl/](https://surf-ori.github.io/spii-1b-principles-alignment-tool/docs/presentation/2026-12-02-osnl/)
+(arrow keys to browse, N for notes, P to print or save as PDF).
+
 ## Usage
 
 Also live at **[surf-ori.github.io/spii-1b-principles-alignment-tool](https://surf-ori.github.io/spii-1b-principles-alignment-tool/)**
