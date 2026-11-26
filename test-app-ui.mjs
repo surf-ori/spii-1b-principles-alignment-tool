@@ -3,7 +3,7 @@ import fs from "node:fs";
 import http from "node:http";
 import path from "node:path";
 
-const MIME = { ".html": "text/html", ".json": "application/json", ".css": "text/css", ".woff2": "font/woff2", ".svg": "image/svg+xml", ".png": "image/png" };
+const MIME = { ".js": "text/javascript", ".html": "text/html", ".json": "application/json", ".css": "text/css", ".woff2": "font/woff2", ".svg": "image/svg+xml", ".png": "image/png" };
 
 function serve(root) {
     return new Promise((resolve) => {
@@ -24,9 +24,24 @@ export default async function ({ check, ROOT }) {
     const base = "http://localhost:" + server.address().port + "/";
     const ignorable = (e) => /net::|ERR_/.test(e);
 
+    // The shared SPII top bar (spii-nav.js, spii.css) comes from the design system's GitHub Pages site;
+    // tests serve it from a local clone next to this repo (SPII_DS_DIR to override), or leave it out.
+    const DS_DIR = process.env.SPII_DS_DIR || path.join(ROOT, "..", "spii-design-system");
+    const HAVE_DS = fs.existsSync(path.join(DS_DIR, "spii-nav.js"));
+    async function routeDS(ctx, withDS = true) {
+        await ctx.route(/surf-ori\.github\.io\/spii-design-system\//, (r) => {
+            const file = path.join(DS_DIR, new URL(r.request().url()).pathname.replace(/^\/spii-design-system\//, ""));
+            if (!withDS || !file.startsWith(DS_DIR) || !fs.existsSync(file)) return r.abort();
+            return r.fulfill({ status: 200, contentType: MIME[path.extname(file)] || "application/octet-stream", body: fs.readFileSync(file) });
+        });
+    }
+
     // Opens the page in a fresh context (fresh localStorage); returns { page, errors, ctx }.
-    async function open(url = "index.html", width = 1280, height = 900) {
-        const ctx = await browser.newContext({ viewport: { width, height }, acceptDownloads: true });
+    // `others`: start with "Show other alignment frameworks" on (most tests need the picker); `ds`: load the SPII top bar.
+    async function open(url = "index.html", width = 1280, height = 900, { others = true, ds = true, scheme } = {}) {
+        const ctx = await browser.newContext({ viewport: { width, height }, acceptDownloads: true, colorScheme: scheme });
+        await routeDS(ctx, ds);
+        if (others) await ctx.addInitScript(() => { if (!localStorage.getItem("spii-principles-tool.prefs.v1")) localStorage.setItem("spii-principles-tool.prefs.v1", JSON.stringify({ showOtherFrameworks: true })); });
         const page = await ctx.newPage();
         const errors = [];
         page.on("pageerror", (e) => errors.push("pageerror: " + e.message));
@@ -38,6 +53,8 @@ export default async function ({ check, ROOT }) {
     }
 
     // A dialog's "close" event (which switches its toggle off) fires asynchronously: wait for it.
+    const closed = (page, dialog) =>
+        page.waitForFunction((d) => !document.getElementById(d).open, dialog, { timeout: 3000 }).then(() => true, () => false);
     const closedAndOff = (page, dialog, toggle) =>
         page.waitForFunction(([d, t]) => !document.getElementById(d).open && !document.getElementById(t).checked, [dialog, toggle], { timeout: 3000 }).then(() => true, () => false);
 
@@ -127,23 +144,26 @@ export default async function ({ check, ROOT }) {
             await ctx.close();
         }
         {
-            // Settings footer and the badge overlay
+            // Settings button, the Settings dialog and the badge overlay
             const { page, errors, ctx } = await open("index.html");
-            check("Settings icon is a cog (a toothed outline, not rays)", (await page.locator("#sidebar-footer .settings-heading svg path").evaluate((p) => p.getAttribute("d").length > 400)) && (await page.locator("#sidebar-footer .settings-heading svg circle").count()) === 1);
-            check("Settings heading with an icon", (await page.locator("#sidebar-footer .settings-heading svg").count()) === 1 && /Settings/.test(await page.locator("#sidebar-footer .settings-heading").innerText()));
-            const switches = await page.$$eval('#sidebar-footer input[role="switch"]', (els) => els.map((e) => e.closest("label").innerText.trim()));
-            check("two switches: Customize scales, Show badge (experimental)", switches.join("|") === "Customize scales|Show badge (experimental)", switches.join("|"));
-            check("no sidebar badge accordion", (await page.locator("#sidebar-footer details, #sidebar-footer summary").count()) === 0);
+            check("Settings button with a cog icon", (await page.locator("#sidebar-footer #settings-btn svg path").evaluate((p) => p.getAttribute("d").length > 400)) && /Settings/.test(await page.locator("#settings-btn").innerText()));
+            check("no theme toggle in the sidebar any more", (await page.locator('#sidebar-footer [role="radiogroup"], #sidebar-footer input').count()) === 0);
             await page.locator("#framework-panel-posi details[id^=principle-posi-]").first().locator("summary").click();
             await page.locator("#framework-panel-posi .status-card[data-status='making-progress']").first().click();
+            await page.click("#settings-btn");
+            check("Settings opens a dialog", await page.$eval("#settings-dialog", (d) => d.open));
+            const switches = await page.$$eval('#settings-dialog input[role="switch"]', (els) => els.map((e) => e.closest("label").innerText.trim()));
+            check("switches: Show other alignment frameworks, Show badge (experimental)", switches.join("|") === "Show other alignment frameworks|Show badge (experimental)", switches.join("|"));
+            check("Start a new alignment sits in Settings", (await page.locator("#settings-dialog .start-new").count()) === 1);
             await page.check("#toggle-badge");
-            check("badge switch opens the badge overlay", await page.$eval("#badge-dialog", (d) => d.open));
+            check("badge switch closes Settings and opens the badge overlay", (await page.$eval("#badge-dialog", (d) => d.open)) && !(await page.$eval("#settings-dialog", (d) => d.open)));
             check("overlay holds the badge and its buttons", (await page.locator("#badge-dialog #badge-preview svg").count()) === 1 && (await page.locator("#badge-dialog button", { hasText: /Download badge \(SVG\)|Download badge \(PNG\)|Embed badge/ }).count()) === 3);
             check("badge shows the score (50%)", /50%/.test(await page.locator("#badge-dialog #badge-preview").innerText()));
             const [download] = await Promise.all([page.waitForEvent("download"), page.click("#badge-dialog >> text=Download badge (SVG)")]);
             check("SVG download works", download.suggestedFilename() === "badge.svg");
             await page.keyboard.press("Escape");
             check("Escape closes the overlay and flips the switch off", await closedAndOff(page, "badge-dialog", "toggle-badge"));
+            await page.click("#settings-btn");
             await page.check("#toggle-badge");
             await page.click("#badge-dialog footer >> text=Close");
             check("Close button also flips the switch off", await closedAndOff(page, "badge-dialog", "toggle-badge"));
@@ -151,11 +171,31 @@ export default async function ({ check, ROOT }) {
             await ctx.close();
         }
         {
+            // Show other alignment frameworks: off by default, POSI only
+            const { page, errors, ctx } = await open("index.html", 1280, 900, { others: false });
+            check("by default only POSI: the framework picker is hidden", await page.locator("#framework-picker").isHidden());
+            await page.click("#settings-btn");
+            check("the switch is off by default", !(await page.isChecked("#toggle-other-frameworks")));
+            await page.check("#toggle-other-frameworks");
+            check("switching it on shows the picker", await page.locator("#framework-picker").isVisible());
+            check("the choice is stored", JSON.parse(await page.evaluate(() => localStorage.getItem("spii-principles-tool.prefs.v1"))).showOtherFrameworks === true);
+            await page.keyboard.press("Escape");
+            await page.reload();
+            await page.waitForSelector("#app > *");
+            check("and survives a reload", await page.locator("#framework-picker").isVisible());
+            check("scale button above the principles", (await page.locator("#framework-panel-posi .customize-scale-btn").innerText()).trim() === "Customize and define your own alignment scale");
+            check("no console or page errors (other frameworks)", errors.length === 0, JSON.stringify(errors));
+            await ctx.close();
+            const g = await open("index.html#gorc", 1280, 900, { others: false });
+            check("a link to another framework still opens it, with the picker to go back", (await g.page.locator("#framework-panel-gorc:visible").count()) === 1 && (await g.page.locator("#framework-picker").isVisible()));
+            await g.ctx.close();
+        }
+        {
             // Customize scales
             const { page, errors, ctx } = await open("index.html");
             const rows = () => page.locator("#scales-dialog .scale-row");
             const cards = () => page.locator("#framework-panel-posi details[id^=principle-posi-]").first().locator(".status-card");
-            await page.check("#toggle-scales");
+            await page.click(".framework-panel:not([hidden]) .customize-scale-btn");
             check("switch opens the scales dialog with POSI's 3 options", (await page.$eval("#scales-dialog", (d) => d.open)) && (await rows().count()) === 3);
             check("rows run worst to best", (await rows().locator(".scale-title").evaluateAll((els) => els.map((e) => e.value))).join() === "Low adoption,Making progress,High adoption");
             const row0 = rows().first();
@@ -172,7 +212,7 @@ export default async function ({ check, ROOT }) {
             await last.locator("input.scale-counts").uncheck();
             await last.locator(".scale-description").fill("Does not apply to us");
             await page.click("#scales-dialog-footer >> text=Save");
-            check("Save closes the dialog and switches the toggle off", await closedAndOff(page, "scales-dialog", "toggle-scales"));
+            check("Save closes the dialog", await closed(page, "scales-dialog"));
             await page.locator("#framework-panel-posi details[id^=principle-posi-]").first().locator("summary").click();
             check("POSI now has 4 cards, the last one is Not applicable", (await cards().count()) === 4 && (await cards().nth(3).locator(".status-label").innerText()) === "Not applicable");
             check("the generic description shows on the card", /Does not apply to us/.test(await cards().nth(3).innerText()));
@@ -195,7 +235,7 @@ export default async function ({ check, ROOT }) {
             const exported = JSON.parse(fs.readFileSync(await download.path(), "utf8"));
             check("the exported report carries the scale", Array.isArray(exported.scales && exported.scales.posi) && exported.scales.posi.length === 4 && exported.scales.posi[3].excludeFromScore === true);
             // reset: dismiss first, then accept
-            await page.check("#toggle-scales");
+            await page.click(".framework-panel:not([hidden]) .customize-scale-btn");
             check("reopened with the custom scale (4 rows)", (await rows().count()) === 4);
             let confirms = 0;
             page.once("dialog", (d) => { confirms++; d.dismiss(); });
@@ -214,7 +254,7 @@ export default async function ({ check, ROOT }) {
             // Reordering, legacy frameworks, scoring frameworks, mobile
             const { page, ctx } = await open("index.html#gorc");
             const rows = () => page.locator("#scales-dialog .scale-row");
-            await page.check("#toggle-scales");
+            await page.click(".framework-panel:not([hidden]) .customize-scale-btn");
             check("legacy framework lists worst to best", (await rows().locator(".scale-title").evaluateAll((els) => els.map((e) => e.value))).join() === "Not compliant,Making progress,Compliant");
             await rows().first().locator(".scale-down").click();
             check("move down reorders the rows", (await rows().locator(".scale-title").evaluateAll((els) => els.map((e) => e.value))).join() === "Making progress,Not compliant,Compliant");
@@ -229,18 +269,17 @@ export default async function ({ check, ROOT }) {
         {
             const { page, ctx } = await open("index.html?framework=data/frameworks/cris-tender-v0.1.json#cris-tender");
             await page.waitForTimeout(800);
-            check("scales cannot be customised for points-based frameworks", await page.$eval("#toggle-scales", (e) => e.disabled));
+            check("scales cannot be customised for points-based frameworks", await page.$eval("#framework-panel-cris-tender .customize-scale-btn", (e) => e.disabled));
             await ctx.close();
         }
         {
             const { page, ctx } = await open("index.html", 375, 800);
-            await page.click("#sidebar-toggle");
-            await page.check("#toggle-scales");
+            await page.click(".framework-panel:not([hidden]) .customize-scale-btn");
             const [sw, iw] = await page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth]);
             const fits = await page.$eval("#scales-dialog", (d) => d.getBoundingClientRect().right <= window.innerWidth + 1 && d.scrollWidth <= d.clientWidth + 1);
             check("scales dialog fits a 375px phone", sw <= iw && fits, sw + "/" + iw);
             await page.keyboard.press("Escape");
-            check("Escape closes the scales dialog and flips the switch off", await closedAndOff(page, "scales-dialog", "toggle-scales"));
+            check("Escape closes the scales dialog", await closed(page, "scales-dialog"));
             await ctx.close();
         }
         {
@@ -292,53 +331,54 @@ export default async function ({ check, ROOT }) {
             }
         }
         {
-            // Theme toggle
-            const mk = async (scheme, width = 1280) => {
-                const ctx = await browser.newContext({ viewport: { width, height: 900 }, colorScheme: scheme });
-                const page = await ctx.newPage();
-                const errors = [];
-                page.on("pageerror", (e) => errors.push(e.message));
-                await page.route(/unpkg\.com|html2canvas/, (r) => r.abort());
-                await page.goto(base + "index.html");
-                await page.waitForSelector("#app > *");
-                return { page, ctx, errors };
-            };
+            // Theme: the choice lives in the shared SPII top bar
             const bg = (page) => page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-            const { page, ctx, errors } = await mk("dark");
-            const radios = await page.$$eval('#sidebar-footer [role="radiogroup"] input[type="radio"]', (els) => els.map((e) => e.value + (e.checked ? "*" : "")));
-            check("theme toggle: Dark / System / Light, System selected", radios.join() === "dark,system*,light", radios.join());
-            check("the group is labelled", (await page.locator('#sidebar-footer [role="radiogroup"]').getAttribute("aria-label")) === "Theme");
-            check("System follows a dark OS", (await page.evaluate(() => document.documentElement.dataset.theme)) === "dark" && (await bg(page)) === "rgb(16, 20, 15)");
-            await page.locator("#sidebar-footer label:has(input[value=light])").click();
-            check("Light overrides a dark OS", (await page.evaluate(() => document.documentElement.dataset.theme)) === "light" && (await bg(page)) === "rgb(246, 244, 236)");
-            check("the choice is stored", (await page.evaluate(() => localStorage.getItem("spii-principles-tool.theme"))) === "light");
-            // colors that are set per answer follow the theme without a re-render
-            await page.locator("#framework-panel-posi details[id^=principle-posi-]").first().locator("summary").click();
-            const card = page.locator("#framework-panel-posi details[id^=principle-posi-]").first().locator('.status-card[data-status="high-adoption"]');
-            await card.click();
-            const accent = () => card.evaluate((el) => getComputedStyle(el).getPropertyValue("--status-accent").trim());
-            const lightAccent = await accent();
-            await page.locator("#sidebar-footer label:has(input[value=dark])").click();
-            const darkAccent = await accent();
-            check("answer colors follow the theme (#1f5c43 light, #59b98a dark)", lightAccent === "#1f5c43" && darkAccent === "#59b98a", lightAccent + " / " + darkAccent);
-            await page.reload();
-            await page.waitForSelector("#app > *");
-            check("the choice survives a reload", (await page.evaluate(() => document.documentElement.dataset.theme)) === "dark" && await page.isChecked('#sidebar-footer input[value="dark"]'));
-            await page.locator("#sidebar-footer label:has(input[value=system])").click();
-            await page.emulateMedia({ colorScheme: "light" });
-            await page.waitForTimeout(100);
-            check("System follows the OS live", (await page.evaluate(() => document.documentElement.dataset.theme)) === "light");
-            check("no page errors (theme)", errors.length === 0, errors.join("|"));
-            await ctx.close();
-            const a = await mk("light");
-            check("System with a light OS is light", (await a.page.evaluate(() => document.documentElement.dataset.theme)) === "light");
-            await a.ctx.close();
-            const mobile = await mk("dark", 320);
-            await mobile.page.click("#sidebar-toggle");
-            const [sw, iw] = await mobile.page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth]);
-            const fits = await mobile.page.$eval("#sidebar-footer .theme-toggle", (e) => e.getBoundingClientRect().right <= document.querySelector("aside[data-sidebar]").getBoundingClientRect().right + 1);
-            check("theme toggle fits at 320px", sw <= iw && fits, sw + "/" + iw);
-            await mobile.ctx.close();
+            const theme = (page) => page.evaluate(() => document.documentElement.dataset.theme);
+            if (HAVE_DS) {
+                const { page, ctx, errors } = await open("index.html", 1280, 900, { scheme: "dark" });
+                const links = await page.$$eval(".spii-topbar__nav a", (as) => as.map((a) => a.textContent.trim()));
+                check("SPII top bar: Overview and the six deliverables", links.length === 7 && links[0] === "Overview" && links[2] === "1BAlignment", links.join("|"));
+                check("no old back bar", (await page.locator(".back-bar").count()) === 0);
+                check("System follows a dark OS", (await theme(page)) === "dark" && (await bg(page)) === "rgb(16, 20, 15)");
+                await page.click("#spii-theme-btn");
+                check("top-bar theme button: System -> Light overrides a dark OS", (await theme(page)) === "light" && (await bg(page)) === "rgb(246, 244, 236)");
+                check("the choice is stored for all SPII sites", (await page.evaluate(() => localStorage.getItem("spii-theme"))) === "light");
+                // colors that are set per answer follow the theme without a re-render
+                await page.locator("#framework-panel-posi details[id^=principle-posi-]").first().locator("summary").click();
+                const card = page.locator("#framework-panel-posi details[id^=principle-posi-]").first().locator('.status-card[data-status="high-adoption"]');
+                await card.click();
+                const accent = () => card.evaluate((el) => getComputedStyle(el).getPropertyValue("--status-accent").trim());
+                const lightAccent = await accent();
+                await page.click("#spii-theme-btn");
+                const darkAccent = await accent();
+                check("answer colors follow the theme (#1f5c43 light, #59b98a dark)", lightAccent === "#1f5c43" && darkAccent === "#59b98a", lightAccent + " / " + darkAccent);
+                await page.reload();
+                await page.waitForSelector("#app > *");
+                check("the choice survives a reload", (await theme(page)) === "dark");
+                await page.click("#spii-theme-btn");
+                await page.emulateMedia({ colorScheme: "light" });
+                await page.waitForTimeout(100);
+                check("System follows the OS live", (await theme(page)) === "light");
+                const shell = await page.$eval("#app-shell", (e) => e.getBoundingClientRect().bottom <= window.innerHeight + 1);
+                check("the app shell fits under the top bar (Settings stays in view)", shell && (await page.locator("#settings-btn").isVisible()));
+                check("no page errors (theme)", errors.length === 0, errors.join("|"));
+                await ctx.close();
+                const old = await open("index.html", 1280, 900, { scheme: "light" });
+                await old.page.evaluate(() => localStorage.setItem("spii-principles-tool.theme", "dark"));
+                await old.page.reload();
+                await old.page.waitForSelector("#app > *");
+                check("an older choice made in this tool moves to the SPII top bar", (await theme(old.page)) === "dark" && (await old.page.evaluate(() => localStorage.getItem("spii-theme"))) === "dark");
+                await old.ctx.close();
+                const mobile = await open("index.html", 320, 800, { scheme: "dark" });
+                const [sw, iw] = await mobile.page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth]);
+                check("top bar fits at 320px", sw <= iw && (await mobile.page.locator("#spii-theme-btn").isVisible()), sw + "/" + iw);
+                await mobile.ctx.close();
+            } else {
+                console.log("SKIP  SPII top bar tests: no design system clone at " + DS_DIR);
+            }
+            const bare = await open("index.html", 1280, 900, { ds: false, scheme: "dark" });
+            check("without the design system the page still works and follows the OS theme", (await theme(bare.page)) === "dark" && bare.errors.length === 0 && (await bare.page.locator(".spii-topbar").count()) === 0, bare.errors.join("|"));
+            await bare.ctx.close();
         }
         {
             // Not applicable, the short printed report, copy changes
@@ -494,9 +534,10 @@ export default async function ({ check, ROOT }) {
             await page.reload();
             await page.waitForSelector("#app > *");
             check("answers and description survive a reload", (await page.inputValue("#infra-name")) === "Saved Repo" && (await page.locator("#summary-heading-posi").innerText()).trim() === "Alignment summary: 100%");
-            check("the saving is explained in Settings", /saved automatically in this browser/.test(await page.locator("#sidebar-footer .saved-note").innerText()));
+                        await page.click("#settings-btn");
+            check("the saving is explained in Settings", /saved automatically in this browser/.test(await page.locator("#settings-dialog .saved-note").innerText()));
             page.once("dialog", (d) => d.accept());
-            await page.click("#sidebar-footer .start-new");
+            await page.click("#settings-dialog .start-new");
             await page.waitForTimeout(400);
             await page.reload();
             await page.waitForSelector("#app > *");
