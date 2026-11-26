@@ -139,6 +139,19 @@ export const run = (ctx, code) => vm.runInContext(code, ctx);
 }
 
 {
+    // Priority star
+    const c = loadLogic();
+    const R = (s) => run(c, s);
+    R('globalThis.posi = FRAMEWORKS.find((f) => f.id === "posi"); globalThis.state = initial_state(); state.frameworks.posi["stakeholder-governed"].priority = true;');
+    check("new state: no priorities", R('state.frameworks.posi.coverage.priority') === false);
+    const exp = JSON.parse(R('JSON.stringify(build_export_object(state, "posi"))'));
+    check("export: priority only where marked", exp.frameworks.posi["stakeholder-governed"].priority === true && !("priority" in exp.frameworks.posi.coverage));
+    check("import keeps the stars", R('merge_loaded_state(' + JSON.stringify(exp) + ').frameworks.posi["stakeholder-governed"].priority') === true && R('merge_loaded_state(' + JSON.stringify(exp) + ').frameworks.posi.coverage.priority') === false);
+    const html = R('build_report_html(state, [posi])');
+    check("report: a star alone puts the framework in the report, with a Priorities line and a star in the table", /★ Priorities:<\/strong> Stakeholder governed/.test(html) && /report-star/.test(html));
+}
+
+{
     // Alignment level descriptions (POSI guidance) and display preferences
     const c = loadLogic();
     const R = (s) => run(c, s);

@@ -219,6 +219,26 @@ export default async function ({ check, ROOT }) {
             await ctx.close();
         }
         {
+            // Priority star
+            const { page, errors, ctx } = await open("index.html");
+            const p = page.locator("#principle-posi-coverage");
+            const star = p.locator("summary .priority-star");
+            check("each principle has a star, off by default", (await page.locator("#framework-panel-posi .priority-star").count()) === 23 && (await star.getAttribute("aria-pressed")) === "false");
+            await star.click();
+            check("clicking the star marks it, without opening the accordion", (await star.getAttribute("aria-pressed")) === "true" && !(await p.evaluate((d) => d.open)));
+            check("the sidebar shows the star too", await page.locator("#sidebar-sections a.is-priority").count() === 1);
+            await page.waitForTimeout(500);
+            await page.reload();
+            await page.waitForSelector("#app > *");
+            check("the star survives a reload", (await page.locator("#principle-posi-coverage .priority-star").getAttribute("aria-pressed")) === "true");
+            await page.click('button:has-text("Export")');
+            const [download] = await Promise.all([page.waitForEvent("download"), page.click("#export-report-btn")]);
+            const exported = JSON.parse(fs.readFileSync(await download.path(), "utf8"));
+            check("the exported report carries the star", exported.frameworks.posi.coverage.priority === true);
+            check("no console or page errors (star)", errors.length === 0, JSON.stringify(errors));
+            await ctx.close();
+        }
+        {
             // Customize scales
             const { page, errors, ctx } = await open("index.html");
             const rows = () => page.locator("#scales-dialog .scale-row");

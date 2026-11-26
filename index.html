@@ -754,6 +754,42 @@
                with a `scoring` block (principle_chips_element). */
             /* Oat's summary is a flex row with space-between: let it wrap, so the chips
                drop under the title on a narrow screen instead of widening the page. */
+            summary.has-star {
+                justify-content: flex-start;
+                gap: var(--space-2);
+            }
+            summary.has-star::after {
+                margin-inline-start: auto;
+            }
+            .priority-star {
+                flex: 0 0 auto;
+                display: inline-grid;
+                place-items: center;
+                width: 2rem;
+                height: 2rem;
+                padding: 0;
+                border: 0;
+                border-radius: 50%;
+                background: transparent;
+                color: var(--muted-foreground);
+                fill: none;
+                cursor: pointer;
+            }
+            .priority-star:hover {
+                background: var(--muted);
+            }
+            .priority-star[aria-pressed="true"] {
+                color: #d99a00;
+                fill: #f5b301;
+            }
+            #sidebar-sections a.is-priority::after {
+                content: " ★";
+                color: #d99a00;
+            }
+            .report-star {
+                color: #b07d00;
+            }
+
             summary.has-chips {
                 flex-wrap: wrap;
                 justify-content: flex-start;
@@ -1307,7 +1343,7 @@
                 const entries = {};
                 framework.sections.forEach((section) => {
                     section.principles.forEach((principle) => {
-                        entries[principle.id] = { status: null, notes: "" };
+                        entries[principle.id] = { status: null, notes: "", priority: false };
                     });
                 });
                 return entries;
@@ -1623,7 +1659,7 @@
                 if (state.description) html += "<p>" + escape_html(state.description) + "</p>";
                 if (activities.length) html += "<p><strong>Activities:</strong> " + activities.map(escape_html).join(", ") + "</p>";
                 html += "</header>";
-                const filled = frameworks.filter((f) => Object.values(state.frameworks[f.id] || {}).some((e) => e.status || (e.notes || "").trim()));
+                const filled = frameworks.filter((f) => Object.values(state.frameworks[f.id] || {}).some((e) => e.status || e.priority || (e.notes || "").trim()));
                 if (!filled.length) html += "<p>No answers yet.</p>";
                 filled.forEach((framework) => {
                     const text = summary_text(compute_summary(state, framework.id, framework), framework);
@@ -1631,6 +1667,8 @@
                     html += '<p class="report-score"><strong>' + escape_html(text.heading) + "</strong> · " + escape_html(text.counts) + "</p>";
                     html += '<p class="report-meta">' + escape_html(score_explanation(framework)) + "</p>";
                     html += build_chart_html(state, framework, "relative", false);
+                    const priorities = priority_titles(state, framework);
+                    if (priorities.length) html += '<p class="report-priorities"><strong>★ Priorities:</strong> ' + priorities.map(escape_html).join("; ") + "</p>";
                     framework.sections.forEach((section) => {
                         html += "<h3>" + escape_html(section.section) + '</h3><table><thead><tr><th>Principle</th><th>Answer</th><th>Notes</th></tr></thead><tbody>';
                         section.principles.forEach((principle) => {
@@ -1639,7 +1677,7 @@
                             const answer = option
                                 ? '<span class="report-icon" style="color:' + escape_html(level_color(framework, entry.status)) + '">' + level_icon_markup(framework, entry.status) + "</span>" + escape_html(answer_label(framework, option))
                                 : '<span class="report-none">Not answered</span>';
-                            html += "<tr><td>" + escape_html(principle.title) + "</td><td>" + answer + "</td><td>" + escape_html(entry.notes) + "</td></tr>";
+                            html += "<tr><td>" + (entry.priority ? '<span class="report-star" title="Priority">★</span> ' : "") + escape_html(principle.title) + "</td><td>" + answer + "</td><td>" + escape_html(entry.notes) + "</td></tr>";
                         });
                         html += "</tbody></table>";
                     });
@@ -1647,6 +1685,12 @@
                 });
                 html += '<p class="report-foot">Open Science Infrastructure Principles Alignment Tool — https://surf-ori.github.io/spii-1b-principles-alignment-tool/</p>';
                 return html;
+            }
+
+            // Titles of the principles marked as a priority (the star), in framework order.
+            function priority_titles(state, framework) {
+                const entries = state.frameworks[framework.id] || {};
+                return framework.sections.flatMap((s) => s.principles).filter((p) => entries[p.id] && entries[p.id].priority).map((p) => p.title);
             }
 
             const TOOL_URL = "https://surf-ori.github.io/spii-1b-principles-alignment-tool/";
@@ -1692,7 +1736,8 @@
                 Object.keys(state.frameworks).filter((id) => !frameworkId || id === frameworkId).forEach((frameworkId) => {
                     const entries = {};
                     Object.keys(state.frameworks[frameworkId]).forEach((id) => {
-                        entries[id] = { status: state.frameworks[frameworkId][id].status, notes: state.frameworks[frameworkId][id].notes };
+                        const entry = state.frameworks[frameworkId][id];
+                        entries[id] = { status: entry.status, notes: entry.notes, ...(entry.priority ? { priority: true } : {}) };
                     });
                     frameworks[frameworkId] = entries;
                 });
@@ -1746,6 +1791,7 @@
                             if (entry && typeof entry === "object") {
                                 fresh.frameworks[frameworkId][id].status = validStatuses.includes(entry.status) ? entry.status : null;
                                 fresh.frameworks[frameworkId][id].notes = typeof entry.notes === "string" ? entry.notes : "";
+                                fresh.frameworks[frameworkId][id].priority = entry.priority === true;
                             }
                         });
                     });
@@ -2182,6 +2228,7 @@
                 if (status) icon.style.setProperty("--status-accent", level_color(framework, status, true));
                 a.appendChild(icon);
                 a.appendChild(document.createTextNode(principle.title));
+                if (state.frameworks[frameworkId][principle.id].priority) a.classList.add("is-priority");
                 a.addEventListener("click", (e) => {
                     e.preventDefault();
                     navigate_to(frameworkId, anchorId);
@@ -2896,6 +2943,32 @@
                 return wrap;
             }
 
+            const STAR_PATH = "M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.7L10 14.8l-5.1 2.7 1-5.7-4.1-4 5.7-.8z";
+
+            function priority_star_button(on, title) {
+                const button = document.createElement("button");
+                button.type = "button";
+                button.className = "priority-star";
+                button.innerHTML = '<svg viewBox="0 0 20 20" width="20" height="20" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="' + STAR_PATH + '" /></svg>';
+                button.setAttribute("aria-label", "Priority: " + title);
+                paint_priority_star(button, on);
+                return button;
+            }
+
+            function paint_priority_star(button, on) {
+                button.setAttribute("aria-pressed", on ? "true" : "false");
+                button.title = on ? "A priority principle (click to unmark)" : "Mark as a priority principle";
+            }
+
+            function toggle_priority(frameworkId, principleId) {
+                const entry = state.frameworks[frameworkId][principleId];
+                entry.priority = !entry.priority;
+                const details = document.querySelector('[data-framework-id="' + frameworkId + '"][data-principle-id="' + principleId + '"]');
+                if (details) paint_priority_star(details.querySelector(".priority-star"), entry.priority);
+                const icon = document.getElementById("nav-status-icon-" + frameworkId + "-" + principleId);
+                if (icon) icon.parentElement.classList.toggle("is-priority", entry.priority);
+            }
+
             function render_principle(principle, frameworkId) {
                 const details = document.createElement("details");
                 details.className = "container";
@@ -2905,6 +2978,8 @@
 
                 const framework = all_frameworks().find((f) => f.id === frameworkId);
                 const summary = document.createElement("summary");
+                summary.classList.add("has-star");
+                summary.appendChild(priority_star_button(state.frameworks[frameworkId][principle.id].priority, principle.title));
                 const h4 = document.createElement("h4");
                 h4.textContent = principle.title;
                 summary.appendChild(h4);
@@ -3587,6 +3662,13 @@
 
             const appRoot = document.getElementById("app");
             appRoot.addEventListener("click", (e) => {
+                const star = e.target.closest(".priority-star");
+                if (star) {
+                    e.preventDefault();
+                    const details = star.closest("[data-principle-id]");
+                    toggle_priority(details.dataset.frameworkId, details.dataset.principleId);
+                    return;
+                }
                 const card = e.target.closest(".status-card");
                 if (!card) return;
                 const details = card.closest("[data-principle-id]");
