@@ -503,6 +503,42 @@
                 min-height: 2.25rem;
             }
 
+            .level-description {
+                display: none;
+            }
+            :root[data-level-descriptions] .level-description {
+                display: block;
+            }
+            .status-guidance {
+                margin: var(--space-2) 0 0;
+                font-size: var(--text-7);
+            }
+            .principle-guidance {
+                margin: var(--space-3) 0;
+                padding: var(--space-3) var(--space-4);
+                border-left: 3px solid var(--primary);
+                background: var(--accent);
+                border-radius: var(--radius-medium);
+            }
+            .principle-guidance h5 {
+                margin: 0 0 var(--space-1);
+            }
+            .principle-guidance ul {
+                margin: 0 0 var(--space-2);
+            }
+            .descriptions-switch {
+                display: flex;
+                align-items: center;
+                gap: var(--space-2);
+                margin: 0;
+            }
+            .descriptions-note {
+                flex-basis: 100%;
+                margin: 0;
+                color: var(--muted-foreground);
+                font-size: var(--text-7);
+            }
+
             .framework-tools {
                 display: flex;
                 flex-wrap: wrap;
@@ -1111,6 +1147,20 @@
                 else if (original === undefined) delete framework.levels;
                 else framework.levels = original;
                 persist_scales();
+            }
+
+            function has_custom_scale(framework) {
+                return DEFAULT_LEVELS.has(framework) && framework.levels !== DEFAULT_LEVELS.get(framework);
+            }
+
+            // Optional per-principle `guidance: {levels: {levelId: text}, improve: [text], examples: [text]}`
+            // describes the framework's own scale, so it is not shown with a custom scale.
+            function has_guidance(framework) {
+                return framework.sections.some((s) => s.principles.some((p) => p.guidance));
+            }
+
+            function guidance_for(framework, principle) {
+                return principle.guidance && !has_custom_scale(framework) ? principle.guidance : null;
             }
 
             function apply_saved_scales(frameworks) {
@@ -1964,6 +2014,7 @@
                 render_sidebar_nav();
                 render_sidebar_footer();
                 render_settings_dialog();
+                update_level_descriptions();
                 wire_up_events();
                 update_summary();
                 update_badge();
@@ -2199,6 +2250,10 @@
 
             // With "Show other alignment frameworks" off only POSI is offered, so the picker is hidden,
             // unless another framework is open (from a link, an import or a saved report).
+            function update_level_descriptions() {
+                document.documentElement.toggleAttribute("data-level-descriptions", prefs.showLevelDescriptions);
+            }
+
             function update_picker_visibility() {
                 const framework = all_frameworks().find((f) => f.id === activeFrameworkId);
                 document.getElementById("framework-picker").hidden = !prefs.showOtherFrameworks && !!(framework && framework.approved);
@@ -2639,7 +2694,27 @@
                     scaleBtn.title = "This framework scores points per answer, so its answers are fixed.";
                 }
                 scaleBtn.addEventListener("click", open_scales_dialog);
-                tools.appendChild(scaleBtn);
+                if (has_guidance(framework)) {
+                    const custom = has_custom_scale(framework);
+                    const label = settings_switch("toggle-descriptions-" + framework.id, "Show alignment level descriptions");
+                    label.classList.add("descriptions-switch");
+                    const input = label.querySelector("input");
+                    input.checked = prefs.showLevelDescriptions && !custom;
+                    input.disabled = custom;
+                    input.addEventListener("change", () => {
+                        prefs.showLevelDescriptions = input.checked;
+                        save_prefs(prefs);
+                        update_level_descriptions();
+                    });
+                    const note = document.createElement("p");
+                    note.className = "descriptions-note";
+                    note.textContent = custom
+                        ? "The level descriptions belong to the default scale, so they are off while you use your own scale."
+                        : "Work in progress: descriptions, ideas to improve and examples are available for the first two principles so far.";
+                    tools.append(label, scaleBtn, note);
+                } else {
+                    tools.appendChild(scaleBtn);
+                }
                 section.appendChild(tools);
 
                 framework.sections.forEach((frameworkSection) => {
@@ -2880,10 +2955,36 @@
                         criteriaText.textContent = criteria;
                         card.appendChild(criteriaText);
                     }
+                    const guidance = guidance_for(framework, principle);
+                    if (guidance && guidance.levels && guidance.levels[option.id]) {
+                        const guidanceText = document.createElement("p");
+                        guidanceText.className = "status-guidance level-description";
+                        guidanceText.textContent = guidance.levels[option.id];
+                        card.appendChild(guidanceText);
+                    }
 
                     cards.appendChild(card);
                 });
                 details.appendChild(cards);
+
+                const guidance = guidance_for(framework, principle);
+                if (guidance && ((guidance.improve || []).length || (guidance.examples || []).length)) {
+                    const box = document.createElement("div");
+                    box.className = "principle-guidance level-description";
+                    [["Ideas on how to improve adoption of this principle", guidance.improve], ["Examples from organisations adopting this principle well", guidance.examples]].forEach(([heading, items]) => {
+                        if (!items || !items.length) return;
+                        const h5 = document.createElement("h5");
+                        h5.textContent = heading;
+                        const ul = document.createElement("ul");
+                        items.forEach((item) => {
+                            const li = document.createElement("li");
+                            append_linked_text(li, item);
+                            ul.appendChild(li);
+                        });
+                        box.append(h5, ul);
+                    });
+                    details.appendChild(box);
+                }
 
                 const notes = document.createElement("textarea");
                 notes.className = "notes";

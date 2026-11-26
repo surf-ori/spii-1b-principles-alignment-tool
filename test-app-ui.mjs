@@ -191,6 +191,34 @@ export default async function ({ check, ROOT }) {
             await g.ctx.close();
         }
         {
+            // Alignment level descriptions above the POSI principles
+            const { page, errors, ctx } = await open("index.html");
+            const first = page.locator("#principle-posi-coverage");
+            await first.locator("summary").click();
+            const sw = page.locator("#toggle-descriptions-posi");
+            check("switch 'Show alignment level descriptions' sits next to the scale button, off by default", (await sw.count()) === 1 && !(await sw.isChecked()) && /Show alignment level descriptions/.test(await page.locator("#framework-panel-posi .framework-tools").innerText()));
+            check("with a work-in-progress note", /Work in progress/.test(await page.locator("#framework-panel-posi .descriptions-note").innerText()));
+            check("descriptions hidden while off", (await first.locator(".status-guidance").first().isHidden()) && (await first.locator(".principle-guidance").isHidden()));
+            await sw.check();
+            const texts = await first.locator(".status-guidance").allInnerTexts();
+            check("switched on: a description on each level card", texts.length === 3 && /limited evidence/.test(texts[0]) && /demonstrable evidence/.test(texts[2]), texts.join(" | "));
+            check("plus ideas to improve and examples", /Ideas on how to improve adoption/.test(await first.locator(".principle-guidance").innerText()) && /ROR/.test(await first.locator(".principle-guidance").innerText()));
+            check("principles without descriptions stay as they were", (await page.locator("#principle-posi-non-discriminatory .status-guidance, #principle-posi-non-discriminatory .principle-guidance").count()) === 0);
+            await page.reload();
+            await page.waitForSelector("#app > *");
+            check("the choice survives a reload", await page.locator("#toggle-descriptions-posi").isChecked());
+            // a custom scale switches them off
+            await page.click(".framework-panel:not([hidden]) .customize-scale-btn");
+            await page.click("#scales-dialog .scale-add, #scales-dialog button:has-text('Add option')");
+            await page.locator("#scales-dialog .scale-row").last().locator(".scale-title").fill("Extra");
+            page.once("dialog", (d) => d.accept());
+            await page.click("#scales-dialog-footer button:has-text('Save')");
+            await page.waitForFunction(() => !document.getElementById("scales-dialog").open);
+            check("with a custom scale the switch is off and disabled, and says why", (await page.locator("#toggle-descriptions-posi").isDisabled()) && !(await page.locator("#toggle-descriptions-posi").isChecked()) && /your own scale/.test(await page.locator("#framework-panel-posi .descriptions-note").innerText()) && (await page.locator("#framework-panel-posi .status-guidance").count()) === 0);
+            check("no console or page errors (descriptions)", errors.length === 0, JSON.stringify(errors));
+            await ctx.close();
+        }
+        {
             // Customize scales
             const { page, errors, ctx } = await open("index.html");
             const rows = () => page.locator("#scales-dialog .scale-row");

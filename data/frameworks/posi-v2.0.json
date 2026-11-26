@@ -33,12 +33,43 @@
         {
           "id": "coverage",
           "title": "Coverage across the scholarly enterprise",
-          "text": "Research transcends disciplines, geography, institutions, and stakeholders. Organisations and the infrastructure they run need to reflect this."
+          "text": "Research transcends disciplines, geography, institutions, and stakeholders. Organisations and the infrastructure they run need to reflect this.",
+          "guidance": {
+            "levels": {
+              "low-adoption": "The infrastructure covers only a few communities, and there is limited evidence of who uses or contributes to the service and which research communities or research outputs are underserved.",
+              "making-progress": "There are early signs of wider use or participation, and evidence to support this. Steps are being taken to broaden coverage by continuing to identify gaps and ideas on how to meet them.",
+              "high-adoption": "There is broad reach and demonstrable evidence to support this. Coverage is reviewed regularly, with clear identification of actions that have helped close gaps."
+            },
+            "improve": [
+              "Do you want to understand your reach? Try mapping users or contributors by discipline, region or institution type. Look for a baseline showing who is represented and where coverage is thinner.",
+              "How can you reach an underserved community? Consider partnering with a network in that community and pilot a service or activity with them, then look for new users or repeat participation from that community."
+            ],
+            "examples": [
+              "World Data System: look at their community tapestry, the Members Map of the World Data System.",
+              "ROR: engaged underrepresented regions and communities by broadening the linguistic and geographic scope of communication and activities, through translations, captions, and meetings and events in alternative time zones."
+            ]
+          }
         },
         {
           "id": "stakeholder-governed",
           "title": "Stakeholder governed",
-          "text": "A board-governed organisation drawn from the stakeholder community builds confidence that the organisation will make decisions driven by community consensus and a balance of interests."
+          "text": "A board-governed organisation drawn from the stakeholder community builds confidence that the organisation will make decisions driven by community consensus and a balance of interests.",
+          "guidance": {
+            "levels": {
+              "low-adoption": "Main decisions are made by the founders, host institution or a small leadership group. Stakeholders have few formal ways to influence priorities and decisions.",
+              "making-progress": "There is a formal way for stakeholders to contribute, such as advisory groups or committees, and there are clear examples of how their input shapes decisions. Some stakeholder groups are still underrepresented, and the community's overall decision-making role is limited.",
+              "high-adoption": "The governing body represents a range of relevant stakeholder interests. Stakeholders have a clear role in selecting representatives, decisions on key areas such as budget, strategy and priorities are clear, and there is evidence to support this."
+            },
+            "improve": [
+              "Do you want to understand who has a say in your organisation? Map stakeholder groups against the people on your board or steering committee. Who can nominate representatives, and who can vote on or approve decisions?",
+              "How can you give your stakeholders more influence? Take an action that matters to the community, such as setting annual service priorities. Give stakeholder representatives a defined role, such as proposing, reviewing or approving these priorities, and keep a record of the process and the rationale for decisions."
+            ],
+            "examples": [
+              "DataCite: gives member organisations a formal say in strategic and financial decisions. Members elect the board. DataCite also engages beyond its membership through public engagement activities and open discussions.",
+              "COUNTER: its members appoint the board that sets the strategic direction, and it has an advisory committee that is open to all members.",
+              "World Data System: shows how roles can be defined across two bodies. Its Scientific Committee includes directors of member organisations and non-voting observers. Its Members Forum gives members a vote on items brought forward by the committee."
+            ]
+          }
         },
         {
           "id": "non-discriminatory",

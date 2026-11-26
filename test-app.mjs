@@ -139,6 +139,22 @@ export const run = (ctx, code) => vm.runInContext(code, ctx);
 }
 
 {
+    // Alignment level descriptions (POSI guidance) and display preferences
+    const c = loadLogic();
+    const R = (s) => run(c, s);
+    R('globalThis.posi = FRAMEWORKS.find((f) => f.id === "posi"); globalThis.p1 = posi.sections[0].principles[0]; globalThis.p3 = posi.sections[0].principles[2];');
+    check("POSI has level descriptions for the first two principles only", R("posi.sections.flatMap((s) => s.principles).filter((p) => p.guidance).map((p) => p.id).join()") === "coverage,stakeholder-governed");
+    check("each description covers the three POSI levels, with ideas and examples", R('["low-adoption","making-progress","high-adoption"].every((id) => typeof p1.guidance.levels[id] === "string") && p1.guidance.improve.length === 2 && p1.guidance.examples.length === 2'));
+    check("has_guidance: POSI yes, GORC no", R("has_guidance(posi)") === true && R('has_guidance(FRAMEWORKS.find((f) => f.id === "gorc"))') === false);
+    check("guidance_for gives the descriptions with the default scale", R("guidance_for(posi, p1) === p1.guidance") === true && R("guidance_for(posi, p3)") === null);
+    R('set_scale(posi, [{id:"a",label:"A"},{id:"b",label:"B"}])');
+    check("a custom scale switches the descriptions off", R("has_custom_scale(posi)") === true && R("guidance_for(posi, p1)") === null);
+    R("set_scale(posi, null)");
+    check("resetting the scale brings them back", R("has_custom_scale(posi)") === false && R("guidance_for(posi, p1) === p1.guidance") === true);
+    check("display preferences default to POSI only, descriptions off", R("JSON.stringify(load_prefs())") === JSON.stringify({ showOtherFrameworks: false, showLevelDescriptions: false }));
+}
+
+{
     // Theme: dark / system / light
     const c = loadLogic();
     const R = (s) => run(c, s);
