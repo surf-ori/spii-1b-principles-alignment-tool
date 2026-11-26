@@ -6,7 +6,7 @@
         <title>Open Science Infrastructure Principles Alignment Tool</title>
         <meta name="description" content="Self-assess how an Open Science infrastructure puts POSI and other principles into practice — rate principles on a low-to-high adoption scale (or your own scale), classify its activities, and export a report or a shareable badge.">
         <meta property="og:title" content="Open Science Infrastructure Principles Alignment Tool">
-        <meta property="og:description" content="Self-assess an Open Science infrastructure against POSI and other assessment frameworks, then print a short report or share a score chart.">
+        <meta property="og:description" content="Self-assess an Open Science infrastructure against POSI and other alignment frameworks, then print a short report or share an alignment chart.">
         <meta property="og:type" content="website">
         <link rel="icon" type="image/svg+xml" href="https://surf-ori.github.io/spii-design-system/assets/favicon.svg">
         <!-- <link rel="stylesheet" href="https://unpkg.com/@knadh/oat/oat.min.css"> -->
@@ -962,12 +962,12 @@
             // Shown above everything, outside any framework (trusted, static text).
             const SPII_INTRO_HTML =
                 "<summary><h4>Introduction to the Strategic Plan for Integrated Infrastructure</h4></summary>" +
-                "<p>The Strategic Plan for Integrated Infrastructure (SPII) aims to develop a reference model for a coherent and connected research infrastructure ecosystem that supports responsible Open Science. SPII recognises the POSI principles as an existing foundation and makes them available through this online self-assessment tool.</p><p><strong>Complementary principles:</strong> Following community consultations, SPII has also identified additional principles that could complement POSI, helping infrastructure owners and developers further assess the autonomy and researcher-centricity of Open Science infrastructures.</p>";
+                "<p>The Strategic Plan for Integrated Infrastructure (SPII) aims to develop a reference model for a coherent and connected research infrastructure ecosystem that supports responsible Open Science. SPII recognises the POSI principles as an existing foundation and makes them available through this online alignment tool.</p><p><strong>Complementary principles:</strong> Following community consultations, SPII has also identified additional principles that could complement POSI, helping infrastructure owners and developers further assess the autonomy and researcher-centricity of Open Science infrastructures.</p>";
 
             const ABOUT_TOOL_HTML =
                 "<p>This tool lets Open Science infrastructure providers, projects, funders, and programme teams reflect on and self-assess how open science values and principles are put into practice in an infrastructure’s design, governance, and operation.</p>" +
-                "<p>It grew out of the exploration, within the Strategic Plan for Integrated Infrastructure (SPII) project, of a shared self-assessment approach for open science infrastructures. Rather than building a bespoke framework from scratch, we chose to begin with an existing, community-governed framework — the <a href=\"https://openscholarlyinfrastructure.org/\">Principles of Open Scholarly Infrastructure (POSI)</a> — so infrastructures can assess themselves against criteria the wider community already recognises, and so results can be compared and shared. The tool is designed to support additional assessment frameworks over time, not just POSI.</p>" +
-                "<p>Not sure where to start? These example POSI assessment reports are based on published self-assessments from real infrastructures — click one to load it directly:</p>" +
+                "<p>It grew out of the exploration, within the Strategic Plan for Integrated Infrastructure (SPII) project, of a shared self-assessment approach for open science infrastructures. Rather than building a bespoke framework from scratch, we chose to begin with an existing, community-governed framework — the <a href=\"https://openscholarlyinfrastructure.org/\">Principles of Open Scholarly Infrastructure (POSI)</a> — so infrastructures can assess themselves against criteria the wider community already recognises, and so results can be compared and shared. The tool is designed to support additional alignment frameworks over time, not just POSI.</p>" +
+                "<p>Not sure where to start? These example POSI alignment reports are based on published self-assessments from real infrastructures — click one to load it directly:</p>" +
                 "<ul>" +
                 '<li><a href="https://surf-ori.github.io/spii-1b-principles-alignment-tool/?report=data/examples/openaire-posi-assessment-report-2026.json#posi">OpenAIRE (2026)</a></li>' +
                 '<li><a href="https://surf-ori.github.io/spii-1b-principles-alignment-tool/?report=data/examples/openalex-posi-assessment-report-2026.json#posi">OpenAlex (2026)</a></li>' +
@@ -1706,12 +1706,12 @@
                 return slug || fallback || "unnamed";
             }
 
-            // e.g. 2026-11-09-posi-v2-0-assessment-openaire.json: assessment date, framework, infrastructure.
+            // e.g. 2026-11-09-posi-v2-0-openaire.json: assessment date, framework, infrastructure.
             function report_filename(state, framework) {
                 return (state.assessedOn || today_iso_date()) + "-" + slugify(framework.title) + "-" + slugify(state.name, "unnamed-infrastructure") + ".json";
             }
 
-            // e.g. 2026-11-09-posi-v2-0-assessment-framework.json: download date and framework.
+            // e.g. 2026-11-09-posi-v2-0-framework.json: download date and framework.
             function framework_filename(framework, date) {
                 return date + "-" + slugify(framework.title) + "-framework.json";
             }
@@ -2697,7 +2697,7 @@
                 const content = document.getElementById("scales-dialog-content");
                 content.innerHTML = "";
                 const intro = document.createElement("p");
-                intro.textContent = "Options run from lowest (top) to highest (bottom), like the cards from left to right. Untick “Counts toward score” for an option such as Not applicable. Per-principle descriptions can’t be set here: to change them, edit a framework JSON file and use Import ▾ → Import Assessment Framework.";
+                intro.textContent = "Options run from lowest (top) to highest (bottom), like the cards from left to right. Untick “Counts toward score” for an option such as Not applicable. Per-principle descriptions can’t be set here: to change them, edit a framework JSON file and use Import ▾ → Import Alignment Framework (JSON).";
                 content.appendChild(intro);
                 const message = document.createElement("div");
                 message.id = "scales-message";
@@ -3863,7 +3863,7 @@
                 document.getElementById("app").innerHTML =
                     '<div role="alert" data-variant="error">' +
                     "<p><strong>Could not load the alignment frameworks.</strong></p>" +
-                    "<p>This page loads its assessment frameworks from JSON files in <code>data/frameworks/</code> via <code>fetch()</code>, which requires the page to be served over http(s) — it will not work when opened directly as a <code>file://</code> page. Serve this directory with any static file server (for example <code>python3 -m http.server</code>, then open <code>http://localhost:8000/</code>) and reload.</p>" +
+                    "<p>This page loads its alignment frameworks from JSON files in <code>data/frameworks/</code> via <code>fetch()</code>, which requires the page to be served over http(s) — it will not work when opened directly as a <code>file://</code> page. Serve this directory with any static file server (for example <code>python3 -m http.server</code>, then open <code>http://localhost:8000/</code>) and reload.</p>" +
                     "</div>";
             }
 
