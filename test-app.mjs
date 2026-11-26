@@ -3,6 +3,7 @@
 //   PW_MODULE=/path/to/playwright/index.mjs PW_CHROMIUM=/path/to/chromium node test-app.mjs --ui
 import fs from "node:fs";
 import vm from "node:vm";
+import zlib from "node:zlib";
 import path from "node:path";
 
 const ROOT = path.dirname(new URL(import.meta.url).pathname);
@@ -22,6 +23,7 @@ export const storageGet = (key) => (storage.has(key) ? storage.get(key) : null);
 export function loadLogic() {
     const ctx = vm.createContext({
         console,
+        TextEncoder,
         getComputedStyle: () => ({ getPropertyValue: (v) => ({ "--destructive": "#b3261e", "--warning": "#b06b00", "--compliant": "#1f5c43" })[v] || "" }),
         document: { documentElement: {} },
         localStorage: { getItem: storageGet, setItem: (k, v) => storage.set(k, String(v)), removeItem: (k) => storage.delete(k) },
@@ -136,6 +138,31 @@ export const run = (ctx, code) => vm.runInContext(code, ctx);
     const form = fs.readFileSync(path.join(ROOT, ".github/ISSUE_TEMPLATE/feedback.yml"), "utf8");
     const questions = ["Is the tool easy to navigate and understand?", "Is the overall layout and design clear?", "Was it clear that you can define your own assessment criteria and definitions?", "Were you able to generate and export the assessment report without difficulty?", "Did you know you can also import an existing assessment and then review it in the tool?", "Are the principles and explanations clear and easy to understand?", "Is the level of detail sufficient?", "Would additional guidance or examples help you better interpret and assess the principles?", "Do you miss any principles?"];
     check("the template asks all 9 tester questions", questions.every((q) => form.includes("label: " + q)), questions.filter((q) => !form.includes("label: " + q)).join("|"));
+}
+
+{
+    // Word (.docx) export
+    const c = loadLogic();
+    const R = (s) => run(c, s);
+    R('globalThis.posi = FRAMEWORKS.find((f) => f.id === "posi"); globalThis.state = initial_state(); state.name = "Repo <A&B>"; state.assessedOn = "2026-11-26"; state.frameworks.posi.coverage.status = "high-adoption"; state.frameworks.posi.coverage.notes = "line one\\nline two \\u0001"; state.frameworks.posi["stakeholder-governed"].priority = true;');
+    check("crc32 matches zlib", R('crc32(new TextEncoder().encode("hello world"))') === zlib.crc32("hello world"));
+    const bytes = Buffer.from(R("build_docx(state, FRAMEWORKS)"));
+    // read the stored zip entries back
+    const entries = {};
+    for (let at = 0; bytes.readUInt32LE(at) === 0x04034b50; ) {
+        const size = bytes.readUInt32LE(at + 18), nameLen = bytes.readUInt16LE(at + 26), crc = bytes.readUInt32LE(at + 14);
+        const name = bytes.subarray(at + 30, at + 30 + nameLen).toString();
+        const data = bytes.subarray(at + 30 + nameLen, at + 30 + nameLen + size);
+        entries[name] = { text: data.toString(), crcOk: zlib.crc32(data) === crc };
+        at += 30 + nameLen + size;
+    }
+    check("docx: a zip with the Word parts and valid checksums", ["[Content_Types].xml", "_rels/.rels", "word/_rels/document.xml.rels", "word/document.xml", "word/styles.xml"].every((n) => entries[n] && entries[n].crcOk) && bytes.includes(Buffer.from([0x50, 0x4b, 0x05, 0x06])), Object.keys(entries).join());
+    const doc = entries["word/document.xml"].text;
+    check("docx: escaped name as title, POSI section, answer, priority, notes with a line break", doc.includes("Repo &lt;A&amp;B&gt;") && doc.includes('w:val="Title"') && doc.includes("POSI v2.0") && doc.includes("High adoption") && doc.includes("★ Priorities") && /line one<\/w:t><w:br\/><w:t xml:space="preserve">line two <\/w:t>/.test(doc));
+    check("docx: no characters XML forbids", !/[\u0000-\u0008]/.test(doc));
+    check("docx: only frameworks with answers, like the printed report", !doc.includes("GORC"));
+    check("docx file name", R("docx_filename(state)") === "2026-11-26-alignment-report-repo-a-b.docx");
+    fs.writeFileSync(path.join(process.env.DOCX_OUT || "/tmp", "spii-test-report.docx"), bytes);
 }
 
 {

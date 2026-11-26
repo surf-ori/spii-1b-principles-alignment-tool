@@ -482,10 +482,10 @@ export default async function ({ check, ROOT }) {
             const { page, errors, ctx } = await open("index.html");
             const menu = (id) => page.$$eval("#" + id + " > *", (els) => els.map((e) => e.getAttribute("role") === "separator" ? "---" : e.querySelector(".menuitem-title").textContent.trim()));
             const exp = await menu("export-menu");
-            check("Export: GitHub tracker on top, frameworks last after a separator", exp.join("|") === "Save Report to GitHub Tracker|Save alignment to a file (JSON)|Print report / save as PDF|---|Download Alignment Framework (JSON)", exp.join("|"));
+            check("Export: GitHub tracker on top, frameworks last after a separator", exp.join("|") === "Save Report to GitHub Tracker|Save alignment to a file (JSON)|Print report / save as PDF|Save to Word (.docx)|---|Download Alignment Framework (JSON)", exp.join("|"));
             const imp = await menu("import-menu");
             check("Import: report first, frameworks after a separator", imp.join("|") === "Import Alignment Report (JSON)|---|Import Alignment Framework (JSON)|Download Alignment Framework Template (JSON)", imp.join("|"));
-            check("every menu item has an icon", (await page.locator('[role="menuitem"]').count()) === 7 && (await page.locator('[role="menuitem"] > svg.menuitem-icon').count()) === 7);
+            check("every menu item has an icon", (await page.locator('[role="menuitem"]').count()) === 8 && (await page.locator('[role="menuitem"] > svg.menuitem-icon').count()) === 8);
             check("the frameworks item explains save, edit, import again", /edit/i.test(await page.locator("#download-frameworks-btn .menuitem-desc").textContent()) && /import/i.test(await page.locator("#download-frameworks-btn .menuitem-desc").textContent()));
             await page.click('button:has-text("Export")');
             const box = await page.$eval("#export-menu", (m) => { const r = m.getBoundingClientRect(); return r.right <= window.innerWidth + 1; });
@@ -505,6 +505,10 @@ export default async function ({ check, ROOT }) {
             };
             const rep = await dl("export-report-btn");
             check("report download name", rep.name === "2026-11-09-posi-v2-0-openaire.json", rep.name);
+            await page.click('button:has-text("Export")');
+            const [word] = await Promise.all([page.waitForEvent("download"), page.click("#word-report-btn")]);
+            const wordBytes = fs.readFileSync(await word.path());
+            check("Save to Word downloads a .docx (a zip)", word.suggestedFilename() === "2026-11-09-alignment-report-openaire.docx" && wordBytes.subarray(0, 2).toString() === "PK", word.suggestedFilename());
             check("report download: selected framework only, with readme", Object.keys(rep.json.frameworks).join() === "posi" && typeof rep.json._readme === "string");
             const fw = await dl("download-frameworks-btn");
             const today = await page.evaluate(() => today_iso_date());

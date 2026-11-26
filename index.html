@@ -1757,6 +1757,164 @@
                 };
             }
 
+            // ---- Word (.docx) export -----------------------------------------------------------------
+            // The same content as the printed report, as a real Word document. A .docx is a zip of a few
+            // XML files; zip_store writes them uncompressed (no library needed).
+            const CRC_TABLE = Array.from({ length: 256 }, (_, n) => {
+                let c = n;
+                for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+                return c >>> 0;
+            });
+
+            function crc32(bytes) {
+                let c = 0xffffffff;
+                for (let i = 0; i < bytes.length; i++) c = CRC_TABLE[(c ^ bytes[i]) & 0xff] ^ (c >>> 8);
+                return (c ^ 0xffffffff) >>> 0;
+            }
+
+            // files: [{name, text}] -> Uint8Array of a zip archive (method "stored", UTF-8 names).
+            function zip_store(files) {
+                const enc = new TextEncoder();
+                const parts = [];
+                const central = [];
+                let offset = 0;
+                const header = (size) => { const b = new Uint8Array(size); return [b, new DataView(b.buffer)]; };
+                files.forEach((file) => {
+                    const name = enc.encode(file.name);
+                    const data = enc.encode(file.text);
+                    const crc = crc32(data);
+                    const [local, l] = header(30);
+                    l.setUint32(0, 0x04034b50, true); l.setUint16(4, 20, true); l.setUint16(6, 0x0800, true);
+                    l.setUint16(12, 33, true); l.setUint32(14, crc, true); l.setUint32(18, data.length, true);
+                    l.setUint32(22, data.length, true); l.setUint16(26, name.length, true);
+                    const [entry, c] = header(46);
+                    c.setUint32(0, 0x02014b50, true); c.setUint16(4, 20, true); c.setUint16(6, 20, true); c.setUint16(8, 0x0800, true);
+                    c.setUint16(14, 33, true); c.setUint32(16, crc, true); c.setUint32(20, data.length, true);
+                    c.setUint32(24, data.length, true); c.setUint16(28, name.length, true); c.setUint32(42, offset, true);
+                    parts.push(local, name, data);
+                    central.push(entry, name);
+                    offset += 30 + name.length + data.length;
+                });
+                const centralSize = central.reduce((n, b) => n + b.length, 0);
+                const [end, e] = header(22);
+                e.setUint32(0, 0x06054b50, true); e.setUint16(8, files.length, true); e.setUint16(10, files.length, true);
+                e.setUint32(12, centralSize, true); e.setUint32(16, offset, true);
+                const all = parts.concat(central, [end]);
+                const out = new Uint8Array(all.reduce((n, b) => n + b.length, 0));
+                let at = 0;
+                all.forEach((b) => { out.set(b, at); at += b.length; });
+                return out;
+            }
+
+            const W_NS = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"';
+
+            // A run of text; line breaks become <w:br/>, characters XML does not allow are dropped.
+            function docx_run(text, { bold = false, color = "", size = 0 } = {}) {
+                const props = (bold ? "<w:b/>" : "") + (/^[0-9a-f]{6}$/i.test(color) ? '<w:color w:val="' + color + '"/>' : "") + (size ? '<w:sz w:val="' + size + '"/>' : "");
+                const clean = String(text == null ? "" : text).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F￾￿]/g, "");
+                const body = clean.split(/\r?\n/).map((line) => '<w:t xml:space="preserve">' + escape_html(line) + "</w:t>").join("<w:br/>");
+                return "<w:r>" + (props ? "<w:rPr>" + props + "</w:rPr>" : "") + body + "</w:r>";
+            }
+
+            function docx_para(runs, style) {
+                return "<w:p>" + (style ? '<w:pPr><w:pStyle w:val="' + style + '"/></w:pPr>' : "") + [].concat(runs).join("") + "</w:p>";
+            }
+
+            const DOCX_COLUMNS = [3500, 2300, 3800];
+
+            function docx_table(rows) {
+                const border = (side) => "<w:" + side + ' w:val="single" w:sz="4" w:space="0" w:color="D9D4C3"/>';
+                const cell = (runs, i, head) =>
+                    '<w:tc><w:tcPr><w:tcW w:w="' + DOCX_COLUMNS[i] + '" w:type="dxa"/>' + (head ? '<w:shd w:val="clear" w:color="auto" w:fill="EEEBDF"/>' : "") + "</w:tcPr>" + docx_para(runs) + "</w:tc>";
+                return (
+                    '<w:tbl><w:tblPr><w:tblW w:w="9600" w:type="dxa"/><w:tblBorders>' +
+                    ["top", "left", "bottom", "right", "insideH", "insideV"].map(border).join("") +
+                    '</w:tblBorders><w:tblCellMar><w:left w:w="80" w:type="dxa"/><w:right w:w="80" w:type="dxa"/></w:tblCellMar></w:tblPr><w:tblGrid>' +
+                    DOCX_COLUMNS.map((w) => '<w:gridCol w:w="' + w + '"/>').join("") + "</w:tblGrid>" +
+                    rows.map((row, r) => "<w:tr>" + (r === 0 ? "<w:trPr><w:tblHeader/></w:trPr>" : "") + row.map((runs, i) => cell(runs, i, r === 0)).join("") + "</w:tr>").join("") +
+                    "</w:tbl>"
+                );
+            }
+
+            // The body of the Word report, in the order of build_report_html.
+            function build_docx_body(state, frameworks) {
+                const meta = { color: "4D5850", size: 18 };
+                const activities = [];
+                [ACTIVITIES.primary, ACTIVITIES.related].forEach((group) => {
+                    group.items.forEach((item) => { if (state.activities.includes((group.key || group.title) + " > " + item)) activities.push(item); });
+                });
+                let body = docx_para(docx_run(state.name || "Unnamed infrastructure"), "Title");
+                body += docx_para(docx_run("Open Science Infrastructure Principles Alignment" + (state.assessedOn ? " · assessed on " + state.assessedOn : "") + (state.url ? " · " + state.url : ""), meta));
+                if (state.description) body += docx_para(docx_run(state.description));
+                if (activities.length) body += docx_para([docx_run("Activities: ", { bold: true }), docx_run(activities.join(", "))]);
+                const filled = frameworks.filter((f) => Object.values(state.frameworks[f.id] || {}).some((e) => e.status || e.priority || (e.notes || "").trim()));
+                if (!filled.length) body += docx_para(docx_run("No answers yet."));
+                filled.forEach((framework) => {
+                    const summary = compute_summary(state, framework.id, framework);
+                    const text = summary_text(summary, framework);
+                    body += docx_para(docx_run(framework.title), "Heading1");
+                    body += docx_para([docx_run(text.heading, { bold: true }), docx_run(" · " + text.counts)]);
+                    body += docx_para(docx_run(score_explanation(framework), meta));
+                    const priorities = priority_titles(state, framework);
+                    if (priorities.length) body += docx_para([docx_run("★ Priorities: ", { bold: true, color: "B07D00" }), docx_run(priorities.join("; "))]);
+                    framework.sections.forEach((section) => {
+                        body += docx_para(docx_run(section.section), "Heading2");
+                        const rows = [[docx_run("Principle", { bold: true }), docx_run("Answer", { bold: true }), docx_run("Notes", { bold: true })]];
+                        section.principles.forEach((principle) => {
+                            const entry = state.frameworks[framework.id][principle.id];
+                            const option = entry.status && answer_options(framework).find((l) => l.id === entry.status);
+                            rows.push([
+                                (entry.priority ? docx_run("★ ", { color: "B07D00" }) : "") + docx_run(principle.title),
+                                option ? docx_run(answer_label(framework, option), { bold: true, color: String(level_color(framework, entry.status)).replace("#", "") }) : docx_run("Not answered", { color: "7B847C" }),
+                                docx_run(entry.notes || ""),
+                            ]);
+                        });
+                        body += docx_table(rows) + docx_para("");
+                    });
+                });
+                body += docx_para(docx_run("Open Science Infrastructure Principles Alignment Tool — " + TOOL_URL, meta));
+                return body;
+            }
+
+            const DOCX_STYLES =
+                '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:styles ' + W_NS + ">" +
+                '<w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="Calibri" w:cs="Calibri"/><w:sz w:val="20"/><w:szCs w:val="20"/><w:lang w:val="en-GB"/></w:rPr></w:rPrDefault>' +
+                '<w:pPrDefault><w:pPr><w:spacing w:after="80" w:line="264" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults>' +
+                '<w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/><w:qFormat/></w:style>' +
+                '<w:style w:type="paragraph" w:styleId="Title"><w:name w:val="Title"/><w:basedOn w:val="Normal"/><w:next w:val="Normal"/><w:qFormat/><w:pPr><w:spacing w:after="120"/></w:pPr><w:rPr><w:b/><w:color w:val="1F5C43"/><w:sz w:val="44"/></w:rPr></w:style>' +
+                '<w:style w:type="paragraph" w:styleId="Heading1"><w:name w:val="heading 1"/><w:basedOn w:val="Normal"/><w:next w:val="Normal"/><w:qFormat/><w:pPr><w:keepNext/><w:spacing w:before="360" w:after="80"/><w:outlineLvl w:val="0"/></w:pPr><w:rPr><w:b/><w:color w:val="1F5C43"/><w:sz w:val="32"/></w:rPr></w:style>' +
+                '<w:style w:type="paragraph" w:styleId="Heading2"><w:name w:val="heading 2"/><w:basedOn w:val="Normal"/><w:next w:val="Normal"/><w:qFormat/><w:pPr><w:keepNext/><w:spacing w:before="200" w:after="60"/><w:outlineLvl w:val="1"/></w:pPr><w:rPr><w:b/><w:sz w:val="24"/></w:rPr></w:style>' +
+                "</w:styles>";
+
+            // -> Uint8Array of a .docx file.
+            function build_docx(state, frameworks) {
+                const rel = (id, type, target) => '<Relationship Id="' + id + '" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/' + type + '" Target="' + target + '"/>';
+                const rels = (inner) => '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">' + inner + "</Relationships>";
+                return zip_store([
+                    {
+                        name: "[Content_Types].xml",
+                        text:
+                            '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">' +
+                            '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/>' +
+                            '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>' +
+                            '<Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/></Types>',
+                    },
+                    { name: "_rels/.rels", text: rels(rel("rId1", "officeDocument", "word/document.xml")) },
+                    { name: "word/_rels/document.xml.rels", text: rels(rel("rId1", "styles", "styles.xml")) },
+                    {
+                        name: "word/document.xml",
+                        text:
+                            '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document ' + W_NS + "><w:body>" + build_docx_body(state, frameworks) +
+                            '<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1134" w:right="1134" w:bottom="1134" w:left="1134" w:header="708" w:footer="708" w:gutter="0"/></w:sectPr></w:body></w:document>',
+                    },
+                    { name: "word/styles.xml", text: DOCX_STYLES },
+                ]);
+            }
+
+            function docx_filename(state) {
+                return (state.assessedOn || today_iso_date()) + "-alignment-report-" + slugify(state.name, "unnamed-infrastructure") + ".docx";
+            }
+
             function merge_loaded_state(loaded, base) {
                 const fresh = base || initial_state();
                 if (!loaded || typeof loaded !== "object") return fresh;
@@ -1909,6 +2067,11 @@
                             <svg class="menuitem-icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7V3h8v4" /><rect x="3" y="7" width="14" height="7" rx="1.5" /><path d="M6 12h8v5H6z" /></svg>
                             <span class="menuitem-title">Print report / save as PDF</span>
                             <span class="menuitem-desc">A short report of your answers, for each framework you filled in</span>
+                        </button>
+                        <button type="button" role="menuitem" id="word-report-btn">
+                            <svg class="menuitem-icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h6l3 3v11a1 1 0 01-1 1H6a1 1 0 01-1-1v-13a1 1 0 011-1z" /><path d="M12 2.5v3h3M7.5 10l1 4 1.5-3 1.5 3 1-4" /></svg>
+                            <span class="menuitem-title">Save to Word (.docx)</span>
+                            <span class="menuitem-desc">The same report as a Word document, to edit or share</span>
                         </button>
                         <hr role="separator">
                         <button type="button" role="menuitem" id="download-frameworks-btn">
@@ -3629,6 +3792,14 @@
             document.getElementById("download-template-btn").addEventListener("click", download_framework_template);
             document.getElementById("export-report-btn").addEventListener("click", download_json);
             document.getElementById("print-report-btn").addEventListener("click", print_report);
+            document.getElementById("word-report-btn").addEventListener("click", () => {
+                const blob = new Blob([build_docx(state, all_frameworks())], { type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
+                const a = document.createElement("a");
+                a.href = URL.createObjectURL(blob);
+                a.download = docx_filename(state);
+                a.click();
+                setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+            });
             document.getElementById("embed-copy-btn").addEventListener("click", copy_embed_code);
             document.getElementById("download-frameworks-btn").addEventListener("click", download_selected_framework);
             document.getElementById("save-report-github-btn").addEventListener("click", open_save_report_dialog);
