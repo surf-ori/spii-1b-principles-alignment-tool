@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPII Principles Alignment Tool – Open Science NL, 2 December 2026</title>
+<meta name="description" content="Eight slides about the SPII Principles Alignment Tool, presented at Open Science NL on 2 December 2026.">
+<link rel="icon" type="image/svg+xml" href="https://surf-ori.github.io/spii-design-system/assets/favicon.svg">
+<style>
+@font-face{font-family:"Outfit";font-weight:400;font-display:swap;src:url("../../../fonts/outfit-400.woff2") format("woff2");}
+@font-face{font-family:"Outfit";font-weight:500;font-display:swap;src:url("../../../fonts/outfit-500.woff2") format("woff2");}
+@font-face{font-family:"Outfit";font-weight:600;font-display:swap;src:url("../../../fonts/outfit-600.woff2") format("woff2");}
+@font-face{font-family:"Outfit";font-weight:700;font-display:swap;src:url("../../../fonts/outfit-700.woff2") format("woff2");}
+
+:root {
+  --dark: #10140f;
+  --dark-2: #161c15;
+  --light: #f6f4ec;
+  --card: #fbfaf5;
+  --ink: #161f18;
+  --muted: #4d5850;
+  --green: #1f5c43;
+  --green-light: #59b98a;
+  --soft: #dfe9df;
+  --line: #d9d4c3;
+  --on-dark: #eae7db;
+  --on-dark-muted: #b9c4b6;
+}
+
+body { font-family: 'Outfit', Arial, sans-serif; color: var(--ink); }
+
+section { padding: 128px; background: var(--light); color: var(--ink); box-sizing: border-box; display: flex; flex-direction: column; gap: 40px; }
+section.dark { background: var(--dark); color: var(--on-dark); }
+section { counter-increment: page; }
+
+h1 { font-size: 112px; font-weight: 700; line-height: 1.02; letter-spacing: -0.02em; margin: 0; }
+h2 { font-size: 72px; font-weight: 700; line-height: 1.08; letter-spacing: -0.015em; margin: 0; }
+h3 { font-size: 36px; font-weight: 600; line-height: 1.2; margin: 0; }
+p { font-size: 32px; line-height: 1.4; margin: 0; color: var(--muted); }
+.dark p { color: var(--on-dark-muted); }
+.dark h1, .dark h2, .dark h3 { color: var(--on-dark); }
+
+.eyebrow { font-size: 26px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--green); }
+.dark .eyebrow { color: var(--green-light); }
+.lead { font-size: 40px; line-height: 1.35; }
+
+/* cover */
+.cover-row { flex: 1; display: flex; flex-direction: row; align-items: center; gap: 80px; }
+.cover-text { flex: 1; display: flex; flex-direction: column; gap: 36px; }
+.cover-meta { font-size: 28px; color: var(--on-dark-muted); }
+
+/* the six deliverables */
+.why-row { flex: 1; display: flex; flex-direction: row; gap: 72px; align-items: center; }
+.why-text { width: 620px; display: flex; flex-direction: column; gap: 32px; }
+.deliv-grid { flex: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+.deliv { background: var(--card); border: 2px solid var(--line); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 12px; }
+.deliv.is-here { border-color: var(--green); background: var(--soft); }
+.deliv .code { font-size: 24px; font-weight: 700; letter-spacing: 0.06em; color: var(--muted); }
+.deliv .name { font-size: 28px; font-weight: 600; line-height: 1.2; color: var(--ink); }
+.deliv .hex { width: 54px; height: 73px; }
+
+/* principles */
+.two-cards { flex: 1; display: flex; flex-direction: row; gap: 32px; }
+.pcard { flex: 1; background: var(--card); border: 2px solid var(--line); border-radius: 20px; padding: 48px; display: flex; flex-direction: column; gap: 24px; }
+.pcard.accent { background: var(--green); border-color: var(--green); }
+.pcard.accent h3, .pcard.accent .plist li { color: #f3f7f1; }
+.pcard.accent .tag { color: #bfe3cf; }
+.tag { font-size: 24px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--green); }
+.plist { margin: 0; padding-left: 36px; display: flex; flex-direction: column; gap: 14px; }
+.plist li { font-size: 32px; line-height: 1.35; color: var(--ink); }
+.closing { font-size: 34px; font-weight: 500; color: var(--ink); }
+
+/* screenshot slides */
+.shot-row { flex: 1; display: flex; flex-direction: row; gap: 64px; align-items: center; }
+.shot { width: 1040px; height: 650px; object-fit: contain; border-radius: 16px; border: 2px solid var(--line); background: #ffffff; }
+.shot-text { flex: 1; display: flex; flex-direction: column; gap: 28px; }
+.shot-text h2 { font-size: 60px; }
+.steps { margin: 0; padding-left: 40px; display: flex; flex-direction: column; gap: 18px; }
+.steps li { font-size: 30px; line-height: 1.35; color: var(--ink); }
+
+/* next */
+.next-row { flex: 1; display: flex; flex-direction: row; gap: 32px; }
+.ncard { flex: 1; background: var(--card); border: 2px solid var(--line); border-top: 10px solid var(--green); border-radius: 20px; padding: 44px; display: flex; flex-direction: column; gap: 20px; }
+.ncard .when { font-size: 26px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--green); }
+.ncard p { font-size: 30px; }
+.hex-row { display: flex; flex-direction: row; gap: 14px; }
+.hex-row svg { width: 48px; height: 65px; }
+
+/* try it */
+.try-box { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 40px; }
+.url { font-size: 60px; font-weight: 600; color: var(--green-light); }
+.try-list { display: flex; flex-direction: row; gap: 48px; }
+.try-item { flex: 1; border-top: 3px solid #2b342a; padding-top: 24px; display: flex; flex-direction: column; gap: 12px; }
+.try-item h3 { font-size: 34px; }
+
+/* entrance */
+@keyframes rise { from { opacity: 0; transform: translateY(24px); } }
+.deliv, .pcard, .ncard, .shot { animation: rise 500ms ease-out both; animation-delay: calc(var(--i, 0) * 110ms); }
+
+/* ---- viewer: one 1920x1080 slide at a time, scaled to the window ---- */
+html, body { margin: 0; height: 100%; background: #0b0e0a; overflow: hidden; }
+#stage { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; transform-origin: 0 0; }
+section.slide { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+section.slide:not(.current) { display: none; }
+aside.notes { display: none; }
+body.show-notes aside.notes { display: block; position: absolute; left: 0; right: 0; bottom: 0; padding: 24px 128px; background: rgba(16,20,15,.92); color: #eae7db; font-size: 26px; line-height: 1.45; }
+#hud { position: fixed; right: 16px; bottom: 12px; color: #9fad9f; font: 14px system-ui, sans-serif; opacity: .7; }
+@media print {
+  @page { size: 1920px 1080px; margin: 0; }
+  html, body { overflow: visible; height: auto; background: none; }
+  #stage { position: static; transform: none !important; width: auto; height: auto; }
+  section.slide, section.slide:not(.current) { display: flex; position: relative; page-break-after: always; break-after: page; }
+  .deliv, .pcard, .ncard, .shot { animation: none; }
+  #hud { display: none; }
+}
+</style>
+</head>
+<body>
+<div id="stage">
+<section id="cover" class="slide dark" data-transition="fade">
+<div class="cover-row">
+<div class="cover-text">
+<p class="eyebrow">SPII · deliverable 1B</p>
+<h1>Principles Alignment Tool</h1>
+<p class="lead">Self-assess how your Open Science infrastructure puts shared values and principles into practice.</p>
+<p class="cover-meta">Maurice Vanderfeesten, SURF · Open Science NL, 2 December 2026</p>
+</div>
+<svg aria-label="The six SPII deliverables as hexagons: three reference model parts on top, each with its tool below" viewBox="50 35 220 180" width="220" height="180" style="width:660px;height:540px"><g fill="none" stroke="#3a4539" stroke-width="2"><line x1="80" y1="70" x2="80" y2="180"/><line x1="160" y1="70" x2="160" y2="180"/><line x1="240" y1="70" x2="240" y2="180"/><line x1="80" y1="70" x2="240" y2="70"/></g><polygon points="80,45 97,58 97,82 80,95 63,82 63,58" fill="#7B3FB0" stroke="#7B3FB0" stroke-width="3" stroke-linejoin="round"/><g transform="translate(80 70) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M0 -18V16M-10 16H10M-17 -11H17M-17 -11L-22 3M-17 -11L-12 3M17 -11L12 3M17 -11L22 3"/><path d="M-22 3H-12A5 4 0 0 1 -22 3ZM12 3H22A5 4 0 0 1 12 3Z"/><circle cx="0" cy="-18" r="2.2"/></g><polygon points="80,155 97,168 97,192 80,205 63,192 63,168" fill="#52247D" stroke="#52247D" stroke-width="3" stroke-linejoin="round"/><g transform="translate(80 180) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M-18 8A18 18 0 0 1 18 8"/><path d="M-12.7 -4.7L-10 -2.6M0 -10V-6.5M12.7 -4.7L10 -2.6"/><path d="M0 8L9 -4"/><circle cx="0" cy="8" r="2.6"/></g><polygon points="160,45 177,58 177,82 160,95 143,82 143,58" fill="#E8702A" stroke="#E8702A" stroke-width="3" stroke-linejoin="round"/><g transform="translate(160 70) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M-17 16C-6 16 -14 2 -3 2S6 -8 12 -8" stroke-dasharray="3 4"/><circle cx="-17" cy="16" r="3"/><path d="M13 -2C9 -7 7 -10 7 -13A6 6 0 0 1 19 -13C19 -10 17 -7 13 -2Z"/></g><polygon points="160,155 177,168 177,192 160,205 143,192 143,168" fill="#B04A12" stroke="#B04A12" stroke-width="3" stroke-linejoin="round"/><g transform="translate(160 180) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M0 0L0 -15M0 0L-15 -4M0 0L14 -6M0 0L-8 14M0 0L11 13M-15 -4L0 -15L14 -6M-8 14L11 13"/><circle cx="0" cy="0" r="3.2"/><circle cx="0" cy="-15" r="2.6"/><circle cx="-15" cy="-4" r="2.6"/><circle cx="14" cy="-6" r="2.6"/><circle cx="-8" cy="14" r="2.6"/><circle cx="11" cy="13" r="2.6"/></g><polygon points="240,45 257,58 257,82 240,95 223,82 223,58" fill="#1F86C1" stroke="#1F86C1" stroke-width="3" stroke-linejoin="round"/><g transform="translate(240 70) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><circle cx="-6" cy="0" r="11"/><circle cx="6" cy="0" r="11"/></g><polygon points="240,155 257,168 257,192 240,205 223,192 223,168" fill="#145F8C" stroke="#145F8C" stroke-width="3" stroke-linejoin="round"/><g transform="translate(240 180) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><rect x="-18" y="-6" width="36" height="22" rx="2.5"/><path d="M-7 -6V-12H7V-6M-18 3H18M-3 3V7H3V3"/></g></svg>
+</div>
+<aside class="notes">About 30 seconds. Good afternoon. I will show you the Principles Alignment Tool: a free, open tool to self-assess how your Open Science infrastructure puts shared values and principles into practice. It is deliverable 1B of SPII, the Strategic Plan for Integrated Infrastructure. The six hexagons are the six SPII deliverables; this tool is the purple one at the bottom left.</aside>
+</section>
+<section id="why" class="slide">
+<div class="why-row">
+<div class="why-text">
+<p class="eyebrow">Why</p>
+<h2>One coherent, connected Open Science infrastructure</h2>
+<p>SPII is building a reference model for the Netherlands: three parts, each with a tool that puts it into practice.</p>
+</div>
+<div class="deliv-grid">
+<div class="deliv" style="--i:0"><svg class="hex" aria-label="1A hexagon" viewBox="-20 -27 40 54" width="40" height="54"><polygon points="0,-25 17,-12 17,12 0,25 -17,12 -17,-12" fill="#7B3FB0" stroke="#7B3FB0" stroke-width="3" stroke-linejoin="round"/><g transform="translate(0 0) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M0 -18V16M-10 16H10M-17 -11H17M-17 -11L-22 3M-17 -11L-12 3M17 -11L12 3M17 -11L22 3"/><path d="M-22 3H-12A5 4 0 0 1 -22 3ZM12 3H22A5 4 0 0 1 12 3Z"/><circle cx="0" cy="-18" r="2.2"/></g></svg><p class="code">1A · MODEL</p><p class="name">Values and Principles</p></div>
+<div class="deliv" style="--i:1"><svg class="hex" aria-label="2A hexagon" viewBox="-20 -27 40 54" width="40" height="54"><polygon points="0,-25 17,-12 17,12 0,25 -17,12 -17,-12" fill="#E8702A" stroke="#E8702A" stroke-width="3" stroke-linejoin="round"/><g transform="translate(0 0) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M-17 16C-6 16 -14 2 -3 2S6 -8 12 -8" stroke-dasharray="3 4"/><circle cx="-17" cy="16" r="3"/><path d="M13 -2C9 -7 7 -10 7 -13A6 6 0 0 1 19 -13C19 -10 17 -7 13 -2Z"/></g></svg><p class="code">2A · MODEL</p><p class="name">Landscape &amp; Researcher Journey</p></div>
+<div class="deliv" style="--i:2"><svg class="hex" aria-label="3A hexagon" viewBox="-20 -27 40 54" width="40" height="54"><polygon points="0,-25 17,-12 17,12 0,25 -17,12 -17,-12" fill="#1F86C1" stroke="#1F86C1" stroke-width="3" stroke-linejoin="round"/><g transform="translate(0 0) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><circle cx="-6" cy="0" r="11"/><circle cx="6" cy="0" r="11"/></g></svg><p class="code">3A · MODEL</p><p class="name">Capabilities &amp; Interoperability</p></div>
+<div class="deliv is-here" style="--i:3"><svg class="hex" aria-label="1B hexagon" viewBox="-20 -27 40 54" width="40" height="54"><polygon points="0,-25 17,-12 17,12 0,25 -17,12 -17,-12" fill="#52247D" stroke="#52247D" stroke-width="3" stroke-linejoin="round"/><g transform="translate(0 0) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M-18 8A18 18 0 0 1 18 8"/><path d="M-12.7 -4.7L-10 -2.6M0 -10V-6.5M12.7 -4.7L10 -2.6"/><path d="M0 8L9 -4"/><circle cx="0" cy="8" r="2.6"/></g></svg><p class="code">1B · TOOL · TODAY</p><p class="name">Principles Alignment Tool</p></div>
+<div class="deliv" style="--i:4"><svg class="hex" aria-label="2B hexagon" viewBox="-20 -27 40 54" width="40" height="54"><polygon points="0,-25 17,-12 17,12 0,25 -17,12 -17,-12" fill="#B04A12" stroke="#B04A12" stroke-width="3" stroke-linejoin="round"/><g transform="translate(0 0) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M0 0L0 -15M0 0L-15 -4M0 0L14 -6M0 0L-8 14M0 0L11 13M-15 -4L0 -15L14 -6M-8 14L11 13"/><circle cx="0" cy="0" r="3.2"/><circle cx="0" cy="-15" r="2.6"/><circle cx="-15" cy="-4" r="2.6"/><circle cx="14" cy="-6" r="2.6"/><circle cx="-8" cy="14" r="2.6"/><circle cx="11" cy="13" r="2.6"/></g></svg><p class="code">2B · TOOL</p><p class="name">Inventory of infrastructures and projects</p></div>
+<div class="deliv" style="--i:5"><svg class="hex" aria-label="3B hexagon" viewBox="-20 -27 40 54" width="40" height="54"><polygon points="0,-25 17,-12 17,12 0,25 -17,12 -17,-12" fill="#145F8C" stroke="#145F8C" stroke-width="3" stroke-linejoin="round"/><g transform="translate(0 0) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><rect x="-18" y="-6" width="36" height="22" rx="2.5"/><path d="M-7 -6V-12H7V-6M-18 3H18M-3 3V7H3V3"/></g></svg><p class="code">3B · TOOL</p><p class="name">Toolbox of shared components</p></div>
+</div>
+</div>
+<aside class="notes">About 45 seconds. Why this tool? It was designed and developed in SPII, the Strategic Plan for Integrated Infrastructure: a project that works on a reference model for a coherent and connected Open Science infrastructure for the Netherlands. The reference model has three parts on top: values and principles, the landscape and researcher journey, and capabilities and interoperability. Each part has a tool below it that puts it into practice. Today is about the first tool: the Principles Alignment Tool.</aside>
+</section>
+<section id="principles" class="slide">
+<p class="eyebrow">Principles</p>
+<h2>POSI, plus three complementary principles</h2>
+<div class="two-cards">
+<div class="pcard" style="--i:0">
+<p class="tag">The base</p>
+<h3>POSI v2.0: the Principles of Open Scholarly Infrastructure</h3>
+<ul class="plist">
+<li>Governance</li>
+<li>Sustainability</li>
+<li>Insurance</li>
+</ul>
+</div>
+<div class="pcard accent" style="--i:1">
+<p class="tag">Added after community consultations</p>
+<h3>Complementary principles</h3>
+<ul class="plist">
+<li>Autonomy</li>
+<li>Researcher-centric: a seamless user experience</li>
+<li>Researcher-centric: recognition and rewards</li>
+</ul>
+</div>
+</div>
+<p class="closing">Self-assess your infrastructure, and align it to these principles.</p>
+<aside class="notes">About 45 seconds. The tool is based on POSI, the Principles of Open Scholarly Infrastructure, version 2.0: governance, sustainability and insurance. Through community consultations, SPII identified three more principles, based on autonomy and researcher-centricity: autonomy, a seamless user experience, and recognition and rewards. With the tool you self-assess your infrastructure against these principles, and see where to align it.</aside>
+</section>
+<section id="how" class="slide">
+<div class="shot-row">
+<img class="shot" src="principle.png" alt="The tool showing the principle Coverage across the scholarly enterprise, marked as a priority with a star, with a description for each adoption level and ideas to improve" style="--i:0">
+<div class="shot-text">
+<p class="eyebrow">How it works</p>
+<h2>Rate each principle</h2>
+<ol class="steps">
+<li>Describe your infrastructure</li>
+<li>Rate each principle from low to high adoption, or not applicable</li>
+<li>Star your priorities</li>
+<li>Read what each level looks like, with ideas to improve and examples</li>
+</ol>
+</div>
+</div>
+<aside class="notes">About 45 seconds. How does it work? You describe your infrastructure, then rate each principle: low adoption, making progress, high adoption, or not applicable. You can star the principles that matter most to you. And for guidance, you can switch on descriptions of what each level looks like, with ideas to improve and examples from organisations that do it well. These come from the reports of POSI adopters; the first two principles have them today.</aside>
+</section>
+<section id="scale" class="slide">
+<div class="shot-row">
+<img class="shot" src="scale.png" alt="The Customize scale dialog for POSI: per option an icon, a colour, a title, an optional description and whether it counts toward the score" style="--i:0">
+<div class="shot-text">
+<p class="eyebrow">Customization</p>
+<h2>Define your own scale</h2>
+<ul class="steps">
+<li>The default runs from low adoption to high adoption</li>
+<li>Choose icons, colours, numbers and your own text per level</li>
+<li>Say what “high adoption” means for you, or use a traffic light</li>
+</ul>
+</div>
+</div>
+<aside class="notes">About 45 seconds. You can customize and define your own scale for the whole self-assessment. By default it runs from low adoption to high adoption. But you can choose icons, colours and numbers, and write a text for each level: for example, define what low or high adoption means in your case. Or don’t use these definitions at all and use a traffic light system instead.</aside>
+</section>
+<section id="report" class="slide">
+<div class="shot-row">
+<img class="shot" src="summary.png" alt="The alignment summary of an example report: 92 percent, with a bar per section showing low adoption, making progress and high adoption" style="--i:0">
+<div class="shot-text">
+<p class="eyebrow">Summary report</p>
+<h2>See where you stand, and keep your work</h2>
+<ul class="steps">
+<li>An alignment summary per section</li>
+<li>Saved automatically in your browser, until you start a new alignment</li>
+<li>Import an example (OpenAIRE, OpenAlex, HAL) to see how it was done</li>
+<li>Export to JSON, PDF or Word</li>
+</ul>
+</div>
+</div>
+<aside class="notes">About 60 seconds. At the end you get a summary report: an overview of how you are working against these principles, per section. Your answers are saved automatically in your browser until you click Start a new alignment, and you can also save them to a file. Don’t know where to start? Import an existing assessment, for example the ones for OpenAIRE, OpenAlex or HAL, and see how it was completed. And you can export your alignment as a report in different formats, JSON, PDF and Word, which is useful for internal discussions about the development of your infrastructure.</aside>
+</section>
+<section id="next" class="slide">
+<p class="eyebrow">What is coming next</p>
+<h2>From tested tool to final version</h2>
+<div class="next-row">
+<div class="ncard" style="--i:0">
+<p class="when">Early 2027</p>
+<h3>Final version</h3>
+<p>A final, user-friendly tool. It has been tested, and the feedback is being incorporated.</p>
+</div>
+<div class="ncard" style="--i:1">
+<p class="when">Guidelines</p>
+<h3>How principles can be met</h3>
+<p>Examples of organisations doing it well and possible improvement actions, based on POSI adopters’ reports.</p>
+</div>
+<div class="ncard" style="--i:2">
+<p class="when">SPII</p>
+<h3>Landscaping and interoperability</h3>
+<div class="hex-row"><svg aria-label="2A hexagon" viewBox="-20 -27 40 54" width="40" height="54"><polygon points="0,-25 17,-12 17,12 0,25 -17,12 -17,-12" fill="#E8702A" stroke="#E8702A" stroke-width="3" stroke-linejoin="round"/><g transform="translate(0 0) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M-17 16C-6 16 -14 2 -3 2S6 -8 12 -8" stroke-dasharray="3 4"/><circle cx="-17" cy="16" r="3"/><path d="M13 -2C9 -7 7 -10 7 -13A6 6 0 0 1 19 -13C19 -10 17 -7 13 -2Z"/></g></svg><svg aria-label="2B hexagon" viewBox="-20 -27 40 54" width="40" height="54"><polygon points="0,-25 17,-12 17,12 0,25 -17,12 -17,-12" fill="#B04A12" stroke="#B04A12" stroke-width="3" stroke-linejoin="round"/><g transform="translate(0 0) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M0 0L0 -15M0 0L-15 -4M0 0L14 -6M0 0L-8 14M0 0L11 13M-15 -4L0 -15L14 -6M-8 14L11 13"/><circle cx="0" cy="0" r="3.2"/><circle cx="0" cy="-15" r="2.6"/><circle cx="-15" cy="-4" r="2.6"/><circle cx="14" cy="-6" r="2.6"/><circle cx="-8" cy="14" r="2.6"/><circle cx="11" cy="13" r="2.6"/></g></svg><svg aria-label="3A hexagon" viewBox="-20 -27 40 54" width="40" height="54"><polygon points="0,-25 17,-12 17,12 0,25 -17,12 -17,-12" fill="#1F86C1" stroke="#1F86C1" stroke-width="3" stroke-linejoin="round"/><g transform="translate(0 0) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><circle cx="-6" cy="0" r="11"/><circle cx="6" cy="0" r="11"/></g></svg><svg aria-label="3B hexagon" viewBox="-20 -27 40 54" width="40" height="54"><polygon points="0,-25 17,-12 17,12 0,25 -17,12 -17,-12" fill="#145F8C" stroke="#145F8C" stroke-width="3" stroke-linejoin="round"/><g transform="translate(0 0) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><rect x="-18" y="-6" width="36" height="22" rx="2.5"/><path d="M-7 -6V-12H7V-6M-18 3H18M-3 3V7H3V3"/></g></svg></div>
+<p>The other SPII deliverables follow.</p>
+</div>
+</div>
+<aside class="notes">About 45 seconds. What is coming next? A final and user-friendly version, ready in early 2027: the tool has already been tested, and the feedback is being incorporated. Guidelines: examples of how the principles can be met, concrete examples of those doing it well, and suggestions for improvement actions, based on the current POSI adopters’ reports. And the other SPII deliverables: landscaping and interoperability.</aside>
+</section>
+<section id="try" class="slide dark">
+<div class="try-box">
+<p class="eyebrow">Try it today</p>
+<h2>Self-assess your infrastructure</h2>
+<p class="url">surf-ori.github.io/spii-1b-principles-alignment-tool</p>
+<div class="try-list">
+<div class="try-item">
+<h3>Free and open</h3>
+<p>Runs in your browser; your answers stay on your device.</p>
+</div>
+<div class="try-item">
+<h3>Tell us what you think</h3>
+<p>The Feedback button at the bottom right of every SPII page.</p>
+</div>
+<div class="try-item">
+<h3>All of SPII</h3>
+<p>surf-ori.github.io/spii-overview</p>
+</div>
+</div>
+</div>
+<aside class="notes">About 20 seconds. You can try it today, at this address. It is free and open, runs in your browser, and your answers stay on your device. We would love your feedback: there is a feedback button at the bottom right of every SPII page. And the overview page shows all six SPII deliverables. Thank you.</aside>
+</section>
+</div>
+<div id="hud">← → to browse · N notes · F full screen · P print</div>
+<script>
+(function () {
+  var slides = [].slice.call(document.querySelectorAll("section.slide"));
+  var stage = document.getElementById("stage");
+  var i = Math.max(0, Math.min(slides.length - 1, (parseInt((location.hash.match(/slide-(\d+)/) || [])[1], 10) || 1) - 1));
+  function fit() {
+    var s = Math.min(innerWidth / 1920, innerHeight / 1080);
+    stage.style.transform = "scale(" + s + ") translate(-50%, -50%)";
+  }
+  function show(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function (s, k) { s.classList.toggle("current", k === i); });
+    history.replaceState(null, "", "#slide-" + (i + 1));
+  }
+  addEventListener("resize", fit);
+  addEventListener("keydown", function (e) {
+    if (["ArrowRight", "PageDown", " ", "Enter"].indexOf(e.key) >= 0) show(i + 1);
+    else if (["ArrowLeft", "PageUp", "Backspace"].indexOf(e.key) >= 0) show(i - 1);
+    else if (e.key === "Home") show(0);
+    else if (e.key === "End") show(slides.length - 1);
+    else if (e.key === "n" || e.key === "N") document.body.classList.toggle("show-notes");
+    else if (e.key === "f" || e.key === "F") (document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen());
+    else if (e.key === "p" || e.key === "P") print();
+    else return;
+    e.preventDefault();
+  });
+  addEventListener("click", function (e) { if (!e.target.closest("a")) show(e.clientX < innerWidth / 3 ? i - 1 : i + 1); });
+  fit(); show(i);
+})();
+</script>
+</body>
+</html>
