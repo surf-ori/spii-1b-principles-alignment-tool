@@ -3,6 +3,7 @@
 //   PW_MODULE=/path/to/playwright/index.mjs PW_CHROMIUM=/path/to/chromium node test-app.mjs --ui
 import fs from "node:fs";
 import vm from "node:vm";
+import zlib from "node:zlib";
 import path from "node:path";
 
 const ROOT = path.dirname(new URL(import.meta.url).pathname);
@@ -22,6 +23,7 @@ export const storageGet = (key) => (storage.has(key) ? storage.get(key) : null);
 export function loadLogic() {
     const ctx = vm.createContext({
         console,
+        TextEncoder,
         getComputedStyle: () => ({ getPropertyValue: (v) => ({ "--destructive": "#b3261e", "--warning": "#b06b00", "--compliant": "#1f5c43" })[v] || "" }),
         document: { documentElement: {} },
         localStorage: { getItem: storageGet, setItem: (k, v) => storage.set(k, String(v)), removeItem: (k) => storage.delete(k) },
@@ -46,7 +48,7 @@ export const run = (ctx, code) => vm.runInContext(code, ctx);
     check("POSI icons and colors", (posi.levels || []).map((l) => l.icon + l.color).join() === "cross--destructive,clock--warning,check--compliant");
     check("complementary criteria use level ids", posi.sections.at(-1).principles.every((p) => p.criteria && Object.keys(p.criteria).sort().join() === "high-adoption,low-adoption,making-progress"));
     check("About POSI lost the approved paragraph", !/Approved assessment framework/.test(posi.aboutHtml) && /Principles of Open Scholarly Infrastructure \(POSI\) is/.test(posi.aboutHtml));
-    check("intro present", !!posi.intro && /Strategic Plan for Integrated Infrastructure/.test(posi.intro.title) && /Complementary principles/.test(posi.intro.html) && !/Complimentary/.test(posi.intro.html));
+    check("SPII intro moved out of POSI to the page", posi.intro === undefined && /Introduction to the Strategic Plan for Integrated Infrastructure/.test(R("SPII_INTRO_HTML")) && /Complementary principles/.test(R("SPII_INTRO_HTML")) && !/Complimentary/.test(R("SPII_INTRO_HTML")));
     check("validate_framework_shape accepts POSI", R("validate_framework_shape")(posi) === true);
     check("icon markup by name", R('icon_markup_by_name("cross")').includes("M7 7l6 6") && R('icon_markup_by_name("3")').includes(">3<") && R('icon_markup_by_name("question")').includes(">?<"));
     check("level_color resolves tokens", R('level_color(FRAMEWORKS[0], "high-adoption")') === "#1f5c43");
@@ -139,6 +141,60 @@ export const run = (ctx, code) => vm.runInContext(code, ctx);
 }
 
 {
+    // Word (.docx) export
+    const c = loadLogic();
+    const R = (s) => run(c, s);
+    R('globalThis.posi = FRAMEWORKS.find((f) => f.id === "posi"); globalThis.state = initial_state(); state.name = "Repo <A&B>"; state.assessedOn = "2026-11-26"; state.frameworks.posi.coverage.status = "high-adoption"; state.frameworks.posi.coverage.notes = "line one\\nline two \\u0001"; state.frameworks.posi["stakeholder-governed"].priority = true;');
+    check("crc32 matches zlib", R('crc32(new TextEncoder().encode("hello world"))') === zlib.crc32("hello world"));
+    const bytes = Buffer.from(R("build_docx(state, FRAMEWORKS)"));
+    // read the stored zip entries back
+    const entries = {};
+    for (let at = 0; bytes.readUInt32LE(at) === 0x04034b50; ) {
+        const size = bytes.readUInt32LE(at + 18), nameLen = bytes.readUInt16LE(at + 26), crc = bytes.readUInt32LE(at + 14);
+        const name = bytes.subarray(at + 30, at + 30 + nameLen).toString();
+        const data = bytes.subarray(at + 30 + nameLen, at + 30 + nameLen + size);
+        entries[name] = { text: data.toString(), crcOk: zlib.crc32(data) === crc };
+        at += 30 + nameLen + size;
+    }
+    check("docx: a zip with the Word parts and valid checksums", ["[Content_Types].xml", "_rels/.rels", "word/_rels/document.xml.rels", "word/document.xml", "word/styles.xml"].every((n) => entries[n] && entries[n].crcOk) && bytes.includes(Buffer.from([0x50, 0x4b, 0x05, 0x06])), Object.keys(entries).join());
+    const doc = entries["word/document.xml"].text;
+    check("docx: escaped name as title, POSI section, answer, priority, notes with a line break", doc.includes("Repo &lt;A&amp;B&gt;") && doc.includes('w:val="Title"') && doc.includes("POSI v2.0") && doc.includes("High adoption") && doc.includes("★ Priorities") && /line one<\/w:t><w:br\/><w:t xml:space="preserve">line two <\/w:t>/.test(doc));
+    check("docx: no characters XML forbids", !/[\u0000-\u0008]/.test(doc));
+    check("docx: only frameworks with answers, like the printed report", !doc.includes("GORC"));
+    check("docx file name", R("docx_filename(state)") === "2026-11-26-alignment-report-repo-a-b.docx");
+    fs.writeFileSync(path.join(process.env.DOCX_OUT || "/tmp", "spii-test-report.docx"), bytes);
+}
+
+{
+    // Priority star
+    const c = loadLogic();
+    const R = (s) => run(c, s);
+    R('globalThis.posi = FRAMEWORKS.find((f) => f.id === "posi"); globalThis.state = initial_state(); state.frameworks.posi["stakeholder-governed"].priority = true;');
+    check("new state: no priorities", R('state.frameworks.posi.coverage.priority') === false);
+    const exp = JSON.parse(R('JSON.stringify(build_export_object(state, "posi"))'));
+    check("export: priority only where marked", exp.frameworks.posi["stakeholder-governed"].priority === true && !("priority" in exp.frameworks.posi.coverage));
+    check("import keeps the stars", R('merge_loaded_state(' + JSON.stringify(exp) + ').frameworks.posi["stakeholder-governed"].priority') === true && R('merge_loaded_state(' + JSON.stringify(exp) + ').frameworks.posi.coverage.priority') === false);
+    const html = R('build_report_html(state, [posi])');
+    check("report: a star alone puts the framework in the report, with a Priorities line and a star in the table", /★ Priorities:<\/strong> Stakeholder governed/.test(html) && /report-star/.test(html));
+}
+
+{
+    // Alignment level descriptions (POSI guidance) and display preferences
+    const c = loadLogic();
+    const R = (s) => run(c, s);
+    R('globalThis.posi = FRAMEWORKS.find((f) => f.id === "posi"); globalThis.p1 = posi.sections[0].principles[0]; globalThis.p3 = posi.sections[0].principles[2];');
+    check("POSI has level descriptions for the first two principles only", R("posi.sections.flatMap((s) => s.principles).filter((p) => p.guidance).map((p) => p.id).join()") === "coverage,stakeholder-governed");
+    check("each description covers the three POSI levels, with ideas and examples", R('["low-adoption","making-progress","high-adoption"].every((id) => typeof p1.guidance.levels[id] === "string") && p1.guidance.improve.length === 2 && p1.guidance.examples.length === 2'));
+    check("has_guidance: POSI yes, GORC no", R("has_guidance(posi)") === true && R('has_guidance(FRAMEWORKS.find((f) => f.id === "gorc"))') === false);
+    check("guidance_for gives the descriptions with the default scale", R("guidance_for(posi, p1) === p1.guidance") === true && R("guidance_for(posi, p3)") === null);
+    R('set_scale(posi, [{id:"a",label:"A"},{id:"b",label:"B"}])');
+    check("a custom scale switches the descriptions off", R("has_custom_scale(posi)") === true && R("guidance_for(posi, p1)") === null);
+    R("set_scale(posi, null)");
+    check("resetting the scale brings them back", R("has_custom_scale(posi)") === false && R("guidance_for(posi, p1) === p1.guidance") === true);
+    check("display preferences default to POSI only, descriptions off", R("JSON.stringify(load_prefs())") === JSON.stringify({ showOtherFrameworks: false, showLevelDescriptions: false }));
+}
+
+{
     // Theme: dark / system / light
     const c = loadLogic();
     const R = (s) => run(c, s);
@@ -180,9 +236,9 @@ export const run = (ctx, code) => vm.runInContext(code, ctx);
     R('state.name = "Repo <X>"; state.assessedOn = "2026-11-09"; state.activities = ["Research life cycle activities > Discover"];');
     const html = R("build_report_html(state, FRAMEWORKS)");
     check("report: header with escaped name, date and activities", html.includes("Repo &lt;X&gt;") && html.includes("2026-11-09") && html.includes("Discover"));
-    check("report: only frameworks with answers", html.includes("POSI v2.0 Assessment") && html.includes("GORC") && !html.includes("FAIR v1.0") && !html.includes("FOREST"));
+    check("report: only frameworks with answers", html.includes("POSI v2.0") && html.includes("GORC") && !html.includes("FAIR v1.0") && !html.includes("FOREST"));
     check("report: answers, N/A and escaped notes, no criteria", html.includes("High adoption") && html.includes("Not applicable") && html.includes("We do not &lt;publish&gt; &amp; curate") && !html.includes("Data, infrastructure control, and critical decisions remain"));
-    check("report: score lines", html.includes("Self-assessment score: 100%") && html.includes("Self-assessment score: 50% compliant"));
+    check("report: score lines", html.includes("Alignment summary: 100%") && html.includes("Alignment summary: 50% compliant"));
     check("report without answers says so", run(loadLogic(), "build_report_html(initial_state(), FRAMEWORKS)").includes("No answers yet"));
 }
 
@@ -192,18 +248,18 @@ export const run = (ctx, code) => vm.runInContext(code, ctx);
     const c = loadLogic();
     const R = (s) => run(c, s);
     R('globalThis.posi = FRAMEWORKS.find((f) => f.id === "posi"); globalThis.state = initial_state(); state.name = "OpenAIRE"; state.assessedOn = "2026-11-09"; globalThis.k = Object.keys(state.frameworks.posi); state.frameworks.posi[k[0]].status = "high-adoption"; state.frameworks.gorc[Object.keys(state.frameworks.gorc)[0]].status = "compliant";');
-    check("report file name: date, framework, infrastructure", R("report_filename(state, posi)") === "2026-11-09-posi-v2-0-assessment-openaire.json", R("report_filename(state, posi)"));
-    check("report file name without a name", R('report_filename(Object.assign({}, state, {name: ""}), posi)') === "2026-11-09-posi-v2-0-assessment-unnamed-infrastructure.json");
-    check("framework file name: date and framework", R('framework_filename(posi, "2026-11-09")') === "2026-11-09-posi-v2-0-assessment-framework.json");
+    check("report file name: date, framework, infrastructure", R("report_filename(state, posi)") === "2026-11-09-posi-v2-0-openaire.json", R("report_filename(state, posi)"));
+    check("report file name without a name", R('report_filename(Object.assign({}, state, {name: ""}), posi)') === "2026-11-09-posi-v2-0-unnamed-infrastructure.json");
+    check("framework file name: date and framework", R('framework_filename(posi, "2026-11-09")') === "2026-11-09-posi-v2-0-framework.json");
     const rep = R('build_export_object(state, "posi")');
     check("report export holds only the selected framework", Object.keys(rep.frameworks).join() === "posi" && rep.customFrameworks.length === 0);
-    check("report export explains itself", Object.keys(rep)[0] === "_readme" && rep._readme.includes("POSI v2.0 Assessment") && rep._readme.includes("https://surf-ori.github.io/spii-1b-principles-alignment-tool/") && /Import Assessment Report/.test(rep._readme));
+    check("report export explains itself", Object.keys(rep)[0] === "_readme" && rep._readme.includes("POSI v2.0") && rep._readme.includes("https://surf-ori.github.io/spii-1b-principles-alignment-tool/") && /Import Alignment Report/.test(rep._readme));
     const c2 = loadLogic();
     run(c2, "globalThis.back = merge_loaded_state(" + JSON.stringify(rep) + ");");
     check("a single-framework report imports", run(c2, `back.frameworks.posi["${R("k[0]")}"].status`) === "high-adoption" && run(c2, "back.name") === "OpenAIRE");
     const fw = R('build_framework_export(posi, "2026-11-09")');
     check("framework export: one framework, readme first, valid", !Array.isArray(fw) && Object.keys(fw)[0] === "_readme" && fw.id === "posi" && R("validate_framework_shape")(fw) === true);
-    check("framework readme says what to edit, to change the id, and where to import", /criteria/.test(fw._readme) && /new `id`|new id/i.test(fw._readme) && fw._readme.includes("https://surf-ori.github.io/spii-1b-principles-alignment-tool/") && /Import Assessment Framework/.test(fw._readme));
+    check("framework readme says what to edit, to change the id, and where to import", /criteria/.test(fw._readme) && /new `id`|new id/i.test(fw._readme) && fw._readme.includes("https://surf-ori.github.io/spii-1b-principles-alignment-tool/") && /Import Alignment Framework/.test(fw._readme));
     check("an old _readme is replaced, not kept", R('build_framework_export(Object.assign({_readme: "old"}, posi), "2026-11-09")._readme') !== "old");
 }
 
@@ -214,12 +270,12 @@ export const run = (ctx, code) => vm.runInContext(code, ctx);
     const R = (s) => run(c, s);
     check("the SPII frameworks are no longer built in", R("FRAMEWORKS.map((f) => f.id).join()") === "posi,gorc,fair,bd,osr,7gpri,care,forest");
     const posi = R('FRAMEWORKS[0]');
-    check("SPII is the Strategic Plan for Integrated Infrastructure", posi.intro.title === "Introduction to Strategic Plan for Integrated Infrastructure" && /Strategic Plan for Integrated Infrastructure \(SPII\)/.test(posi.intro.html) && !/ on Integrated/.test(R("ABOUT_TOOL_HTML") + JSON.stringify(posi)));
-    check("the 'Other frameworks' line is gone from the POSI intro", !/Other frameworks:/.test(posi.intro.html));
+    check("SPII is the Strategic Plan for Integrated Infrastructure", /Strategic Plan for Integrated Infrastructure \(SPII\)/.test(R("SPII_INTRO_HTML")) && !/ on Integrated/.test(R("ABOUT_TOOL_HTML") + R("SPII_INTRO_HTML") + JSON.stringify(posi)));
+    check("the 'Other frameworks' line is gone from the SPII intro", !/Other frameworks:/.test(R("SPII_INTRO_HTML")));
     check("About: SPII spelled out, AI statement, no values/CRIS paragraphs", /Strategic Plan for Integrated Infrastructure \(SPII\)/.test(R("ABOUT_TOOL_HTML")) && /developed with AI assistance \(Claude\)/.test(R("ABOUT_TOOL_HTML")) && !/UNESCO/.test(R("ABOUT_TOOL_HTML")) && !/Current Research Information System/.test(R("ABOUT_TOOL_HTML")));
     R('globalThis.posi = FRAMEWORKS[0]; globalThis.state = initial_state(); globalThis.k = posi.sections[0].principles.map((p) => p.id);');
     R('state.frameworks.posi[k[0]].status = "high-adoption"; state.frameworks.posi[k[1]].status = "low-adoption"; state.frameworks.posi[k[2]].status = "not-applicable";');
-    check("summary heading is the self-assessment score", R('summary_text(compute_summary(state, "posi", posi), posi).heading') === "Self-assessment score: 50%");
+    check("summary heading is the alignment summary", R('summary_text(compute_summary(state, "posi", posi), posi).heading') === "Alignment summary: 50%");
     check("the score is explained", /Low adoption.*0%.*High adoption.*100%/.test(R("score_explanation(posi)")) && /Not applicable/.test(R("score_explanation(posi)")));
     const rows = R('section_breakdown(state, posi)');
     check("breakdown per section: counts per answer, unanswered and score", rows.length === 4 && rows[0].section === "Governance" && rows[0].total === 7 && rows[0].counts["high-adoption"] === 1 && rows[0].counts["not-applicable"] === 1 && rows[0].unanswered === 4 && rows[0].score === 50 && rows[1].score === null, JSON.stringify(rows[0]));
@@ -232,7 +288,7 @@ export const run = (ctx, code) => vm.runInContext(code, ctx);
     check("chart colors print", rel.includes("print-color-adjust:exact"));
     R('state.name = "Repo <b>"; state.assessedOn = "2026-11-10";');
     const embed = R('build_embed_html(state, posi, "relative")');
-    check("embed snippet: self-contained, escaped, score and link back", embed.startsWith("<div") && embed.includes("Repo &lt;b&gt;") && embed.includes("Self-assessment score: 50%") && embed.includes("https://surf-ori.github.io/spii-1b-principles-alignment-tool/") && !embed.includes("var(--"));
+    check("embed snippet: self-contained, escaped, score and link back", embed.startsWith("<div") && embed.includes("Repo &lt;b&gt;") && embed.includes("Alignment summary: 50%") && embed.includes("https://surf-ori.github.io/spii-1b-principles-alignment-tool/") && !embed.includes("var(--"));
     check("report starts each framework with the chart", R("build_report_html(state, FRAMEWORKS)").includes("score-chart"));
     // autosave
     R("save_assessment(state)");
