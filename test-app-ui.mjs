@@ -364,17 +364,24 @@ export default async function ({ check, ROOT }) {
         {
             const { page, errors, ctx } = await open("index.html");
             const items = await page.$$eval("nav[data-topnav] > button, nav[data-topnav] > a", (els) => els.map((e) => e.textContent.trim()).filter((t) => /^(About|Changelog|Feedback)$/.test(t)));
-            check("top menu: About, Changelog, Feedback in that order", items.join() === "About,Changelog,Feedback", items.join());
-            const fb = page.locator('nav[data-topnav] a:has-text("Feedback")');
-            check("Feedback opens the issue form in a new tab", (await fb.getAttribute("href")) === "https://github.com/surf-ori/spii-1b-principles-alignment-tool/issues/new?template=feedback.yml" && (await fb.getAttribute("target")) === "_blank" && /noopener/.test(await fb.getAttribute("rel")));
-            const same = await page.$eval('nav[data-topnav] a:has-text("Feedback")', (a) => { const b = [...document.querySelectorAll("nav[data-topnav] button.ghost")].find((x) => x.textContent.trim() === "Changelog"); return Math.abs(a.getBoundingClientRect().height - b.getBoundingClientRect().height) < 3; });
-            check("Feedback is styled like its neighbours", same);
+            check("top menu: About, Changelog (Feedback moved to the floating button)", items.join() === "About,Changelog", items.join());
+            check("the tool's logo is its 1B hexagon from the design system", (await page.getAttribute("nav[data-topnav] > img.tool-logo", "src")) === "https://surf-ori.github.io/spii-design-system/assets/hex/1b.svg" && (await page.locator("nav[data-topnav] > svg").count()) === 0);
+            if (HAVE_DS) {
+                const fb = page.locator("#spii-feedback");
+                check("floating Feedback button at the bottom right", await fb.locator(".fab").evaluate((b) => { const r = b.getBoundingClientRect(); return getComputedStyle(b).position === "fixed" && r.right > window.innerWidth - 40 && r.bottom > window.innerHeight - 40; }));
+                await page.evaluate(() => { window.__opened = []; window.open = (u) => { window.__opened.push(u); }; });
+                await fb.locator(".fab").click();
+                await fb.locator("#fb-text").fill("Great tool");
+                await fb.locator("#fb-gh").click();
+                const url = new URL((await page.evaluate(() => window.__opened[0])) || "http://x/");
+                check("it opens this repo's feedback form with the text in 'Anything else?'", url.pathname === "/surf-ori/spii-1b-principles-alignment-tool/issues/new" && url.searchParams.get("template") === "feedback.yml" && /^Great tool/.test(url.searchParams.get("other") || ""), url.href);
+            }
             check("no console or page errors (menu)", errors.length === 0, JSON.stringify(errors));
             await ctx.close();
             for (const width of [412, 375, 320]) {
                 const m = await open("index.html", width, 800);
                 const [sw, iw] = await m.page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth]);
-                check("no horizontal overflow with the Feedback link at " + width + "px", sw <= iw, sw + "/" + iw);
+                check("no horizontal overflow at " + width + "px (menu)", sw <= iw, sw + "/" + iw);
                 await m.ctx.close();
             }
         }

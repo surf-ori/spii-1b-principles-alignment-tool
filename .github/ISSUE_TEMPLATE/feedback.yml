@@ -1,12 +1,12 @@
 name: Feedback
-description: Give feedback on SPII deliverable 1B, the Open Science Infrastructure Self-Assessment Tool (usability, content, corrections, proposals).
+description: Give feedback on SPII deliverable 1B, the Open Science Infrastructure Principles Alignment Tool (usability, content, corrections, proposals).
 title: "[1B]: "
 labels: ["feedback"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thank you for giving feedback on the [Open Science Infrastructure Self-Assessment Tool](https://surf-ori.github.io/spii-1b-principles-alignment-tool/), part of the SPII project (Strategic Plan on Integrated Infrastructure). It is built on the POSI principles, with complementary principles on autonomy and researcher-centricity added.
+        Thank you for giving feedback on the [Open Science Infrastructure Principles Alignment Tool](https://surf-ori.github.io/spii-1b-principles-alignment-tool/), part of the SPII project (Strategic Plan for Integrated Infrastructure). It is built on the POSI principles, with complementary principles on autonomy and researcher-centricity added.
 
         If you are testing the tool, please complete a self-assessment (a partial one is fine) and tell us how it went. Every question is optional: skip the ones you have no opinion on. To propose a correction, flag a gap, or suggest an addition, use "Anything else?" at the end. A curator will review this issue and record the outcome (accepted, rejected, or already covered) with a short rationale before closing it.
 
