@@ -58,8 +58,9 @@ export default async function ({ check, ROOT }) {
             const labels = await first.locator(".status-label").allInnerTexts();
             check("POSI cards: Low adoption / Making progress / High adoption (+ Not applicable)", labels.join() === "Low adoption,Making progress,High adoption,Not applicable", labels.join());
             const detailsTitles = await panel.locator("#framework-posi > details > summary").allInnerTexts();
-            check("intro accordion sits above About POSI", detailsTitles[0] === "Introduction to Strategic Plan for Integrated Infrastructure" && detailsTitles[1] === "About POSI", detailsTitles.join("|"));
-            check("About POSI has no approved paragraph", !/Approved assessment framework/.test(await panel.locator("#framework-posi > details").nth(1).innerText()));
+            check("About POSI is the only accordion above the principles, open, highlighted", detailsTitles.join("|") === "About POSI" && (await panel.locator("#framework-posi > details.framework-about").evaluate((d) => d.open && getComputedStyle(d).backgroundColor !== "rgba(0, 0, 0, 0)")), detailsTitles.join("|"));
+            check("About POSI has no approved paragraph", !/Approved assessment framework/.test(await panel.locator("#framework-posi > details").first().innerText()));
+            check("SPII intro accordion sits on top of the page, outside POSI", (await page.locator("#intro-section details.spii-intro > summary").innerText()).trim() === "Introduction to the Strategic Plan for Integrated Infrastructure");
             check("23 principle accordions", (await panel.locator('details[id^="principle-posi-"]').count()) === 23);
             const aut = panel.locator("#principle-posi-autonomy");
             await aut.locator("summary").click();
@@ -67,7 +68,7 @@ export default async function ({ check, ROOT }) {
             check("cards show the criteria from SPII v0.1", /Data, infrastructure control, and critical decisions remain/.test(await aut.innerText()));
             await first.locator('.status-card[data-status="high-adoption"]').click();
             const heading = (await panel.locator('[id^="summary-heading-posi"]').first().innerText()).trim();
-            check("one High adoption answer gives 100% average score", heading === "Self-assessment score: 100%", heading);
+            check("one High adoption answer gives 100% average score", heading === "Alignment summary: 100%", heading);
             check("the status chip colours follow the level", (await first.locator('.status-card[data-status="high-adoption"]').evaluate((el) => getComputedStyle(el).getPropertyValue("--status-accent"))).trim() !== "");
             check("no console or page errors (POSI)", errors.length === 0, JSON.stringify(errors));
             await ctx.close();
@@ -77,14 +78,14 @@ export default async function ({ check, ROOT }) {
             const { page, errors, ctx } = await open("index.html");
             check("no tab strip", (await page.locator('[role="tab"], [role="tablist"]').count()) === 0);
             const groups = await page.$$eval("#framework-select optgroup", (gs) => gs.map((g) => [g.label, [...g.querySelectorAll("option")].map((o) => o.value)]));
-            check("dropdown groups: Default / Other assessments", groups.length === 2 && groups[0][0] === "Default" && groups[0][1].join() === "posi" && groups[1][0] === "Other assessments", JSON.stringify(groups));
+            check("dropdown groups: Default / Other alignment frameworks", groups.length === 2 && groups[0][0] === "Default" && groups[0][1].join() === "posi" && groups[1][0] === "Other alignment frameworks", JSON.stringify(groups));
             check("other assessments order", groups[1] && groups[1][1].join() === "gorc,fair,bd,osr,7gpri,care,forest", groups[1] && groups[1][1].join());
             check("POSI is selected by default", (await page.inputValue("#framework-select")) === "posi");
-            check("option label shows the scored count", /^POSI v2\.0 Assessment \(0\/23 scored\)$/.test(await page.locator('#framework-select option[value="posi"]').innerText()));
+            check("option label shows the scored count", /^POSI v2\.0 \(0\/23 scored\)$/.test(await page.locator('#framework-select option[value="posi"]').innerText()));
             const order = await page.$$eval("#app > *", (els) => els.map((e) => e.id || e.tagName.toLowerCase()));
             check("main page: intro, infra description, selected framework", order.join() === "intro-section,infra-description-section,framework-section", order.join());
-            check("infra description is a closed accordion", await page.$eval("#infra-description-section", (e) => e.tagName === "DETAILS" && !e.open));
-            await page.click("#infra-description-section > summary");
+            check("infra description is an open accordion", await page.$eval("#infra-description-section", (e) => e.tagName === "DETAILS" && e.open));
+            check("sidebar starts with a link to the infrastructure description", (await page.locator("#sidebar-sections li").first().innerText()).trim() === "OS Infrastructure Description");
             await page.fill("#infra-name", "Test infra");
             check("infra description fields work", (await page.inputValue("#infra-name")) === "Test infra");
             check("8 framework panels, only POSI visible", (await page.locator(".framework-panel").count()) === 8 && (await page.locator(".framework-panel:visible").count()) === 1 && (await page.locator("#framework-panel-posi:visible").count()) === 1);
@@ -116,7 +117,7 @@ export default async function ({ check, ROOT }) {
         {
             const { page, ctx } = await open("index.html?framework=data/frameworks/cris-tender-v0.1.json#cris-tender");
             await page.waitForTimeout(800);
-            check("runtime-loaded framework opens from the hash and lands under Other", (await page.inputValue("#framework-select")) === "cris-tender" && (await page.locator('optgroup[label="Other assessments"] option[value="cris-tender"]').count()) === 1);
+            check("runtime-loaded framework opens from the hash and lands under Other", (await page.inputValue("#framework-select")) === "cris-tender" && (await page.locator('optgroup[label="Other alignment frameworks"] option[value="cris-tender"]').count()) === 1);
             await ctx.close();
         }
         for (const width of [412, 375, 320]) {
@@ -181,7 +182,7 @@ export default async function ({ check, ROOT }) {
             await second.locator("summary").click();
             await second.locator('.status-card[data-status^="level-"]').click();
             const heading = (await page.locator('[id^="summary-heading-posi"]').first().innerText()).trim();
-            check("Not applicable is not part of the average", heading === "Self-assessment score: 100%", heading);
+            check("Not applicable is not part of the average", heading === "Alignment summary: 100%", heading);
             check("both answers count as scored", /\(2\/23 scored\)$/.test(await page.locator('#framework-select option[value="posi"]').innerText()));
             // persistence
             await page.reload();
@@ -264,7 +265,6 @@ export default async function ({ check, ROOT }) {
         {
             // Classify: heading, stable stored values, cog icon
             const { page, errors, ctx } = await open("index.html");
-            await page.click("#infra-description-section > summary");
             const headings = await page.locator("#infra-description-section h4").allInnerTexts();
             check("Classify headings", headings.includes("Research life cycle activities") && headings.includes("Research administrative activities") && !headings.some((h) => /related/i.test(h)), headings.join("|"));
             check("checkbox values keep the stored key", (await page.locator('input[value="Research related activities > Manage & Organise"]').count()) === 1);
@@ -345,14 +345,12 @@ export default async function ({ check, ROOT }) {
             const { page, errors, ctx } = await open("index.html");
             check("no external PDF scripts any more", (await page.locator('script[src*="jspdf"], script[src*="html2canvas"]').count()) === 0);
             const intro = await page.locator("#intro-section").innerText();
-            check("intro mentions the dropdown, POSI default and About", /Select an assessment framework from the dropdown in the sidebar/.test(intro) && /POSI/.test(intro) && /About/.test(intro), intro);
+            check("short intro pointing to the About", /^Self-assess how your Open Science infrastructure puts open science values and principles into practice\. For examples, read the About\./.test(intro), intro);
             await page.click('#intro-section a:has-text("About")');
             check("the About link opens the About dialog", await page.$eval("#about-dialog", (d) => d.open));
             await page.keyboard.press("Escape");
-            check("infra accordion title says what it is for (while collapsed)", /Fill in some basic details about the Open Science infrastructure this alignment is for\./.test(await page.locator("#infra-description-section > summary").innerText()));
-            await page.click("#infra-description-section > summary");
+            check("infra accordion title says what it is for", /Fill in some basic details about the Open Science infrastructure this alignment is for\./.test(await page.locator("#infra-description-section > summary").innerText()));
             check("new Classify sentence", /Tell us what activities this infrastructure fits in the research activities landscape:/.test(await page.locator("#infra-description-section").innerText()));
-            await page.click("#infra-description-section > summary");
             const first = page.locator("#framework-panel-posi details[id^=principle-posi-]").first();
             await first.locator("summary").click();
             const labels = await first.locator(".status-label").allInnerTexts();
@@ -362,7 +360,7 @@ export default async function ({ check, ROOT }) {
             await second.locator("summary").click();
             await second.locator('.status-card[data-status="making-progress"]').click();
             const heading = (await page.locator('[id^="summary-heading-posi"]').first().innerText()).trim();
-            check("N/A does not pull the score down", heading === "Self-assessment score: 50%", heading);
+            check("N/A does not pull the score down", heading === "Alignment summary: 50%", heading);
             await page.selectOption("#framework-select", "gorc");
             const g = page.locator("#framework-panel-gorc details[id^=principle-gorc-]").first();
             await g.locator("summary").click();
@@ -396,9 +394,9 @@ export default async function ({ check, ROOT }) {
             const { page, errors, ctx } = await open("index.html");
             const menu = (id) => page.$$eval("#" + id + " > *", (els) => els.map((e) => e.getAttribute("role") === "separator" ? "---" : e.querySelector(".menuitem-title").textContent.trim()));
             const exp = await menu("export-menu");
-            check("Export: GitHub tracker on top, frameworks last after a separator", exp.join("|") === "Save Report to GitHub Tracker|Save assessment to a file (JSON)|Print report / save as PDF|---|Download Assessment Framework (JSON)", exp.join("|"));
+            check("Export: GitHub tracker on top, frameworks last after a separator", exp.join("|") === "Save Report to GitHub Tracker|Save alignment to a file (JSON)|Print report / save as PDF|---|Download Alignment Framework (JSON)", exp.join("|"));
             const imp = await menu("import-menu");
-            check("Import: report first, frameworks after a separator", imp.join("|") === "Import Assessment Report (JSON)|---|Import Assessment Framework (JSON)|Download Assessment Framework Template (JSON)", imp.join("|"));
+            check("Import: report first, frameworks after a separator", imp.join("|") === "Import Alignment Report (JSON)|---|Import Alignment Framework (JSON)|Download Alignment Framework Template (JSON)", imp.join("|"));
             check("every menu item has an icon", (await page.locator('[role="menuitem"]').count()) === 7 && (await page.locator('[role="menuitem"] > svg.menuitem-icon').count()) === 7);
             check("the frameworks item explains save, edit, import again", /edit/i.test(await page.locator("#download-frameworks-btn .menuitem-desc").textContent()) && /import/i.test(await page.locator("#download-frameworks-btn .menuitem-desc").textContent()));
             await page.click('button:has-text("Export")');
@@ -410,7 +408,6 @@ export default async function ({ check, ROOT }) {
         {
             // Export downloads: names and content
             const { page, errors, ctx } = await open("index.html");
-            await page.click("#infra-description-section > summary");
             await page.fill("#infra-name", "OpenAIRE");
             await page.fill("#infra-assessed-on", "2026-11-09");
             const dl = async (id) => {
@@ -419,11 +416,11 @@ export default async function ({ check, ROOT }) {
                 return { name: d.suggestedFilename(), json: JSON.parse(fs.readFileSync(await d.path(), "utf8")) };
             };
             const rep = await dl("export-report-btn");
-            check("report download name", rep.name === "2026-11-09-posi-v2-0-assessment-openaire.json", rep.name);
+            check("report download name", rep.name === "2026-11-09-posi-v2-0-openaire.json", rep.name);
             check("report download: selected framework only, with readme", Object.keys(rep.json.frameworks).join() === "posi" && typeof rep.json._readme === "string");
             const fw = await dl("download-frameworks-btn");
             const today = await page.evaluate(() => today_iso_date());
-            check("framework download name", fw.name === today + "-posi-v2-0-assessment-framework.json", fw.name);
+            check("framework download name", fw.name === today + "-posi-v2-0-framework.json", fw.name);
             check("framework download: the selected framework only", !Array.isArray(fw.json) && fw.json.id === "posi" && typeof fw.json._readme === "string");
             check("menu says it is the selected framework", /selected framework/i.test(await page.locator("#download-frameworks-btn").innerText()) && /selected framework/i.test(await page.locator("#export-report-btn").innerText()));
             check("no console or page errors (downloads)", errors.length === 0, JSON.stringify(errors));
@@ -471,11 +468,11 @@ export default async function ({ check, ROOT }) {
             // Nida: dropdown, score chart, embed, autosave
             const { page, errors, ctx } = await open("index.html");
             const groups = await page.$$eval("#framework-select optgroup", (gs) => gs.map((g) => g.label + ":" + [...g.querySelectorAll("option")].map((o) => o.value).join(",")));
-            check("dropdown: Default (POSI) and Other assessments without the SPII frameworks", groups.join("|") === "Default:posi|Other assessments:gorc,fair,bd,osr,7gpri,care,forest", groups.join("|"));
+            check("dropdown: Default (POSI) and Other alignment frameworks without the SPII frameworks", groups.join("|") === "Default:posi|Other alignment frameworks:gorc,fair,bd,osr,7gpri,care,forest", groups.join("|"));
             const first = page.locator("#framework-panel-posi details[id^=principle-posi-]").first();
             await first.locator("summary").click();
             await first.locator('.status-card[data-status="high-adoption"]').click();
-            check("summary heading: Self-assessment score", (await page.locator("#summary-heading-posi").innerText()).trim() === "Self-assessment score: 100%");
+            check("summary heading: Self-assessment score", (await page.locator("#summary-heading-posi").innerText()).trim() === "Alignment summary: 100%");
             check("the score is explained on the page", /from Low adoption \(0%\) to High adoption \(100%\)/.test(await page.locator("#framework-panel-posi .summary-explanation").innerText()));
             const chart = page.locator("#summary-chart-posi");
             check("chart: one bar per section with a legend", (await chart.innerText()).includes("Governance") && (await chart.innerText()).includes("Not answered") && (await chart.innerText()).includes("Complementary Principles"));
@@ -488,24 +485,23 @@ export default async function ({ check, ROOT }) {
             await page.click('#framework-panel-posi .chart-mode[data-mode="relative"]');
             await page.click("#framework-panel-posi .chart-embed");
             const code = await page.inputValue("#embed-code");
-            check("embed dialog gives a self-contained snippet", (await page.$eval("#embed-dialog", (d) => d.open)) && code.startsWith("<div") && code.includes("Self-assessment score: 100%") && code.includes("spii-1b-principles-alignment-tool"));
+            check("embed dialog gives a self-contained snippet", (await page.$eval("#embed-dialog", (d) => d.open)) && code.startsWith("<div") && code.includes("Alignment summary: 100%") && code.includes("spii-1b-principles-alignment-tool"));
             await page.keyboard.press("Escape");
-            check("badge is titled self-assessment score", (await page.evaluate(() => build_badge_svg_markup(state))).includes("POSI self-assessment score"));
+            check("badge is titled self-assessment score", (await page.evaluate(() => build_badge_svg_markup(state))).includes("POSI alignment summary"));
             // autosave
-            await page.click("#infra-description-section > summary");
             await page.fill("#infra-name", "Saved Repo");
             await page.waitForTimeout(500);
             await page.reload();
             await page.waitForSelector("#app > *");
-            check("answers and description survive a reload", (await page.inputValue("#infra-name")) === "Saved Repo" && (await page.locator("#summary-heading-posi").innerText()).trim() === "Self-assessment score: 100%");
+            check("answers and description survive a reload", (await page.inputValue("#infra-name")) === "Saved Repo" && (await page.locator("#summary-heading-posi").innerText()).trim() === "Alignment summary: 100%");
             check("the saving is explained in Settings", /saved automatically in this browser/.test(await page.locator("#sidebar-footer .saved-note").innerText()));
             page.once("dialog", (d) => d.accept());
             await page.click("#sidebar-footer .start-new");
             await page.waitForTimeout(400);
             await page.reload();
             await page.waitForSelector("#app > *");
-            check("Start a new assessment clears it", (await page.inputValue("#infra-name")) === "" && /\(0\/23 scored\)$/.test(await page.locator('#framework-select option[value="posi"]').innerText()));
-            check("Export menu: Save assessment to a file", /Save assessment to a file \(JSON\)/.test(await page.locator("#export-report-btn").innerText()));
+            check("Start a new alignment clears it", (await page.inputValue("#infra-name")) === "" && /\(0\/23 scored\)$/.test(await page.locator('#framework-select option[value="posi"]').innerText()));
+            check("Export menu: Save alignment to a file", /Save alignment to a file \(JSON\)/.test(await page.locator("#export-report-btn").innerText()));
             check("no console or page errors (Nida)", errors.length === 0, JSON.stringify(errors));
             await ctx.close();
         }
