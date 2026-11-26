@@ -174,7 +174,9 @@ principle), so it needs no code change for other tender-style frameworks.
   counts as answered but is left out of the score.
 - **Theme** — the theme button in the SPII top bar (System → Light → Dark);
   System (the default) follows the device. The choice is shared by all SPII
-  sites (`spii-theme` in localStorage). Without the design system (offline)
+  sites (`spii-theme` in localStorage).
+- **Feedback** — the floating button at the bottom right (from the SPII design
+  system) opens this repo's feedback form with your text in "Anything else?". Without the design system (offline)
   the page still works and follows the device.
 - **Alignment badge (experimental)** — switch on "Show badge" in Settings to
   open, in an overlay, a doughnut-style SVG/PNG badge
@@ -286,4 +288,4 @@ Copyright (c) 2026:
 Styling is provided by [Oat](https://oat.ink), layered with color and font
 tokens matching the [SPII overview](https://surf-ori.github.io/spii-overview/) page (Outfit and
 IBM Plex Mono, self-hosted under `fonts/`).
-The SURF logo in the top bar and favicon is [SURF](https://www.surf.nl/)'s own.
+The logo (the 1B hexagon) and the favicon come from the [SPII design system](https://surf-ori.github.io/spii-design-system/).

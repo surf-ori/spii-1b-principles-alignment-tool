@@ -130,11 +130,11 @@ export const run = (ctx, code) => vm.runInContext(code, ctx);
 }
 
 {
-    // One feedback issue template; the top-menu Feedback link points at it
+    // One feedback issue template; the floating Feedback button of the SPII design system opens it
     const templates = fs.readdirSync(path.join(ROOT, ".github/ISSUE_TEMPLATE")).filter((f) => f !== "config.yml");
     check("exactly one issue template", templates.join() === "feedback.yml", templates.join());
-    const link = html.match(/<a [^>]*href="([^"]*issues\/new\?template=([^"&]+))"[^>]*>Feedback<\/a>/);
-    check("top menu has a Feedback link to that template", !!link && link[1] === "https://github.com/surf-ori/spii-1b-principles-alignment-tool/issues/new?template=feedback.yml" && fs.existsSync(path.join(ROOT, ".github/ISSUE_TEMPLATE", link[2])), link && link[1]);
+    check("no Feedback link in the top menu any more (the floating button replaces it)", !/>Feedback<\/a>/.test(html));
+    check("the feedback button targets this repo's form and its 'Anything else?' field", /<html [^>]*data-feedback-repo="spii-1b-principles-alignment-tool"/.test(html) && /<html [^>]*data-feedback-field="other"/.test(html) && /\n    id: other\n/.test(fs.readFileSync(path.join(ROOT, ".github/ISSUE_TEMPLATE/feedback.yml"), "utf8")));
     const form = fs.readFileSync(path.join(ROOT, ".github/ISSUE_TEMPLATE/feedback.yml"), "utf8");
     const questions = ["Is the tool easy to navigate and understand?", "Is the overall layout and design clear?", "Was it clear that you can define your own assessment criteria and definitions?", "Were you able to generate and export the assessment report without difficulty?", "Did you know you can also import an existing assessment and then review it in the tool?", "Are the principles and explanations clear and easy to understand?", "Is the level of detail sufficient?", "Would additional guidance or examples help you better interpret and assess the principles?", "Do you miss any principles?"];
     check("the template asks all 9 tester questions", questions.every((q) => form.includes("label: " + q)), questions.filter((q) => !form.includes("label: " + q)).join("|"));
