@@ -1,4 +1,4 @@
-# Open Science Infrastructure Self-Assessment Tool
+# Open Science Infrastructure Principles Alignment Tool
 
 SPII deliverable 1B, Tool for: Principles Alignment Tool. Part of the [SPII overview](https://surf-ori.github.io/spii-overview/).
 This repository hosts both the tool itself and its feedback/issue tracker.
@@ -9,7 +9,13 @@ one or more assessment frameworks — POSI scores low adoption / making
 progress / high adoption, most other frameworks compliant / making progress /
 not compliant, and a framework can define its own ordinal scale (see SPII
 Alignment below); you can also define your own scale for any framework
-(Settings → Customize scales) — with optional notes, then export the result.
+("Customize and define your own alignment scale", above the principles) — with
+optional notes, then export the result as JSON, a printed/PDF report or a Word
+document.
+
+The page carries the shared SPII top bar from the
+[SPII design system](https://surf-ori.github.io/spii-design-system/): the
+menu to the other SPII deliverables and the theme choice.
 
 Eight frameworks are included today, each as its own JSON file under
 [`data/frameworks/`](https://github.com/surf-ori/spii-1b-principles-alignment-tool/tree/main/data/frameworks/) — edit them directly to tweak
@@ -121,13 +127,21 @@ principle), so it needs no code change for other tender-style frameworks.
   taxonomy (research life cycle activities plus related activities such as
   managing, documenting, reviewing, publishing, and evaluating), each with
   its own icon.
-- **Score** — pick a framework in the sidebar dropdown (POSI under
-  "Default", the others under "Other assessments") and rate every
-  principle. The dropdown shows a live scored/total count per framework,
+- **Score** — rate every principle of POSI, the default. Switch on "Show
+  other alignment frameworks" in Settings to get the sidebar dropdown with
+  the others (under "Other alignment frameworks"); a link to another
+  framework (`#gorc`) or an imported one shows the dropdown too. The dropdown shows a live scored/total count per framework,
   and the sidebar lists the selected framework's sections as accordions with
   a status icon next to every principle, so you can see progress at a
   glance without opening each section.
-- **Customize scales** (Settings, bottom of the sidebar) — define your own
+- **Alignment level descriptions** (POSI, work in progress) — the switch
+  "Show alignment level descriptions" above the principles shows, per
+  level, what it looks like, plus ideas to improve and examples. Available
+  for the first two POSI principles so far (`guidance` in the framework
+  JSON); off while you use your own scale.
+- **Priority star** — mark the principles that matter most to you; the star
+  shows in the sidebar, is saved and exported, and the report lists them.
+- **Customize scales** (the button above the principles) — define your own
   scale for the selected framework: 2 to 9 options, each with an icon (tick,
   clock, cross, 1–9, ?), a color, a title, an optional description and
   whether it counts toward the score (so "Not applicable" can stay out of
@@ -139,26 +153,30 @@ principle), so it needs no code change for other tender-style frameworks.
   download a template to help author one, or download
   the selected framework (with your custom scale), edit it and import it again
   as the basis for your own alternative. The file is named like
-  `2026-11-10-posi-v2-0-assessment-framework.json`.
+  `2026-11-10-posi-v2-0-framework.json`.
 - **Saved as you work** — your work is saved automatically in this browser
   (on this device only) and is still there when you come back; "Start a new
-  assessment" in Settings clears it.
-- **Self-assessment score and chart** — per framework a score with a short
+  alignment" in Settings clears it.
+- **Alignment summary and chart** — per framework a score with a short
   explanation and a bar per section, stacked by answer, as % or as number of
   principles, with an embed button for other web pages.
-- **Save assessment to a file (JSON)** — download your answers for the selected framework
-  (named like `2026-11-09-posi-v2-0-assessment-openaire.json`) and reload them
+- **Save alignment to a file (JSON)** — download your answers for the selected framework
+  (named like `2026-11-09-posi-v2-0-openaire.json`) and reload them
   later to continue or revise an assessment. Every exported file starts with a
   short `_readme` explaining what it is and where to import it.
 - **Print report / save as PDF** — a short report (Export menu, or the
   browser's Print): for each framework you filled in, the score and one table
   per section with your answer and notes. Choose "Save as PDF" in the print
   dialog. A fully answered POSI assessment fits on a few A4 pages.
+- **Save to Word (.docx)** — the same report as a Word document (Export
+  menu), built in the browser without a library.
 - **Not applicable** — every principle has a "Not applicable" answer, which
   counts as answered but is left out of the score.
-- **Theme** — a Dark / System / Light switch at the bottom of Settings;
-  System (the default) follows the device, the choice is kept in the browser.
-- **Assessment badge (experimental)** — switch on "Show badge" in Settings to
+- **Theme** — the theme button in the SPII top bar (System → Light → Dark);
+  System (the default) follows the device. The choice is shared by all SPII
+  sites (`spii-theme` in localStorage). Without the design system (offline)
+  the page still works and follows the device.
+- **Alignment badge (experimental)** — switch on "Show badge" in Settings to
   open, in an overlay, a doughnut-style SVG/PNG badge
   summarizing the score for the active framework, including the classified
   activities as small icons, suitable for hosting on the infrastructure's
