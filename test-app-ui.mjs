@@ -263,6 +263,14 @@ export default async function ({ check, ROOT }) {
             await page.locator("#p-coverage .p-title").click();
             check("Tool: the rating buttons show the scale icons", (await page.locator("#p-coverage .levels .lvl svg").count()) === 4 && (await page.locator("#p-coverage .levels .lvl").first().innerText()).trim() === "Low");
             check("Tool: a principle unfolds its level descriptions", (await page.locator("#p-coverage .rubric > div").count()) === 3 && /demonstrable evidence/.test(await page.locator("#p-coverage .rubric").innerText()));
+            // guided tour and (i) explanations
+            await page.click("#btn-tour"); await page.waitForSelector("#tour-card:not([hidden])");
+            check("Tool: the tour starts at step 1 of 7", /Step 1 of 7/.test(await page.locator("#tour-step").innerText()));
+            for (let i = 0; i < 7; i++) await page.click("#tour-next");
+            check("Tool: the tour ends after 7 steps", await page.locator("#tour-card").isHidden());
+            await page.click('.info-i[data-info="summary"]');
+            check("Tool: an (i) button explains its part", /average of its principles/.test(await page.locator("#info-pop").innerText()));
+            await page.keyboard.press("Escape");
             // embed a chart: a snapshot in the link, only that chart, nothing saved
             await page.locator("#i-radar").locator("xpath=ancestor::div[contains(@class,'card')][1]").locator(".embed-btn").click();
             const embUrl = (await page.locator("#em-code").inputValue()).match(/src="([^"]+)"/)[1].replace(/^https?:\/\/[^/]+\//, "");

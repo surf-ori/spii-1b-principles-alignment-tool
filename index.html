@@ -214,6 +214,15 @@
   .h-ic { display: flex; align-items: center; gap: .45rem; }
   .land-head { display: flex; gap: .55rem; align-items: flex-start; margin: .9rem 0 .2rem; font-size: .9rem; }
   .land-head .hex-ic { margin-top: .1rem; }
+  #tour-ring { position: absolute; z-index: 60; border-radius: .8rem; box-shadow: 0 0 0 4px var(--spii-green, #1f5c43), 0 0 0 9999px rgba(16,20,15,.45); pointer-events: none; transition: all .25s ease; }
+  #tour-card { position: fixed; z-index: 61; left: 50%; bottom: 1.25rem; transform: translateX(-50%); width: min(30rem, calc(100vw - 1.5rem)); padding: 1rem 1.1rem; border-radius: .8rem; background: var(--card, #fff); color: inherit; box-shadow: 0 10px 36px rgba(0,0,0,.25); }
+  #tour-card h3 { margin: .15rem 0 .35rem; font-size: 1.1rem; }
+  #tour-card p { margin: 0 0 .8rem; font-size: .9rem; line-height: 1.45; }
+  .info-i { display: inline-grid; place-items: center; width: 1.15rem; height: 1.15rem; padding: 0; margin-left: .2rem; vertical-align: .1em; border-radius: 50%; border: 1.4px solid currentColor; background: transparent; color: var(--spii-green, #1f5c43); font: italic 700 .72rem Georgia, serif; cursor: pointer; line-height: 1; }
+  .info-i:hover, .info-i:focus-visible { background: color-mix(in srgb, var(--spii-green, #1f5c43) 14%, transparent); }
+  .info-pop { position: fixed; inset: auto; margin: 0; width: min(24rem, calc(100vw - 16px)); padding: .8rem .95rem; border: 1px solid var(--border, #d9d4c3); border-radius: .6rem; background: var(--card, #fff); color: inherit; box-shadow: 0 8px 28px rgba(0,0,0,.16); font-size: .85rem; line-height: 1.45; }
+  .info-pop b { display: block; margin-bottom: .3rem; }
+  body.embed .info-i { display: none; }
   .embeddable { position: relative; }
   .embed-btn { position: absolute; top: .5rem; right: .5rem; width: 1.9rem; height: 1.9rem; display: inline-grid; place-items: center; padding: 0; border: 1px solid var(--border, #d9d4c3); border-radius: .4rem; background: var(--card, #fff); color: var(--muted-foreground, #4d5850); cursor: pointer; opacity: .55; z-index: 2; }
   .embeddable:hover > .embed-btn, .embed-btn:focus-visible { opacity: 1; }
@@ -286,11 +295,15 @@
     <button class="icon-btn" id="btn-import" title="Import (JSON)" aria-label="Import"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5V15a1 1 0 001 1h10a1 1 0 001-1v-2.5"/><path d="M10 12V3M6.5 6.5L10 3l3.5 3.5"/></svg></button>
     <button class="icon-btn" id="btn-export" title="Export" aria-label="Export" aria-haspopup="menu" popovertarget="export-menu"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5V15a1 1 0 001 1h10a1 1 0 001-1v-2.5"/><path d="M10 3v9M6.5 8.5L10 12l3.5-3.5"/></svg></button>
     <button class="icon-btn" id="btn-framework" title="Alignment frameworks" aria-label="Alignment frameworks"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M10 2.5l7.5 4-7.5 4-7.5-4z"/><path d="M2.5 10l7.5 4 7.5-4M2.5 13.5l7.5 4 7.5-4"/></svg></button>
+    <button class="icon-btn" id="btn-tour" title="Take the tour: how to make your POSI report" aria-label="Take the tour"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10" cy="10" r="7.5"/><path d="M7.8 7.6a2.3 2.3 0 114 1.5c-.8.6-1.8 1.1-1.8 2.2M10 14v.01"/></svg></button>
     <button class="icon-btn" id="btn-settings" title="Settings" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
     <input type="file" id="file-import" accept="application/json,.json" hidden multiple>
     <input type="file" id="file-framework" accept="application/json,.json" hidden>
   </div>
 </div>
+<div id="tour-ring" hidden></div>
+<div id="tour-card" role="dialog" aria-live="polite" hidden><div class="muted small" id="tour-step"></div><h3 id="tour-title"></h3><p id="tour-text"></p><div class="row"><button class="btn ghost" id="tour-close">Close</button><span class="grow"></span><button class="btn" id="tour-prev">Back</button><button class="btn primary" id="tour-next">Next</button></div></div>
+<div id="info-pop" popover class="info-pop" role="note"></div>
 <div id="export-menu" popover class="menu" role="menu">
   <p class="menu-scope" id="export-scope"></p>
   <button role="menuitem" data-export="github"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 2.5L9 11M17.5 2.5L12 17.5l-3-6.5-6.5-3z"/></svg><span><b>Save report to GitHub tracker</b><small>Contribute this alignment to the public tracker</small></span></button>
@@ -342,7 +355,7 @@
     <p class="muted small">Everything is saved automatically in this browser, on this device only. Export regularly to keep a copy.</p>
     <p><label><input type="checkbox" id="st-questions" checked> Show the draft question under each principle</label></p>
     <p><label><input type="checkbox" id="st-chosen" checked> Show the chosen level description under each aligned principle</label></p>
-    <div class="row"><button class="btn" id="st-examples">Load the three examples</button><button class="btn" id="st-clear">Remove all infrastructures…</button></div>
+    <div class="row"><button class="btn" id="st-tour">Take the tour</button><button class="btn" id="st-examples">Load the three examples</button><button class="btn" id="st-clear">Remove all infrastructures…</button></div>
     <p class="muted small">New interface, 27 November 2026. The <a href="old/">previous version</a> stays available, with its own saved answers. Inspired by the user experience of the <a href="https://utrechtuniversity.github.io/digital-autonomy-assessment-tool/">Digital Autonomy Assessment Tool</a> (Utrecht University); none of its code is used. The research-landscape circle follows the idea of the <a href="https://101innovations.wordpress.com/outcomes/">101 Innovations wheel</a> by Bosman and Kramer.</p>
   </div>
 </dialog>
@@ -555,11 +568,13 @@
           <button class="btn" id="w-import">Import</button>
           <button class="btn" id="w-fw">Framework</button>
         </div>
+        <p><button class="btn" id="w-tour">▶ Take the tour: how to make your POSI report</button></p>
         <p><button class="btn ghost" id="w-examples">✦ Load the three examples (OpenAIRE, OpenAlex, HAL)</button></p>
       </div>`;
     $("#w-add").onclick = addInfra;
     $("#w-import").onclick = () => $("#dlg-import").showModal();
     $("#w-fw").onclick = openFramework;
+    $("#w-tour").onclick = startTour;
     $("#w-examples").onclick = loadExamples;
   }
 
@@ -599,19 +614,19 @@
       </div>
       <div class="grid-2">
         <div class="card">
-          <div class="chart-head"><div><h3 class="h-ic"><img class="hex-ic" src="https://surf-ori.github.io/spii-design-system/assets/hex/2a.svg" alt="" width="18" height="24" title="The landscape of 2A">Research-landscape circle</h3><div class="muted small">Each slice is a research activity. An infrastructure appears in every activity it supports. Low alignment sits near the centre, high alignment near the edge. Click a dot to open it.</div></div>
+          <div class="chart-head"><div><h3 class="h-ic"><img class="hex-ic" src="https://surf-ori.github.io/spii-design-system/assets/hex/2a.svg" alt="" width="18" height="24" title="The landscape of 2A">Research-landscape circle ${iBtn("circle")}</h3><div class="muted small">Each slice is a research activity. An infrastructure appears in every activity it supports. Low alignment sits near the centre, high alignment near the edge. Click a dot to open it.</div></div>
             <select id="circle-measure" aria-label="Distance from the centre">${measureOptions()}</select></div>
           <div class="seg" role="group" aria-label="Which research activities">${[["both", "Both"], ["life", ACTIVITIES[0].group], ["admin", ACTIVITIES[1].group]].map(([v, l]) => `<button type="button" data-group="${v}" aria-pressed="${(db.settings.circleGroup || "both") === v}">${esc(l)}</button>`).join("")}</div>
           <div id="circle"></div>
         </div>
         <div class="card">
-          <div class="chart-head"><div><h3>Map on two principles</h3><div class="muted small">Choose what goes on each axis.</div></div></div>
+          <div class="chart-head"><div><h3>Map on two principles ${iBtn("scatter")}</h3><div class="muted small">Choose what goes on each axis.</div></div></div>
           <div class="row small"><label>X <select id="sc-x">${measureOptions("governance")}</select></label><label>Y <select id="sc-y">${measureOptions("insurance")}</select></label></div>
           <div id="scatter"></div>
         </div>
       </div>
       <div class="card">
-        <div class="chart-head"><div><h3>All infrastructures</h3><div class="muted small">Click a column to sort, a name to open.</div></div></div>
+        <div class="chart-head"><div><h3>All infrastructures ${iBtn("table")}</h3><div class="muted small">Click a column to sort, a name to open.</div></div></div>
         <div class="table-wrap"><table class="list" id="o-table"></table></div>
       </div>`;
     $("#o-add").onclick = addInfra;
@@ -745,12 +760,12 @@
           <div><label>Framework</label><button type="button" class="btn" id="i-fw" style="width:100%;justify-content:space-between" title="Choose or edit the framework">${esc(FW.title)} <span class="muted">▾</span></button></div>
         </div>
         <textarea class="desc-input" id="i-desc" rows="1" placeholder="Short description: what the infrastructure does and for whom">${esc(inf.description)}</textarea>
-        <div class="land-head"><img class="hex-ic" src="https://surf-ori.github.io/spii-design-system/assets/hex/2b.svg" alt="" width="20" height="27"><div><b>Map it on the research landscape</b> <span class="muted small">Which research activities does it support? The activities come from the <a href="https://surf-ori.github.io/spii-2a-landscape-researcher-journey/" target="_blank" rel="noopener">Landscape of Open Science infrastructures (2A)</a>; placing an infrastructure on it is what <a href="https://surf-ori.github.io/spii-2b-infrastructure-mapping/" target="_blank" rel="noopener">2B Mapping</a> does.</span></div></div>
+        <div class="land-head"><img class="hex-ic" src="https://surf-ori.github.io/spii-design-system/assets/hex/2b.svg" alt="" width="20" height="27"><div><b>Map it on the research landscape</b> ${iBtn("landscape")} <span class="muted small">Which research activities does it support?</span></div></div>
         <div class="landscape">${ACTIVITIES.map((g, gi) => `<div><span class="field-label">${esc(g.group)}</span><div class="chips">${g.items.map((a) => `<button type="button" class="chip" style="--chip:${gi ? "#52247D" : "#1f5c43"}" data-act="${esc(a)}" aria-pressed="${(inf.activities || []).includes(a)}">${activityIcon(a, 15)}${esc(a)}</button>`).join("")}</div></div>`).join("")}</div>
       </div>
-      <section class="sum-sec" id="i-summary"><div class="chart-head"><div><h3>Alignment summary</h3><div class="muted small">Overall, and per section the average of its principles.</div></div></div><div class="results" id="i-results"></div></section>
-      <div class="card"><div class="chart-head"><div><h3>Alignment per principle</h3><div class="muted small">The further out, the more aligned. Unanswered and not-applicable principles stay at the centre.</div></div></div><div class="radar-wrap"><div id="i-radar"></div><div id="i-suggest"></div></div></div>
-      <p class="hint">Tip: click a principle to unfold what each level looks like, with ideas to improve and examples. Choose a level with the buttons, or with the keys 1, 2, 3 and 0 (not applicable) when a principle has focus.</p>
+      <section class="sum-sec" id="i-summary"><div class="chart-head"><div><h3>Alignment summary ${iBtn("summary")}</h3><div class="muted small">Overall, and per section the average of its principles.</div></div></div><div class="results" id="i-results"></div></section>
+      <div class="card"><div class="chart-head"><div><h3>Alignment per principle ${iBtn("radar")}</h3><div class="muted small">The further out, the more aligned. Unanswered and not-applicable principles stay at the centre.</div></div></div><div class="radar-wrap"><div id="i-radar"></div><div id="i-suggest"></div></div></div>
+      <p class="hint">${iBtn("principles")} Tip: click a principle to unfold what each level looks like, with ideas to improve and examples. Choose a level with the buttons, or with the keys 1, 2, 3 and 0 (not applicable) when a principle has focus.</p>
       <div id="i-principles"></div>
       <div class="card payoff" id="i-payoff" hidden></div>`;
     $("#i-back").onclick = () => go("overview");
@@ -824,7 +839,7 @@
       const todo = ps.filter((x) => !x.a.level).length;
       return `<h3 style="margin:0 0 .4rem">Where to start</h3><p class="muted small">${todo ? `${todo} principles still to align. Star the ones that matter most to you; they come first here once aligned.` : "Every principle that applies is at high alignment."}</p>`;
     }
-    return `<h3 style="margin:0 0 .4rem">Improve next</h3><p class="muted small" style="margin-top:0">Starred principles first, then those at the lowest level. Suggestions, not advice.</p><div class="suggest">${pick.map(({ p, a }) => {
+    return `<h3 style="margin:0 0 .4rem">Improve next ${iBtn("improve")}</h3><p class="muted small" style="margin-top:0">Starred principles first, then those at the lowest level. Suggestions, not advice.</p><div class="suggest">${pick.map(({ p, a }) => {
       const g = p.guidance || null;
       const tip = g && g.improve && g.improve[0] ? esc(g.improve[0]) : "Open the principle to read what the next level looks like.";
       return `<div class="card"><div class="row" style="gap:.4rem"><span class="p-code" style="padding:.1rem .4rem">${code(p)}</span><a href="#p-${p.id}" data-goto="${p.id}" style="font-weight:700;color:inherit">${a.star ? "★ " : ""}${esc(p.title)}</a></div><div class="small" style="margin:.35rem 0;color:${levelColour(a.level)}">Now: ${esc(levelLabel(a.level))}</div><div class="small muted">${tip}</div></div>`;
@@ -1331,6 +1346,71 @@
     else { $("#toc-toggle").hidden = true; setToc(false); view = { name: "overview", id: null }; renderOverview(main); }
     if (EMBED) showOnlyEmbed(); else addEmbedButtons();
   }
+
+  // ---------- (i) explanations next to each part ----------
+  const L2A = '<a href="https://surf-ori.github.io/spii-2a-landscape-researcher-journey/" target="_blank" rel="noopener">2A Landscape of Open Science infrastructures</a>';
+  const L2B = '<a href="https://surf-ori.github.io/spii-2b-infrastructure-mapping/" target="_blank" rel="noopener">2B Mapping</a>';
+  const INFO = {
+    landscape: ["Map it on the research landscape", `Choose the research activities this infrastructure supports. They place it on the research-landscape circle in the overview, so researchers can find the right infrastructure for each step of their research journey.<br><br>The activities come from ${L2A}; placing infrastructures on it is what ${L2B} does.<br><br><i>Work in progress: the research activities are not final. We are looking at an international convention of terms, also adopted by EOSC.</i>`],
+    summary: ["Alignment summary", "The overall alignment, and per section the average of its principles. Low alignment counts as 0%, making progress as 50% and high alignment as 100%; not applicable is left out.<br><br>Use the &lt;/&gt; button to embed this summary on another page."],
+    radar: ["Alignment per principle", "Each spoke is one principle; the coloured ring shows its section. The further out, the more aligned. Principles without an answer, or not applicable, stay at the centre."],
+    improve: ["Improve next", "Suggestions for what to work on next: the principles you starred first, then those at the lowest level, each with a first idea to improve from the guidance. Suggestions, not advice."],
+    principles: ["The principles", `The principles of the framework, grouped in sections: for POSI v2.0 Governance, Sustainability and Insurance, plus the complementary principles. For each principle, choose a level: low alignment, making progress, high alignment, or not applicable (keys 1, 2, 3 and 0).<br><br>Click a principle to unfold it: what it means, what each level looks like (drawn by the SPII working group from earlier POSI self-assessments), ideas to improve and examples of infrastructures doing it well. Star a principle to highlight it in your report.<br><br><a href="https://openscholarlyinfrastructure.org/" target="_blank" rel="noopener">The Principles of Open Scholarly Infrastructure</a>`],
+    circle: ["Research-landscape circle", `Each slice is a research activity from ${L2A}. An infrastructure appears in every activity it supports; the further out, the more aligned. Choose the measure (overall, a section or one principle) and which group of activities to show. Click a dot to open that infrastructure.`],
+    scatter: ["Map on two principles", "Choose a measure for each axis: the overall alignment, a section (the average of its principles) or a single principle. Each dot is an infrastructure."],
+    table: ["All infrastructures", "Every infrastructure with its progress, overall alignment and the summary per section. Click a column to sort, a name to open."],
+  };
+  function iBtn(key) { return `<button type="button" class="info-i" data-info="${key}" aria-label="About: ${esc(INFO[key][0])}" title="More information">i</button>`; }
+  document.addEventListener("click", (e) => {
+    const b = e.target.closest(".info-i"); if (!b) return;
+    e.preventDefault(); e.stopPropagation();
+    const pop = $("#info-pop"), [title, html] = INFO[b.dataset.info];
+    pop.innerHTML = `<b>${esc(title)}</b><div>${html}</div>`;
+    pop.showPopover();
+    const r = b.getBoundingClientRect();
+    pop.style.top = Math.min(r.bottom + 6, innerHeight - pop.offsetHeight - 8) + "px";
+    pop.style.left = Math.max(8, Math.min(r.left - 12, innerWidth - pop.offsetWidth - 8)) + "px";
+  });
+
+  // ---------- guided tour: how to make your POSI report ----------
+  const TOUR = [
+    { sel: () => $("#view .card"), title: "Your POSI report", text: "This is a report for one infrastructure, here the OpenAIRE example. In seven steps we walk through its parts, from top to bottom." },
+    { sel: () => $("#i-name") && $("#i-name").closest(".card"), title: "Describe the infrastructure and map it", text: "Give its name, landing page and a short description, and choose the research activities it supports. That places it on the research landscape, so researchers can find it." },
+    { sel: () => $("#i-summary"), title: "The alignment summary", text: "The overall alignment, and per section the average of its principles. It fills in as you go." },
+    { sel: () => $("#i-radar") && $("#i-radar").closest(".card"), title: "Alignment per principle, and what to improve next", text: "The radar shows every principle: the further out, the more aligned. Next to it, suggestions for what to work on next." },
+    { sel: () => $("#sec-0"), after: true, title: "The alignment itself", text: "The principles come in sections (for POSI: Governance, Sustainability, Insurance, plus complementary principles). For each principle, choose low alignment, making progress, high alignment, or not applicable; the keys 1, 2, 3 and 0 work too." },
+    { sel: () => $(".p-row"), before: () => { const r = $(".p-row"); if (r && !r.querySelector(".p-more")) r.querySelector(".p-title").click(); }, title: "Unfold a principle", text: "Click a principle to read what it means, what each level looks like (drawn by the SPII working group from earlier POSI self-assessments), ideas to improve, and examples of infrastructures doing it well. Use the star to highlight a principle in your report." },
+    { sel: () => $("#btn-export"), title: "Save your report to Word", text: "Export › Save to Word gives a report with the summary per section and every answer. Attach it to your proposal for NWO, and also send it to the GitHub tracker, so it joins the examples and the map of infrastructures." },
+  ];
+  let tourAt = -1;
+  async function startTour() {
+    if (!db.infras.length) await loadExamples();
+    if (view.name !== "infra") go("infra", (db.infras.find((i) => /openaire/i.test(i.name || "")) || db.infras[0]).id);
+    tourAt = 0; showTour();
+  }
+  function showTour() {
+    const s = TOUR[tourAt]; if (!s) return endTour();
+    if (s.before) s.before();
+    const el = s.sel(); const ring = $("#tour-ring"), card = $("#tour-card");
+    $("#tour-step").textContent = "Step " + (tourAt + 1) + " of " + TOUR.length;
+    $("#tour-title").textContent = s.title; $("#tour-text").textContent = s.text;
+    $("#tour-prev").disabled = tourAt === 0; $("#tour-next").textContent = tourAt === TOUR.length - 1 ? "Done" : "Next";
+    card.hidden = false;
+    if (!el) { ring.hidden = true; return; }
+    el.scrollIntoView({ block: "center", behavior: "instant" });
+    window.scrollBy(0, Math.min(140, Math.max(0, el.getBoundingClientRect().height - innerHeight * .5)) ? 0 : 0);
+    const place = () => { const r = s.after && el.parentElement ? (() => { const a = el.getBoundingClientRect(), n = el.nextElementSibling ? el.nextElementSibling.getBoundingClientRect() : a; return { left: a.left, top: a.top, width: a.width, height: n.bottom - a.top }; })() : el.getBoundingClientRect();
+      ring.hidden = false; Object.assign(ring.style, { left: r.left + scrollX - 6 + "px", top: r.top + scrollY - 6 + "px", width: r.width + 12 + "px", height: Math.min(r.height, innerHeight * .8) + 12 + "px" }); };
+    requestAnimationFrame(place);
+  }
+  function endTour() { tourAt = -1; $("#tour-ring").hidden = true; $("#tour-card").hidden = true; }
+  $("#tour-next").onclick = () => { tourAt++; showTour(); };
+  $("#tour-prev").onclick = () => { tourAt = Math.max(0, tourAt - 1); showTour(); };
+  $("#tour-close").onclick = endTour;
+  document.addEventListener("keydown", (e) => { if (tourAt >= 0 && e.key === "Escape") endTour(); });
+  window.addEventListener("resize", () => { if (tourAt >= 0) showTour(); });
+  $("#btn-tour").onclick = startTour;
+  $("#st-tour").onclick = () => { $("#dlg-settings").close(); startTour(); };
 
   // ---------- embedding a chart elsewhere (as in the DURF dashboards) ----------
   const EMBEDS = [
