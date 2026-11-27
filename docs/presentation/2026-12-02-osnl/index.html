@@ -72,7 +72,8 @@ p { font-size: 32px; line-height: 1.4; margin: 0; color: var(--muted); }
 
 /* screenshot slides */
 .shot-row { flex: 1; display: flex; flex-direction: row; gap: 64px; align-items: center; }
-.shot { width: 1040px; height: 650px; object-fit: contain; border-radius: 16px; border: 2px solid var(--line); background: #ffffff; }
+.shot { width: 1120px; height: 700px; object-fit: contain; border-radius: 16px; border: 2px solid var(--line); background: #ffffff; }
+.shot.square { width: 780px; height: 780px; }
 .shot-text { flex: 1; display: flex; flex-direction: column; gap: 28px; }
 .shot-text h2 { font-size: 60px; }
 .steps { margin: 0; padding-left: 40px; display: flex; flex-direction: column; gap: 18px; }
@@ -237,7 +238,7 @@ body.show-notes aside.notes { display: block; position: absolute; left: 0; right
 </section>
 <section id="report" class="slide">
 <div class="shot-row">
-<img class="shot" src="overview.png" alt="The overview with three example infrastructures: the research-landscape circle, where each slice is a research activity and further out means more aligned, and a scatter plot of Governance against Insurance" style="--i:0">
+<img class="shot square" src="overview.png" alt="The research-landscape circle with three example infrastructures: each slice is a research activity, and the further out a dot sits, the more aligned the infrastructure is" style="--i:0">
 <div class="shot-text">
 <p class="eyebrow">Overview and report</p>
 <h2>Map infrastructures on the landscape</h2>
