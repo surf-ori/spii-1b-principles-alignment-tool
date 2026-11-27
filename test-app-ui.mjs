@@ -38,7 +38,7 @@ export default async function ({ check, ROOT }) {
 
     // Opens the page in a fresh context (fresh localStorage); returns { page, errors, ctx }.
     // `others`: start with "Show other alignment frameworks" on (most tests need the picker); `ds`: load the SPII top bar.
-    async function open(url = "index.html", width = 1280, height = 900, { others = true, ds = true, scheme } = {}) {
+    async function open(url = "index.html", width = 1280, height = 900, { others = true, ds = true, scheme, ready = "#app > *" } = {}) {
         const ctx = await browser.newContext({ viewport: { width, height }, acceptDownloads: true, colorScheme: scheme });
         await routeDS(ctx, ds);
         if (others) await ctx.addInitScript(() => { if (!localStorage.getItem("spii-principles-tool.prefs.v1")) localStorage.setItem("spii-principles-tool.prefs.v1", JSON.stringify({ showOtherFrameworks: true })); });
@@ -48,7 +48,7 @@ export default async function ({ check, ROOT }) {
         page.on("console", (m) => { if (m.type() === "error" && !ignorable(m.text())) errors.push("console: " + m.text()); });
         await page.route(/unpkg\.com|html2canvas/, (r) => r.abort());
         await page.goto(base + url, { waitUntil: "load" });
-        await page.waitForSelector("#app > *");
+        await page.waitForSelector(ready);
         return { page, errors, ctx };
     }
 
@@ -236,6 +236,21 @@ export default async function ({ check, ROOT }) {
             const exported = JSON.parse(fs.readFileSync(await download.path(), "utf8"));
             check("the exported report carries the star", exported.frameworks.posi.coverage.priority === true);
             check("no console or page errors (star)", errors.length === 0, JSON.stringify(errors));
+            await ctx.close();
+        }
+        {
+            // Proof of concept (poc/): loads, examples, overview charts, an infrastructure page
+            const { page, errors, ctx } = await open("poc/index.html", 1280, 900, { ready: "#view > *" });
+            page.on("dialog", (d) => d.accept());
+            check("POC: welcome screen when nothing is saved", (await page.locator(".welcome h1").count()) === 1);
+            await page.click("#w-examples");
+            await page.waitForSelector("#circle svg");
+            check("POC: three examples, the circle, the scatter plot and the table", (await page.locator(".tab").count()) === 5 && (await page.locator("#circle .dot").count()) > 5 && (await page.locator("#scatter .dot").count()) === 3 && (await page.locator("#o-table tbody tr").count()) === 3);
+            await page.locator(".tab", { hasText: "OpenAIRE" }).click();
+            check("POC: infrastructure page with radar and 23 principles", (await page.locator("#i-radar svg").count()) === 1 && (await page.locator(".p-row").count()) === 23);
+            await page.locator("#p-coverage .p-title").click();
+            check("POC: a principle unfolds its level descriptions", (await page.locator("#p-coverage .rubric > div").count()) === 3 && /demonstrable evidence/.test(await page.locator("#p-coverage .rubric").innerText()));
+            check("no console or page errors (POC)", errors.length === 0, JSON.stringify(errors));
             await ctx.close();
         }
         {
