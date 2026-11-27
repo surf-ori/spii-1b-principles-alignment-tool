@@ -37,3 +37,7 @@ Other frameworks than POSI; the printed and Word reports; the badge; editing des
 ## Data
 
 Everything is kept in this browser (`localStorage`, key `spii-alignment-poc.v1`). Export writes all infrastructures to one JSON file. Import takes that file or a report saved from the current tool (its POSI answers, notes and stars).
+
+## Icons
+
+The research-activity icons (on the circle, the chips and the table) come from the [SPII design system](https://surf-ori.github.io/spii-design-system/) (`SPII.activityIcon`). The current tool uses them from there too, and keeps the same set as a fallback for when the design system does not load; a test checks that the two stay equal.

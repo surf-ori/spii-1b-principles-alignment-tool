@@ -1311,8 +1311,11 @@
                 "Evaluate & Monitor": '<path d="M3 14.5a7 7 0 0114 0" stroke-linecap="round" /><path d="M10 14.5l3.2-4.2" stroke-linecap="round" /><circle cx="10" cy="14.5" r="1.1" />',
             };
 
+            // The icons come from the SPII design system (SPII.activity) when it has loaded; ACTIVITY_ICONS above
+            // is the same set, kept so the page, its badge and the tests also work without the design system.
             function activity_icon_markup(item, size, strokeColor, extraAttrs) {
-                const body = ACTIVITY_ICONS[item];
+                const shared = typeof window !== "undefined" && window.SPII && SPII.activity ? SPII.activity(item) : null;
+                const body = shared ? shared.svg : ACTIVITY_ICONS[item];
                 if (!body) return "";
                 return (
                     '<svg viewBox="0 0 20 20" width="' + size + '" height="' + size +

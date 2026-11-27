@@ -246,6 +246,7 @@ export default async function ({ check, ROOT }) {
             await page.click("#w-examples");
             await page.waitForSelector("#circle svg");
             check("POC: three examples, the circle, the scatter plot and the table", (await page.locator(".tab").count()) === 5 && (await page.locator("#circle .dot").count()) > 5 && (await page.locator("#scatter .dot").count()) === 3 && (await page.locator("#o-table tbody tr").count()) === 3);
+            check("POC: activity icons from the design system on the circle", (await page.locator("#circle g svg").count()) === 12);
             const allDots = await page.locator("#circle .dot").count();
             await page.click('.seg [data-group="admin"]');
             const adminSlices = await page.locator("#circle path[data-activity]").count();
