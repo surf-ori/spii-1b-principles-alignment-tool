@@ -1,6 +1,6 @@
-# Open Science Infrastructure Principles Alignment Tool
+# Principles Alignment Assessment Tool
 
-SPII deliverable 1B, Tool for: Principles Alignment Tool. Part of the [SPII overview](https://surf-ori.github.io/spii-overview/).
+SPII deliverable 1B, Tool for: Principles Alignment Assessment Tool. Part of the [SPII overview](https://surf-ori.github.io/spii-overview/).
 This repository hosts both the tool itself and its feedback/issue tracker.
 
 > **New interface (27 November 2026).** https://surf-ori.github.io/spii-1b-principles-alignment-tool/ now opens the

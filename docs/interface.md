@@ -1,6 +1,6 @@
 # The new interface: several infrastructures side by side
 
-Since 27 November 2026 `index.html` is the Principles Alignment Tool's new interface: https://surf-ori.github.io/spii-1b-principles-alignment-tool/. It started as a proof of concept in `poc/` (that address now redirects here). The previous version is in `old/index.html`: https://surf-ori.github.io/spii-1b-principles-alignment-tool/old/
+Since 27 November 2026 `index.html` is the Principles Alignment Assessment Tool's new interface: https://surf-ori.github.io/spii-1b-principles-alignment-tool/. It started as a proof of concept in `poc/` (that address now redirects here). The previous version is in `old/index.html`: https://surf-ori.github.io/spii-1b-principles-alignment-tool/old/
 
 It takes its user experience cues from the [Digital Autonomy Assessment Tool](https://utrechtuniversity.github.io/digital-autonomy-assessment-tool/) (DAAF, Utrecht University). None of DAAF's code is used: its licence (CC BY-NC-SA 4.0) does not allow turning it into another framework. It works on the real POSI data (`data/frameworks/`) and on the example reports in `data/examples/`.
 
