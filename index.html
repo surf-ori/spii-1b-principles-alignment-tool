@@ -534,11 +534,11 @@
       <div class="card welcome">
         ${circleIllustration()}
         <h1>See how your Open Science infrastructures put shared principles into practice</h1>
-        <p class="muted">Rate each infrastructure on the principles of POSI (or another framework), place it in the research landscape, and compare them side by side. Everything stays in your own browser.</p>
+        <p class="muted">Rate each infrastructure on the principles of POSI (or another framework), place it in the research landscape, and map them on the research landscape. Everything stays in your own browser.</p>
         <div class="steps">
           <div class="step"><span class="n">1</span><b>Add an infrastructure</b><span class="muted small">Name it, and pick the research activities it supports.</span></div>
           <div class="step"><span class="n">2</span><b>Rate the principles</b><span class="muted small">Low, making progress or high, with descriptions, tips and examples.</span></div>
-          <div class="step"><span class="n">3</span><b>Compare</b><span class="muted small">The research-landscape circle, a radar per infrastructure, and a table.</span></div>
+          <div class="step"><span class="n">3</span><b>Map</b><span class="muted small">The research-landscape circle, a radar per infrastructure, and a table.</span></div>
         </div>
         <div class="row" style="justify-content:center">
           <button class="btn primary" id="w-add">+ Add infrastructure</button>
@@ -595,7 +595,7 @@
           <div id="circle"></div>
         </div>
         <div class="card">
-          <div class="chart-head"><div><h3>Compare on two principles</h3><div class="muted small">Choose what goes on each axis.</div></div></div>
+          <div class="chart-head"><div><h3>Map on two principles</h3><div class="muted small">Choose what goes on each axis.</div></div></div>
           <div class="row small"><label>X <select id="sc-x">${measureOptions("governance")}</select></label><label>Y <select id="sc-y">${measureOptions("insurance")}</select></label></div>
           <div id="scatter"></div>
         </div>
@@ -771,7 +771,7 @@
     const pay = $("#i-payoff");
     if (sc.answered === sc.total) {
       pay.hidden = false;
-      pay.innerHTML = `<div class="row"><div class="grow"><h3>All ${sc.total} principles rated</h3><p class="muted" style="margin:.25rem 0 0">${esc(inf.name || "This infrastructure")} is <b style="color:${pctColour(sc.pct)}">${sc.pct == null ? "not rated" : sc.pct + "% aligned"}</b>. ${FW.sections.map((s) => `${esc(s.section)} ${sectionScore(inf, s).pct == null ? "–" : sectionScore(inf, s).pct + "%"}`).join(" · ")}.</p></div><button class="btn primary" id="pay-overview">Compare in the overview</button><button class="btn" id="pay-export">Export</button></div>`;
+      pay.innerHTML = `<div class="row"><div class="grow"><h3>All ${sc.total} principles rated</h3><p class="muted" style="margin:.25rem 0 0">${esc(inf.name || "This infrastructure")} is <b style="color:${pctColour(sc.pct)}">${sc.pct == null ? "not rated" : sc.pct + "% aligned"}</b>. ${FW.sections.map((s) => `${esc(s.section)} ${sectionScore(inf, s).pct == null ? "–" : sectionScore(inf, s).pct + "%"}`).join(" · ")}.</p></div><button class="btn primary" id="pay-overview">See it on the map</button><button class="btn" id="pay-export">Export</button></div>`;
       $("#pay-overview").onclick = () => go("overview");
       $("#pay-export").onclick = () => $("#export-menu").showPopover();
     } else pay.hidden = true;
@@ -982,7 +982,7 @@
         <h3 style="font-size:1rem;margin:.25rem 0 .5rem">Details</h3>
         <div class="ed-grid">${keys.map(field).join("")}</div>
         <details class="ed-acc" id="acc-scale"><summary>Scale (levels) · ${d.levels.length} levels</summary><div class="acc-body">
-          <p class="muted small">The answer options for every principle, from worst (top) to best (bottom). Set the icon, colour, order, title and description of each, and whether it counts toward the score (for an option such as "Not applicable").</p>
+          <p class="muted small">The answer options for every principle, from worst (top) to best (bottom). Set the icon, colour, order, title and description of each, and whether it counts toward the summary (for an option such as "Not applicable").</p>
           <div class="warn"><b>Careful:</b> the sections hold descriptions per level for each principle, keyed to these levels. If you rename, add, remove or reorder levels, those descriptions may no longer fit. Check them under Sections and principles.</div>
           <div id="lvl-rows"></div>
           <button class="btn" id="lvl-add" type="button">+ Add level</button> <span class="muted small">2 to 9 levels.</span>
@@ -1323,9 +1323,9 @@
   const EMBEDS = [
     { key: "kpis", sel: ".kpis", title: "Key figures" },
     { key: "circle", sel: "#circle", card: true, title: "Research-landscape circle" },
-    { key: "scatter", sel: "#scatter", card: true, title: "Compare on two principles" },
+    { key: "scatter", sel: "#scatter", card: true, title: "Map on two principles" },
     { key: "table", sel: "#o-table", card: true, title: "All infrastructures" },
-    { key: "results", sel: "#i-results", title: "Alignment scores" },
+    { key: "results", sel: "#i-results", title: "Alignment summary" },
     { key: "radar", sel: "#i-radar", card: true, title: "Alignment per principle" },
   ];
   const embedEl = (e) => { const x = $(e.sel); return x && (e.card ? x.closest(".card") : x); };
