@@ -113,6 +113,14 @@ body.show-notes aside.notes { display: block; position: absolute; left: 0; right
   .deliv, .pcard, .ncard, .shot { animation: none; }
   #hud { display: none; }
 }
+
+/* QR codes and the new try-it layout (2026-11-27) */
+.cover-side { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+.qr-row { display: flex; flex-direction: row; align-items: center; gap: 24px; }
+.qr-cap { font-size: 26px; line-height: 1.3; color: var(--on-dark-muted); }
+.url { font-size: 48px; line-height: 1.2; }
+.try-top { display: flex; flex-direction: row; align-items: center; gap: 64px; }
+.try-head { flex: 1; display: flex; flex-direction: column; gap: 32px; }
 </style>
 </head>
 <body>
@@ -125,9 +133,12 @@ body.show-notes aside.notes { display: block; position: absolute; left: 0; right
 <p class="lead">Self-assess how your Open Science infrastructure puts shared values and principles into practice.</p>
 <p class="cover-meta">Maurice Vanderfeesten, SURF · Open Science NL, 2 December 2026</p>
 </div>
-<svg aria-label="The six SPII deliverables as hexagons: three reference model parts on top, each with its tool below" viewBox="50 35 220 180" width="220" height="180" style="width:660px;height:540px"><g fill="none" stroke="#3a4539" stroke-width="2"><line x1="80" y1="70" x2="80" y2="180"/><line x1="160" y1="70" x2="160" y2="180"/><line x1="240" y1="70" x2="240" y2="180"/><line x1="80" y1="70" x2="240" y2="70"/></g><polygon points="80,45 97,58 97,82 80,95 63,82 63,58" fill="#7B3FB0" stroke="#7B3FB0" stroke-width="3" stroke-linejoin="round"/><g transform="translate(80 70) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M0 -18V16M-10 16H10M-17 -11H17M-17 -11L-22 3M-17 -11L-12 3M17 -11L12 3M17 -11L22 3"/><path d="M-22 3H-12A5 4 0 0 1 -22 3ZM12 3H22A5 4 0 0 1 12 3Z"/><circle cx="0" cy="-18" r="2.2"/></g><polygon points="80,155 97,168 97,192 80,205 63,192 63,168" fill="#52247D" stroke="#52247D" stroke-width="3" stroke-linejoin="round"/><g transform="translate(80 180) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M-18 8A18 18 0 0 1 18 8"/><path d="M-12.7 -4.7L-10 -2.6M0 -10V-6.5M12.7 -4.7L10 -2.6"/><path d="M0 8L9 -4"/><circle cx="0" cy="8" r="2.6"/></g><polygon points="160,45 177,58 177,82 160,95 143,82 143,58" fill="#E8702A" stroke="#E8702A" stroke-width="3" stroke-linejoin="round"/><g transform="translate(160 70) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M-17 16C-6 16 -14 2 -3 2S6 -8 12 -8" stroke-dasharray="3 4"/><circle cx="-17" cy="16" r="3"/><path d="M13 -2C9 -7 7 -10 7 -13A6 6 0 0 1 19 -13C19 -10 17 -7 13 -2Z"/></g><polygon points="160,155 177,168 177,192 160,205 143,192 143,168" fill="#B04A12" stroke="#B04A12" stroke-width="3" stroke-linejoin="round"/><g transform="translate(160 180) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M0 0L0 -15M0 0L-15 -4M0 0L14 -6M0 0L-8 14M0 0L11 13M-15 -4L0 -15L14 -6M-8 14L11 13"/><circle cx="0" cy="0" r="3.2"/><circle cx="0" cy="-15" r="2.6"/><circle cx="-15" cy="-4" r="2.6"/><circle cx="14" cy="-6" r="2.6"/><circle cx="-8" cy="14" r="2.6"/><circle cx="11" cy="13" r="2.6"/></g><polygon points="240,45 257,58 257,82 240,95 223,82 223,58" fill="#1F86C1" stroke="#1F86C1" stroke-width="3" stroke-linejoin="round"/><g transform="translate(240 70) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><circle cx="-6" cy="0" r="11"/><circle cx="6" cy="0" r="11"/></g><polygon points="240,155 257,168 257,192 240,205 223,192 223,168" fill="#145F8C" stroke="#145F8C" stroke-width="3" stroke-linejoin="round"/><g transform="translate(240 180) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><rect x="-18" y="-6" width="36" height="22" rx="2.5"/><path d="M-7 -6V-12H7V-6M-18 3H18M-3 3V7H3V3"/></g></svg>
+<div class="cover-side">
+<svg aria-label="The six SPII deliverables as hexagons: three reference model parts on top, each with its tool below" viewBox="50 35 220 180" width="220" height="180" style="width:480px;height:393px"><g fill="none" stroke="#3a4539" stroke-width="2"><line x1="80" y1="70" x2="80" y2="180"/><line x1="160" y1="70" x2="160" y2="180"/><line x1="240" y1="70" x2="240" y2="180"/><line x1="80" y1="70" x2="240" y2="70"/></g><polygon points="80,45 97,58 97,82 80,95 63,82 63,58" fill="#7B3FB0" stroke="#7B3FB0" stroke-width="3" stroke-linejoin="round"/><g transform="translate(80 70) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M0 -18V16M-10 16H10M-17 -11H17M-17 -11L-22 3M-17 -11L-12 3M17 -11L12 3M17 -11L22 3"/><path d="M-22 3H-12A5 4 0 0 1 -22 3ZM12 3H22A5 4 0 0 1 12 3Z"/><circle cx="0" cy="-18" r="2.2"/></g><polygon points="80,155 97,168 97,192 80,205 63,192 63,168" fill="#52247D" stroke="#52247D" stroke-width="3" stroke-linejoin="round"/><g transform="translate(80 180) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M-18 8A18 18 0 0 1 18 8"/><path d="M-12.7 -4.7L-10 -2.6M0 -10V-6.5M12.7 -4.7L10 -2.6"/><path d="M0 8L9 -4"/><circle cx="0" cy="8" r="2.6"/></g><polygon points="160,45 177,58 177,82 160,95 143,82 143,58" fill="#E8702A" stroke="#E8702A" stroke-width="3" stroke-linejoin="round"/><g transform="translate(160 70) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M-17 16C-6 16 -14 2 -3 2S6 -8 12 -8" stroke-dasharray="3 4"/><circle cx="-17" cy="16" r="3"/><path d="M13 -2C9 -7 7 -10 7 -13A6 6 0 0 1 19 -13C19 -10 17 -7 13 -2Z"/></g><polygon points="160,155 177,168 177,192 160,205 143,192 143,168" fill="#B04A12" stroke="#B04A12" stroke-width="3" stroke-linejoin="round"/><g transform="translate(160 180) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M0 0L0 -15M0 0L-15 -4M0 0L14 -6M0 0L-8 14M0 0L11 13M-15 -4L0 -15L14 -6M-8 14L11 13"/><circle cx="0" cy="0" r="3.2"/><circle cx="0" cy="-15" r="2.6"/><circle cx="-15" cy="-4" r="2.6"/><circle cx="14" cy="-6" r="2.6"/><circle cx="-8" cy="14" r="2.6"/><circle cx="11" cy="13" r="2.6"/></g><polygon points="240,45 257,58 257,82 240,95 223,82 223,58" fill="#1F86C1" stroke="#1F86C1" stroke-width="3" stroke-linejoin="round"/><g transform="translate(240 70) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><circle cx="-6" cy="0" r="11"/><circle cx="6" cy="0" r="11"/></g><polygon points="240,155 257,168 257,192 240,205 223,192 223,168" fill="#145F8C" stroke="#145F8C" stroke-width="3" stroke-linejoin="round"/><g transform="translate(240 180) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><rect x="-18" y="-6" width="36" height="22" rx="2.5"/><path d="M-7 -6V-12H7V-6M-18 3H18M-3 3V7H3V3"/></g></svg>
+<div class="qr-row"><svg class="qr" aria-label="QR code linking to surf-ori.github.io/spii-1b-principles-alignment-tool" viewBox="-3 -3 39 39" width="200" height="200"><rect x="-3" y="-3" width="39" height="39" rx="1.5" fill="#fbfaf5"/><path fill="none" stroke="#10140f" stroke-width="1" d="M0 0.5h7m1 0h1m1 0h2m2 0h3m6 0h1m2 0h7m-33 1h1m5 0h1m2 0h1m2 0h1m6 0h3m4 0h1m5 0h1m-33 1h1m1 0h3m1 0h1m2 0h1m2 0h1m1 0h5m2 0h1m1 0h2m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h5m2 0h2m1 0h2m2 0h1m1 0h1m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h2m2 0h1m1 0h2m2 0h1m2 0h1m1 0h1m2 0h1m1 0h3m1 0h1m-33 1h1m5 0h1m1 0h2m2 0h3m4 0h1m1 0h2m3 0h1m5 0h1m-33 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-25 1h2m1 0h2m1 0h2m1 0h2m1 0h2m1 0h2m-25 1h1m3 0h1m1 0h3m1 0h1m1 0h1m2 0h3m2 0h3m1 0h6m2 0h1m-33 1h3m1 0h1m3 0h1m1 0h1m2 0h6m2 0h5m3 0h3m-29 1h2m1 0h2m1 0h1m1 0h2m2 0h1m2 0h1m2 0h1m1 0h1m1 0h2m2 0h1m1 0h1m-32 1h1m2 0h3m2 0h1m2 0h2m3 0h2m2 0h2m2 0h1m1 0h1m4 0h1m-32 1h1m1 0h5m1 0h1m2 0h4m2 0h1m1 0h4m1 0h1m1 0h1m1 0h2m1 0h2m-30 1h3m3 0h1m1 0h2m1 0h3m6 0h1m1 0h1m1 0h1m2 0h1m-31 1h4m2 0h3m2 0h1m1 0h3m6 0h2m1 0h2m1 0h4m-32 1h2m1 0h3m1 0h1m3 0h1m5 0h1m1 0h9m1 0h1m-24 1h2m1 0h1m4 0h5m2 0h4m1 0h1m1 0h1m2 0h1m-30 1h1m1 0h2m1 0h2m2 0h3m1 0h2m1 0h1m4 0h1m5 0h2m-31 1h2m4 0h1m3 0h1m1 0h4m1 0h2m1 0h4m3 0h1m1 0h1m-29 1h4m3 0h1m1 0h1m2 0h2m2 0h1m3 0h1m3 0h3m3 0h1m-32 1h2m1 0h1m2 0h1m1 0h2m3 0h1m1 0h1m1 0h2m1 0h3m1 0h1m1 0h1m1 0h2m-30 1h1m1 0h1m1 0h2m3 0h2m4 0h4m2 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m-30 1h2m2 0h1m1 0h1m1 0h3m2 0h1m2 0h1m1 0h4m3 0h1m3 0h1m-30 1h2m3 0h1m2 0h3m1 0h1m2 0h1m1 0h3m1 0h1m1 0h4m2 0h1m-32 1h2m1 0h2m1 0h3m4 0h1m1 0h1m1 0h1m1 0h3m2 0h6m-22 1h2m4 0h2m1 0h2m2 0h1m1 0h2m3 0h1m1 0h2m-32 1h7m1 0h2m1 0h2m1 0h2m1 0h2m1 0h2m2 0h1m1 0h1m1 0h2m-30 1h1m5 0h1m10 0h6m1 0h1m3 0h1m2 0h1m-32 1h1m1 0h3m1 0h1m1 0h4m2 0h2m1 0h1m1 0h4m1 0h6m1 0h1m-32 1h1m1 0h3m1 0h1m2 0h1m2 0h6m3 0h1m1 0h2m1 0h3m1 0h1m-31 1h1m1 0h3m1 0h1m3 0h2m3 0h3m2 0h1m4 0h5m-30 1h1m5 0h1m2 0h2m4 0h1m1 0h2m2 0h2m1 0h1m1 0h1m-27 1h7m1 0h1m2 0h1m2 0h1m2 0h1m2 0h5m1 0h1m2 0h1m2 0h1"/></svg><p class="qr-cap">Scan to try the tool<br>during the talk</p></div>
 </div>
-<aside class="notes">About 30 seconds. Good afternoon. I will show you the Principles Alignment Tool: a free, open tool to self-assess how your Open Science infrastructure puts shared values and principles into practice. It is deliverable 1B of SPII, the Strategic Plan for Integrated Infrastructure. The six hexagons are the six SPII deliverables; this tool is the purple one at the bottom left.</aside>
+</div>
+<aside class="notes">About 30 seconds. Good afternoon. I will show you the Principles Alignment Tool: a free, open tool to self-assess how your Open Science infrastructure puts shared values and principles into practice. It is deliverable 1B of SPII, the Strategic Plan for Integrated Infrastructure. The six hexagons are the six SPII deliverables; this tool is the purple one at the bottom left. If you want to try it while I talk, scan the QR code.</aside>
 </section>
 <section id="why" class="slide">
 <div class="why-row">
@@ -139,13 +150,13 @@ body.show-notes aside.notes { display: block; position: absolute; left: 0; right
 <div class="deliv-grid">
 <div class="deliv" style="--i:0"><svg class="hex" aria-label="1A hexagon" viewBox="-20 -27 40 54" width="40" height="54"><polygon points="0,-25 17,-12 17,12 0,25 -17,12 -17,-12" fill="#7B3FB0" stroke="#7B3FB0" stroke-width="3" stroke-linejoin="round"/><g transform="translate(0 0) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M0 -18V16M-10 16H10M-17 -11H17M-17 -11L-22 3M-17 -11L-12 3M17 -11L12 3M17 -11L22 3"/><path d="M-22 3H-12A5 4 0 0 1 -22 3ZM12 3H22A5 4 0 0 1 12 3Z"/><circle cx="0" cy="-18" r="2.2"/></g></svg><p class="code">1A · MODEL</p><p class="name">Values and Principles</p></div>
 <div class="deliv" style="--i:1"><svg class="hex" aria-label="2A hexagon" viewBox="-20 -27 40 54" width="40" height="54"><polygon points="0,-25 17,-12 17,12 0,25 -17,12 -17,-12" fill="#E8702A" stroke="#E8702A" stroke-width="3" stroke-linejoin="round"/><g transform="translate(0 0) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M-17 16C-6 16 -14 2 -3 2S6 -8 12 -8" stroke-dasharray="3 4"/><circle cx="-17" cy="16" r="3"/><path d="M13 -2C9 -7 7 -10 7 -13A6 6 0 0 1 19 -13C19 -10 17 -7 13 -2Z"/></g></svg><p class="code">2A · MODEL</p><p class="name">Landscape &amp; Researcher Journey</p></div>
-<div class="deliv" style="--i:2"><svg class="hex" aria-label="3A hexagon" viewBox="-20 -27 40 54" width="40" height="54"><polygon points="0,-25 17,-12 17,12 0,25 -17,12 -17,-12" fill="#1F86C1" stroke="#1F86C1" stroke-width="3" stroke-linejoin="round"/><g transform="translate(0 0) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><circle cx="-6" cy="0" r="11"/><circle cx="6" cy="0" r="11"/></g></svg><p class="code">3A · MODEL</p><p class="name">Capabilities &amp; Interoperability</p></div>
+<div class="deliv" style="--i:2"><svg class="hex" aria-label="3A hexagon" viewBox="-20 -27 40 54" width="40" height="54"><polygon points="0,-25 17,-12 17,12 0,25 -17,12 -17,-12" fill="#1F86C1" stroke="#1F86C1" stroke-width="3" stroke-linejoin="round"/><g transform="translate(0 0) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><circle cx="-6" cy="0" r="11"/><circle cx="6" cy="0" r="11"/></g></svg><p class="code">3A · MODEL</p><p class="name">Practical Interoperability Guidelines</p></div>
 <div class="deliv is-here" style="--i:3"><svg class="hex" aria-label="1B hexagon" viewBox="-20 -27 40 54" width="40" height="54"><polygon points="0,-25 17,-12 17,12 0,25 -17,12 -17,-12" fill="#52247D" stroke="#52247D" stroke-width="3" stroke-linejoin="round"/><g transform="translate(0 0) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M-18 8A18 18 0 0 1 18 8"/><path d="M-12.7 -4.7L-10 -2.6M0 -10V-6.5M12.7 -4.7L10 -2.6"/><path d="M0 8L9 -4"/><circle cx="0" cy="8" r="2.6"/></g></svg><p class="code">1B · TOOL · TODAY</p><p class="name">Principles Alignment Tool</p></div>
 <div class="deliv" style="--i:4"><svg class="hex" aria-label="2B hexagon" viewBox="-20 -27 40 54" width="40" height="54"><polygon points="0,-25 17,-12 17,12 0,25 -17,12 -17,-12" fill="#B04A12" stroke="#B04A12" stroke-width="3" stroke-linejoin="round"/><g transform="translate(0 0) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M0 0L0 -15M0 0L-15 -4M0 0L14 -6M0 0L-8 14M0 0L11 13M-15 -4L0 -15L14 -6M-8 14L11 13"/><circle cx="0" cy="0" r="3.2"/><circle cx="0" cy="-15" r="2.6"/><circle cx="-15" cy="-4" r="2.6"/><circle cx="14" cy="-6" r="2.6"/><circle cx="-8" cy="14" r="2.6"/><circle cx="11" cy="13" r="2.6"/></g></svg><p class="code">2B · TOOL</p><p class="name">Inventory of infrastructures and projects</p></div>
-<div class="deliv" style="--i:5"><svg class="hex" aria-label="3B hexagon" viewBox="-20 -27 40 54" width="40" height="54"><polygon points="0,-25 17,-12 17,12 0,25 -17,12 -17,-12" fill="#145F8C" stroke="#145F8C" stroke-width="3" stroke-linejoin="round"/><g transform="translate(0 0) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><rect x="-18" y="-6" width="36" height="22" rx="2.5"/><path d="M-7 -6V-12H7V-6M-18 3H18M-3 3V7H3V3"/></g></svg><p class="code">3B · TOOL</p><p class="name">Toolbox of shared components</p></div>
+<div class="deliv" style="--i:5"><svg class="hex" aria-label="3B hexagon" viewBox="-20 -27 40 54" width="40" height="54"><polygon points="0,-25 17,-12 17,12 0,25 -17,12 -17,-12" fill="#145F8C" stroke="#145F8C" stroke-width="3" stroke-linejoin="round"/><g transform="translate(0 0) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><rect x="-18" y="-6" width="36" height="22" rx="2.5"/><path d="M-7 -6V-12H7V-6M-18 3H18M-3 3V7H3V3"/></g></svg><p class="code">3B · TOOL</p><p class="name">Interoperability Assessment Tool</p></div>
 </div>
 </div>
-<aside class="notes">About 45 seconds. Why this tool? It was designed and developed in SPII, the Strategic Plan for Integrated Infrastructure: a project that works on a reference model for a coherent and connected Open Science infrastructure for the Netherlands. The reference model has three parts on top: values and principles, the landscape and researcher journey, and capabilities and interoperability. Each part has a tool below it that puts it into practice. Today is about the first tool: the Principles Alignment Tool.</aside>
+<aside class="notes">About 45 seconds. Why this tool? It was designed and developed in SPII, the Strategic Plan for Integrated Infrastructure: a project that works on a reference model for a coherent and connected Open Science infrastructure for the Netherlands. The reference model has three parts on top: values and principles, the landscape and researcher journey, and practical interoperability guidelines. Each part has a tool below it that puts it into practice. Today is about the first tool: the Principles Alignment Tool.</aside>
 </section>
 <section id="principles" class="slide">
 <p class="eyebrow">Principles</p>
@@ -175,50 +186,51 @@ body.show-notes aside.notes { display: block; position: absolute; left: 0; right
 </section>
 <section id="how" class="slide">
 <div class="shot-row">
-<img class="shot" src="principle.png" alt="The tool showing the principle Coverage across the scholarly enterprise, marked as a priority with a star, with a description for each adoption level and ideas to improve" style="--i:0">
+<img class="shot" src="principle.png" alt="The tool showing the principle Coverage across the scholarly enterprise for OpenAIRE: rating buttons with icons, rated High, unfolded to what each adoption level looks like, ideas to improve, examples and a note" style="--i:0">
 <div class="shot-text">
 <p class="eyebrow">How it works</p>
 <h2>Rate each principle</h2>
 <ol class="steps">
-<li>Describe your infrastructure</li>
-<li>Rate each principle from low to high adoption, or not applicable</li>
+<li>Add your infrastructure and the research activities it supports</li>
+<li>Rate each principle: low, progress, high or not applicable</li>
 <li>Star your priorities</li>
-<li>Read what each level looks like, with ideas to improve and examples</li>
+<li>Unfold a principle: what each level looks like, ideas to improve, examples</li>
 </ol>
 </div>
 </div>
-<aside class="notes">About 45 seconds. How does it work? You describe your infrastructure, then rate each principle: low adoption, making progress, high adoption, or not applicable. You can star the principles that matter most to you. And for guidance, you can switch on descriptions of what each level looks like, with ideas to improve and examples from organisations that do it well. These come from the reports of POSI adopters; the first two principles have them today.</aside>
+<aside class="notes">About 45 seconds. How does it work? You add your infrastructure, describe it, and pick the research activities it supports. Then you rate each principle with one click, or with the keys 1, 2, 3 and 0: low adoption, making progress, high adoption, or not applicable. Each principle has a short question to help you. You can star the principles that matter most to you. And when you want guidance, you unfold a principle: what each level looks like, ideas to improve and examples from organisations that do it well. These come from the reports of POSI adopters.</aside>
 </section>
 <section id="scale" class="slide">
 <div class="shot-row">
-<img class="shot" src="scale.png" alt="The Customize scale dialog for POSI: per option an icon, a colour, a title, an optional description and whether it counts toward the score" style="--i:0">
+<img class="shot" src="framework.png" alt="The Framework and scale dialog: a catalogue with POSI v2.0 marked approved, every field of the framework editable, and the scale in a closed section" style="--i:0">
 <div class="shot-text">
-<p class="eyebrow">Customization</p>
-<h2>Define your own scale</h2>
+<p class="eyebrow">Frameworks</p>
+<h2>Choose a framework, or make it yours</h2>
 <ul class="steps">
-<li>The default runs from low adoption to high adoption</li>
-<li>Choose icons, colours, numbers and your own text per level</li>
-<li>Say what “high adoption” means for you, or use a traffic light</li>
+<li>A catalogue: POSI first, then GORC, FAIR, CARE, FOREST and more</li>
+<li>Edit the scale: icons, colours, titles and descriptions</li>
+<li>Edit, add and reorder the principles themselves</li>
+<li>Import or download a framework as JSON</li>
 </ul>
 </div>
 </div>
-<aside class="notes">About 45 seconds. You can customize and define your own scale for the whole self-assessment. By default it runs from low adoption to high adoption. But you can choose icons, colours and numbers, and write a text for each level: for example, define what low or high adoption means in your case. Or don’t use these definitions at all and use a traffic light system instead.</aside>
+<aside class="notes">About 45 seconds. POSI plus the complementary principles is the default, but the tool has a catalogue of frameworks: approved ones first, then others such as GORC, FAIR, CARE and FOREST. Everything about a framework is open for full disclosure, and you can change it: the scale, with its icons, colours and the text for each level, and the principles themselves, which you can edit, add, remove and reorder. You can import your own framework and download it again to share.</aside>
 </section>
 <section id="report" class="slide">
 <div class="shot-row">
-<img class="shot" src="summary.png" alt="The alignment summary of an example report: 92 percent, with a bar per section showing low adoption, making progress and high adoption" style="--i:0">
+<img class="shot" src="overview.png" alt="The overview with three example infrastructures: the research-landscape circle, where each slice is a research activity and further out means more aligned, and a scatter plot of Governance against Insurance" style="--i:0">
 <div class="shot-text">
-<p class="eyebrow">Summary report</p>
-<h2>See where you stand, and keep your work</h2>
+<p class="eyebrow">Overview and report</p>
+<h2>Compare infrastructures side by side</h2>
 <ul class="steps">
-<li>An alignment summary per section</li>
-<li>Saved automatically in your browser, until you start a new alignment</li>
-<li>Import an example (OpenAIRE, OpenAlex, HAL) to see how it was done</li>
-<li>Export to JSON, PDF or Word</li>
+<li>The research-landscape circle: further out means more aligned</li>
+<li>A scatter plot with the axes you choose</li>
+<li>Saved in your browser; try the OpenAIRE, OpenAlex and HAL examples</li>
+<li>Export to JSON, PDF or Word, or share via GitHub</li>
 </ul>
 </div>
 </div>
-<aside class="notes">About 60 seconds. At the end you get a summary report: an overview of how you are working against these principles, per section. Your answers are saved automatically in your browser until you click Start a new alignment, and you can also save them to a file. Don’t know where to start? Import an existing assessment, for example the ones for OpenAIRE, OpenAlex or HAL, and see how it was completed. And you can export your alignment as a report in different formats, JSON, PDF and Word, which is useful for internal discussions about the development of your infrastructure.</aside>
+<aside class="notes">About 60 seconds. You can assess several infrastructures and compare them in one overview. The circle shows the research landscape: each slice is a research activity, and the further out an infrastructure sits, the more aligned it is. You can switch between the research life cycle and research administration. Next to it, a scatter plot where you choose what goes on each axis. Your answers are saved automatically in your browser. Don’t know where to start? Load the examples for OpenAIRE, OpenAlex and HAL. And you can export a report as JSON, PDF or Word, or share it through the GitHub tracker, which is useful for internal discussions about the development of your infrastructure.</aside>
 </section>
 <section id="next" class="slide">
 <p class="eyebrow">What is coming next</p>
@@ -245,9 +257,14 @@ body.show-notes aside.notes { display: block; position: absolute; left: 0; right
 </section>
 <section id="try" class="slide dark">
 <div class="try-box">
+<div class="try-top">
+<div class="try-head">
 <p class="eyebrow">Try it today</p>
 <h2>Self-assess your infrastructure</h2>
-<p class="url">surf-ori.github.io/spii-1b-principles-alignment-tool</p>
+<p class="url">surf-ori.github.io/<br>spii-1b-principles-alignment-tool</p>
+</div>
+<svg class="qr" aria-label="QR code linking to surf-ori.github.io/spii-1b-principles-alignment-tool" viewBox="-3 -3 39 39" width="400" height="400"><rect x="-3" y="-3" width="39" height="39" rx="1.5" fill="#fbfaf5"/><path fill="none" stroke="#10140f" stroke-width="1" d="M0 0.5h7m1 0h1m1 0h2m2 0h3m6 0h1m2 0h7m-33 1h1m5 0h1m2 0h1m2 0h1m6 0h3m4 0h1m5 0h1m-33 1h1m1 0h3m1 0h1m2 0h1m2 0h1m1 0h5m2 0h1m1 0h2m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h5m2 0h2m1 0h2m2 0h1m1 0h1m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h2m2 0h1m1 0h2m2 0h1m2 0h1m1 0h1m2 0h1m1 0h3m1 0h1m-33 1h1m5 0h1m1 0h2m2 0h3m4 0h1m1 0h2m3 0h1m5 0h1m-33 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-25 1h2m1 0h2m1 0h2m1 0h2m1 0h2m1 0h2m-25 1h1m3 0h1m1 0h3m1 0h1m1 0h1m2 0h3m2 0h3m1 0h6m2 0h1m-33 1h3m1 0h1m3 0h1m1 0h1m2 0h6m2 0h5m3 0h3m-29 1h2m1 0h2m1 0h1m1 0h2m2 0h1m2 0h1m2 0h1m1 0h1m1 0h2m2 0h1m1 0h1m-32 1h1m2 0h3m2 0h1m2 0h2m3 0h2m2 0h2m2 0h1m1 0h1m4 0h1m-32 1h1m1 0h5m1 0h1m2 0h4m2 0h1m1 0h4m1 0h1m1 0h1m1 0h2m1 0h2m-30 1h3m3 0h1m1 0h2m1 0h3m6 0h1m1 0h1m1 0h1m2 0h1m-31 1h4m2 0h3m2 0h1m1 0h3m6 0h2m1 0h2m1 0h4m-32 1h2m1 0h3m1 0h1m3 0h1m5 0h1m1 0h9m1 0h1m-24 1h2m1 0h1m4 0h5m2 0h4m1 0h1m1 0h1m2 0h1m-30 1h1m1 0h2m1 0h2m2 0h3m1 0h2m1 0h1m4 0h1m5 0h2m-31 1h2m4 0h1m3 0h1m1 0h4m1 0h2m1 0h4m3 0h1m1 0h1m-29 1h4m3 0h1m1 0h1m2 0h2m2 0h1m3 0h1m3 0h3m3 0h1m-32 1h2m1 0h1m2 0h1m1 0h2m3 0h1m1 0h1m1 0h2m1 0h3m1 0h1m1 0h1m1 0h2m-30 1h1m1 0h1m1 0h2m3 0h2m4 0h4m2 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m-30 1h2m2 0h1m1 0h1m1 0h3m2 0h1m2 0h1m1 0h4m3 0h1m3 0h1m-30 1h2m3 0h1m2 0h3m1 0h1m2 0h1m1 0h3m1 0h1m1 0h4m2 0h1m-32 1h2m1 0h2m1 0h3m4 0h1m1 0h1m1 0h1m1 0h3m2 0h6m-22 1h2m4 0h2m1 0h2m2 0h1m1 0h2m3 0h1m1 0h2m-32 1h7m1 0h2m1 0h2m1 0h2m1 0h2m1 0h2m2 0h1m1 0h1m1 0h2m-30 1h1m5 0h1m10 0h6m1 0h1m3 0h1m2 0h1m-32 1h1m1 0h3m1 0h1m1 0h4m2 0h2m1 0h1m1 0h4m1 0h6m1 0h1m-32 1h1m1 0h3m1 0h1m2 0h1m2 0h6m3 0h1m1 0h2m1 0h3m1 0h1m-31 1h1m1 0h3m1 0h1m3 0h2m3 0h3m2 0h1m4 0h5m-30 1h1m5 0h1m2 0h2m4 0h1m1 0h2m2 0h2m1 0h1m1 0h1m-27 1h7m1 0h1m2 0h1m2 0h1m2 0h1m2 0h5m1 0h1m2 0h1m2 0h1"/></svg>
+</div>
 <div class="try-list">
 <div class="try-item">
 <h3>Free and open</h3>
@@ -263,7 +280,7 @@ body.show-notes aside.notes { display: block; position: absolute; left: 0; right
 </div>
 </div>
 </div>
-<aside class="notes">About 20 seconds. You can try it today, at this address. It is free and open, runs in your browser, and your answers stay on your device. We would love your feedback: there is a feedback button at the bottom right of every SPII page. And the overview page shows all six SPII deliverables. Thank you.</aside>
+<aside class="notes">About 20 seconds. You can try it today: scan the QR code or go to this address. It is free and open, runs in your browser, and your answers stay on your device. We would love your feedback: there is a feedback button at the bottom right of every SPII page. And the overview page shows all six SPII deliverables. Thank you.</aside>
 </section>
 </div>
 <div id="hud">← → to browse · N notes · F full screen · P print</div>
