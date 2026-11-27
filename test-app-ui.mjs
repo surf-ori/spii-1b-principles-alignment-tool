@@ -285,8 +285,8 @@ export default async function ({ check, ROOT }) {
             // framework catalogue and editor
             await page.locator(".tab", { hasText: "OpenAIRE" }).first().click();
             await page.click("#btn-framework");
-            const opts = await page.locator("#fw-select option").evaluateAll((os) => os.map((o) => o.value));
-            check("Tool: catalogue lists the frameworks, approved first, POSI selected", opts.length >= 8 && opts[0] === "posi" && (await page.$eval("#fw-select", (s) => s.value)) === "posi", opts.join());
+            const opts = await page.locator("#fw-select .fw-opt").evaluateAll((os) => os.map((o) => o.dataset.id));
+            check("Tool: catalogue lists the frameworks, approved first, POSI selected", opts.length >= 8 && opts[0] === "posi" && (await page.$eval("#fw-select .fw-opt[aria-selected=true]", (s) => s.dataset.id)) === "posi" && /scholarly infrastructure/i.test(await page.locator('#fw-select .fw-opt[data-id="posi"]').innerText()), opts.join());
             check("Tool: id, title, short name and approved are editable", (await page.locator('#fw-body [data-top="id"]').count()) === 1 && (await page.locator('#fw-body [data-top="shortName"]').count()) === 1 && (await page.locator('#fw-body [data-top="approved"]').isChecked()));
             check("Tool: scale and sections are closed accordions, with a warning", !(await page.$eval("#acc-scale", (d) => d.open)) && !(await page.$eval("#acc-sections", (d) => d.open)) && (await page.locator("#acc-scale .warn").count()) === 1);
             await page.click("#acc-scale summary");
@@ -302,11 +302,11 @@ export default async function ({ check, ROOT }) {
             await page.click("#fw-save");
             check("Tool: Save and use applies the edited framework", !(await page.$eval("#dlg-framework", (d) => d.open)) && (await page.locator(".p-row").count()) === 24 && /Fully aligned/.test(await page.locator(".p-row").first().innerText()));
             await page.click("#btn-framework");
-            await page.selectOption("#fw-select", "gorc");
+            await page.click('#fw-select .fw-opt[data-id="gorc"]');
             await page.click("#fw-save");
             check("Tool: switching to another framework from the catalogue", (await page.locator(".p-row").count()) > 0 && (await page.locator(".p-row").count()) !== 24);
             await page.click("#btn-framework");
-            await page.selectOption("#fw-select", "posi");
+            await page.click('#fw-select .fw-opt[data-id="posi"]');
             await page.click("#fw-reset");
             await page.click("#fw-save");
             check("Tool: reset brings back the original POSI", (await page.locator(".p-row").count()) === 23);
