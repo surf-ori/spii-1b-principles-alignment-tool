@@ -159,6 +159,7 @@ export const run = (ctx, code) => vm.runInContext(code, ctx);
     check("docx: a zip with the Word parts and valid checksums", ["[Content_Types].xml", "_rels/.rels", "word/_rels/document.xml.rels", "word/document.xml", "word/styles.xml"].every((n) => entries[n] && entries[n].crcOk) && bytes.includes(Buffer.from([0x50, 0x4b, 0x05, 0x06])), Object.keys(entries).join());
     const doc = entries["word/document.xml"].text;
     check("docx: escaped name as title, POSI section, answer, priority, notes with a line break", doc.includes("Repo &lt;A&amp;B&gt;") && doc.includes('w:val="Title"') && doc.includes("POSI v2.0") && doc.includes("High adoption") && doc.includes("★ Priorities") && /line one<\/w:t><w:br\/><w:t xml:space="preserve">line two <\/w:t>/.test(doc));
+    check("docx: the summary chart, one bar per section with its score and a legend", (doc.match(/<w:shd w:val="clear" w:color="auto" w:fill="(?!EEEBDF)/g) || []).length >= 4 && doc.includes(">Governance<") && doc.includes("■ ") && doc.includes(">Not answered<"));
     check("docx: no characters XML forbids", !/[\u0000-\u0008]/.test(doc));
     check("docx: only frameworks with answers, like the printed report", !doc.includes("GORC"));
     check("docx file name", R("docx_filename(state)") === "2026-11-26-alignment-report-repo-a-b.docx");
