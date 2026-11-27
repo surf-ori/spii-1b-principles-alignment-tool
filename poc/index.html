@@ -82,6 +82,10 @@
   .chart-head select { font: inherit; font-size: .85rem; padding: .3rem .5rem; border-radius: .4rem; border: 1px solid var(--border, #d9d4c3); background: var(--card, #fff); color: inherit; }
   svg text { font-family: var(--font-sans, system-ui, sans-serif); }
   .circle-svg, .scatter-svg, .radar-svg { width: 100%; height: auto; display: block; }
+  .seg { display: inline-flex; border: 1px solid var(--border, #d9d4c3); border-radius: .5rem; overflow: hidden; margin-bottom: .25rem; flex-wrap: wrap; }
+  .seg button { border: 0; border-right: 1px solid var(--border, #d9d4c3); background: transparent; color: inherit; padding: .35rem .7rem; font-size: .8rem; font-weight: 600; cursor: pointer; }
+  .seg button:last-child { border-right: 0; }
+  .seg button[aria-pressed="true"] { background: var(--spii-green, #1f5c43); color: var(--accent-on, #fff); }
   .circle-svg .dot, .scatter-svg .dot { cursor: pointer; }
   .circle-svg .dot:hover, .scatter-svg .dot:hover { stroke-width: 3; }
   table.list { width: 100%; border-collapse: collapse; font-size: .85rem; }
@@ -406,8 +410,9 @@
       </div>
       <div class="grid-2">
         <div class="card">
-          <div class="chart-head"><div><h3>Research-landscape circle</h3><div class="muted small">Each slice is a research activity. An infrastructure appears in every activity it supports; the further out, the more it is aligned. Click a dot to open it.</div></div>
+          <div class="chart-head"><div><h3>Research-landscape circle</h3><div class="muted small">Each slice is a research activity. An infrastructure appears in every activity it supports. Low alignment sits near the centre, high alignment near the edge. Click a dot to open it.</div></div>
             <select id="circle-measure" aria-label="Distance from the centre">${measureOptions()}</select></div>
+          <div class="seg" role="group" aria-label="Which research activities">${[["both", "Both"], ["life", ACTIVITIES[0].group], ["admin", ACTIVITIES[1].group]].map(([v, l]) => `<button type="button" data-group="${v}" aria-pressed="${(db.settings.circleGroup || "both") === v}">${esc(l)}</button>`).join("")}</div>
           <div id="circle"></div>
         </div>
         <div class="card">
@@ -422,6 +427,11 @@
       </div>`;
     $("#o-add").onclick = addInfra;
     $("#o-import").onclick = () => $("#file-import").click();
+    document.querySelectorAll(".seg [data-group]").forEach((b) => b.addEventListener("click", () => {
+      db.settings.circleGroup = b.dataset.group; save();
+      document.querySelectorAll(".seg [data-group]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+      drawCircle();
+    }));
     const cm = $("#circle-measure"); cm.value = db.settings.circleMeasure || "all";
     cm.onchange = () => { db.settings.circleMeasure = cm.value; save(); drawCircle(); };
     ["sc-x", "sc-y"].forEach((id) => { const el = $("#" + id); if (db.settings[id]) el.value = db.settings[id]; el.onchange = () => { db.settings[id] = el.value; save(); drawScatter(); }; });
@@ -444,10 +454,13 @@
 
   function drawCircle() {
     const m = db.settings.circleMeasure || "all";
-    const n = ALL_ACTIVITIES.length, R0 = 70, R1 = 250;
+    const group = db.settings.circleGroup || "both";
+    const acts = group === "life" ? ACTIVITIES[0].items : group === "admin" ? ACTIVITIES[1].items : ALL_ACTIVITIES;
+    const centre = group === "life" ? ["Research", "life cycle"] : group === "admin" ? ["Research", "administration"] : ["Research", "landscape"];
+    const n = acts.length, R0 = 70, R1 = 250;
     let s = `<svg class="circle-svg" viewBox="-330 -330 660 660" role="img" aria-label="Research-landscape circle">`;
-    ALL_ACTIVITIES.forEach((a, i) => {
-      const life = i < 7;
+    acts.forEach((a, i) => {
+      const life = ACTIVITIES[0].items.includes(a);
       s += `<path d="${slicePath(0, 0, R0, R1, i, n)}" fill="${life ? "var(--spii-green, #1f5c43)" : "var(--spii-1b-ink, #52247D)"}" fill-opacity="${i % 2 ? 0.1 : 0.18}" stroke="var(--card, #fff)" stroke-width="2"/>`;
       const [lx, ly] = polar(R1 + 34, (i + 0.5) / n);
       const words = a.split(" ");
@@ -455,23 +468,24 @@
       s += `<text x="${lx}" y="${ly - (lines.length - 1) * 7}" text-anchor="middle" font-size="14" font-weight="600" fill="${life ? "var(--spii-green, #1f5c43)" : "var(--spii-1b-ink, #52247D)"}">${lines.map((l, k) => `<tspan x="${lx}" dy="${k ? 15 : 0}">${esc(l)}</tspan>`).join("")}</text>`;
     });
     [25, 50, 75, 100].forEach((p) => { const r = R0 + ((R1 - R0) * p) / 100; s += `<circle r="${r}" fill="none" stroke="var(--border, #d9d4c3)" stroke-dasharray="${p === 100 ? "0" : "3 4"}"/><text x="4" y="${-r + 13}" font-size="11" fill="var(--muted-foreground, #4d5850)">${p}%</text>`; });
-    s += `<circle r="${R0}" fill="var(--card, #fff)" stroke="var(--border, #d9d4c3)"/><text text-anchor="middle" y="-4" font-size="13" font-weight="700" fill="currentColor">Research</text><text text-anchor="middle" y="13" font-size="13" font-weight="700" fill="currentColor">landscape</text>`;
+    s += `<circle r="${R0}" fill="var(--card, #fff)" stroke="var(--border, #d9d4c3)"/><text text-anchor="middle" y="-4" font-size="13" font-weight="700" fill="currentColor">${centre[0]}</text><text text-anchor="middle" y="13" font-size="13" font-weight="700" fill="currentColor">${centre[1]}</text>`;
     const placed = [];
     db.infras.forEach((inf, k) => {
       const v = measure(inf, m); if (v == null) return;
       (inf.activities || []).forEach((a) => {
-        const i = ALL_ACTIVITIES.indexOf(a); if (i < 0) return;
+        const i = acts.indexOf(a); if (i < 0) return;
         const r = R0 + ((R1 - R0) * v) / 100;
         // spread infrastructures in one slice a little, so equal scores do not hide each other
-        const spread = ((k % 5) - 2) * 0.13;
+        const spread = ((k % 5) - 2) * (n > 7 ? 0.13 : 0.1);
         const [x, y] = polar(r, (i + 0.5 + spread) / n);
         placed.push(`<circle class="dot" data-id="${inf.id}" cx="${x}" cy="${y}" r="11" fill="${infraColour(inf)}" stroke="var(--card, #fff)" stroke-width="2"><title>${esc(inf.name || "Unnamed")} · ${esc(a)} · ${v}%</title></circle><text x="${x}" y="${y + 4}" text-anchor="middle" font-size="9.5" font-weight="700" fill="#fff" pointer-events="none">${esc(initials(inf.name))}</text>`);
       });
     });
     s += placed.join("") + "</svg>";
-    const noActs = db.infras.filter((i) => !(i.activities || []).length);
+    s += `<div class="legend" style="margin-top:.25rem"><span>● centre: 0% (low alignment)</span><span>● edge: 100% (high alignment)</span><span class="muted">${esc(label(m))}</span></div>`;
+    const noActs = db.infras.filter((i) => !(i.activities || []).some((a) => acts.includes(a)));
     s += `<div class="legend" style="margin-top:.5rem">${db.infras.map((i) => `<span><i style="background:${infraColour(i)};border-radius:50%"></i>${esc(i.name || "Unnamed")}</span>`).join("")}</div>`;
-    if (noActs.length) s += `<p class="hint">Not in the circle yet (no research activities chosen): ${noActs.map((i) => esc(i.name || "Unnamed")).join(", ")}.</p>`;
+    if (noActs.length) s += `<p class="hint">Not in this circle (no ${group === "both" ? "research activities" : "activities in this group"} chosen): ${noActs.map((i) => esc(i.name || "Unnamed")).join(", ")}.</p>`;
     $("#circle").innerHTML = s;
     $("#circle").querySelectorAll(".dot").forEach((d) => d.addEventListener("click", () => go("infra", d.dataset.id)));
   }
