@@ -182,10 +182,65 @@
   dialog::backdrop { background: rgba(16,20,15,.5); }
   dialog .d-head { display: flex; align-items: center; padding: 1rem 1.25rem; border-bottom: 1px solid var(--border, #d9d4c3); }
   dialog .d-head h2 { margin: 0; flex: 1; font-size: 1.15rem; }
-  dialog .d-body { padding: 1rem 1.25rem; max-height: 70vh; overflow-y: auto; }
+  dialog[open] { display: flex; flex-direction: column; max-height: calc(100dvh - 2rem); overflow: hidden; }
+  dialog .d-body { padding: 1rem 1.25rem; flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+  dialog .d-head, dialog .d-foot { flex: none; }
   dialog .d-foot { padding: .75rem 1.25rem; border-top: 1px solid var(--border, #d9d4c3); display: flex; gap: .5rem; justify-content: flex-end; flex-wrap: wrap; }
   .scale-edit { display: grid; grid-template-columns: 1fr 2fr; gap: .4rem .6rem; align-items: start; }
   .scale-edit input, .scale-edit textarea { width: 100%; box-sizing: border-box; font: inherit; font-size: .85rem; padding: .35rem .5rem; border: 1px solid var(--input, #c9c3b0); border-radius: .4rem; background: var(--background, #f6f4ec); color: inherit; }
+  dialog.wide { width: min(62rem, calc(100vw - 2rem)); }
+  .menu { margin: 0; inset: auto; border: 1px solid var(--border, #d9d4c3); border-radius: .6rem; background: var(--card, #fff); color: inherit; padding: .35rem; width: min(24rem, calc(100vw - 1rem)); box-shadow: 0 .75rem 2rem rgba(0,0,0,.18); }
+  .menu-scope { margin: .25rem .6rem .4rem; font-size: .72rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted-foreground, #4d5850); }
+  .menu button { display: flex; gap: .7rem; align-items: flex-start; justify-content: flex-start; width: 100%; text-align: left; padding: .55rem .6rem; border: 0; border-radius: .45rem; background: transparent; color: inherit; cursor: pointer; }
+  .menu button span { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+  .menu button:hover, .menu button:focus-visible { background: color-mix(in srgb, var(--spii-green, #1f5c43) 12%, transparent); }
+  .menu button svg { width: 1.1rem; height: 1.1rem; flex: 0 0 auto; margin-top: .15rem; max-width: none; color: var(--spii-green, #1f5c43); }
+  .menu b { display: block; font-size: .9rem; }
+  .menu small { display: block; color: var(--muted-foreground, #4d5850); font-size: .78rem; }
+  .menu hr { border: 0; border-top: 1px solid var(--border, #d9d4c3); margin: .3rem 0; }
+  .drop { display: flex; flex-direction: column; align-items: center; gap: .35rem; padding: 2rem 1rem; border: 2px dashed var(--input, #c9c3b0); border-radius: .75rem; cursor: pointer; text-align: center; color: var(--muted-foreground, #4d5850); }
+  .drop b { color: var(--foreground, #161f18); }
+  .drop.over { border-color: var(--spii-green, #1f5c43); background: color-mix(in srgb, var(--spii-green, #1f5c43) 8%, transparent); }
+  .drop input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  .fw-pick { display: grid; gap: .5rem; padding: .85rem 1rem; border-radius: .6rem; background: var(--faint, #faf9f4); border: 1px solid var(--border, #d9d4c3); margin-bottom: 1rem; }
+  .fw-pick select { font: inherit; font-size: .95rem; font-weight: 600; padding: .45rem .6rem; border-radius: .45rem; border: 1px solid var(--input, #c9c3b0); background: var(--background, #f6f4ec); color: inherit; }
+  .badge { display: inline-block; padding: .05rem .5rem; border-radius: 999px; font-size: .72rem; font-weight: 700; }
+  .badge.ok { background: color-mix(in srgb, var(--lvl-high) 16%, transparent); color: var(--lvl-high); }
+  .badge.exp { background: color-mix(in srgb, var(--lvl-progress) 16%, transparent); color: var(--lvl-progress); }
+  .badge.own { background: color-mix(in srgb, var(--spii-1b, #52247D) 14%, transparent); color: var(--spii-1b-ink, #52247D); }
+  .ed-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem .9rem; }
+  .ed-grid .full { grid-column: 1 / -1; }
+  @media (max-width: 44rem) { .ed-grid { grid-template-columns: 1fr; } }
+  .ed label.f { display: block; font-size: .7rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted-foreground, #4d5850); margin-bottom: .2rem; }
+  .ed input[type=text], .ed input:not([type]), .ed textarea, .ed select { width: 100%; box-sizing: border-box; font: inherit; font-size: .86rem; padding: .4rem .55rem; border: 1px solid var(--input, #c9c3b0); border-radius: .4rem; background: var(--background, #f6f4ec); color: inherit; }
+  .ed textarea { min-height: 2.6rem; resize: vertical; }
+  .ed code { font-size: .78rem; }
+  details.ed-acc { border: 1px solid var(--border, #d9d4c3); border-radius: .6rem; margin-top: .9rem; background: var(--card, #fff); }
+  details.ed-acc > summary { cursor: pointer; padding: .7rem 1rem; font-weight: 700; list-style: revert; }
+  details.ed-acc > .acc-body { padding: 0 1rem 1rem; }
+  .warn { border-left: 4px solid var(--lvl-progress); background: color-mix(in srgb, var(--lvl-progress) 10%, transparent); padding: .55rem .75rem; border-radius: .4rem; font-size: .84rem; margin: .5rem 0 .75rem; }
+  .lvl-row { display: grid; grid-template-columns: auto 1.8rem 8.5rem 3rem 1fr auto auto; gap: .45rem; align-items: center; padding: .45rem 0; border-top: 1px solid var(--border, #d9d4c3); }
+  .lvl-row .desc { grid-column: 3 / -1; }
+  .lvl-row input[type=color] { width: 2.6rem; height: 2rem; padding: 0; border: 1px solid var(--input, #c9c3b0); border-radius: .35rem; background: none; }
+  .mv { display: inline-flex; flex-direction: column; }
+  .mv button, .ed .x { border: 1px solid var(--border, #d9d4c3); background: transparent; color: inherit; cursor: pointer; font-size: .7rem; line-height: 1; padding: .2rem .35rem; border-radius: .3rem; }
+  .mv button:disabled { opacity: .35; cursor: default; }
+  .ed .x { font-size: .85rem; padding: .25rem .45rem; }
+  details.sec-ed { border: 1px solid var(--border, #d9d4c3); border-radius: .5rem; margin: .5rem 0; }
+  details.sec-ed > summary { cursor: pointer; padding: .55rem .8rem; font-weight: 700; display: flex; gap: .5rem; align-items: center; }
+  details.sec-ed > .sec-body { padding: .2rem .8rem .8rem; }
+  .pr-ed { border-top: 1px dashed var(--border, #d9d4c3); padding: .6rem 0; display: grid; grid-template-columns: auto 1fr auto; gap: .5rem; align-items: start; }
+  @media (max-width: 40rem) { .pr-ed .fields-2, .pr-ed .crit { grid-template-columns: 1fr; } }
+  .pr-ed .fields-2 { display: grid; grid-template-columns: 9rem 1fr; gap: .4rem .6rem; }
+  .pr-ed .crit { display: grid; grid-template-columns: 8rem 1fr; gap: .3rem .5rem; align-items: start; }
+  .print-report { display: none; }
+  @media print {
+    body > *:not(.print-report) { display: none !important; }
+    .print-report { display: block !important; color: #000; font-size: 10pt; }
+    .print-report h1 { font-size: 18pt; margin: 0 0 4pt; } .print-report h2 { font-size: 13pt; margin: 14pt 0 4pt; page-break-after: avoid; } .print-report h3 { font-size: 11pt; margin: 10pt 0 3pt; }
+    .print-report table { width: 100%; border-collapse: collapse; } .print-report th, .print-report td { border: 1px solid #ccc; padding: 3pt 5pt; text-align: left; vertical-align: top; }
+    .print-report .infra { page-break-before: always; } .print-report .infra:first-child { page-break-before: auto; }
+  }
   .toast { position: fixed; left: 50%; bottom: 1.25rem; transform: translateX(-50%); background: var(--foreground, #161f18); color: var(--background, #f6f4ec); padding: .6rem 1rem; border-radius: .6rem; font-size: .88rem; z-index: 100; box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.25); }
 </style>
 </head>
@@ -197,12 +252,23 @@
     <span class="tool-name"><img src="https://surf-ori.github.io/spii-design-system/assets/hex/1b.svg" alt=""><span class="label">Principles Alignment</span> <span class="poc-flag">POC</span></span>
     <nav class="tabs" id="tabs" aria-label="Overview and infrastructures"></nav>
     <button class="icon-btn" id="btn-import" title="Import (JSON)" aria-label="Import"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5V15a1 1 0 001 1h10a1 1 0 001-1v-2.5"/><path d="M10 12V3M6.5 6.5L10 3l3.5 3.5"/></svg></button>
-    <button class="icon-btn" id="btn-export" title="Export all (JSON)" aria-label="Export"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5V15a1 1 0 001 1h10a1 1 0 001-1v-2.5"/><path d="M10 3v9M6.5 8.5L10 12l3.5-3.5"/></svg></button>
+    <button class="icon-btn" id="btn-export" title="Export" aria-label="Export" aria-haspopup="menu" popovertarget="export-menu"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5V15a1 1 0 001 1h10a1 1 0 001-1v-2.5"/><path d="M10 3v9M6.5 8.5L10 12l3.5-3.5"/></svg></button>
     <button class="icon-btn" id="btn-framework" title="Framework and scale" aria-label="Framework and scale"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M10 2.5l7.5 4-7.5 4-7.5-4z"/><path d="M2.5 10l7.5 4 7.5-4M2.5 13.5l7.5 4 7.5-4"/></svg></button>
     <button class="icon-btn" id="btn-settings" title="Settings" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
-    <input type="file" id="file-import" accept="application/json" hidden multiple>
+    <input type="file" id="file-import" accept="application/json,.json" hidden multiple>
+    <input type="file" id="file-framework" accept="application/json,.json" hidden>
   </div>
 </div>
+<div id="export-menu" popover class="menu" role="menu">
+  <p class="menu-scope" id="export-scope"></p>
+  <button role="menuitem" data-export="github"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 2.5L9 11M17.5 2.5L12 17.5l-3-6.5-6.5-3z"/></svg><span><b>Save report to GitHub tracker</b><small>Contribute this alignment to the public tracker</small></span></button>
+  <button role="menuitem" data-export="json"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5V15a1 1 0 001 1h10a1 1 0 001-1v-2.5"/><path d="M10 3v9M6.5 8.5L10 12l3.5-3.5"/></svg><span><b>Save alignment to a file (JSON)</b><small>To continue later, on another device, or to share</small></span></button>
+  <button role="menuitem" data-export="print"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7V3h8v4"/><rect x="3" y="7" width="14" height="7" rx="1.5"/><path d="M6 12h8v5H6z"/></svg><span><b>Print report / save as PDF</b><small>A short report of the answers</small></span></button>
+  <button role="menuitem" data-export="word"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5h6l3 3v11a1 1 0 01-1 1H6a1 1 0 01-1-1v-13a1 1 0 011-1z"/><path d="M12 2.5v3h3M7.5 10l1 4 1.5-3 1.5 3 1-4"/></svg><span><b>Save to Word (.docx)</b><small>The same report as a Word document, to edit or share</small></span></button>
+  <hr>
+  <button role="menuitem" data-export="framework"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5h6l3 3v11a1 1 0 01-1 1H6a1 1 0 01-1-1v-13a1 1 0 011-1z"/><path d="M12 2.5v3h3M10 8.5v6M7.5 12l2.5 2.5 2.5-2.5"/></svg><span><b>Download alignment framework (JSON)</b><small>The framework in use, with your changes</small></span></button>
+</div>
+<div id="print-report" class="print-report"></div>
 
 <button class="btn toc-toggle" id="toc-toggle" hidden aria-controls="toc" aria-expanded="false"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 5h14M3 10h10M3 15h12"/></svg>Contents</button>
 <aside class="toc" id="toc" aria-label="Contents">
@@ -212,10 +278,19 @@
 
 <main class="wrap" id="view"></main>
 
-<dialog id="dlg-framework" aria-labelledby="fw-title">
+<dialog id="dlg-framework" class="wide" aria-labelledby="fw-title">
   <div class="d-head"><h2 id="fw-title">Framework and scale</h2><button class="icon-btn" data-close aria-label="Close"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 5l10 10M15 5L5 15"/></svg></button></div>
   <div class="d-body" id="fw-body"></div>
-  <div class="d-foot"><button class="btn ghost" id="fw-reset">Reset to the default scale</button><button class="btn" id="fw-download">Download framework (JSON)</button><button class="btn primary" id="fw-save">Save</button></div>
+  <div class="d-foot"><button class="btn" id="fw-import">Import framework…</button><span class="grow"></span><button class="btn ghost" id="fw-reset">Reset</button><button class="btn" id="fw-download">Download (JSON)</button><button class="btn primary" id="fw-save">Save and use</button></div>
+</dialog>
+
+<dialog id="dlg-import" aria-labelledby="im-title">
+  <div class="d-head"><h2 id="im-title">Import alignments</h2><button class="icon-btn" data-close aria-label="Close"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 5l10 10M15 5L5 15"/></svg></button></div>
+  <div class="d-body">
+    <p>Load alignment reports saved as JSON: files exported from this page (one or more infrastructures), or reports saved with the current Principles Alignment Tool. Each infrastructure is added next to the ones you already have; nothing is replaced.</p>
+    <label class="drop" id="drop"><input type="file" accept="application/json,.json" multiple id="drop-input"><svg viewBox="0 0 20 20" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5V15a1 1 0 001 1h10a1 1 0 001-1v-2.5"/><path d="M10 12V3M6.5 6.5L10 3l3.5 3.5"/></svg><b>Drop JSON files here</b><span class="muted small">or click to choose files</span></label>
+    <p class="muted small">Not sure where to start? <button class="btn ghost" id="im-examples" style="padding:0;font-size:inherit">Load the three examples</button> (OpenAIRE, OpenAlex, HAL). To use your own framework instead of POSI, import it in Framework and scale.</p>
+  </div>
 </dialog>
 
 <dialog id="dlg-settings" aria-labelledby="st-title">
@@ -246,8 +321,25 @@
   }
   // The tool stores administrative activities as "Research related activities > X".
   const ACTIVITY_KEY = (a) => (ACTIVITIES[0].items.includes(a) ? "Research life cycle activities > " : "Research related activities > ") + a;
-  const SECTION_CODES = { Governance: "G", Sustainability: "S", Insurance: "I", "Complementary Principles": "C" };
-  const SECTION_COLOURS = ["#52247D", "#E8702A", "#1F86C1", "#1f5c43"];
+  const SECTION_PALETTE = ["#52247D", "#E8702A", "#1F86C1", "#1f5c43", "#B04A12", "#145F8C", "#7B3FB0", "#6d8a00"];
+  function secColour(i) { return SECTION_PALETTE[i % SECTION_PALETTE.length]; }
+  // The frameworks of the current tool, in its catalogue order (approved first in the picker).
+  const FRAMEWORK_FILES = ["posi-v2.0", "gorc-v1.1", "fair-v1.0", "bd-v1.0", "osr-v0.1", "7gpri-v1.0", "care-v1.0", "forest-v2.0"].map((f) => "../data/frameworks/" + f + ".json");
+  // Frameworks without their own scale use the tool's original one (worst first here).
+  const LEGACY_LEVELS = [
+    { id: "non-compliant", label: "Not compliant", icon: "cross", color: "--destructive" },
+    { id: "progress", label: "Making progress", icon: "clock", color: "--warning" },
+    { id: "compliant", label: "Compliant", icon: "check", color: "--compliant" },
+  ];
+  const LEVEL_ICONS = {
+    check: '<circle cx="10" cy="10" r="8.5"/><path d="M6 10.5l2.5 2.5L14 7.5" stroke-linecap="round" stroke-linejoin="round"/>',
+    clock: '<circle cx="10" cy="10" r="8.5"/><path d="M10 5.5v5l3 2" stroke-linecap="round" stroke-linejoin="round"/>',
+    cross: '<circle cx="10" cy="10" r="8.5"/><path d="M7 7l6 6M13 7l-6 6" stroke-linecap="round"/>',
+    dash: '<circle cx="10" cy="10" r="8.5"/><path d="M6.5 10h7" stroke-linecap="round"/>',
+    question: '<circle cx="10" cy="10" r="8.5"/><path d="M8 8a2 2 0 113 1.7c-.6.4-1 .8-1 1.5M10 14v.01" stroke-linecap="round"/>',
+  };
+  const TOKEN_COLOURS = { "--destructive": "var(--lvl-low)", "--warning": "var(--lvl-progress)", "--compliant": "var(--lvl-high)", "--muted-foreground": "var(--lvl-na)" };
+  const TOKEN_HEX = { "--destructive": "#b3261e", "--warning": "#9a5b00", "--compliant": "#1f7a4d", "--muted-foreground": "#7b847c" };
   const INFRA_COLOURS = ["#7B3FB0", "#E8702A", "#1F86C1", "#1f7a4d", "#B04A12", "#145F8C", "#c2185b", "#6d8a00", "#00838f", "#5d4037"];
   // Kevin's feedback: the principles read as statements. These short questions are a first draft (AI-assisted), to be reviewed.
   const QUESTIONS = {
@@ -282,16 +374,16 @@
     { file: "../data/examples/hal-posi-assessment-report-2024.json", activities: ["Discover", "Report", "Document & Preserve", "Publish & Communicate"] },
   ];
 
-  let FW = null;                       // the POSI framework (data/frameworks/posi-v2.0.json)
-  let DEFAULT_LEVELS = null;
+  let FW = null;                       // the framework in use (default POSI)
+  let BUILTIN = [];                    // the frameworks shipped with the tool, as loaded
   let db = load();
   let view = { name: "overview", id: null };
   let open = new Set();                // principle ids unfolded on the infrastructure page
   const $ = (s, el = document) => el.querySelector(s);
 
   function load() {
-    try { const d = JSON.parse(localStorage.getItem(KEY)); if (d && Array.isArray(d.infras)) return Object.assign({ settings: { questions: true, chosen: true }, levels: null }, d); } catch (e) {}
-    return { infras: [], settings: { questions: true, chosen: true }, levels: null };
+    try { const d = JSON.parse(localStorage.getItem(KEY)); if (d && Array.isArray(d.infras)) return Object.assign({ settings: { questions: true, chosen: true }, frameworks: {}, activeFw: "posi" }, d); } catch (e) {}
+    return { infras: [], settings: { questions: true, chosen: true }, frameworks: {}, activeFw: "posi" };
   }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(db)); } catch (e) {} }
   function uid() { return Math.random().toString(36).slice(2, 10); }
@@ -304,23 +396,41 @@
   function toast(msg) { const t = document.createElement("div"); t.className = "toast"; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3200); }
 
   // ---------- scale and scores ----------
-  function levels() { return db.levels || DEFAULT_LEVELS; }
+  // Answers are kept per framework, so switching frameworks loses nothing.
+  function A(inf) { inf.alignments = inf.alignments || {}; return (inf.alignments[FW.id] = inf.alignments[FW.id] || {}); }
+  function catalogue() {
+    const own = Object.values(db.frameworks || {});
+    const list = BUILTIN.map((b) => own.find((f) => f.id === b.id) || b).concat(own.filter((f) => !BUILTIN.some((b) => b.id === f.id)));
+    return list;
+  }
+  function fwById(id) { return catalogue().find((f) => f.id === id) || null; }
+  function fwLevels(fw) { return Array.isArray(fw.levels) && fw.levels.length ? fw.levels : LEGACY_LEVELS; }
+  function levels() { return fwLevels(FW); }
+  function counting() { return levels().filter((l) => !l.excludeFromScore); }
   const NA = { id: "not-applicable", label: "Not applicable", short: "N/A" };
   function levelColour(id) {
     if (id === NA.id) return "var(--lvl-na)";
-    const ls = levels(); const i = ls.findIndex((l) => l.id === id);
-    if (i < 0) return "var(--lvl-na)";
-    if (ls.length === 3) return ["var(--lvl-low)", "var(--lvl-progress)", "var(--lvl-high)"][i];
-    return `color-mix(in srgb, var(--lvl-high) ${Math.round((i / (ls.length - 1)) * 100)}%, var(--lvl-low))`;
+    const l = levels().find((x) => x.id === id);
+    if (!l) return "var(--lvl-na)";
+    if (typeof l.color === "string" && /^#[0-9a-f]{6}$/i.test(l.color)) return l.color;
+    if (TOKEN_COLOURS[l.color]) return TOKEN_COLOURS[l.color];
+    if (l.excludeFromScore) return "var(--lvl-na)";
+    const c = counting(); const i = c.indexOf(l);
+    return `color-mix(in srgb, var(--lvl-high) ${c.length > 1 ? Math.round((i / (c.length - 1)) * 100) : 100}%, var(--lvl-low))`;
   }
-  function shortLabel(l, i, all) { return all.length === 3 ? ["Low", "Progress", "High"][i] : String(i + 1); }
-  function levelValue(id) { const ls = levels(); const i = ls.findIndex((l) => l.id === id); return i < 0 ? null : i / (ls.length - 1); }
+  function shortLabel(l) { const short = { "low-adoption": "Low", "making-progress": "Progress", "high-adoption": "High" }; return short[l.id] || (l.label.length <= 15 ? l.label : l.label.split(" ")[0]); }
+  function levelValue(id) { const c = counting(); const i = c.findIndex((l) => l.id === id); return i < 0 ? null : c.length > 1 ? i / (c.length - 1) : 1; }
   function principles() { return FW.sections.flatMap((s) => s.principles.map((p) => Object.assign({ section: s.section }, p))); }
-  function code(p) { const s = FW.sections.find((x) => x.section === p.section); return (SECTION_CODES[s.section] || "P") + (s.principles.indexOf(s.principles.find((x) => x.id === p.id)) + 1); }
+  // G1, S2 …: the first letter of the section, or its number when two sections share a letter.
+  function secCode(si) {
+    const letters = FW.sections.map((s) => (s.section || "?").trim()[0].toUpperCase());
+    return new Set(letters).size === letters.length ? letters[si] : String(si + 1) + ".";
+  }
+  function code(p) { const si = FW.sections.findIndex((x) => x.section === p.section); const s = FW.sections[si]; return secCode(si) + (s.principles.findIndex((x) => x.id === p.id) + 1); }
   function score(infra, filter) {
     let sum = 0, n = 0, answered = 0, total = 0;
     principles().filter(filter || (() => true)).forEach((p) => {
-      total++; const a = infra.answers[p.id]; if (!a || !a.level) return; answered++;
+      total++; const a = A(infra)[p.id]; if (!a || !a.level) return; answered++;
       const v = levelValue(a.level); if (v == null) return; sum += v; n++;
     });
     return { pct: n ? Math.round((sum / n) * 100) : null, answered, total };
@@ -351,7 +461,7 @@
     history.replaceState(null, "", id ? "#" + id : "#overview");
   }
   function addInfra() {
-    const inf = { id: uid(), name: "", description: "", url: "", date: today(), assessors: "", activities: [], answers: {} };
+    const inf = { id: uid(), name: "", description: "", url: "", date: today(), assessors: "", activities: [], alignments: {} };
     db.infras.push(inf); save(); go("infra", inf.id);
     setTimeout(() => $(".name-input") && $(".name-input").focus(), 50);
   }
@@ -362,7 +472,7 @@
       <div class="card welcome">
         ${circleIllustration()}
         <h1>See how your Open Science infrastructures put shared principles into practice</h1>
-        <p class="muted">Rate each infrastructure on the 23 POSI and complementary principles, place it in the research landscape, and compare them side by side. Everything stays in your own browser.</p>
+        <p class="muted">Rate each infrastructure on the principles of POSI (or another framework), place it in the research landscape, and compare them side by side. Everything stays in your own browser.</p>
         <div class="steps">
           <div class="step"><span class="n">1</span><b>Add an infrastructure</b><span class="muted small">Name it, and pick the research activities it supports.</span></div>
           <div class="step"><span class="n">2</span><b>Rate the principles</b><span class="muted small">Low, making progress or high, with descriptions, tips and examples.</span></div>
@@ -376,7 +486,7 @@
         <p><button class="btn ghost" id="w-examples">✦ Load the three examples (OpenAIRE, OpenAlex, HAL)</button></p>
       </div>`;
     $("#w-add").onclick = addInfra;
-    $("#w-import").onclick = () => $("#file-import").click();
+    $("#w-import").onclick = () => $("#dlg-import").showModal();
     $("#w-fw").onclick = openFramework;
     $("#w-examples").onclick = loadExamples;
   }
@@ -403,11 +513,11 @@
     const rated = scores.filter((s) => s.pct != null);
     const avg = rated.length ? Math.round(rated.reduce((a, s) => a + s.pct, 0) / rated.length) : null;
     const counts = {}; levels().concat([NA]).forEach((l) => (counts[l.id] = 0)); let unanswered = 0;
-    db.infras.forEach((inf) => principles().forEach((p) => { const a = inf.answers[p.id]; if (a && a.level && counts[a.level] != null) counts[a.level]++; else unanswered++; }));
+    db.infras.forEach((inf) => principles().forEach((p) => { const a = A(inf)[p.id]; if (a && a.level && counts[a.level] != null) counts[a.level]++; else unanswered++; }));
     const totalCells = db.infras.length * principles().length;
     const stack = levels().concat([NA]).map((l) => `<span style="width:${(counts[l.id] / totalCells) * 100}%;background:${levelColour(l.id)}" title="${esc(l.label)}: ${counts[l.id]}"></span>`).join("");
     main.innerHTML = `
-      <div class="page-head"><div class="grow"><h1>Alignment overview</h1><div class="muted small">${db.infras.length} infrastructure${db.infras.length === 1 ? "" : "s"} · ${complete} fully rated · POSI v2.0 + complementary principles</div></div>
+      <div class="page-head"><div class="grow"><h1>Alignment overview</h1><div class="muted small">${db.infras.length} infrastructure${db.infras.length === 1 ? "" : "s"} · ${complete} fully rated · ${esc(FW.title)}</div></div>
         <button class="btn" id="o-import">Import</button><button class="btn primary" id="o-add">+ Add infrastructure</button></div>
       <div class="kpis">
         <div class="card kpi"><div class="label">Fully rated</div><div class="value">${complete}<small> / ${db.infras.length}</small></div><div class="bar" style="margin-top:.5rem"><span style="width:${(complete / db.infras.length) * 100}%"></span></div></div>
@@ -433,7 +543,7 @@
         <div class="table-wrap"><table class="list" id="o-table"></table></div>
       </div>`;
     $("#o-add").onclick = addInfra;
-    $("#o-import").onclick = () => $("#file-import").click();
+    $("#o-import").onclick = () => $("#dlg-import").showModal();
     document.querySelectorAll(".seg [data-group]").forEach((b) => b.addEventListener("click", () => {
       db.settings.circleGroup = b.dataset.group; save();
       document.querySelectorAll(".seg [data-group]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
@@ -456,7 +566,7 @@
   function measure(inf, m) {
     if (!m || m === "all") return score(inf).pct;
     if (m.startsWith("s:")) return score(inf, (p) => p.section === m.slice(2)).pct;
-    const a = inf.answers[m.slice(2)]; if (!a || !a.level) return null; const v = levelValue(a.level); return v == null ? null : Math.round(v * 100);
+    const a = A(inf)[m.slice(2)]; if (!a || !a.level) return null; const v = levelValue(a.level); return v == null ? null : Math.round(v * 100);
   }
 
   function drawCircle() {
@@ -529,11 +639,11 @@
     const sort = db.settings.sort || { key: "name", dir: 1 };
     const rows = db.infras.map((inf) => {
       const sc = score(inf);
-      return { inf, name: (inf.name || "").toLowerCase(), progress: sc.answered / sc.total, pct: sc.pct == null ? -1 : sc.pct, stars: principles().filter((p) => inf.answers[p.id] && inf.answers[p.id].star).length, sc, secs: FW.sections.map((s) => sectionScore(inf, s).pct) };
+      return { inf, name: (inf.name || "").toLowerCase(), progress: sc.answered / sc.total, pct: sc.pct == null ? -1 : sc.pct, stars: principles().filter((p) => A(inf)[p.id] && A(inf)[p.id].star).length, sc, secs: FW.sections.map((s) => sectionScore(inf, s).pct) };
     });
     rows.sort((a, b) => (a[sort.key] > b[sort.key] ? 1 : a[sort.key] < b[sort.key] ? -1 : 0) * sort.dir);
     const th = (k, t) => `<th data-k="${k}">${t}${sort.key === k ? (sort.dir > 0 ? " ↑" : " ↓") : ""}</th>`;
-    let h = `<thead><tr>${th("name", "Infrastructure")}<th>Research activities</th>${th("progress", "Progress")}${th("pct", "Alignment")}${FW.sections.map((s) => `<th title="${esc(s.section)}">${SECTION_CODES[s.section] || ""}</th>`).join("")}${th("stars", "★")}</tr></thead><tbody>`;
+    let h = `<thead><tr>${th("name", "Infrastructure")}<th>Research activities</th>${th("progress", "Progress")}${th("pct", "Alignment")}${FW.sections.map((s, si) => `<th title="${esc(s.section)}">${secCode(si)}</th>`).join("")}${th("stars", "★")}</tr></thead><tbody>`;
     rows.forEach((r) => {
       h += `<tr><td><a href="#${r.inf.id}" data-id="${r.inf.id}" style="font-weight:700;color:inherit"><span class="dot" style="display:inline-block;width:.6rem;height:.6rem;border-radius:50%;background:${infraColour(r.inf)};margin-right:.4rem"></span>${esc(r.inf.name || "Unnamed")}</a><div class="muted small">${esc(r.inf.url || "")}${r.inf.date ? " · " + esc(r.inf.date) : ""}</div></td>
         <td class="small"><span class="act-icons">${(r.inf.activities || []).length ? ALL_ACTIVITIES.filter((a) => r.inf.activities.includes(a)).map((a) => `<span title="${esc(a)}" role="img" aria-label="${esc(a)}" style="color:${ACTIVITIES[0].items.includes(a) ? "var(--spii-green, #1f5c43)" : "var(--spii-1b-ink, #52247D)"}">${activityIcon(a, 18)}</span>`).join("") : '<span class="muted">–</span>'}</span></td>
@@ -557,7 +667,7 @@
           <div><label for="i-url">Landing page</label><input id="i-url" type="url" placeholder="https://…" value="${esc(inf.url)}"></div>
           <div><label for="i-date">Date</label><input id="i-date" type="date" value="${esc(inf.date)}"></div>
           <div><label for="i-who">Assessed by</label><input id="i-who" placeholder="Names…" value="${esc(inf.assessors)}"></div>
-          <div><label>Framework</label><input value="POSI v2.0 + complementary principles" readonly title="Change the framework or its scale with the layers button in the bar above"></div>
+          <div><label>Framework</label><button type="button" class="btn" id="i-fw" style="width:100%;justify-content:space-between" title="Choose or edit the framework">${esc(FW.title)} <span class="muted">▾</span></button></div>
         </div>
         <textarea class="desc-input" id="i-desc" rows="1" placeholder="Short description: what the infrastructure does and for whom">${esc(inf.description)}</textarea>
         <div class="landscape">${ACTIVITIES.map((g, gi) => `<div><span class="field-label">${esc(g.group)}</span><div class="chips">${g.items.map((a) => `<button type="button" class="chip" style="--chip:${gi ? "#52247D" : "#1f5c43"}" data-act="${esc(a)}" aria-pressed="${(inf.activities || []).includes(a)}">${activityIcon(a, 15)}${esc(a)}</button>`).join("")}</div></div>`).join("")}</div>
@@ -568,6 +678,7 @@
       <div id="i-principles"></div>
       <div class="card payoff" id="i-payoff" hidden></div>`;
     $("#i-back").onclick = () => go("overview");
+    $("#i-fw").onclick = openFramework;
     const bind = (id, key) => $(id).addEventListener("input", (e) => { inf[key] = e.target.value; save(); if (key === "name") renderTabs(); });
     bind("#i-name", "name"); bind("#i-url", "url"); bind("#i-date", "date"); bind("#i-who", "assessors"); bind("#i-desc", "description");
     $("#i-delete").onclick = () => {
@@ -590,7 +701,7 @@
     const band = sc.pct == null ? "Not rated yet" : sc.pct >= 75 ? "Well aligned" : sc.pct >= 40 ? "Partly aligned" : "Little aligned";
     $("#i-status").innerHTML = `<span class="pct" style="background:color-mix(in srgb, ${pctColour(sc.pct)} 16%, transparent);color:${pctColour(sc.pct)}">${band}</span><div class="bar" style="width:9rem"><span style="width:${(sc.answered / sc.total) * 100}%"></span></div><span class="muted">${sc.answered}/${sc.total} principles</span>`;
     $("#i-results").innerHTML = `<div class="card"><div class="field-label">Alignment</div><div class="score-big" style="color:${pctColour(sc.pct)}">${sc.pct == null ? "–" : sc.pct + "%"}</div><div class="muted small">Low adoption 0% … high adoption 100%</div></div>` +
-      FW.sections.map((s, i) => { const v = sectionScore(inf, s); return `<div class="card sec-card" style="border-top:4px solid ${SECTION_COLOURS[i]}"><div class="field-label">${esc(s.section)}</div><div class="value" style="color:${pctColour(v.pct)}">${v.pct == null ? "–" : v.pct + "%"}</div><div class="muted small">${v.answered}/${v.total} rated</div></div>`; }).join("");
+      FW.sections.map((s, i) => { const v = sectionScore(inf, s); return `<div class="card sec-card" style="border-top:4px solid ${secColour(i)}"><div class="field-label">${esc(s.section)}</div><div class="value" style="color:${pctColour(v.pct)}">${v.pct == null ? "–" : v.pct + "%"}</div><div class="muted small">${v.answered}/${v.total} rated</div></div>`; }).join("");
     $("#i-radar").innerHTML = radar(inf);
     $("#i-suggest").innerHTML = suggestions(inf);
     $("#i-suggest").querySelectorAll("[data-goto]").forEach((a) => a.addEventListener("click", (e) => { e.preventDefault(); focusPrinciple(a.dataset.goto, true); }));
@@ -599,7 +710,7 @@
       pay.hidden = false;
       pay.innerHTML = `<div class="row"><div class="grow"><h3>All ${sc.total} principles rated</h3><p class="muted" style="margin:.25rem 0 0">${esc(inf.name || "This infrastructure")} is <b style="color:${pctColour(sc.pct)}">${sc.pct == null ? "not rated" : sc.pct + "% aligned"}</b>. ${FW.sections.map((s) => `${esc(s.section)} ${sectionScore(inf, s).pct == null ? "–" : sectionScore(inf, s).pct + "%"}`).join(" · ")}.</p></div><button class="btn primary" id="pay-overview">Compare in the overview</button><button class="btn" id="pay-export">Export</button></div>`;
       $("#pay-overview").onclick = () => go("overview");
-      $("#pay-export").onclick = () => exportJson([inf]);
+      $("#pay-export").onclick = () => $("#export-menu").showPopover();
     } else pay.hidden = true;
     refreshToc(inf);
   }
@@ -613,16 +724,16 @@
       const k = sec.principles.length;
       const a0 = (start - 0.5) / n, a1 = (start + k - 0.5) / n;
       const [x0, y0] = polar(R + 14, a0), [x1, y1] = polar(R + 14, a1);
-      s += `<path d="M${C + x0} ${C + y0}A${R + 14} ${R + 14} 0 ${a1 - a0 > 0.5 ? 1 : 0} 1 ${C + x1} ${C + y1}" fill="none" stroke="${SECTION_COLOURS[i]}" stroke-width="6" stroke-linecap="round"><title>${esc(sec.section)}</title></path>`;
+      s += `<path d="M${C + x0} ${C + y0}A${R + 14} ${R + 14} 0 ${a1 - a0 > 0.5 ? 1 : 0} 1 ${C + x1} ${C + y1}" fill="none" stroke="${secColour(i)}" stroke-width="6" stroke-linecap="round"><title>${esc(sec.section)}</title></path>`;
       start += k;
     });
     [0.25, 0.5, 0.75, 1].forEach((f) => { s += `<polygon points="${ps.map((p, i) => polar(R * f, i / n).map((v) => C + v).join(",")).join(" ")}" fill="none" stroke="var(--border, #d9d4c3)"/>`; });
     ps.forEach((p, i) => { const [x, y] = polar(R, i / n); s += `<line x1="${C}" y1="${C}" x2="${C + x}" y2="${C + y}" stroke="var(--border, #d9d4c3)"/>`; });
-    const pts = ps.map((p, i) => { const a = inf.answers[p.id]; const v = a && a.level ? levelValue(a.level) : null; return polar(R * (v == null ? 0 : Math.max(v, 0.04)), i / n).map((q) => C + q); });
+    const pts = ps.map((p, i) => { const a = A(inf)[p.id]; const v = a && a.level ? levelValue(a.level) : null; return polar(R * (v == null ? 0 : Math.max(v, 0.04)), i / n).map((q) => C + q); });
     s += `<polygon points="${pts.map((q) => q.join(",")).join(" ")}" fill="var(--spii-green, #1f5c43)" fill-opacity=".22" stroke="var(--spii-green, #1f5c43)" stroke-width="2"/>`;
     ps.forEach((p, i) => {
-      const a = inf.answers[p.id]; const [x, y] = polar(R + 26, i / n);
-      s += `<text x="${C + x}" y="${C + y + 3}" text-anchor="middle" font-size="9" font-weight="700" fill="${a && a.level ? levelColour(a.level) : "var(--muted-foreground, #4d5850)"}">${code(p)}<title>${esc(p.title)}</title></text>`;
+      const a = A(inf)[p.id]; const [x, y] = polar(R + 26, i / n);
+      if (n <= 40) s += `<text x="${C + x}" y="${C + y + 3}" text-anchor="middle" font-size="9" font-weight="700" fill="${a && a.level ? levelColour(a.level) : "var(--muted-foreground, #4d5850)"}">${code(p)}<title>${esc(p.title)}</title></text>`;
       if (a && a.level && levelValue(a.level) != null) { const [cx, cy] = pts[i]; s += `<circle cx="${cx}" cy="${cy}" r="3" fill="${levelColour(a.level)}"/>`; }
     });
     return s + "</svg>";
@@ -630,7 +741,7 @@
 
   // What to work on next: starred principles first, then the lowest rated; with the first improvement idea where we have one.
   function suggestions(inf) {
-    const ps = principles().map((p) => ({ p, a: inf.answers[p.id] || {} }));
+    const ps = principles().map((p) => ({ p, a: A(inf)[p.id] || {} }));
     const pick = ps.filter((x) => x.a.level && x.a.level !== NA.id && levelValue(x.a.level) < 1)
       .sort((a, b) => (b.a.star ? 1 : 0) - (a.a.star ? 1 : 0) || levelValue(a.a.level) - levelValue(b.a.level)).slice(0, 3);
     if (!pick.length) {
@@ -638,7 +749,7 @@
       return `<h3 style="margin:0 0 .4rem">Where to start</h3><p class="muted small">${todo ? `${todo} principles still to rate. Star the ones that matter most to you; they come first here once rated.` : "Every principle that applies is at high adoption."}</p>`;
     }
     return `<h3 style="margin:0 0 .4rem">Improve next</h3><p class="muted small" style="margin-top:0">Starred principles first, then the lowest rated. Suggestions, not advice.</p><div class="suggest">${pick.map(({ p, a }) => {
-      const g = p.guidance && !db.levels ? p.guidance : null;
+      const g = p.guidance || null;
       const tip = g && g.improve && g.improve[0] ? esc(g.improve[0]) : "Open the principle to read what the next level looks like.";
       return `<div class="card"><div class="row" style="gap:.4rem"><span class="p-code" style="padding:.1rem .4rem">${code(p)}</span><a href="#p-${p.id}" data-goto="${p.id}" style="font-weight:700;color:inherit">${a.star ? "★ " : ""}${esc(p.title)}</a></div><div class="small" style="margin:.35rem 0;color:${levelColour(a.level)}">Now: ${esc(levelLabel(a.level))}</div><div class="small muted">${tip}</div></div>`;
     }).join("")}</div>`;
@@ -650,8 +761,8 @@
     host.innerHTML = "";
     FW.sections.forEach((sec, si) => {
       const band = document.createElement("div");
-      band.className = "section-band"; band.style.background = SECTION_COLOURS[si]; band.id = "sec-" + si;
-      band.innerHTML = `<span class="p-code" style="background:rgba(255,255,255,.2);color:#fff;padding:.1rem .5rem">${SECTION_CODES[sec.section] || ""}</span><h2>${esc(sec.section)}</h2><span class="sec-pct"></span>`;
+      band.className = "section-band"; band.style.background = secColour(si); band.id = "sec-" + si;
+      band.innerHTML = `<span class="p-code" style="background:rgba(255,255,255,.2);color:#fff;padding:.1rem .5rem">${secCode(si)}</span><h2>${esc(sec.section)}</h2><span class="sec-pct"></span>`;
       const body = document.createElement("div"); body.className = "section-body";
       sec.principles.forEach((p0) => body.appendChild(principleRow(inf, Object.assign({ section: sec.section }, p0))));
       host.append(band, body);
@@ -665,12 +776,12 @@
   function principleRow(inf, p) {
     const row = document.createElement("div");
     row.className = "p-row"; row.id = "p-" + p.id;
-    const opts = levels().map((l, i, all) => ({ id: l.id, label: l.label, short: shortLabel(l, i, all), key: String(i + 1) })).concat([{ id: NA.id, label: NA.label, short: NA.short, key: "0" }]);
+    const opts = levels().map((l, i) => ({ id: l.id, label: l.label, short: shortLabel(l), key: String(i + 1) })).concat(levels().some((l) => l.excludeFromScore) ? [] : [{ id: NA.id, label: NA.label, short: NA.short, key: "0" }]);
     const draw = () => {
-      const a = inf.answers[p.id] || {};
+      const a = A(inf)[p.id] || {};
       const isOpen = open.has(p.id);
-      const g = p.guidance && !db.levels ? p.guidance : null;
-      const rubricText = (id) => (g && g.levels && g.levels[id]) || (p.criteria && !db.levels && p.criteria[id]) || (levels().find((l) => l.id === id) || {}).description || "";
+      const g = p.guidance || null;
+      const rubricText = (id) => (g && g.levels && g.levels[id]) || (p.criteria && p.criteria[id]) || (levels().find((l) => l.id === id) || {}).description || "";
       row.innerHTML = `
         <div class="p-head">
           <span class="p-code">${code(p)}</span>
@@ -698,11 +809,11 @@
       const note = row.querySelector(".note"); if (note) note.oninput = () => setAnswer(inf, p.id, { note: note.value }, true);
     };
     const rate = (level) => {
-      const a = inf.answers[p.id] || {};
+      const a = A(inf)[p.id] || {};
       setAnswer(inf, p.id, { level: a.level === level ? null : level });
       draw(); row.querySelector(".p-title").focus();
       // after rating, move to the next unrated principle when this one is folded
-      if (!open.has(p.id) && inf.answers[p.id].level) { const next = [...document.querySelectorAll(".p-row")].slice([...document.querySelectorAll(".p-row")].indexOf(row) + 1).find((r) => !(inf.answers[r.id.slice(2)] || {}).level); if (next) next.querySelector(".p-title").focus({ preventScroll: true }); }
+      if (!open.has(p.id) && A(inf)[p.id].level) { const next = [...document.querySelectorAll(".p-row")].slice([...document.querySelectorAll(".p-row")].indexOf(row) + 1).find((r) => !(A(inf)[r.id.slice(2)] || {}).level); if (next) next.querySelector(".p-title").focus({ preventScroll: true }); }
     };
     draw();
     return row;
@@ -710,7 +821,7 @@
 
   function setAnswer(inf, pid, patch, quiet) {
     const before = score(inf).answered;
-    inf.answers[pid] = Object.assign({}, inf.answers[pid] || {}, patch);
+    A(inf)[pid] = Object.assign({}, A(inf)[pid] || {}, patch);
     save();
     if (quiet) return;
     updateResults(inf); refreshSectionBands(inf);
@@ -723,7 +834,7 @@
     $("#toc-toggle").hidden = false;
     let h = "";
     FW.sections.forEach((sec, si) => {
-      h += `<li><a href="#sec-${si}" data-target="sec-${si}"><span class="toc-dot" style="border-color:${SECTION_COLOURS[si]};background:${SECTION_COLOURS[si]}"></span>${esc(sec.section)}</a><ol>`;
+      h += `<li><a href="#sec-${si}" data-target="sec-${si}"><span class="toc-dot" style="border-color:${secColour(si)};background:${secColour(si)}"></span>${esc(sec.section)}</a><ol>`;
       sec.principles.forEach((p) => { h += `<li><a href="#p-${p.id}" data-target="p-${p.id}" data-pid="${p.id}"><span class="toc-dot"></span><span class="grow">${esc(p.title)}</span><span class="toc-star"></span></a></li>`; });
       h += "</ol></li>";
     });
@@ -733,7 +844,7 @@
   }
   function refreshToc(inf) {
     document.querySelectorAll("#toc-list a[data-pid]").forEach((a) => {
-      const ans = inf.answers[a.dataset.pid] || {};
+      const ans = A(inf)[a.dataset.pid] || {};
       const dot = a.querySelector(".toc-dot");
       dot.style.background = ans.level ? levelColour(ans.level) : "transparent";
       dot.style.borderColor = ans.level ? levelColour(ans.level) : "var(--lvl-na)";
@@ -758,27 +869,216 @@
     const el = document.getElementById("p-" + pid); if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); el.querySelector(".p-title").focus({ preventScroll: true }); }
   }
 
-  // ---------- framework and scale ----------
+  // ---------- framework and scale: catalogue and editor ----------
+  // The dialog edits a draft copy; nothing changes until "Save and use".
+  let draft = null, draftSource = null;
+  const clone = (o) => JSON.parse(JSON.stringify(o));
+  const EDIT_SKIP = ["levels", "sections", "_readme"];
+  const LONG_FIELDS = ["description", "aboutHtml", "intro"];
+  const FIELD_LABELS = { id: "id", title: "Title", shortName: "Short name", description: "Description", aboutHtml: "About (HTML)", version: "Version", sourceUrl: "Source URL", license: "Licence", approved: "Approved", draft: "Draft" };
+  const fieldLabel = (k) => FIELD_LABELS[k] || k.replace(/([a-z])([A-Z])/g, "$1 $2").replace(/^./, (c) => c.toUpperCase());
+
   function openFramework() {
-    const ls = levels();
-    $("#fw-body").innerHTML = `
-      <p><b>${esc(FW.title)}</b> · ${principles().length} principles in ${FW.sections.length} sections. <span class="muted">${esc(FW.description || "")}</span></p>
-      <p class="muted small">In the full tool you can choose other frameworks here (GORC, FAIR, CARE, FOREST, …) and import your own. This proof of concept uses POSI only.</p>
-      <h3 style="font-size:1rem">Scale</h3>
-      <p class="muted small">Rename the levels and describe what each means for you. With your own descriptions, the POSI level descriptions per principle are switched off, so they do not contradict yours.</p>
-      <div class="scale-edit">${ls.map((l, i) => `<div><span class="field-label" style="color:${levelColour(l.id)}">Level ${i + 1}</span><input data-i="${i}" data-f="label" value="${esc(l.label)}" aria-label="Name of level ${i + 1}"></div><div><span class="field-label">What it means</span><textarea data-i="${i}" data-f="description" rows="2" placeholder="Optional: what this level means in your organisation">${esc(l.description || "")}</textarea></div>`).join("")}</div>
-      <p class="muted small">Not applicable is always available and does not count.</p>`;
+    loadDraft(FW.id);
     $("#dlg-framework").showModal();
   }
+  function loadDraft(id) {
+    const fw = fwById(id) || FW;
+    draft = clone(fw); draftSource = id;
+    if (!Array.isArray(draft.levels) || !draft.levels.length) draft.levels = clone(LEGACY_LEVELS);
+    renderEditor();
+  }
+  function catalogueOptions() {
+    const all = catalogue();
+    const groups = [["Approved", all.filter((f) => f.approved)], ["Other frameworks", all.filter((f) => !f.approved && BUILTIN.some((b) => b.id === f.id))], ["Your frameworks", all.filter((f) => !f.approved && !BUILTIN.some((b) => b.id === f.id))]];
+    return groups.filter(([, l]) => l.length).map(([g, l]) => `<optgroup label="${g}">${l.map((f) => `<option value="${esc(f.id)}"${f.id === draftSource ? " selected" : ""}>${f.approved ? "✓ " : ""}${esc(f.title)}${db.frameworks[f.id] ? " (edited)" : ""}</option>`).join("")}</optgroup>`).join("");
+  }
+  function renderEditor() {
+    const d = draft;
+    const isOwn = !!db.frameworks[d.id] || !BUILTIN.some((b) => b.id === d.id);
+    const nP = d.sections.reduce((n, s) => n + s.principles.length, 0);
+    const keys = Array.from(new Set(["id", "title", "shortName", "description", "aboutHtml"].concat(Object.keys(d)).concat(["approved", "draft"]))).filter((k) => !EDIT_SKIP.includes(k));
+    const field = (k) => {
+      const v = d[k];
+      if (k === "approved" || k === "draft" || typeof v === "boolean") return `<div><label class="row" style="gap:.4rem"><input type="checkbox" data-top="${esc(k)}" data-kind="bool"${v ? " checked" : ""}> <b>${esc(fieldLabel(k))}</b> <span class="muted small">${k === "approved" ? "an approved framework, listed first" : k === "draft" ? "shown as experimental" : ""}</span></label></div>`;
+      if (v !== undefined && typeof v !== "string") return `<div class="full"><label class="f">${esc(fieldLabel(k))} (JSON)</label><textarea data-top="${esc(k)}" data-kind="json" rows="3">${esc(JSON.stringify(v, null, 2))}</textarea></div>`;
+      const long = LONG_FIELDS.includes(k) || (v || "").length > 80;
+      return `<div class="${long ? "full" : ""}"><label class="f">${esc(fieldLabel(k))} <code class="muted" style="text-transform:none;font-weight:400">${esc(k)}</code></label>${long ? `<textarea data-top="${esc(k)}" rows="${k === "aboutHtml" ? 5 : 2}">${esc(v || "")}</textarea>` : `<input data-top="${esc(k)}" value="${esc(v || "")}">`}</div>`;
+    };
+    $("#fw-body").innerHTML = `
+      <div class="fw-pick">
+        <label class="f" for="fw-select" style="font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase">Framework catalogue</label>
+        <select id="fw-select">${catalogueOptions()}</select>
+        <div class="small"><span class="badge ${d.approved ? "ok" : d.draft ? "exp" : "own"}">${d.approved ? "Approved" : d.draft ? "Experimental" : "Not approved"}</span> ${isOwn ? '<span class="badge own">Your version</span>' : ""} <span class="muted">${nP} principles in ${d.sections.length} sections · ${fwLevels(d).length}-level scale</span></div>
+        <div class="muted small">${esc(d.description || "")}</div>
+      </div>
+      <div class="ed">
+        <h3 style="font-size:1rem;margin:.25rem 0 .5rem">Details</h3>
+        <div class="ed-grid">${keys.map(field).join("")}</div>
+        <details class="ed-acc" id="acc-scale"><summary>Scale (levels) · ${d.levels.length} levels</summary><div class="acc-body">
+          <p class="muted small">The answer options for every principle, from worst (top) to best (bottom). Set the icon, colour, order, title and description of each, and whether it counts toward the score (for an option such as "Not applicable").</p>
+          <div class="warn"><b>Careful:</b> the sections hold descriptions per level for each principle, keyed to these levels. If you rename, add, remove or reorder levels, those descriptions may no longer fit. Check them under Sections and principles.</div>
+          <div id="lvl-rows"></div>
+          <button class="btn" id="lvl-add" type="button">+ Add level</button> <span class="muted small">2 to 9 levels.</span>
+        </div></details>
+        <details class="ed-acc" id="acc-sections"><summary>Sections and principles · ${d.sections.length} sections, ${nP} principles</summary><div class="acc-body">
+          <p class="muted small">Every text can be edited: section titles and sources, and for each principle its title, text, the description per level, and the ideas to improve and examples. Add, remove and reorder sections and the principles inside them. Open a section to edit its principles.</p>
+          <div id="sec-eds"></div>
+          <button class="btn" id="sec-add" type="button">+ Add section</button>
+        </div></details>
+      </div>`;
+    $("#fw-select").onchange = (e) => { if (!confirmDiscard()) { e.target.value = draftSource; return; } loadDraft(e.target.value); };
+    $("#fw-body").querySelectorAll("[data-top]").forEach((el) => el.addEventListener("input", () => {
+      const k = el.dataset.top;
+      if (el.dataset.kind === "bool") draft[k] = el.checked;
+      else if (el.dataset.kind === "json") { try { draft[k] = JSON.parse(el.value); el.setCustomValidity(""); } catch (e) { el.setCustomValidity("Not valid JSON"); } }
+      else draft[k] = el.value;
+      draft._dirty = true;
+    }));
+    $("#lvl-add").onclick = () => { if (draft.levels.length >= 9) return; draft.levels.push({ id: newLevelId(), label: "New level", icon: "question", color: "#888888" }); draft._dirty = true; renderLevels(); };
+    $("#sec-add").onclick = () => { draft.sections.push({ section: "New section", principles: [newPrinciple()] }); draft._dirty = true; renderSections(); };
+    renderLevels(); renderSections();
+  }
+  function confirmDiscard() { return !(draft && draft._dirty) || confirm("Discard your unsaved changes to this framework?"); }
+  function newLevelId() { let i = draft.levels.length + 1; while (draft.levels.some((l) => l.id === "level-" + i)) i++; return "level-" + i; }
+  function newPrinciple() { let i = 1; const ids = new Set(draft.sections.flatMap((s) => s.principles.map((p) => p.id))); while (ids.has("principle-" + i)) i++; return { id: "principle-" + i, title: "New principle", text: "" }; }
+  function move(list, i, d) { const j = i + d; if (j < 0 || j >= list.length) return; [list[i], list[j]] = [list[j], list[i]]; }
+  function hexOf(c) { return /^#[0-9a-f]{6}$/i.test(c || "") ? c : TOKEN_HEX[c] || "#888888"; }
+
+  function renderLevels() {
+    const host = $("#lvl-rows"); const L = draft.levels;
+    host.innerHTML = L.map((l, i) => `
+      <div class="lvl-row" data-i="${i}">
+        <span class="mv"><button type="button" data-mv="-1" ${i ? "" : "disabled"} aria-label="Move up">▲</button><button type="button" data-mv="1" ${i < L.length - 1 ? "" : "disabled"} aria-label="Move down">▼</button></span>
+        <span style="color:${hexOf(l.color)}">${levelIconSvg(l, 22)}</span>
+        <select data-f="icon" aria-label="Icon">${["cross", "clock", "check", "dash", "question", "1", "2", "3", "4", "5", "6", "7", "8", "9"].map((ic) => `<option value="${ic}"${(l.icon || "") === ic ? " selected" : ""}>${{ cross: "Cross", clock: "Clock", check: "Tick", dash: "Dash", question: "Question" }[ic] || "Number " + ic}</option>`).join("")}</select>
+        <input type="color" data-f="color" value="${hexOf(l.color)}" aria-label="Colour">
+        <input data-f="label" value="${esc(l.label)}" aria-label="Title" placeholder="Title">
+        <label class="small row" style="gap:.3rem;white-space:nowrap"><input type="checkbox" data-f="counts"${l.excludeFromScore ? "" : " checked"}> counts</label>
+        <button type="button" class="x" data-rm aria-label="Remove level" ${L.length <= 2 ? "disabled" : ""}>✕</button>
+        <input class="desc" data-f="description" value="${esc(l.description || "")}" placeholder="Description (optional): what this level means" aria-label="Description"> <span class="muted small" style="grid-column:3/-1;margin-top:-.2rem">id <code>${esc(l.id)}</code></span>
+      </div>`).join("");
+    host.querySelectorAll(".lvl-row").forEach((row) => {
+      const i = +row.dataset.i, l = L[i];
+      row.querySelectorAll("[data-f]").forEach((el) => el.addEventListener(el.type === "checkbox" || el.tagName === "SELECT" || el.type === "color" ? "change" : "input", () => {
+        const f = el.dataset.f;
+        if (f === "counts") { if (el.checked) delete l.excludeFromScore; else l.excludeFromScore = true; }
+        else l[f] = el.value;
+        draft._dirty = true;
+        if (f === "icon" || f === "color") renderLevels();
+      }));
+      row.querySelectorAll("[data-mv]").forEach((b) => b.onclick = () => { move(L, i, +b.dataset.mv); draft._dirty = true; renderLevels(); });
+      row.querySelector("[data-rm]").onclick = () => { L.splice(i, 1); draft._dirty = true; renderLevels(); };
+    });
+    $("#acc-scale summary").textContent = "Scale (levels) · " + L.length + " levels";
+  }
+  function levelIconSvg(l, size) {
+    const ic = l.icon || "";
+    const body = LEVEL_ICONS[ic] || (/^[1-9]$/.test(ic) ? `<circle cx="10" cy="10" r="8.5"/><text x="10" y="14" text-anchor="middle" font-size="10" font-weight="700" fill="currentColor" stroke="none">${ic}</text>` : LEVEL_ICONS.question);
+    return `<svg viewBox="0 0 20 20" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">${body}</svg>`;
+  }
+
+  function renderSections() {
+    const host = $("#sec-eds"); const S = draft.sections;
+    const openNow = new Set([...host.querySelectorAll("details.sec-ed[open]")].map((d) => +d.dataset.i));
+    host.innerHTML = S.map((s, i) => `
+      <details class="sec-ed" data-i="${i}"${openNow.has(i) ? " open" : ""}>
+        <summary><span class="mv"><button type="button" data-smv="-1" ${i ? "" : "disabled"} aria-label="Move section up">▲</button><button type="button" data-smv="1" ${i < S.length - 1 ? "" : "disabled"} aria-label="Move section down">▼</button></span><span class="grow">${esc(s.section || "Untitled section")} <span class="muted small">· ${s.principles.length} principles</span></span><button type="button" class="x" data-srm aria-label="Remove section">✕</button></summary>
+        <div class="sec-body"></div>
+      </details>`).join("");
+    host.querySelectorAll("details.sec-ed").forEach((det) => {
+      const i = +det.dataset.i;
+      det.querySelectorAll("[data-smv]").forEach((b) => b.onclick = (e) => { e.preventDefault(); move(S, i, +b.dataset.smv); draft._dirty = true; renderSections(); });
+      det.querySelector("[data-srm]").onclick = (e) => { e.preventDefault(); if (S.length <= 1) return toast("A framework needs at least one section."); if (!confirm("Remove the section “" + S[i].section + "” and its " + S[i].principles.length + " principles?")) return; S.splice(i, 1); draft._dirty = true; renderSections(); };
+      const fill = () => { if (det.open && !det.querySelector(".sec-body").childElementCount) renderSectionBody(det, S[i]); };
+      det.addEventListener("toggle", fill); fill();   // rendered only when opened: FOREST has 96 principles
+    });
+    $("#acc-sections summary").textContent = "Sections and principles · " + S.length + " sections, " + S.reduce((n, s) => n + s.principles.length, 0) + " principles";
+  }
+  function renderSectionBody(det, s) {
+    const body = det.querySelector(".sec-body");
+    const L = draft.levels;
+    const lines = (a) => (a || []).join("\n");
+    body.innerHTML = `
+      <div class="ed-grid" style="margin-bottom:.4rem"><div><label class="f">Section title</label><input data-s="section" value="${esc(s.section || "")}"></div><div><label class="f">Source URL</label><input data-s="sourceUrl" value="${esc(s.sourceUrl || "")}" placeholder="https://…"></div></div>
+      ${s.principles.map((p, j) => `
+        <div class="pr-ed" data-j="${j}">
+          <span class="mv"><button type="button" data-pmv="-1" ${j ? "" : "disabled"} aria-label="Move principle up">▲</button><button type="button" data-pmv="1" ${j < s.principles.length - 1 ? "" : "disabled"} aria-label="Move principle down">▼</button></span>
+          <div class="fields-2">
+            <label class="f">Title</label><input data-p="title" value="${esc(p.title || "")}">
+            <label class="f">id</label><input data-p="id" value="${esc(p.id)}" title="Answers are stored under this id; changing it disconnects existing answers">
+            <label class="f">Text</label><textarea data-p="text" rows="2">${esc(p.text || "")}</textarea>
+            <label class="f">Per level</label><div class="crit">${L.map((l) => `<span class="small" style="color:${hexOf(l.color)};font-weight:700">${esc(l.label)}</span><textarea data-crit="${esc(l.id)}" rows="1" placeholder="What ${esc(l.label.toLowerCase())} looks like for this principle">${esc((p.guidance && p.guidance.levels && p.guidance.levels[l.id]) || (p.criteria && p.criteria[l.id]) || "")}</textarea>`).join("")}</div>
+            <label class="f">Ideas to improve</label><textarea data-g="improve" rows="2" placeholder="One idea per line">${esc(lines((p.guidance && p.guidance.improve) || (p.improvementAction ? [p.improvementAction] : [])))}</textarea>
+            <label class="f">Examples</label><textarea data-g="examples" rows="2" placeholder="One example per line">${esc(lines(p.guidance && p.guidance.examples))}</textarea>
+          </div>
+          <button type="button" class="x" data-prm aria-label="Remove principle">✕</button>
+        </div>`).join("")}
+      <button class="btn" type="button" data-padd>+ Add principle</button>`;
+    body.querySelectorAll("[data-s]").forEach((el) => el.addEventListener("input", () => { s[el.dataset.s] = el.value; draft._dirty = true; if (el.dataset.s === "section") det.querySelector("summary .grow").firstChild.textContent = el.value + " "; }));
+    body.querySelectorAll(".pr-ed").forEach((row) => {
+      const j = +row.dataset.j, p = s.principles[j];
+      row.querySelectorAll("[data-p]").forEach((el) => el.addEventListener("input", () => { p[el.dataset.p] = el.value; draft._dirty = true; }));
+      row.querySelectorAll("[data-crit]").forEach((el) => el.addEventListener("input", () => {
+        const id = el.dataset.crit;
+        // POSI keeps these in guidance.levels, the other frameworks in criteria: write where the principle already has them
+        if (p.guidance) { p.guidance.levels = p.guidance.levels || {}; p.guidance.levels[id] = el.value; } else { p.criteria = p.criteria || {}; p.criteria[id] = el.value; }
+        draft._dirty = true;
+      }));
+      row.querySelectorAll("[data-g]").forEach((el) => el.addEventListener("input", () => {
+        const items = el.value.split("\n").map((x) => x.trim()).filter(Boolean);
+        if (el.dataset.g === "improve" && !p.guidance) { p.improvementAction = items.join(" "); }
+        else { p.guidance = p.guidance || {}; p.guidance[el.dataset.g] = items; }
+        draft._dirty = true;
+      }));
+      row.querySelectorAll("[data-pmv]").forEach((b) => b.onclick = () => { move(s.principles, j, +b.dataset.pmv); draft._dirty = true; renderSectionBody2(det, s); });
+      row.querySelector("[data-prm]").onclick = () => { if (s.principles.length <= 1) return toast("A section needs at least one principle; remove the section instead."); if (!confirm("Remove the principle “" + p.title + "”?")) return; s.principles.splice(j, 1); draft._dirty = true; renderSectionBody2(det, s); };
+    });
+    body.querySelector("[data-padd]").onclick = () => { s.principles.push(newPrinciple()); draft._dirty = true; renderSectionBody2(det, s); };
+  }
+  function renderSectionBody2(det, s) { det.querySelector(".sec-body").innerHTML = ""; renderSectionBody(det, s); det.querySelector("summary .muted").textContent = "· " + s.principles.length + " principles"; }
+
+  function validateFramework(f) {
+    if (!f || typeof f !== "object") return "Not a framework.";
+    if (!f.id || !/^[a-z0-9][a-z0-9._+-]*$/i.test(f.id)) return "The id needs letters, digits, dots, dashes or underscores.";
+    if (!f.title) return "The framework needs a title.";
+    if (!Array.isArray(f.sections) || !f.sections.length || f.sections.some((s) => !Array.isArray(s.principles) || !s.principles.length)) return "Every section needs at least one principle.";
+    const ids = f.sections.flatMap((s) => s.principles.map((p) => p.id));
+    if (ids.some((x) => !x) || new Set(ids).size !== ids.length) return "Every principle needs its own id.";
+    if (f.levels && (f.levels.length < 2 || f.levels.length > 9 || f.levels.filter((l) => !l.excludeFromScore).length < 2)) return "The scale needs 2 to 9 levels, at least 2 of which count.";
+    return null;
+  }
   $("#fw-save").onclick = () => {
-    const ls = levels().map((l) => Object.assign({}, l));
-    $("#fw-body").querySelectorAll("[data-i]").forEach((el) => { ls[+el.dataset.i][el.dataset.f] = el.value.trim(); });
-    const same = ls.every((l, i) => l.label === DEFAULT_LEVELS[i].label && !(l.description || ""));
-    db.levels = same ? null : ls; save();
-    $("#dlg-framework").close(); render(); toast(same ? "Default scale kept." : "Your scale is saved.");
+    const f = clone(draft); delete f._dirty;
+    const err = validateFramework(f); if (err) return toast(err);
+    const builtin = BUILTIN.find((b) => b.id === f.id);
+    if (builtin && JSON.stringify(builtin) === JSON.stringify(Object.assign({}, f, Array.isArray(builtin.levels) ? {} : { levels: undefined }))) delete db.frameworks[f.id];
+    else db.frameworks[f.id] = f;
+    db.activeFw = f.id; FW = fwById(f.id) || f; save();
+    $("#dlg-framework").close(); render(); toast("Now using " + f.title + ".");
   };
-  $("#fw-reset").onclick = () => { db.levels = null; save(); $("#dlg-framework").close(); render(); toast("Back to the default POSI scale."); };
-  $("#fw-download").onclick = () => download("posi-framework-with-your-scale.json", Object.assign({}, FW, { levels: levels() }));
+  $("#fw-reset").onclick = () => {
+    const builtin = BUILTIN.find((b) => b.id === draft.id);
+    if (!builtin) return toast("This framework is your own; there is no original to go back to. Remove it by importing over it, or pick another one.");
+    if (!confirm("Go back to the original " + builtin.title + "? Your edits to it are removed.")) return;
+    delete db.frameworks[builtin.id]; save();
+    if (FW.id === builtin.id) FW = builtin;
+    loadDraft(builtin.id); render(); toast("Back to the original " + builtin.title + ".");
+  };
+  $("#fw-download").onclick = () => { const f = clone(draft); delete f._dirty; download(today() + "-" + f.id + "-framework.json", Object.assign({ _readme: "Alignment framework “" + f.title + "”, from the proof of concept of the SPII Principles Alignment Tool. Edit it and import it again under Framework and scale > Import framework." }, f)); };
+  $("#fw-import").onclick = () => $("#file-framework").click();
+  $("#file-framework").onchange = async (e) => {
+    const file = e.target.files[0]; e.target.value = ""; if (!file) return;
+    try {
+      const f = JSON.parse(await file.text()); delete f._readme;
+      const err = validateFramework(f); if (err) return toast("Not imported: " + err);
+      if (!confirmDiscard()) return;
+      draft = f; draftSource = f.id; draft._dirty = true;
+      if (!Array.isArray(draft.levels) || !draft.levels.length) draft.levels = clone(LEGACY_LEVELS);
+      renderEditor(); toast("Loaded " + f.title + ". Check it, then Save and use.");
+    } catch (err) { toast("Could not read " + file.name); }
+  };
+  $("#dlg-framework").addEventListener("cancel", (e) => { if (!confirmDiscard()) e.preventDefault(); });
 
   // ---------- settings ----------
   $("#btn-settings").onclick = () => { $("#st-questions").checked = db.settings.questions !== false; $("#st-chosen").checked = db.settings.chosen !== false; $("#dlg-settings").showModal(); };
@@ -792,33 +1092,149 @@
   // ---------- import / export ----------
   function download(name, obj) {
     const a = document.createElement("a");
-    a.href = URL.createObjectURL(new Blob([JSON.stringify(obj, null, 2)], { type: "application/json" }));
+    a.href = URL.createObjectURL(obj instanceof Blob ? obj : new Blob([JSON.stringify(obj, null, 2)], { type: "application/json" }));
     a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   }
-  function exportJson(list) {
-    download(today() + "-alignment-" + (list.length === 1 ? (list[0].name || "infrastructure").toLowerCase().replace(/[^a-z0-9]+/g, "-") : "all") + ".json",
-      { _readme: "Infrastructures and their POSI alignment, from the proof of concept of the SPII Principles Alignment Tool. Import it there again.", format: "spii-alignment-poc.v1", levels: db.levels, infras: list });
+  const slug = (s) => String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "infrastructure";
+  function scope() { const inf = view.name === "infra" && db.infras.find((x) => x.id === view.id); return inf ? [inf] : db.infras; }
+  function scopeName(list) { return list.length === 1 ? slug(list[0].name) : "all"; }
+  function exportObject(list) {
+    const own = {}; Object.values(db.frameworks).forEach((f) => (own[f.id] = f));
+    return { _readme: "Infrastructures and their alignment, from the proof of concept of the SPII Principles Alignment Tool. Import it there again (Import).", format: "spii-alignment-poc.v2", framework: FW.id, frameworks: own, infras: list };
   }
-  $("#btn-export").onclick = () => { if (!db.infras.length) return toast("Nothing to export yet."); exportJson(db.infras); };
-  $("#btn-import").onclick = () => $("#file-import").click();
-  $("#file-import").onchange = async (e) => {
-    let n = 0;
-    for (const f of e.target.files) { try { n += importObject(JSON.parse(await f.text())); } catch (err) { toast("Could not read " + f.name); } }
-    e.target.value = "";
-    if (n) { save(); toast(n + " infrastructure" + (n === 1 ? "" : "s") + " imported."); go("overview"); }
-  };
-  // Takes this page's own export, or a report saved from the current tool (its POSI answers).
+  function exportJson(list) { download(today() + "-alignment-" + scopeName(list) + ".json", exportObject(list)); }
+
+  // Export menu (as in the current tool): the open infrastructure, or all of them on the overview.
+  const menu = $("#export-menu");
+  menu.addEventListener("toggle", (e) => {
+    if (e.newState !== "open") return;
+    const r = $("#btn-export").getBoundingClientRect();
+    menu.style.top = r.bottom + 6 + "px"; menu.style.left = Math.max(8, Math.min(r.right - menu.offsetWidth, innerWidth - menu.offsetWidth - 8)) + "px";
+    const list = scope(); $("#export-scope").textContent = list.length === 1 ? (list[0].name || "This infrastructure") : "All " + list.length + " infrastructures";
+  });
+  menu.querySelectorAll("[data-export]").forEach((b) => b.addEventListener("click", () => {
+    menu.hidePopover();
+    const list = scope(), kind = b.dataset.export;
+    if (kind === "framework") return download(today() + "-" + FW.id + "-framework.json", FW);
+    if (!list.length) return toast("Nothing to export yet: add an infrastructure first.");
+    if (kind === "json") return exportJson(list);
+    if (kind === "print") { $("#print-report").innerHTML = reportHtml(list); window.print(); return; }
+    if (kind === "word") return download(today() + "-alignment-report-" + scopeName(list) + ".docx", new Blob([buildDocx(list)], { type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" }));
+    if (kind === "github") {
+      exportJson(list);
+      const title = "Alignment report: " + list.map((i) => i.name || "Unnamed").join(", ") + " (" + (FW.shortName || FW.title) + ")";
+      const body = list.map((i) => { const s = score(i); return "**Infrastructure:** " + (i.name || "Unnamed") + "\n**Framework:** " + FW.title + "\n**Date:** " + (i.date || "") + "\n**Alignment:** " + (s.pct == null ? "–" : s.pct + "%") + " (" + s.answered + "/" + s.total + " rated)\n"; }).join("\n") + "\nDrag the downloaded JSON file into this box to attach it.\n";
+      window.open("https://github.com/surf-ori/spii-1b-principles-alignment-tool/issues/new?" + new URLSearchParams({ title, body, labels: "assessment-report" }), "_blank", "noopener");
+    }
+  }));
+
+  // The short report: per infrastructure its details, the score per section, and a table per section.
+  function reportHtml(list) {
+    return list.map((inf) => {
+      const sc = score(inf), a = A(inf);
+      return `<section class="infra"><h1>${esc(inf.name || "Unnamed infrastructure")}</h1><p>${esc(FW.title)}${inf.date ? " · " + esc(inf.date) : ""}${inf.url ? " · " + esc(inf.url) : ""}${inf.assessors ? " · assessed by " + esc(inf.assessors) : ""}</p>${inf.description ? `<p>${esc(inf.description)}</p>` : ""}
+        ${(inf.activities || []).length ? `<p><b>Research activities:</b> ${esc(inf.activities.join(", "))}</p>` : ""}
+        <p><b>Alignment: ${sc.pct == null ? "–" : sc.pct + "%"}</b> (${sc.answered}/${sc.total} rated) · ${FW.sections.map((s) => esc(s.section) + " " + (sectionScore(inf, s).pct == null ? "–" : sectionScore(inf, s).pct + "%")).join(" · ")}</p>
+        ${FW.sections.map((s, si) => `<h3>${esc(s.section)}</h3><table><tr><th style="width:42%">Principle</th><th style="width:18%">Answer</th><th>Notes</th></tr>${s.principles.map((p) => { const x = a[p.id] || {}; return `<tr><td>${x.star ? "★ " : ""}${secCode(si)}${s.principles.indexOf(p) + 1} ${esc(p.title)}</td><td>${x.level ? esc(levelLabel(x.level)) : "<i>Not answered</i>"}</td><td>${esc(x.note || "")}</td></tr>`; }).join("")}</table>`).join("")}
+        <p style="color:#666">SPII Principles Alignment Tool (proof of concept) · ${today()}</p></section>`;
+    }).join("");
+  }
+
+  // ---- Word: a stored zip of a few XML files (as in the current tool, no library) ----
+  const CRC = Array.from({ length: 256 }, (_, n) => { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1; return c >>> 0; });
+  function crc32(b) { let c = 0xffffffff; for (let i = 0; i < b.length; i++) c = CRC[(c ^ b[i]) & 0xff] ^ (c >>> 8); return (c ^ 0xffffffff) >>> 0; }
+  function zip(files) {
+    const enc = new TextEncoder(), parts = [], central = []; let off = 0;
+    const hdr = (n) => { const b = new Uint8Array(n); return [b, new DataView(b.buffer)]; };
+    files.forEach((f) => {
+      const name = enc.encode(f.name), data = enc.encode(f.text), crc = crc32(data);
+      const [l, lv] = hdr(30); lv.setUint32(0, 0x04034b50, true); lv.setUint16(4, 20, true); lv.setUint16(6, 0x800, true); lv.setUint16(12, 33, true); lv.setUint32(14, crc, true); lv.setUint32(18, data.length, true); lv.setUint32(22, data.length, true); lv.setUint16(26, name.length, true);
+      const [c, cv] = hdr(46); cv.setUint32(0, 0x02014b50, true); cv.setUint16(4, 20, true); cv.setUint16(6, 20, true); cv.setUint16(8, 0x800, true); cv.setUint16(14, 33, true); cv.setUint32(16, crc, true); cv.setUint32(20, data.length, true); cv.setUint32(24, data.length, true); cv.setUint16(28, name.length, true); cv.setUint32(42, off, true);
+      parts.push(l, name, data); central.push(c, name); off += 30 + name.length + data.length;
+    });
+    const size = central.reduce((n, b) => n + b.length, 0);
+    const [e, ev] = hdr(22); ev.setUint32(0, 0x06054b50, true); ev.setUint16(8, files.length, true); ev.setUint16(10, files.length, true); ev.setUint32(12, size, true); ev.setUint32(16, off, true);
+    const all = parts.concat(central, [e]); const out = new Uint8Array(all.reduce((n, b) => n + b.length, 0)); let at = 0; all.forEach((b) => { out.set(b, at); at += b.length; }); return out;
+  }
+  const W = 'xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"';
+  function wRun(text, o = {}) {
+    const pr = (o.b ? "<w:b/>" : "") + (o.color ? `<w:color w:val="${o.color}"/>` : "") + (o.sz ? `<w:sz w:val="${o.sz}"/>` : "");
+    const clean = String(text == null ? "" : text).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "");
+    return "<w:r>" + (pr ? `<w:rPr>${pr}</w:rPr>` : "") + clean.split(/\r?\n/).map((l) => `<w:t xml:space="preserve">${esc(l)}</w:t>`).join("<w:br/>") + "</w:r>";
+  }
+  const wP = (runs, style) => "<w:p>" + (style ? `<w:pPr><w:pStyle w:val="${style}"/></w:pPr>` : "") + [].concat(runs).join("") + "</w:p>";
+  function wTable(rows, widths) {
+    const bd = ["top", "left", "bottom", "right", "insideH", "insideV"].map((s) => `<w:${s} w:val="single" w:sz="4" w:space="0" w:color="D9D4C3"/>`).join("");
+    return `<w:tbl><w:tblPr><w:tblW w:w="9600" w:type="dxa"/><w:tblBorders>${bd}</w:tblBorders></w:tblPr><w:tblGrid>${widths.map((w) => `<w:gridCol w:w="${w}"/>`).join("")}</w:tblGrid>` +
+      rows.map((r, ri) => "<w:tr>" + r.map((c, i) => `<w:tc><w:tcPr><w:tcW w:w="${widths[i]}" w:type="dxa"/>${ri === 0 ? '<w:shd w:val="clear" w:color="auto" w:fill="EEEBDF"/>' : ""}</w:tcPr>${wP(c)}</w:tc>`).join("") + "</w:tr>").join("") + "</w:tbl>";
+  }
+  const hex6 = (c) => (/^#[0-9a-f]{6}$/i.test(c || "") ? c.slice(1) : (TOKEN_HEX[c] || "#555555").slice(1));
+  function buildDocx(list) {
+    let body = "";
+    list.forEach((inf, k) => {
+      const sc = score(inf), a = A(inf);
+      if (k) body += '<w:p><w:r><w:br w:type="page"/></w:r></w:p>';
+      body += wP(wRun(inf.name || "Unnamed infrastructure"), "Title");
+      body += wP(wRun(FW.title + (inf.date ? " · " + inf.date : "") + (inf.url ? " · " + inf.url : ""), { color: "4D5850", sz: 18 }));
+      if (inf.description) body += wP(wRun(inf.description));
+      if ((inf.activities || []).length) body += wP([wRun("Research activities: ", { b: true }), wRun(inf.activities.join(", "))]);
+      body += wP([wRun("Alignment: " + (sc.pct == null ? "–" : sc.pct + "%"), { b: true }), wRun(" (" + sc.answered + "/" + sc.total + " rated)")]);
+      body += wTable([[wRun("Section", { b: true }), wRun("Alignment", { b: true }), wRun("Rated", { b: true })]].concat(FW.sections.map((s) => { const v = sectionScore(inf, s); return [wRun(s.section), wRun(v.pct == null ? "–" : v.pct + "%", { b: true }), wRun(v.answered + "/" + v.total)]; })), [5600, 2000, 2000]);
+      FW.sections.forEach((s, si) => {
+        body += wP(wRun(s.section), "Heading2");
+        body += wTable([[wRun("Principle", { b: true }), wRun("Answer", { b: true }), wRun("Notes", { b: true })]].concat(s.principles.map((p, j) => { const x = a[p.id] || {}; const lv = levels().find((l) => l.id === x.level);
+          return [(x.star ? wRun("★ ", { color: "B07D00" }) : "") + wRun(secCode(si) + (j + 1) + " " + p.title), x.level ? wRun(levelLabel(x.level), { b: true, color: lv ? hex6(lv.color) : "7B847C" }) : wRun("Not answered", { color: "7B847C" }), wRun(x.note || "")]; })), [3500, 2300, 3800]);
+      });
+    });
+    const styles = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:styles ${W}><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri"/><w:sz w:val="20"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after="80"/></w:pPr></w:pPrDefault></w:docDefaults><w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/></w:style><w:style w:type="paragraph" w:styleId="Title"><w:name w:val="Title"/><w:basedOn w:val="Normal"/><w:rPr><w:b/><w:color w:val="1F5C43"/><w:sz w:val="40"/></w:rPr></w:style><w:style w:type="paragraph" w:styleId="Heading2"><w:name w:val="heading 2"/><w:basedOn w:val="Normal"/><w:pPr><w:keepNext/><w:spacing w:before="200" w:after="60"/><w:outlineLvl w:val="1"/></w:pPr><w:rPr><w:b/><w:sz w:val="24"/></w:rPr></w:style></w:styles>`;
+    const rel = (id, type, target) => `<Relationship Id="${id}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/${type}" Target="${target}"/>`;
+    const rels = (x) => `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${x}</Relationships>`;
+    return zip([
+      { name: "[Content_Types].xml", text: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/></Types>' },
+      { name: "_rels/.rels", text: rels(rel("rId1", "officeDocument", "word/document.xml")) },
+      { name: "word/_rels/document.xml.rels", text: rels(rel("rId1", "styles", "styles.xml")) },
+      { name: "word/document.xml", text: `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document ${W}><w:body>${body}<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1134" w:right="1134" w:bottom="1134" w:left="1134" w:header="708" w:footer="708" w:gutter="0"/></w:sectPr></w:body></w:document>` },
+      { name: "word/styles.xml", text: styles },
+    ]);
+  }
+
+  // Import dialog: drop or choose JSON files.
+  $("#btn-import").onclick = () => $("#dlg-import").showModal();
+  $("#im-examples").onclick = () => { $("#dlg-import").close(); loadExamples(); };
+  const drop = $("#drop");
+  ["dragenter", "dragover"].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add("over"); }));
+  ["dragleave", "drop"].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove("over"); }));
+  drop.addEventListener("drop", (e) => importFiles(e.dataTransfer.files));
+  $("#drop-input").onchange = (e) => { importFiles(e.target.files); e.target.value = ""; };
+  $("#file-import").onchange = (e) => { importFiles(e.target.files); e.target.value = ""; };
+  async function importFiles(files) {
+    let n = 0; const bad = [];
+    for (const f of files) { try { const k = importObject(JSON.parse(await f.text())); if (!k) bad.push(f.name); n += k; } catch (err) { bad.push(f.name); } }
+    if (bad.length) toast("Not an alignment report: " + bad.join(", "));
+    if (n) { save(); $("#dlg-import").close(); toast(n + " infrastructure" + (n === 1 ? "" : "s") + " imported."); go("overview"); }
+  }
+  // Takes this page's own export (v1 or v2), or a report saved from the current tool (all its frameworks).
   function importObject(o, activities) {
-    if (o && Array.isArray(o.infras)) { o.infras.forEach((i) => db.infras.push(Object.assign({}, i, { id: uid() }))); return o.infras.length; }
-    if (o && o.frameworks && o.frameworks.posi) {
-      const answers = {};
-      Object.entries(o.frameworks.posi).forEach(([pid, e]) => { if (e && (e.status || e.notes || e.priority)) answers[pid] = { level: e.status || null, note: e.notes || "", star: !!e.priority }; });
-      const acts = activities || (o.activities || []).map((a) => String(a).split(" > ").pop()).filter((a) => ALL_ACTIVITIES.includes(a));
-      db.infras.push({ id: uid(), name: o.name || "", description: o.description || "", url: o.url || "", date: o.assessedOn || today(), assessors: "", activities: acts, answers });
+    if (o && Array.isArray(o.infras)) {
+      if (o.frameworks && typeof o.frameworks === "object" && !Array.isArray(o.frameworks)) Object.values(o.frameworks).forEach((f) => { if (!validateFramework(f) && !db.frameworks[f.id]) db.frameworks[f.id] = f; });
+      o.infras.forEach((i) => db.infras.push(migrateInfra(Object.assign({}, i, { id: uid() }))));
+      return o.infras.length;
+    }
+    if (o && o.frameworks && typeof o.frameworks === "object") {
+      const alignments = {};
+      Object.entries(o.frameworks).forEach(([fid, entries]) => {
+        const a = {};
+        Object.entries(entries || {}).forEach(([pid, e]) => { if (e && (e.status || e.notes || e.priority)) a[pid] = { level: e.status || null, note: e.notes || "", star: !!e.priority }; });
+        if (Object.keys(a).length) alignments[fid] = a;
+      });
+      (o.customFrameworks || []).forEach((f) => { if (!validateFramework(f) && !fwById(f.id)) db.frameworks[f.id] = f; });
+      const acts = activities || (o.activities || []).map((x) => String(x).split(" > ").pop()).filter((x) => ALL_ACTIVITIES.includes(x));
+      db.infras.push({ id: uid(), name: o.name || "", description: o.description || "", url: o.url || "", date: o.assessedOn || today(), assessors: "", activities: acts, alignments });
       return 1;
     }
     return 0;
   }
+  function migrateInfra(i) { if (i.answers && !i.alignments) { i.alignments = { posi: i.answers }; delete i.answers; } i.alignments = i.alignments || {}; return i; }
   async function loadExamples() {
     let n = 0;
     for (const ex of EXAMPLES) { try { const o = await (await fetch(ex.file)).json(); if (!db.infras.some((i) => i.name === o.name)) n += importObject(o, ex.activities); } catch (e) {} }
@@ -835,12 +1251,19 @@
   }
   document.addEventListener("spii:theme", () => render());
 
-  fetch("../data/frameworks/posi-v2.0.json").then((r) => r.json()).then((fw) => {
-    FW = fw; DEFAULT_LEVELS = fw.levels;
+  Promise.all(FRAMEWORK_FILES.map((f) => fetch(f).then((r) => (r.ok ? r.json() : null)).catch(() => null))).then((list) => {
+    BUILTIN = list.filter(Boolean);
+    if (!BUILTIN.length) throw new Error("no frameworks");
+    // older saves: answers without a framework, and a POSI scale of their own
+    db.frameworks = db.frameworks || {};
+    db.infras.forEach(migrateInfra);
+    if (db.levels) { const posi = BUILTIN.find((b) => b.id === "posi"); if (posi) db.frameworks.posi = Object.assign(clone(posi), { levels: db.levels }); delete db.levels; }
+    FW = fwById(db.activeFw || "posi") || BUILTIN[0];
+    save();
     const id = location.hash.slice(1);
     if (id && db.infras.some((x) => x.id === id)) view = { name: "infra", id };
     render();
-  }).catch(() => { $("#view").innerHTML = '<div class="card">Could not load the POSI framework. Open this page over http(s), not as a file.</div>'; });
+  }).catch(() => { $("#view").innerHTML = '<div class="card">Could not load the frameworks. Open this page over http(s), not as a file.</div>'; });
 })();
 </script>
 </body>
