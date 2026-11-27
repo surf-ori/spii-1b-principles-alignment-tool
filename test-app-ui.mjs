@@ -253,6 +253,12 @@ export default async function ({ check, ROOT }) {
             check("Tool: the circle switches to the research-administration activities only", adminSlices === 5 && (await page.locator("#circle .dot").count()) < allDots, adminSlices + " slices");
             await page.click('.seg [data-group="both"]');
             await page.locator(".tab", { hasText: "OpenAIRE" }).click();
+            check("Tool: readable address for an infrastructure", new URL(page.url()).hash === "#openaire", page.url());
+            await page.evaluate(() => { location.hash = "openalex"; });
+            await page.waitForFunction(() => /OpenAlex/.test(document.querySelector("#i-name") && document.querySelector("#i-name").value));
+            check("Tool: a #name link opens that infrastructure", true);
+            await page.evaluate(() => { location.hash = "openaire"; });
+            await page.waitForFunction(() => /OpenAIRE/.test(document.querySelector("#i-name") && document.querySelector("#i-name").value));
             check("Tool: infrastructure page with radar and 23 principles", (await page.locator("#i-radar svg").count()) === 1 && (await page.locator(".p-row").count()) === 23);
             await page.locator("#p-coverage .p-title").click();
             check("Tool: the rating buttons show the scale icons", (await page.locator("#p-coverage .levels .lvl svg").count()) === 4 && (await page.locator("#p-coverage .levels .lvl").first().innerText()).trim() === "Low");
