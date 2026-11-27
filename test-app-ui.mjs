@@ -246,6 +246,12 @@ export default async function ({ check, ROOT }) {
             await page.click("#w-examples");
             await page.waitForSelector("#circle svg");
             check("POC: three examples, the circle, the scatter plot and the table", (await page.locator(".tab").count()) === 5 && (await page.locator("#circle .dot").count()) > 5 && (await page.locator("#scatter .dot").count()) === 3 && (await page.locator("#o-table tbody tr").count()) === 3);
+            check("POC: activity icons from the design system on the circle", (await page.locator("#circle g svg").count()) === 12);
+            const allDots = await page.locator("#circle .dot").count();
+            await page.click('.seg [data-group="admin"]');
+            const adminSlices = await page.locator("#circle path[data-activity]").count();
+            check("POC: the circle switches to the research-administration activities only", adminSlices === 5 && (await page.locator("#circle .dot").count()) < allDots, adminSlices + " slices");
+            await page.click('.seg [data-group="both"]');
             await page.locator(".tab", { hasText: "OpenAIRE" }).click();
             check("POC: infrastructure page with radar and 23 principles", (await page.locator("#i-radar svg").count()) === 1 && (await page.locator(".p-row").count()) === 23);
             await page.locator("#p-coverage .p-title").click();

@@ -82,6 +82,10 @@
   .chart-head select { font: inherit; font-size: .85rem; padding: .3rem .5rem; border-radius: .4rem; border: 1px solid var(--border, #d9d4c3); background: var(--card, #fff); color: inherit; }
   svg text { font-family: var(--font-sans, system-ui, sans-serif); }
   .circle-svg, .scatter-svg, .radar-svg { width: 100%; height: auto; display: block; }
+  .seg { display: inline-flex; border: 1px solid var(--border, #d9d4c3); border-radius: .5rem; overflow: hidden; margin-bottom: .25rem; flex-wrap: wrap; }
+  .seg button { border: 0; border-right: 1px solid var(--border, #d9d4c3); background: transparent; color: inherit; padding: .35rem .7rem; font-size: .8rem; font-weight: 600; cursor: pointer; }
+  .seg button:last-child { border-right: 0; }
+  .seg button[aria-pressed="true"] { background: var(--spii-green, #1f5c43); color: var(--accent-on, #fff); }
   .circle-svg .dot, .scatter-svg .dot { cursor: pointer; }
   .circle-svg .dot:hover, .scatter-svg .dot:hover { stroke-width: 3; }
   table.list { width: 100%; border-collapse: collapse; font-size: .85rem; }
@@ -92,6 +96,8 @@
   .bar { height: .4rem; background: var(--muted, #eeebdf); border-radius: .2rem; overflow: hidden; min-width: 4rem; }
   .bar span { display: block; height: 100%; background: var(--spii-green, #1f5c43); }
   .table-wrap { overflow-x: auto; }
+  .act-icons { display: inline-flex; flex-wrap: wrap; gap: .3rem; }
+  .act-icons svg { display: block; max-width: none; }
 
   /* ---- one infrastructure ---- */
   .back { font-size: .85rem; color: var(--muted-foreground, #4d5850); text-decoration: none; cursor: pointer; background: none; border: 0; padding: 0; }
@@ -103,7 +109,8 @@
   .desc-input { margin-top: .75rem; min-height: 2.4rem; resize: vertical; }
   @media (max-width: 52rem) { .fields { grid-template-columns: 1fr 1fr; } }
   .chips { display: flex; flex-wrap: wrap; gap: .35rem; }
-  .chip { padding: .25rem .65rem; border-radius: 999px; border: 1px solid var(--border, #d9d4c3); background: transparent; color: inherit; cursor: pointer; font-size: .8rem; }
+  .chip { display: inline-flex; align-items: center; gap: .35rem; padding: .25rem .65rem; border-radius: 999px; border: 1px solid var(--border, #d9d4c3); background: transparent; color: inherit; cursor: pointer; font-size: .8rem; }
+  .chip svg { flex: 0 0 auto; max-width: none; }
   .chip[aria-pressed="true"] { background: var(--chip, var(--spii-green, #1f5c43)); border-color: var(--chip, var(--spii-green, #1f5c43)); color: #fff; }
   .landscape { margin-top: .9rem; display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
   @media (max-width: 52rem) { .landscape { grid-template-columns: 1fr; } }
@@ -233,6 +240,10 @@
     { group: "Research administration", items: ["Manage & Organise", "Document & Preserve", "Review & Curate", "Publish & Communicate", "Evaluate & Monitor"] },
   ];
   const ALL_ACTIVITIES = ACTIVITIES.flatMap((g) => g.items);
+  // The activity icons come from the SPII design system (SPII.activityIcon); without it the labels stand alone.
+  function activityIcon(a, size, colour) {
+    return window.SPII && SPII.activityIcon ? SPII.activityIcon(a, size, colour) : "";
+  }
   // The tool stores administrative activities as "Research related activities > X".
   const ACTIVITY_KEY = (a) => (ACTIVITIES[0].items.includes(a) ? "Research life cycle activities > " : "Research related activities > ") + a;
   const SECTION_CODES = { Governance: "G", Sustainability: "S", Insurance: "I", "Complementary Principles": "C" };
@@ -406,8 +417,9 @@
       </div>
       <div class="grid-2">
         <div class="card">
-          <div class="chart-head"><div><h3>Research-landscape circle</h3><div class="muted small">Each slice is a research activity. An infrastructure appears in every activity it supports; the further out, the more it is aligned. Click a dot to open it.</div></div>
+          <div class="chart-head"><div><h3>Research-landscape circle</h3><div class="muted small">Each slice is a research activity. An infrastructure appears in every activity it supports. Low alignment sits near the centre, high alignment near the edge. Click a dot to open it.</div></div>
             <select id="circle-measure" aria-label="Distance from the centre">${measureOptions()}</select></div>
+          <div class="seg" role="group" aria-label="Which research activities">${[["both", "Both"], ["life", ACTIVITIES[0].group], ["admin", ACTIVITIES[1].group]].map(([v, l]) => `<button type="button" data-group="${v}" aria-pressed="${(db.settings.circleGroup || "both") === v}">${esc(l)}</button>`).join("")}</div>
           <div id="circle"></div>
         </div>
         <div class="card">
@@ -422,6 +434,11 @@
       </div>`;
     $("#o-add").onclick = addInfra;
     $("#o-import").onclick = () => $("#file-import").click();
+    document.querySelectorAll(".seg [data-group]").forEach((b) => b.addEventListener("click", () => {
+      db.settings.circleGroup = b.dataset.group; save();
+      document.querySelectorAll(".seg [data-group]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+      drawCircle();
+    }));
     const cm = $("#circle-measure"); cm.value = db.settings.circleMeasure || "all";
     cm.onchange = () => { db.settings.circleMeasure = cm.value; save(); drawCircle(); };
     ["sc-x", "sc-y"].forEach((id) => { const el = $("#" + id); if (db.settings[id]) el.value = db.settings[id]; el.onchange = () => { db.settings[id] = el.value; save(); drawScatter(); }; });
@@ -444,34 +461,45 @@
 
   function drawCircle() {
     const m = db.settings.circleMeasure || "all";
-    const n = ALL_ACTIVITIES.length, R0 = 70, R1 = 250;
-    let s = `<svg class="circle-svg" viewBox="-330 -330 660 660" role="img" aria-label="Research-landscape circle">`;
-    ALL_ACTIVITIES.forEach((a, i) => {
-      const life = i < 7;
-      s += `<path d="${slicePath(0, 0, R0, R1, i, n)}" fill="${life ? "var(--spii-green, #1f5c43)" : "var(--spii-1b-ink, #52247D)"}" fill-opacity="${i % 2 ? 0.1 : 0.18}" stroke="var(--card, #fff)" stroke-width="2"/>`;
-      const [lx, ly] = polar(R1 + 34, (i + 0.5) / n);
+    const group = db.settings.circleGroup || "both";
+    const acts = group === "life" ? ACTIVITIES[0].items : group === "admin" ? ACTIVITIES[1].items : ALL_ACTIVITIES;
+    const centre = group === "life" ? ["Research", "life cycle"] : group === "admin" ? ["Research", "administration"] : ["Research", "landscape"];
+    const n = acts.length, R0 = 70, R1 = 250;
+    let s = `<svg class="circle-svg" viewBox="-345 -345 690 690" role="img" aria-label="Research-landscape circle">`;
+    const BANDS = [0.05, 0.11, 0.19, 0.3];   // 0–25%, 25–50%, 50–75%, 75–100%: darker towards the edge
+    acts.forEach((a, i) => {
+      const life = ACTIVITIES[0].items.includes(a);
+      const colour = life ? "var(--spii-green, #1f5c43)" : "var(--spii-1b-ink, #52247D)";
+      BANDS.forEach((op, b) => {
+        const r0 = R0 + ((R1 - R0) * b) / 4, r1 = R0 + ((R1 - R0) * (b + 1)) / 4;
+        s += `<path d="${slicePath(0, 0, r0, r1, i, n)}" fill="${colour}" fill-opacity="${(op * (i % 2 ? 0.82 : 1)).toFixed(3)}"/>`;
+      });
+      s += `<path data-activity="${esc(a)}" d="${slicePath(0, 0, R0, R1, i, n)}" fill="none" stroke="var(--card, #fff)" stroke-width="2"/>`;
+      const [lx, ly] = polar(R1 + 40, (i + 0.5) / n);
       const words = a.split(" ");
       const lines = words.length > 2 ? [words.slice(0, 2).join(" "), words.slice(2).join(" ")] : [a];
-      s += `<text x="${lx}" y="${ly - (lines.length - 1) * 7}" text-anchor="middle" font-size="14" font-weight="600" fill="${life ? "var(--spii-green, #1f5c43)" : "var(--spii-1b-ink, #52247D)"}">${lines.map((l, k) => `<tspan x="${lx}" dy="${k ? 15 : 0}">${esc(l)}</tspan>`).join("")}</text>`;
+      s += `<g transform="translate(${lx - 11} ${ly - 30 - (lines.length - 1) * 7})">${activityIcon(a, 22, colour).replace("<svg ", '<svg x="0" y="0" ')}</g>`;
+      s += `<text x="${lx}" y="${ly + 4 - (lines.length - 1) * 7}" text-anchor="middle" font-size="14" font-weight="600" fill="${colour}">${lines.map((l, k) => `<tspan x="${lx}" dy="${k ? 15 : 0}">${esc(l)}</tspan>`).join("")}</text>`;
     });
     [25, 50, 75, 100].forEach((p) => { const r = R0 + ((R1 - R0) * p) / 100; s += `<circle r="${r}" fill="none" stroke="var(--border, #d9d4c3)" stroke-dasharray="${p === 100 ? "0" : "3 4"}"/><text x="4" y="${-r + 13}" font-size="11" fill="var(--muted-foreground, #4d5850)">${p}%</text>`; });
-    s += `<circle r="${R0}" fill="var(--card, #fff)" stroke="var(--border, #d9d4c3)"/><text text-anchor="middle" y="-4" font-size="13" font-weight="700" fill="currentColor">Research</text><text text-anchor="middle" y="13" font-size="13" font-weight="700" fill="currentColor">landscape</text>`;
+    s += `<circle r="${R0}" fill="var(--card, #fff)" stroke="var(--border, #d9d4c3)"/><text text-anchor="middle" y="-4" font-size="13" font-weight="700" fill="currentColor">${centre[0]}</text><text text-anchor="middle" y="13" font-size="13" font-weight="700" fill="currentColor">${centre[1]}</text>`;
     const placed = [];
     db.infras.forEach((inf, k) => {
       const v = measure(inf, m); if (v == null) return;
       (inf.activities || []).forEach((a) => {
-        const i = ALL_ACTIVITIES.indexOf(a); if (i < 0) return;
+        const i = acts.indexOf(a); if (i < 0) return;
         const r = R0 + ((R1 - R0) * v) / 100;
         // spread infrastructures in one slice a little, so equal scores do not hide each other
-        const spread = ((k % 5) - 2) * 0.13;
+        const spread = ((k % 5) - 2) * (n > 7 ? 0.13 : 0.1);
         const [x, y] = polar(r, (i + 0.5 + spread) / n);
         placed.push(`<circle class="dot" data-id="${inf.id}" cx="${x}" cy="${y}" r="11" fill="${infraColour(inf)}" stroke="var(--card, #fff)" stroke-width="2"><title>${esc(inf.name || "Unnamed")} · ${esc(a)} · ${v}%</title></circle><text x="${x}" y="${y + 4}" text-anchor="middle" font-size="9.5" font-weight="700" fill="#fff" pointer-events="none">${esc(initials(inf.name))}</text>`);
       });
     });
     s += placed.join("") + "</svg>";
-    const noActs = db.infras.filter((i) => !(i.activities || []).length);
+    s += `<div class="legend" style="margin-top:.25rem"><span>● centre: 0% (low alignment)</span><span>● edge: 100% (high alignment)</span><span class="muted">${esc(label(m))}</span></div>`;
+    const noActs = db.infras.filter((i) => !(i.activities || []).some((a) => acts.includes(a)));
     s += `<div class="legend" style="margin-top:.5rem">${db.infras.map((i) => `<span><i style="background:${infraColour(i)};border-radius:50%"></i>${esc(i.name || "Unnamed")}</span>`).join("")}</div>`;
-    if (noActs.length) s += `<p class="hint">Not in the circle yet (no research activities chosen): ${noActs.map((i) => esc(i.name || "Unnamed")).join(", ")}.</p>`;
+    if (noActs.length) s += `<p class="hint">Not in this circle (no ${group === "both" ? "research activities" : "activities in this group"} chosen): ${noActs.map((i) => esc(i.name || "Unnamed")).join(", ")}.</p>`;
     $("#circle").innerHTML = s;
     $("#circle").querySelectorAll(".dot").forEach((d) => d.addEventListener("click", () => go("infra", d.dataset.id)));
   }
@@ -508,7 +536,7 @@
     let h = `<thead><tr>${th("name", "Infrastructure")}<th>Research activities</th>${th("progress", "Progress")}${th("pct", "Alignment")}${FW.sections.map((s) => `<th title="${esc(s.section)}">${SECTION_CODES[s.section] || ""}</th>`).join("")}${th("stars", "★")}</tr></thead><tbody>`;
     rows.forEach((r) => {
       h += `<tr><td><a href="#${r.inf.id}" data-id="${r.inf.id}" style="font-weight:700;color:inherit"><span class="dot" style="display:inline-block;width:.6rem;height:.6rem;border-radius:50%;background:${infraColour(r.inf)};margin-right:.4rem"></span>${esc(r.inf.name || "Unnamed")}</a><div class="muted small">${esc(r.inf.url || "")}${r.inf.date ? " · " + esc(r.inf.date) : ""}</div></td>
-        <td class="small">${(r.inf.activities || []).length ? esc((r.inf.activities || []).join(", ")) : '<span class="muted">–</span>'}</td>
+        <td class="small"><span class="act-icons">${(r.inf.activities || []).length ? ALL_ACTIVITIES.filter((a) => r.inf.activities.includes(a)).map((a) => `<span title="${esc(a)}" role="img" aria-label="${esc(a)}" style="color:${ACTIVITIES[0].items.includes(a) ? "var(--spii-green, #1f5c43)" : "var(--spii-1b-ink, #52247D)"}">${activityIcon(a, 18)}</span>`).join("") : '<span class="muted">–</span>'}</span></td>
         <td><div class="row" style="flex-wrap:nowrap"><div class="bar grow"><span style="width:${r.progress * 100}%"></span></div><span class="small">${r.sc.answered}/${r.sc.total}</span></div></td>
         <td>${pctBadge(r.sc.pct)}</td>${r.secs.map((v) => `<td>${pctBadge(v)}</td>`).join("")}<td>${r.stars || ""}</td></tr>`;
     });
@@ -532,7 +560,7 @@
           <div><label>Framework</label><input value="POSI v2.0 + complementary principles" readonly title="Change the framework or its scale with the layers button in the bar above"></div>
         </div>
         <textarea class="desc-input" id="i-desc" rows="1" placeholder="Short description: what the infrastructure does and for whom">${esc(inf.description)}</textarea>
-        <div class="landscape">${ACTIVITIES.map((g, gi) => `<div><span class="field-label">${esc(g.group)}</span><div class="chips">${g.items.map((a) => `<button type="button" class="chip" style="--chip:${gi ? "#52247D" : "#1f5c43"}" data-act="${esc(a)}" aria-pressed="${(inf.activities || []).includes(a)}">${esc(a)}</button>`).join("")}</div></div>`).join("")}</div>
+        <div class="landscape">${ACTIVITIES.map((g, gi) => `<div><span class="field-label">${esc(g.group)}</span><div class="chips">${g.items.map((a) => `<button type="button" class="chip" style="--chip:${gi ? "#52247D" : "#1f5c43"}" data-act="${esc(a)}" aria-pressed="${(inf.activities || []).includes(a)}">${activityIcon(a, 15)}${esc(a)}</button>`).join("")}</div></div>`).join("")}</div>
       </div>
       <div class="results" id="i-results"></div>
       <div class="card"><div class="chart-head"><div><h3>Alignment per principle</h3><div class="muted small">The further out, the more aligned. Unanswered and not-applicable principles stay at the centre.</div></div></div><div class="radar-wrap"><div id="i-radar"></div><div id="i-suggest"></div></div></div>

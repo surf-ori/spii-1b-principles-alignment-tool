@@ -141,6 +141,21 @@ export const run = (ctx, code) => vm.runInContext(code, ctx);
 }
 
 {
+    // The activity icons: the tool's fallback copy equals the SPII design system's set; the POC has no copy of its own
+    const dsData = path.join(process.env.SPII_DS_DIR || path.join(ROOT, "..", "spii-design-system"), "spii-deliverables.json");
+    if (fs.existsSync(dsData)) {
+        const c = loadLogic();
+        const ds = JSON.parse(fs.readFileSync(dsData, "utf8")).activities.groups.flatMap((g) => g.items);
+        const local = run(c, "JSON.stringify(ACTIVITY_ICONS)");
+        const same = ds.length === 12 && ds.every((i) => JSON.parse(local)[i.name] === i.svg);
+        check("activity icons: the tool's fallback equals the design system's", same);
+    } else {
+        console.log("SKIP  activity icons vs design system: no clone at " + dsData);
+    }
+    check("activity icons: the POC uses the design system, no copy", !/ACTIVITY_ICONS\s*=/.test(fs.readFileSync(path.join(ROOT, "poc/index.html"), "utf8")));
+}
+
+{
     // Word (.docx) export
     const c = loadLogic();
     const R = (s) => run(c, s);
