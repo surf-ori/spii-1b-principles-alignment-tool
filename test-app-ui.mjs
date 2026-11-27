@@ -248,7 +248,7 @@ export default async function ({ check, ROOT }) {
             check("POC: three examples, the circle, the scatter plot and the table", (await page.locator(".tab").count()) === 5 && (await page.locator("#circle .dot").count()) > 5 && (await page.locator("#scatter .dot").count()) === 3 && (await page.locator("#o-table tbody tr").count()) === 3);
             const allDots = await page.locator("#circle .dot").count();
             await page.click('.seg [data-group="admin"]');
-            const adminSlices = await page.locator("#circle path").count();
+            const adminSlices = await page.locator("#circle path[data-activity]").count();
             check("POC: the circle switches to the research-administration activities only", adminSlices === 5 && (await page.locator("#circle .dot").count()) < allDots, adminSlices + " slices");
             await page.click('.seg [data-group="both"]');
             await page.locator(".tab", { hasText: "OpenAIRE" }).click();

@@ -489,7 +489,7 @@
         const r0 = R0 + ((R1 - R0) * b) / 4, r1 = R0 + ((R1 - R0) * (b + 1)) / 4;
         s += `<path d="${slicePath(0, 0, r0, r1, i, n)}" fill="${colour}" fill-opacity="${(op * (i % 2 ? 0.82 : 1)).toFixed(3)}"/>`;
       });
-      s += `<path d="${slicePath(0, 0, R0, R1, i, n)}" fill="none" stroke="var(--card, #fff)" stroke-width="2"/>`;
+      s += `<path data-activity="${esc(a)}" d="${slicePath(0, 0, R0, R1, i, n)}" fill="none" stroke="var(--card, #fff)" stroke-width="2"/>`;
       const [lx, ly] = polar(R1 + 40, (i + 0.5) / n);
       const words = a.split(" ");
       const lines = words.length > 2 ? [words.slice(0, 2).join(" "), words.slice(2).join(" ")] : [a];
