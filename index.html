@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Principles Alignment Assessment Tool</title>
-<meta name="description" content="Self-assess how Open Science infrastructures align with shared principles (POSI and other frameworks), several side by side, with a research-landscape circle, radar charts and guided rating.">
+<meta name="description" content="Self-assess how Open Science infrastructures align with shared principles (POSI and other frameworks), several side by side, with a research-landscape circle, radar charts and guided alignment.">
 <link rel="icon" type="image/svg+xml" href="https://surf-ori.github.io/spii-design-system/assets/favicon.svg">
 <link rel="stylesheet" href="oat.min.css">
 <link rel="stylesheet" href="https://surf-ori.github.io/spii-design-system/spii.css">
@@ -331,7 +331,7 @@
   <div class="d-body">
     <p class="muted small">Everything is saved automatically in this browser, on this device only. Export regularly to keep a copy.</p>
     <p><label><input type="checkbox" id="st-questions" checked> Show the draft question under each principle</label></p>
-    <p><label><input type="checkbox" id="st-chosen" checked> Show the chosen level description under each rated principle</label></p>
+    <p><label><input type="checkbox" id="st-chosen" checked> Show the chosen level description under each aligned principle</label></p>
     <div class="row"><button class="btn" id="st-examples">Load the three examples</button><button class="btn" id="st-clear">Remove all infrastructures…</button></div>
     <p class="muted small">New interface, 27 November 2026. The <a href="old/">previous version</a> stays available, with its own saved answers. Inspired by the user experience of the <a href="https://utrechtuniversity.github.io/digital-autonomy-assessment-tool/">Digital Autonomy Assessment Tool</a> (Utrecht University); none of its code is used. The research-landscape circle follows the idea of the <a href="https://101innovations.wordpress.com/outcomes/">101 Innovations wheel</a> by Bosman and Kramer.</p>
   </div>
@@ -534,10 +534,10 @@
       <div class="card welcome">
         ${circleIllustration()}
         <h1>See how your Open Science infrastructures put shared principles into practice</h1>
-        <p class="muted">Rate each infrastructure on the principles of POSI (or another framework), place it in the research landscape, and map them on the research landscape. Everything stays in your own browser.</p>
+        <p class="muted">Align each infrastructure with the principles of POSI (or another framework), place it in the research landscape, and map them on the research landscape. Everything stays in your own browser.</p>
         <div class="steps">
           <div class="step"><span class="n">1</span><b>Add an infrastructure</b><span class="muted small">Name it, and pick the research activities it supports.</span></div>
-          <div class="step"><span class="n">2</span><b>Rate the principles</b><span class="muted small">Low, making progress or high, with descriptions, tips and examples.</span></div>
+          <div class="step"><span class="n">2</span><b>Align the principles</b><span class="muted small">Low, making progress or high, with descriptions, tips and examples.</span></div>
           <div class="step"><span class="n">3</span><b>Map</b><span class="muted small">The research-landscape circle, a radar per infrastructure, and a table.</span></div>
         </div>
         <div class="row" style="justify-content:center">
@@ -579,10 +579,10 @@
     const totalCells = db.infras.length * principles().length;
     const stack = levels().concat([NA]).map((l) => `<span style="width:${(counts[l.id] / totalCells) * 100}%;background:${levelColour(l.id)}" title="${esc(l.label)}: ${counts[l.id]}"></span>`).join("");
     main.innerHTML = `
-      <div class="page-head"><div class="grow"><h1>Alignment overview</h1><div class="muted small">${db.infras.length} infrastructure${db.infras.length === 1 ? "" : "s"} · ${complete} fully rated · ${esc(FW.title)}</div></div>
+      <div class="page-head"><div class="grow"><h1>Alignment overview</h1><div class="muted small">${db.infras.length} infrastructure${db.infras.length === 1 ? "" : "s"} · ${complete} fully aligned · ${esc(FW.title)}</div></div>
         <button class="btn" id="o-import">Import</button><button class="btn primary" id="o-add">+ Add infrastructure</button></div>
       <div class="kpis">
-        <div class="card kpi"><div class="label">Fully rated</div><div class="value">${complete}<small> / ${db.infras.length}</small></div><div class="bar" style="margin-top:.5rem"><span style="width:${(complete / db.infras.length) * 100}%"></span></div></div>
+        <div class="card kpi"><div class="label">Fully aligned</div><div class="value">${complete}<small> / ${db.infras.length}</small></div><div class="bar" style="margin-top:.5rem"><span style="width:${(complete / db.infras.length) * 100}%"></span></div></div>
         <div class="card kpi"><div class="label">Average alignment</div><div class="value" style="color:${pctColour(avg)}">${avg == null ? "–" : avg + "%"}</div><div class="muted small">Low adoption 0%, high adoption 100%; N/A left out</div></div>
         <div class="card kpi"><div class="label">All answers, all infrastructures</div><div class="stack">${stack}<span style="flex:1;background:transparent"></span></div>
           <div class="legend">${levels().concat([NA]).map((l) => `<span><i style="background:${levelColour(l.id)}"></i>${esc(l.label)} ${counts[l.id]}</span>`).join("")}<span><i style="background:var(--muted, #eeebdf)"></i>Not answered ${unanswered}</span></div></div>
@@ -737,7 +737,7 @@
       </div>
       <div class="results" id="i-results"></div>
       <div class="card"><div class="chart-head"><div><h3>Alignment per principle</h3><div class="muted small">The further out, the more aligned. Unanswered and not-applicable principles stay at the centre.</div></div></div><div class="radar-wrap"><div id="i-radar"></div><div id="i-suggest"></div></div></div>
-      <p class="hint">Tip: click a principle to unfold what each level looks like, with ideas to improve and examples. Rate with the buttons, or with the keys 1, 2, 3 and 0 (not applicable) when a principle has focus.</p>
+      <p class="hint">Tip: click a principle to unfold what each level looks like, with ideas to improve and examples. Choose a level with the buttons, or with the keys 1, 2, 3 and 0 (not applicable) when a principle has focus.</p>
       <div id="i-principles"></div>
       <div class="card payoff" id="i-payoff" hidden></div>`;
     $("#i-back").onclick = () => go("overview");
@@ -761,17 +761,17 @@
 
   function updateResults(inf) {
     const sc = score(inf);
-    const band = sc.pct == null ? "Not rated yet" : sc.pct >= 75 ? "Well aligned" : sc.pct >= 40 ? "Partly aligned" : "Little aligned";
+    const band = sc.pct == null ? "Not aligned yet" : sc.pct >= 75 ? "Well aligned" : sc.pct >= 40 ? "Partly aligned" : "Little aligned";
     $("#i-status").innerHTML = `<span class="pct" style="background:color-mix(in srgb, ${pctColour(sc.pct)} 16%, transparent);color:${pctColour(sc.pct)}">${band}</span><div class="bar" style="width:9rem"><span style="width:${(sc.answered / sc.total) * 100}%"></span></div><span class="muted">${sc.answered}/${sc.total} principles</span>`;
     $("#i-results").innerHTML = `<div class="card"><div class="field-label">Alignment</div><div class="score-big" style="color:${pctColour(sc.pct)}">${sc.pct == null ? "–" : sc.pct + "%"}</div><div class="muted small">Low adoption 0% … high adoption 100%</div></div>` +
-      FW.sections.map((s, i) => { const v = sectionScore(inf, s); return `<div class="card sec-card" style="border-top:4px solid ${secColour(i)}"><div class="field-label">${esc(s.section)}</div><div class="value" style="color:${pctColour(v.pct)}">${v.pct == null ? "–" : v.pct + "%"}</div><div class="muted small">${v.answered}/${v.total} rated</div></div>`; }).join("");
+      FW.sections.map((s, i) => { const v = sectionScore(inf, s); return `<div class="card sec-card" style="border-top:4px solid ${secColour(i)}"><div class="field-label">${esc(s.section)}</div><div class="value" style="color:${pctColour(v.pct)}">${v.pct == null ? "–" : v.pct + "%"}</div><div class="muted small">${v.answered}/${v.total} aligned</div></div>`; }).join("");
     $("#i-radar").innerHTML = radar(inf);
     $("#i-suggest").innerHTML = suggestions(inf);
     $("#i-suggest").querySelectorAll("[data-goto]").forEach((a) => a.addEventListener("click", (e) => { e.preventDefault(); focusPrinciple(a.dataset.goto, true); }));
     const pay = $("#i-payoff");
     if (sc.answered === sc.total) {
       pay.hidden = false;
-      pay.innerHTML = `<div class="row"><div class="grow"><h3>All ${sc.total} principles rated</h3><p class="muted" style="margin:.25rem 0 0">${esc(inf.name || "This infrastructure")} is <b style="color:${pctColour(sc.pct)}">${sc.pct == null ? "not rated" : sc.pct + "% aligned"}</b>. ${FW.sections.map((s) => `${esc(s.section)} ${sectionScore(inf, s).pct == null ? "–" : sectionScore(inf, s).pct + "%"}`).join(" · ")}.</p></div><button class="btn primary" id="pay-overview">See it on the map</button><button class="btn" id="pay-export">Export</button></div>`;
+      pay.innerHTML = `<div class="row"><div class="grow"><h3>All ${sc.total} principles aligned</h3><p class="muted" style="margin:.25rem 0 0">${esc(inf.name || "This infrastructure")} is <b style="color:${pctColour(sc.pct)}">${sc.pct == null ? "no summary yet" : sc.pct + "% aligned"}</b>. ${FW.sections.map((s) => `${esc(s.section)} ${sectionScore(inf, s).pct == null ? "–" : sectionScore(inf, s).pct + "%"}`).join(" · ")}.</p></div><button class="btn primary" id="pay-overview">See it on the map</button><button class="btn" id="pay-export">Export</button></div>`;
       $("#pay-overview").onclick = () => go("overview");
       $("#pay-export").onclick = () => $("#export-menu").showPopover();
     } else pay.hidden = true;
@@ -802,16 +802,16 @@
     return s + "</svg>";
   }
 
-  // What to work on next: starred principles first, then the lowest rated; with the first improvement idea where we have one.
+  // What to work on next: starred principles first, then those at the lowest level; with the first improvement idea where we have one.
   function suggestions(inf) {
     const ps = principles().map((p) => ({ p, a: A(inf)[p.id] || {} }));
     const pick = ps.filter((x) => x.a.level && x.a.level !== NA.id && levelValue(x.a.level) < 1)
       .sort((a, b) => (b.a.star ? 1 : 0) - (a.a.star ? 1 : 0) || levelValue(a.a.level) - levelValue(b.a.level)).slice(0, 3);
     if (!pick.length) {
       const todo = ps.filter((x) => !x.a.level).length;
-      return `<h3 style="margin:0 0 .4rem">Where to start</h3><p class="muted small">${todo ? `${todo} principles still to rate. Star the ones that matter most to you; they come first here once rated.` : "Every principle that applies is at high adoption."}</p>`;
+      return `<h3 style="margin:0 0 .4rem">Where to start</h3><p class="muted small">${todo ? `${todo} principles still to align. Star the ones that matter most to you; they come first here once aligned.` : "Every principle that applies is at high adoption."}</p>`;
     }
-    return `<h3 style="margin:0 0 .4rem">Improve next</h3><p class="muted small" style="margin-top:0">Starred principles first, then the lowest rated. Suggestions, not advice.</p><div class="suggest">${pick.map(({ p, a }) => {
+    return `<h3 style="margin:0 0 .4rem">Improve next</h3><p class="muted small" style="margin-top:0">Starred principles first, then those at the lowest level. Suggestions, not advice.</p><div class="suggest">${pick.map(({ p, a }) => {
       const g = p.guidance || null;
       const tip = g && g.improve && g.improve[0] ? esc(g.improve[0]) : "Open the principle to read what the next level looks like.";
       return `<div class="card"><div class="row" style="gap:.4rem"><span class="p-code" style="padding:.1rem .4rem">${code(p)}</span><a href="#p-${p.id}" data-goto="${p.id}" style="font-weight:700;color:inherit">${a.star ? "★ " : ""}${esc(p.title)}</a></div><div class="small" style="margin:.35rem 0;color:${levelColour(a.level)}">Now: ${esc(levelLabel(a.level))}</div><div class="small muted">${tip}</div></div>`;
@@ -850,7 +850,7 @@
           <span class="p-code">${code(p)}</span>
           <button class="star" aria-pressed="${!!a.star}" aria-label="Priority: ${esc(p.title)}" title="${a.star ? "A priority (click to unmark)" : "Mark as a priority"}"><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.7L10 14.8l-5.1 2.7 1-5.7-4.1-4 5.7-.8z" stroke-linejoin="round"/></svg></button>
           <div class="p-title" tabindex="0" role="button" aria-expanded="${isOpen}"><b>${esc(p.title)}</b>${db.settings.questions !== false && QUESTIONS[p.id] ? `<span class="q">${esc(QUESTIONS[p.id])}</span>` : ""}</div>
-          <div class="levels" role="group" aria-label="Rate ${esc(p.title)}">${opts.map((o) => `<button class="lvl" style="--c:${levelColour(o.id)}" data-level="${o.id}" aria-pressed="${a.level === o.id}" title="${esc(o.label)} (key ${o.key})" aria-label="${esc(o.label)}">${levelIconSvg(o.level || { icon: "dash" }, 16)}<span class="lvl-t">${esc(o.short)}</span></button>`).join("")}</div>
+          <div class="levels" role="group" aria-label="Align ${esc(p.title)}">${opts.map((o) => `<button class="lvl" style="--c:${levelColour(o.id)}" data-level="${o.id}" aria-pressed="${a.level === o.id}" title="${esc(o.label)} (key ${o.key})" aria-label="${esc(o.label)}">${levelIconSvg(o.level || { icon: "dash" }, 16)}<span class="lvl-t">${esc(o.short)}</span></button>`).join("")}</div>
         </div>
         ${!isOpen && a.level && db.settings.chosen !== false && rubricText(a.level) ? `<div class="chosen" style="--c:${levelColour(a.level)}"><b>${esc(levelLabel(a.level))}:</b> ${esc(rubricText(a.level))}</div>` : ""}
         ${isOpen ? `<div class="p-more">
@@ -889,7 +889,7 @@
     if (quiet) return;
     updateResults(inf); refreshSectionBands(inf);
     const after = score(inf);
-    if (after.answered === after.total && before < after.total) toast("All principles rated: " + (after.pct == null ? "see the result below." : after.pct + "% aligned. See the result at the bottom."));
+    if (after.answered === after.total && before < after.total) toast("All principles aligned: " + (after.pct == null ? "see the result below." : after.pct + "% aligned. See the result at the bottom."));
   }
 
   // ---------- contents drawer ----------
@@ -1190,7 +1190,7 @@
     if (kind === "github") {
       exportJson(list);
       const title = "Alignment report: " + list.map((i) => i.name || "Unnamed").join(", ") + " (" + (FW.shortName || FW.title) + ")";
-      const body = list.map((i) => { const s = score(i); return "**Infrastructure:** " + (i.name || "Unnamed") + "\n**Framework:** " + FW.title + "\n**Date:** " + (i.date || "") + "\n**Alignment:** " + (s.pct == null ? "–" : s.pct + "%") + " (" + s.answered + "/" + s.total + " rated)\n"; }).join("\n") + "\nDrag the downloaded JSON file into this box to attach it.\n";
+      const body = list.map((i) => { const s = score(i); return "**Infrastructure:** " + (i.name || "Unnamed") + "\n**Framework:** " + FW.title + "\n**Date:** " + (i.date || "") + "\n**Alignment:** " + (s.pct == null ? "–" : s.pct + "%") + " (" + s.answered + "/" + s.total + " aligned)\n"; }).join("\n") + "\nDrag the downloaded JSON file into this box to attach it.\n";
       window.open("https://github.com/surf-ori/spii-1b-principles-alignment-tool/issues/new?" + new URLSearchParams({ title, body, labels: "assessment-report" }), "_blank", "noopener");
     }
   }));
@@ -1201,7 +1201,7 @@
       const sc = score(inf), a = A(inf);
       return `<section class="infra"><h1>${esc(inf.name || "Unnamed infrastructure")}</h1><p>${esc(FW.title)}${inf.date ? " · " + esc(inf.date) : ""}${inf.url ? " · " + esc(inf.url) : ""}${inf.assessors ? " · assessed by " + esc(inf.assessors) : ""}</p>${inf.description ? `<p>${esc(inf.description)}</p>` : ""}
         ${(inf.activities || []).length ? `<p><b>Research activities:</b> ${esc(inf.activities.join(", "))}</p>` : ""}
-        <p><b>Alignment: ${sc.pct == null ? "–" : sc.pct + "%"}</b> (${sc.answered}/${sc.total} rated) · ${FW.sections.map((s) => esc(s.section) + " " + (sectionScore(inf, s).pct == null ? "–" : sectionScore(inf, s).pct + "%")).join(" · ")}</p>
+        <p><b>Alignment: ${sc.pct == null ? "–" : sc.pct + "%"}</b> (${sc.answered}/${sc.total} aligned) · ${FW.sections.map((s) => esc(s.section) + " " + (sectionScore(inf, s).pct == null ? "–" : sectionScore(inf, s).pct + "%")).join(" · ")}</p>
         ${FW.sections.map((s, si) => `<h3>${esc(s.section)}</h3><table><tr><th style="width:42%">Principle</th><th style="width:18%">Answer</th><th>Notes</th></tr>${s.principles.map((p) => { const x = a[p.id] || {}; return `<tr><td>${x.star ? "★ " : ""}${secCode(si)}${s.principles.indexOf(p) + 1} ${esc(p.title)}</td><td>${x.level ? esc(levelLabel(x.level)) : "<i>Not answered</i>"}</td><td>${esc(x.note || "")}</td></tr>`; }).join("")}</table>`).join("")}
         <p style="color:#666">SPII Principles Alignment Assessment Tool · ${today()}</p></section>`;
     }).join("");
@@ -1245,8 +1245,8 @@
       body += wP(wRun(FW.title + (inf.date ? " · " + inf.date : "") + (inf.url ? " · " + inf.url : ""), { color: "4D5850", sz: 18 }));
       if (inf.description) body += wP(wRun(inf.description));
       if ((inf.activities || []).length) body += wP([wRun("Research activities: ", { b: true }), wRun(inf.activities.join(", "))]);
-      body += wP([wRun("Alignment: " + (sc.pct == null ? "–" : sc.pct + "%"), { b: true }), wRun(" (" + sc.answered + "/" + sc.total + " rated)")]);
-      body += wTable([[wRun("Section", { b: true }), wRun("Alignment", { b: true }), wRun("Rated", { b: true })]].concat(FW.sections.map((s) => { const v = sectionScore(inf, s); return [wRun(s.section), wRun(v.pct == null ? "–" : v.pct + "%", { b: true }), wRun(v.answered + "/" + v.total)]; })), [5600, 2000, 2000]);
+      body += wP([wRun("Alignment: " + (sc.pct == null ? "–" : sc.pct + "%"), { b: true }), wRun(" (" + sc.answered + "/" + sc.total + " aligned)")]);
+      body += wTable([[wRun("Section", { b: true }), wRun("Alignment", { b: true }), wRun("Aligned", { b: true })]].concat(FW.sections.map((s) => { const v = sectionScore(inf, s); return [wRun(s.section), wRun(v.pct == null ? "–" : v.pct + "%", { b: true }), wRun(v.answered + "/" + v.total)]; })), [5600, 2000, 2000]);
       FW.sections.forEach((s, si) => {
         body += wP(wRun(s.section), "Heading2");
         body += wTable([[wRun("Principle", { b: true }), wRun("Answer", { b: true }), wRun("Notes", { b: true })]].concat(s.principles.map((p, j) => { const x = a[p.id] || {}; const lv = levels().find((l) => l.id === x.level);

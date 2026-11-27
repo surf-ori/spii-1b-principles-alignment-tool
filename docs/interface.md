@@ -45,4 +45,4 @@ The research-activity icons (on the circle, the chips and the table) come from t
 
 ## Wording
 
-The tool helps researchers find the right infrastructure on their research journey; infrastructures are not in competition. So the interface speaks of a **summary** (not a score) and of **mapping** infrastructures on the landscape (not comparing them).
+The tool helps researchers find the right infrastructure on their research journey; infrastructures are not in competition. So the interface speaks of a **summary** (not a score), of **mapping** infrastructures on the landscape (not comparing them), and of **aligning** each principle (not rating it).
