@@ -256,6 +256,51 @@ export default async function ({ check, ROOT }) {
             check("POC: infrastructure page with radar and 23 principles", (await page.locator("#i-radar svg").count()) === 1 && (await page.locator(".p-row").count()) === 23);
             await page.locator("#p-coverage .p-title").click();
             check("POC: a principle unfolds its level descriptions", (await page.locator("#p-coverage .rubric > div").count()) === 3 && /demonstrable evidence/.test(await page.locator("#p-coverage .rubric").innerText()));
+            // export menu: the options of the current tool, for the open infrastructure
+            await page.click("#btn-export");
+            check("POC: export menu with GitHub, JSON, print, Word and framework", (await page.locator("#export-menu [data-export]").count()) === 5 && /openaire/i.test(await page.locator("#export-scope").innerText()));
+            let dl = page.waitForEvent("download");
+            await page.click('#export-menu [data-export="word"]');
+            const docx = fs.readFileSync(await (await dl).path());
+            check("POC: Word export is a zip with a document", docx[0] === 0x50 && docx[1] === 0x4b && docx.includes(Buffer.from("word/document.xml")));
+            await page.click("#btn-export");
+            dl = page.waitForEvent("download");
+            await page.click('#export-menu [data-export="json"]');
+            const ej = JSON.parse(fs.readFileSync(await (await dl).path(), "utf8"));
+            check("POC: JSON export of the open infrastructure, answers per framework", ej.infras.length === 1 && Object.keys(ej.infras[0].alignments.posi || {}).length > 0);
+            // import dialog with drag and drop
+            await page.click("#btn-import");
+            check("POC: import opens a dialog with a drop zone", (await page.$eval("#dlg-import", (d) => d.open)) && (await page.locator("#drop input[type=file]").count()) === 1);
+            await page.setInputFiles("#drop-input", { name: "r.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify(ej)) });
+            await page.waitForFunction(() => !document.querySelector("#dlg-import").open);
+            check("POC: importing the file adds an infrastructure", (await page.locator(".tab").count()) === 6);
+            // framework catalogue and editor
+            await page.locator(".tab", { hasText: "OpenAIRE" }).first().click();
+            await page.click("#btn-framework");
+            const opts = await page.locator("#fw-select option").evaluateAll((os) => os.map((o) => o.value));
+            check("POC: catalogue lists the frameworks, approved first, POSI selected", opts.length >= 8 && opts[0] === "posi" && (await page.$eval("#fw-select", (s) => s.value)) === "posi", opts.join());
+            check("POC: id, title, short name and approved are editable", (await page.locator('#fw-body [data-top="id"]').count()) === 1 && (await page.locator('#fw-body [data-top="shortName"]').count()) === 1 && (await page.locator('#fw-body [data-top="approved"]').isChecked()));
+            check("POC: scale and sections are closed accordions, with a warning", !(await page.$eval("#acc-scale", (d) => d.open)) && !(await page.$eval("#acc-sections", (d) => d.open)) && (await page.locator("#acc-scale .warn").count()) === 1);
+            await page.click("#acc-scale summary");
+            check("POC: the scale editor has 3 levels with icon, colour and title", (await page.locator(".lvl-row").count()) === 3 && (await page.locator('.lvl-row input[type="color"]').count()) === 3);
+            await page.locator('.lvl-row [data-f="label"]').nth(2).fill("Fully aligned");
+            await page.click("#acc-sections summary");
+            await page.locator("details.sec-ed summary").first().click();
+            const before = await page.locator("details.sec-ed").first().locator(".pr-ed").count();
+            await page.locator("details.sec-ed").first().locator("[data-padd]").click();
+            check("POC: a principle can be added to a section", (await page.locator("details.sec-ed").first().locator(".pr-ed").count()) === before + 1, before + " -> " + (await page.locator("details.sec-ed").first().locator(".pr-ed").count()) + " open " + (await page.$eval("details.sec-ed", (d) => d.open)));
+            await page.locator("details.sec-ed").first().locator(".pr-ed").last().locator('[data-p="title"]').fill("Test principle");
+            await page.click("#fw-save");
+            check("POC: Save and use applies the edited framework", !(await page.$eval("#dlg-framework", (d) => d.open)) && (await page.locator(".p-row").count()) === 24 && /Fully aligned/.test(await page.locator(".p-row").first().innerText()));
+            await page.click("#btn-framework");
+            await page.selectOption("#fw-select", "gorc");
+            await page.click("#fw-save");
+            check("POC: switching to another framework from the catalogue", (await page.locator(".p-row").count()) > 0 && (await page.locator(".p-row").count()) !== 24);
+            await page.click("#btn-framework");
+            await page.selectOption("#fw-select", "posi");
+            await page.click("#fw-reset");
+            await page.click("#fw-save");
+            check("POC: reset brings back the original POSI", (await page.locator(".p-row").count()) === 23);
             check("no console or page errors (POC)", errors.length === 0, JSON.stringify(errors));
             await ctx.close();
         }

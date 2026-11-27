@@ -13,13 +13,14 @@ It takes its user experience cues from the [Digital Autonomy Assessment Tool](ht
 | DAAF's organisational unit | The **research activities** of the landscape, as chips on each infrastructure. |
 | The DAAF quadrant | A **scatter plot** where you choose what goes on each axis: overall alignment, a section or one principle. |
 | The 101 Innovations circle (Bosman and Kramer) | The **research-landscape circle**: each slice is a research activity. An infrastructure appears in every activity it supports, and the further out it sits, the more aligned it is. You choose the measure: overall, a section or one principle. |
-| Profiles in DAAF's top bar | A **Framework** button (layers icon) with the framework's description and its scale. You can rename levels, describe what each means for you, save that, reset it, and download the framework with your scale. |
+| Profiles in DAAF's top bar | A **Framework and scale** button (layers icon). At the top a **catalogue** of all frameworks (approved ones first, POSI + complementary principles by default). Below it every field of the framework JSON is editable, for full disclosure: id, title, short name, description, about, approved, and so on. Two closed accordions hold the **scale** (icon, colour, order, title, description, and whether a level counts; with a warning that the per-principle descriptions may stop fitting) and the **sections and principles** (all texts editable; sections and principles can be added, removed and reordered). The footer has Import framework, Reset, Download (JSON) and Save and use. Answers are kept per framework, so switching does not lose them. |
 | The title and description inside the input fields | The infrastructure's name is a large field with its placeholder. URL, date, "assessed by" and framework sit side by side, so there is less scrolling. |
 | Progressive disclosure | Each principle is one compact row: code, star, title, a short question and the level buttons. Click it and it unfolds the principle text, what each level looks like (where we have it), ideas to improve, examples and a notes field. Once rated, the chosen level's description shows under the row. |
 | A radar plot | A **radar per infrastructure** with all 23 principles, and the four sections as a coloured ring. |
 | Wider, smaller type | A 15 px base and an 84 rem page. |
 | The DURF position paper's contents | A **Contents** drawer (bottom left) with all sections and principles, a coloured dot for each answer, ★ for priorities, and the principle in view highlighted. |
 | Settings in the tool's own bar | A cog in the tool's bar opens Settings. Import, export and the framework button sit there too. |
+| Import and export as in the current tool | **Import** opens a dialog: drop JSON reports on it or choose them (this page's exports, or reports saved with the current tool, for all their frameworks). **Export** is a menu with the current tool's options: save report to the GitHub tracker, save alignment to a file (JSON), print report / save as PDF, save to Word (.docx), and download the framework. On an infrastructure's page it exports that one; on the overview all of them. |
 
 ## Kevin's feedback, and what the proof of concept does with it
 
@@ -32,11 +33,11 @@ It takes its user experience cues from the [Digital Autonomy Assessment Tool](ht
 
 ## Not in the proof of concept (yet)
 
-Other frameworks than POSI; the printed and Word reports; the badge; editing descriptions per principle in the framework dialog; comparing frameworks. The research activities of the three examples are a demo choice, not part of the published reports.
+The badge; comparing infrastructures across different frameworks; the bar chart in the Word report. The research activities of the three examples are a demo choice, not part of the published reports.
 
 ## Data
 
-Everything is kept in this browser (`localStorage`, key `spii-alignment-poc.v1`). Export writes all infrastructures to one JSON file. Import takes that file or a report saved from the current tool (its POSI answers, notes and stars).
+Everything is kept in this browser (`localStorage`, key `spii-alignment-poc.v1`): the infrastructures with their answers per framework (`alignments[frameworkId][principleId]`), your edited or imported frameworks, and the framework in use. Older saves (answers without a framework, a POSI scale of their own) are converted on load. The JSON export carries your own frameworks along, so an import restores them.
 
 ## Icons
 
