@@ -263,6 +263,14 @@ export default async function ({ check, ROOT }) {
             await page.locator("#p-coverage .p-title").click();
             check("Tool: the rating buttons show the scale icons", (await page.locator("#p-coverage .levels .lvl svg").count()) === 4 && (await page.locator("#p-coverage .levels .lvl").first().innerText()).trim() === "Low");
             check("Tool: a principle unfolds its level descriptions", (await page.locator("#p-coverage .rubric > div").count()) === 3 && /demonstrable evidence/.test(await page.locator("#p-coverage .rubric").innerText()));
+            // embed a chart: a snapshot in the link, only that chart, nothing saved
+            await page.locator("#i-radar").locator("xpath=ancestor::div[contains(@class,'card')][1]").locator(".embed-btn").click();
+            const embUrl = (await page.locator("#em-code").inputValue()).match(/src="([^"]+)"/)[1].replace(/^https?:\/\/[^/]+\//, "");
+            await page.keyboard.press("Escape");
+            const emb = await ctx.newPage();
+            await emb.goto(base + embUrl); await emb.waitForSelector("body.embed #i-radar svg");
+            check("Tool: an embedded chart shows only that chart", (await emb.locator("#i-radar svg").isVisible()) && !(await emb.locator(".toolbar").isVisible()) && !(await emb.locator("#i-principles").isVisible()));
+            await emb.close();
             // export menu: the options of the current tool, for the open infrastructure
             await page.click("#btn-export");
             await page.waitForFunction(() => /openaire/i.test(document.querySelector("#export-scope").textContent));
