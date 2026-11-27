@@ -265,9 +265,11 @@ export default async function ({ check, ROOT }) {
             check("Tool: a principle unfolds its level descriptions", (await page.locator("#p-coverage .rubric > div").count()) === 3 && /demonstrable evidence/.test(await page.locator("#p-coverage .rubric").innerText()));
             // guided tour and (i) explanations
             await page.click("#btn-tour"); await page.waitForSelector("#tour-card:not([hidden])");
-            check("Tool: the tour starts at step 1 of 7", /Step 1 of 7/.test(await page.locator("#tour-step").innerText()));
-            for (let i = 0; i < 7; i++) await page.click("#tour-next");
-            check("Tool: the tour ends after 7 steps", await page.locator("#tour-card").isHidden());
+            check("Tool: the tour starts at step 1 of 9", /Step 1 of 9/.test(await page.locator("#tour-step").innerText()));
+            for (let i = 0; i < 9; i++) await page.click("#tour-next");
+            check("Tool: the tour ends after 9 steps", await page.locator("#tour-card").isHidden());
+            check("Tool: the tour ends in the overview", (await page.locator("#circle").count()) === 1);
+            await page.locator(".tab", { hasText: "OpenAIRE" }).first().click();
             await page.click('.info-i[data-info="summary"]');
             check("Tool: an (i) button explains its part", /average of its principles/.test(await page.locator("#info-pop").innerText()));
             await page.keyboard.press("Escape");

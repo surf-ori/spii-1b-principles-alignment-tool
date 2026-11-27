@@ -294,7 +294,7 @@
     <nav class="tabs" id="tabs" aria-label="Overview and infrastructures"></nav>
     <button class="icon-btn" id="btn-import" title="Import (JSON)" aria-label="Import"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5V15a1 1 0 001 1h10a1 1 0 001-1v-2.5"/><path d="M10 12V3M6.5 6.5L10 3l3.5 3.5"/></svg></button>
     <button class="icon-btn" id="btn-export" title="Export" aria-label="Export" aria-haspopup="menu" popovertarget="export-menu"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5V15a1 1 0 001 1h10a1 1 0 001-1v-2.5"/><path d="M10 3v9M6.5 8.5L10 12l3.5-3.5"/></svg></button>
-    <button class="icon-btn" id="btn-framework" title="Alignment frameworks" aria-label="Alignment frameworks"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M10 2.5l7.5 4-7.5 4-7.5-4z"/><path d="M2.5 10l7.5 4 7.5-4M2.5 13.5l7.5 4 7.5-4"/></svg></button>
+    <button class="icon-btn" id="btn-framework" title="Customise alignment frameworks" aria-label="Customise alignment frameworks"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M10 2.5l7.5 4-7.5 4-7.5-4z"/><path d="M2.5 10l7.5 4 7.5-4M2.5 13.5l7.5 4 7.5-4"/></svg></button>
     <button class="icon-btn" id="btn-tour" title="Take the tour: how to make your POSI report" aria-label="Take the tour"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10" cy="10" r="7.5"/><path d="M7.8 7.6a2.3 2.3 0 114 1.5c-.8.6-1.8 1.1-1.8 2.2M10 14v.01"/></svg></button>
     <button class="icon-btn" id="btn-settings" title="Settings" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
     <input type="file" id="file-import" accept="application/json,.json" hidden multiple>
@@ -1374,13 +1374,15 @@
 
   // ---------- guided tour: how to make your POSI report ----------
   const TOUR = [
-    { sel: () => $("#view .card"), title: "Your POSI report", text: "This is a report for one infrastructure, here the OpenAIRE example. In seven steps we walk through its parts, from top to bottom." },
+    { sel: () => $("#view .card"), title: "Your POSI report", text: "This is a report for one infrastructure, here the OpenAIRE example. In nine steps we walk through its parts, from top to bottom, and end in the overview." },
     { sel: () => $("#i-name") && $("#i-name").closest(".card"), title: "Describe the infrastructure and map it", text: "Give its name, landing page and a short description, and choose the research activities it supports. That places it on the research landscape, so researchers can find it." },
+    { sel: () => $("#i-fw") && $("#i-fw").closest("div"), title: "Choose the framework", text: "POSI v2.0 plus the complementary principles is the default. Here, or with the layers button in the bar, you choose another framework from the catalogue, or customise one: its scale (icons, colours, titles, descriptions) and its principles." },
     { sel: () => $("#i-summary"), title: "The alignment summary", text: "The overall alignment, and per section the average of its principles. It fills in as you go." },
     { sel: () => $("#i-radar") && $("#i-radar").closest(".card"), title: "Alignment per principle, and what to improve next", text: "The radar shows every principle: the further out, the more aligned. Next to it, suggestions for what to work on next." },
     { sel: () => $("#sec-0"), after: true, title: "The alignment itself", text: "The principles come in sections (for POSI: Governance, Sustainability, Insurance, plus complementary principles). For each principle, choose low alignment, making progress, high alignment, or not applicable; the keys 1, 2, 3 and 0 work too." },
     { sel: () => $(".p-row"), before: () => { const r = $(".p-row"); if (r && !r.querySelector(".p-more")) r.querySelector(".p-title").click(); }, title: "Unfold a principle", text: "Click a principle to read what it means, what each level looks like (drawn by the SPII working group from earlier POSI self-assessments), ideas to improve, and examples of infrastructures doing it well. Use the star to highlight a principle in your report." },
     { sel: () => $("#btn-export"), title: "Save your report to Word", text: "Export › Save to Word gives a report with the summary per section and every answer. Attach it to your proposal for NWO, and also send it to the GitHub tracker, so it joins the examples and the map of infrastructures." },
+    { sel: () => $(".kpis"), before: () => { if (view.name !== "overview") go("overview"); }, title: "See all infrastructures in the overview", text: "The Overview tab maps all your infrastructures together: key figures, the research-landscape circle, a map on two principles and a table. Each infrastructure appears in the research activities it supports; the further out, the more aligned." },
   ];
   let tourAt = -1;
   async function startTour() {
@@ -1405,7 +1407,7 @@
   }
   function endTour() { tourAt = -1; $("#tour-ring").hidden = true; $("#tour-card").hidden = true; }
   $("#tour-next").onclick = () => { tourAt++; showTour(); };
-  $("#tour-prev").onclick = () => { tourAt = Math.max(0, tourAt - 1); showTour(); };
+  $("#tour-prev").onclick = () => { tourAt = Math.max(0, tourAt - 1); if (view.name !== "infra" && tourAt < TOUR.length - 1) go("infra", (db.infras.find((i) => /openaire/i.test(i.name || "")) || db.infras[0]).id); showTour(); };
   $("#tour-close").onclick = endTour;
   document.addEventListener("keydown", (e) => { if (tourAt >= 0 && e.key === "Escape") endTour(); });
   window.addEventListener("resize", () => { if (tourAt >= 0) showTour(); });
