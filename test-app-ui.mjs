@@ -243,6 +243,11 @@ export default async function ({ check, ROOT }) {
             const { page, errors, ctx } = await open("index.html", 1280, 900, { ready: "#view > *" });
             page.on("dialog", (d) => d.accept());
             check("Tool: welcome screen when nothing is saved", (await page.locator(".welcome h1").count()) === 1);
+            // the tour on an empty tool loads the examples and, after Done, removes them again
+            await page.click("#w-tour"); await page.waitForSelector("#tour-card:not([hidden])");
+            for (let i = 0; i < 9; i++) await page.click("#tour-next");
+            await page.waitForTimeout(300);
+            check("Tool: after the tour the examples it loaded are removed", (await page.locator(".welcome h1").count()) === 1, await page.locator(".tab").count() + " tabs");
             await page.click("#w-examples");
             await page.waitForSelector("#circle svg");
             check("Tool: three examples, the circle, the scatter plot and the table", (await page.locator(".tab").count()) === 5 && (await page.locator("#circle .dot").count()) > 5 && (await page.locator("#scatter .dot").count()) === 3 && (await page.locator("#o-table tbody tr").count()) === 3);
