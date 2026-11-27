@@ -135,6 +135,115 @@ body.show-notes aside.notes { display: block; position: absolute; left: 0; right
 .extra .cap { font-size: 30px; color: var(--ink); max-width: 832px; }
 .tour.full-shot { padding: 40px 128px; }
 .tour.full-shot .shot-row { gap: 96px; }
+
+/* deck.css (synced from the slide deck) */
+:root {
+  --dark: #10140f;
+  --dark-2: #161c15;
+  --light: #f6f4ec;
+  --card: #fbfaf5;
+  --ink: #161f18;
+  --muted: #4d5850;
+  --green: #1f5c43;
+  --green-light: #59b98a;
+  --soft: #dfe9df;
+  --line: #d9d4c3;
+  --on-dark: #eae7db;
+  --on-dark-muted: #b9c4b6;
+}
+
+body { font-family: 'Outfit', Arial, sans-serif; color: var(--ink); }
+
+section { padding: 128px; background: var(--light); color: var(--ink); box-sizing: border-box; display: flex; flex-direction: column; gap: 40px; }
+section.dark { background: var(--dark); color: var(--on-dark); }
+section { counter-increment: page; }
+
+h1 { font-size: 112px; font-weight: 700; line-height: 1.02; letter-spacing: -0.02em; margin: 0; }
+h2 { font-size: 72px; font-weight: 700; line-height: 1.08; letter-spacing: -0.015em; margin: 0; }
+h3 { font-size: 36px; font-weight: 600; line-height: 1.2; margin: 0; }
+p { font-size: 32px; line-height: 1.4; margin: 0; color: var(--muted); }
+.dark p { color: var(--on-dark-muted); }
+.dark h1, .dark h2, .dark h3 { color: var(--on-dark); }
+
+.eyebrow { font-size: 26px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--green); }
+.dark .eyebrow { color: var(--green-light); }
+.lead { font-size: 40px; line-height: 1.35; }
+
+/* cover */
+.cover-row { flex: 1; display: flex; flex-direction: row; align-items: center; gap: 80px; }
+.cover-text { flex: 1; display: flex; flex-direction: column; gap: 36px; }
+.cover-meta { font-size: 28px; color: var(--on-dark-muted); }
+
+.cover-side { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+.qr-row { display: flex; flex-direction: row; align-items: center; gap: 24px; }
+.qr-cap { font-size: 26px; line-height: 1.3; color: var(--on-dark-muted); }
+
+/* the six deliverables */
+.why-row { flex: 1; display: flex; flex-direction: row; gap: 72px; align-items: center; }
+.why-text { width: 620px; display: flex; flex-direction: column; gap: 32px; }
+.deliv-grid { flex: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+.deliv { background: var(--card); border: 2px solid var(--line); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 12px; }
+.deliv.is-here { border-color: var(--green); background: var(--soft); }
+.deliv .code { font-size: 24px; font-weight: 700; letter-spacing: 0.06em; color: var(--muted); }
+.deliv .name { font-size: 28px; font-weight: 600; line-height: 1.2; color: var(--ink); }
+.deliv .hex { width: 54px; height: 73px; }
+
+/* principles */
+.two-cards { flex: 1; display: flex; flex-direction: row; gap: 32px; }
+.pcard { flex: 1; background: var(--card); border: 2px solid var(--line); border-radius: 20px; padding: 48px; display: flex; flex-direction: column; gap: 24px; }
+.pcard.accent { background: var(--green); border-color: var(--green); }
+.pcard.accent h3, .pcard.accent .plist li { color: #f3f7f1; }
+.pcard.accent .tag { color: #bfe3cf; }
+.tag { font-size: 24px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--green); }
+.plist { margin: 0; padding-left: 36px; display: flex; flex-direction: column; gap: 14px; }
+.plist li { font-size: 32px; line-height: 1.35; color: var(--ink); }
+.closing { font-size: 34px; font-weight: 500; color: var(--ink); }
+
+/* screenshot slides */
+.shot-row { flex: 1; display: flex; flex-direction: row; gap: 64px; align-items: center; }
+.shot { width: 1120px; height: 700px; object-fit: contain; border-radius: 16px; border: 2px solid var(--line); background: #ffffff; }
+.shot.square { width: 780px; height: 780px; }
+.shot-text { flex: 1; display: flex; flex-direction: column; gap: 28px; }
+.shot-text h2 { font-size: 60px; }
+.steps { margin: 0; padding-left: 40px; display: flex; flex-direction: column; gap: 18px; }
+.steps li { font-size: 30px; line-height: 1.35; color: var(--ink); }
+
+/* next */
+.next-row { flex: 1; display: flex; flex-direction: row; gap: 32px; }
+.ncard { flex: 1; background: var(--card); border: 2px solid var(--line); border-top: 10px solid var(--green); border-radius: 20px; padding: 44px; display: flex; flex-direction: column; gap: 20px; }
+.ncard .when { font-size: 26px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--green); }
+.ncard p { font-size: 30px; }
+.hex-row { display: flex; flex-direction: row; gap: 14px; }
+.hex-row svg { width: 48px; height: 65px; }
+
+/* try it */
+.try-box { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 40px; }
+.url { font-size: 48px; line-height: 1.2; font-weight: 600; color: var(--green-light); }
+.try-top { display: flex; flex-direction: row; align-items: center; gap: 64px; }
+.try-head { flex: 1; display: flex; flex-direction: column; gap: 32px; }
+.try-list { display: flex; flex-direction: row; gap: 48px; }
+.try-item { flex: 1; border-top: 3px solid #2b342a; padding-top: 24px; display: flex; flex-direction: column; gap: 12px; }
+.try-item h3 { font-size: 34px; }
+
+/* entrance */
+@keyframes rise { from { opacity: 0; transform: translateY(24px); } }
+.deliv, .pcard, .ncard, .shot { animation: rise 500ms ease-out both; animation-delay: calc(var(--i, 0) * 110ms); }
+
+/* work-in-progress note */
+.wip { font-size: 24px; line-height: 1.35; color: var(--muted); border-left: 4px solid #9a5b00; padding-left: 16px; }
+
+/* the POSI report tour and the extras */
+.tour .shot-row { gap: 56px; }
+.tour .shot-text h2 { font-size: 52px; }
+.tshot { object-fit: contain; border-radius: 16px; border: 2px solid var(--line); background: #ffffff; flex: none; }
+.pair { display: flex; flex-direction: row; align-items: flex-start; gap: 24px; flex: none; }
+.extras-row { flex: 1; display: flex; flex-direction: row; justify-content: center; align-items: flex-start; gap: 48px; }
+.extra { display: flex; flex-direction: column; gap: 18px; }
+.extra .cap { font-size: 30px; color: var(--ink); max-width: 832px; }
+.tour.full-shot { padding: 40px 128px; }
+.tour.full-shot .shot-row { gap: 96px; }
+.stack { display: flex; flex-direction: column; gap: 16px; flex: none; }
+/* end deck.css */
 </style>
 </head>
 <body>
@@ -158,14 +267,14 @@ body.show-notes aside.notes { display: block; position: absolute; left: 0; right
 <div class="why-row">
 <div class="why-text">
 <p class="eyebrow">Why</p>
-<h2>One coherent, connected Open Science infrastructure</h2>
-<p>SPII is building a reference model for the Netherlands: three parts, each with a tool that puts it into practice.</p>
+<h2 style="width:706px;min-height:402px;transform:translate(0, -20px);box-sizing:border-box;flex:0 0 auto">One coherent, connected ecosystem&nbsp;<br>for<br>Open Science infrastructures</h2>
+<p style="transform:translate(0, -8px)">SPII is building a reference model for the Netherlands: three parts, each with a tool that puts it into practice.</p>
 </div>
 <div class="deliv-grid">
 <div class="deliv" style="--i:0"><svg class="hex" aria-label="1A hexagon" viewBox="-20 -27 40 54" width="40" height="54"><polygon points="0,-25 17,-12 17,12 0,25 -17,12 -17,-12" fill="#7B3FB0" stroke="#7B3FB0" stroke-width="3" stroke-linejoin="round"/><g transform="translate(0 0) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M0 -18V16M-10 16H10M-17 -11H17M-17 -11L-22 3M-17 -11L-12 3M17 -11L12 3M17 -11L22 3"/><path d="M-22 3H-12A5 4 0 0 1 -22 3ZM12 3H22A5 4 0 0 1 12 3Z"/><circle cx="0" cy="-18" r="2.2"/></g></svg><p class="code">1A · MODEL</p><p class="name">Values and Principles</p></div>
 <div class="deliv" style="--i:1"><svg class="hex" aria-label="2A hexagon" viewBox="-20 -27 40 54" width="40" height="54"><polygon points="0,-25 17,-12 17,12 0,25 -17,12 -17,-12" fill="#E8702A" stroke="#E8702A" stroke-width="3" stroke-linejoin="round"/><g transform="translate(0 0) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M-17 16C-6 16 -14 2 -3 2S6 -8 12 -8" stroke-dasharray="3 4"/><circle cx="-17" cy="16" r="3"/><path d="M13 -2C9 -7 7 -10 7 -13A6 6 0 0 1 19 -13C19 -10 17 -7 13 -2Z"/></g></svg><p class="code">2A · MODEL</p><p class="name">Landscape of Open Science infrastructures</p></div>
 <div class="deliv" style="--i:2"><svg class="hex" aria-label="3A hexagon" viewBox="-20 -27 40 54" width="40" height="54"><polygon points="0,-25 17,-12 17,12 0,25 -17,12 -17,-12" fill="#1F86C1" stroke="#1F86C1" stroke-width="3" stroke-linejoin="round"/><g transform="translate(0 0) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><circle cx="-6" cy="0" r="11"/><circle cx="6" cy="0" r="11"/></g></svg><p class="code">3A · MODEL</p><p class="name">Practical Interoperability Guidelines</p></div>
-<div class="deliv is-here" style="--i:3"><svg class="hex" aria-label="1B hexagon" viewBox="-20 -27 40 54" width="40" height="54"><polygon points="0,-25 17,-12 17,12 0,25 -17,12 -17,-12" fill="#52247D" stroke="#52247D" stroke-width="3" stroke-linejoin="round"/><g transform="translate(0 0) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M-18 8A18 18 0 0 1 18 8"/><path d="M-12.7 -4.7L-10 -2.6M0 -10V-6.5M12.7 -4.7L10 -2.6"/><path d="M0 8L9 -4"/><circle cx="0" cy="8" r="2.6"/></g></svg><p class="code">1B · TOOL · TODAY</p><p class="name">Principles Alignment Assessment Tool</p></div>
+<div class="deliv is-here" style="--i:3;min-width:0;width:302px;box-sizing:border-box"><svg class="hex" aria-label="1B hexagon" viewBox="-20 -27 40 54" width="40" height="54"><polygon points="0,-25 17,-12 17,12 0,25 -17,12 -17,-12" fill="#52247D" stroke="#52247D" stroke-width="3" stroke-linejoin="round"/><g transform="translate(0 0) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M-18 8A18 18 0 0 1 18 8"/><path d="M-12.7 -4.7L-10 -2.6M0 -10V-6.5M12.7 -4.7L10 -2.6"/><path d="M0 8L9 -4"/><circle cx="0" cy="8" r="2.6"/></g></svg><p class="code">1B · TOOL · TODAY</p><p class="name">Principles Alignment Assessment Tool</p></div>
 <div class="deliv" style="--i:4"><svg class="hex" aria-label="2B hexagon" viewBox="-20 -27 40 54" width="40" height="54"><polygon points="0,-25 17,-12 17,12 0,25 -17,12 -17,-12" fill="#B04A12" stroke="#B04A12" stroke-width="3" stroke-linejoin="round"/><g transform="translate(0 0) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><path d="M-19 -12L-7 -17L7 -12L19 -17V12L7 17L-7 12L-19 17Z"/><path d="M-7 -17V12M7 -12V17"/><path d="M0 4C-2.6 1 -3.6 -0.8 -3.6 -2.4A3.6 3.6 0 0 1 3.6 -2.4C3.6 -0.8 2.6 1 0 4Z"/></g></svg><p class="code">2B · TOOL</p><p class="name">Mapping of Infrastructures &amp; Infrastructure development projects</p></div>
 <div class="deliv" style="--i:5"><svg class="hex" aria-label="3B hexagon" viewBox="-20 -27 40 54" width="40" height="54"><polygon points="0,-25 17,-12 17,12 0,25 -17,12 -17,-12" fill="#145F8C" stroke="#145F8C" stroke-width="3" stroke-linejoin="round"/><g transform="translate(0 0) scale(0.62)" fill="none" stroke="#fff" stroke-width="3.54839" stroke-linecap="round" stroke-linejoin="round"><rect x="-14" y="-16" width="28" height="35" rx="3"/><path d="M-6 -16V-20H6V-16"/><path d="M-8 -5L-5 -2L0 -8M4 -5H9M-8 9L-5 12L0 6M4 9H9"/></g></svg><p class="code">3B · TOOL</p><p class="name">Interoperability Assessment Tool</p></div>
 </div>
@@ -200,24 +309,24 @@ body.show-notes aside.notes { display: block; position: absolute; left: 0; right
 </section>
 <section id="t1" class="slide tour full-shot">
 <div class="shot-row">
-<img class="tshot" src="t1.png" alt="The whole report page of the OpenAIRE example, from the description at the top to the last principle at the bottom" style="width:369px;height:1000px">
+<img class="tshot" src="t1.png" alt="The whole report page of the OpenAIRE example, from the description at the top to the last principle at the bottom" style="width:369px;height:1000px;backdrop-filter:blur(0);transform:translate(194px, 0)">
 <div class="shot-text">
-<p class="eyebrow">Your POSI report · 1 of 7</p>
-<h2>A filled-in POSI report</h2>
-<ul class="steps">
+<p class="eyebrow" style="transform:translate(181px, -11px)">Your POSI report · 1 of 6</p>
+<h2 style="width:1019px;min-height:76px;transform:translate(180px, 0);box-sizing:border-box;flex:0 0 auto">Guidance to help you assess alignment</h2>
+<ul class="steps" style="width:934px;min-height:208px;transform:translate(177px, -10px);box-sizing:border-box;flex:0 0 auto">
 <li>One page per infrastructure, here the OpenAIRE example</li>
-<li>Seven parts, from top to bottom</li>
+<li>Six parts, from top to bottom</li>
 <li>Take the same tour in the tool: the ? button</li>
 </ul>
 </div>
 </div>
-<aside class="notes">About 30 seconds. This is what a filled-in POSI report looks like in the tool, here the OpenAIRE example. One page per infrastructure. I will walk you through its seven parts, from top to bottom. You can take exactly the same tour in the tool yourself, with the question-mark button.</aside>
+<aside class="notes">About 30 seconds. This is what a filled-in POSI report looks like in the tool, here the OpenAIRE example. One page per infrastructure. I will walk you through its six parts, from top to bottom. You can take exactly the same tour in the tool yourself, with the question-mark button.</aside>
 </section>
 <section id="t2" class="slide tour">
 <div class="shot-row">
 <img class="tshot" src="t2.png" alt="The infrastructure details and the research activities it supports" style="width:1120px;height:741px">
 <div class="shot-text">
-<p class="eyebrow">Your POSI report · 2 of 7</p>
+<p class="eyebrow">Your POSI report · 2 of 6</p>
 <h2>Describe the infrastructure and map it</h2>
 <ul class="steps">
 <li>Name, landing page, date and a short description</li>
@@ -227,43 +336,15 @@ body.show-notes aside.notes { display: block; position: absolute; left: 0; right
 </div>
 <aside class="notes">About 30 seconds. First you describe the infrastructure: its name, landing page, date and a short description. Then you choose the research activities it supports. That maps it on the research landscape, so researchers can find the right infrastructure for each step of their journey. These activities are still work in progress: we are looking at an international convention of terms, also adopted by EOSC.</aside>
 </section>
-<section id="t3" class="slide tour">
-<div class="shot-row">
-<img class="tshot" src="t3.png" alt="The alignment summary: overall and per section" style="width:1120px;height:618px">
-<div class="shot-text">
-<p class="eyebrow">Your POSI report · 3 of 7</p>
-<h2>The alignment summary</h2>
-<ul class="steps">
-<li>Overall, and per section the average of its principles</li>
-<li>Fills in as you go</li>
-</ul>
-</div>
-</div>
-<aside class="notes">About 20 seconds. The summary shows the overall alignment, and per section the average of its principles. It fills in as you go.</aside>
-</section>
-<section id="t4" class="slide tour">
-<div class="shot-row">
-<img class="tshot" src="t4.png" alt="The radar of all principles and the Improve next suggestions" style="width:1120px;height:489px">
-<div class="shot-text">
-<p class="eyebrow">Your POSI report · 4 of 7</p>
-<h2>Alignment per principle, and what to improve next</h2>
-<ul class="steps">
-<li>The radar: the further out, the more aligned</li>
-<li>Improve next: starred principles first, then the lowest level</li>
-</ul>
-</div>
-</div>
-<aside class="notes">About 30 seconds. The radar shows every principle at a glance: the further out, the more aligned. Next to it, suggestions for what to work on next: the principles you starred first, then those at the lowest level.</aside>
-</section>
 <section id="t5" class="slide tour">
 <div class="shot-row">
 <img class="tshot" src="t5.png" alt="A section of principles with the level buttons" style="width:1120px;height:632px">
 <div class="shot-text">
-<p class="eyebrow">Your POSI report · 5 of 7</p>
+<p class="eyebrow">Your POSI report · 3 of 6</p>
 <h2>The alignment itself</h2>
 <ul class="steps">
-<li>Principles in sections: Governance, Sustainability, Insurance, plus complementary principles</li>
-<li>For each principle: low alignment, making progress, high alignment or not applicable</li>
+<li>Principles in sections: Governance, Sustainability, Insurance, plus spii complementary principles (autonomy &amp; researcher centric)</li>
+<li>For each principle, default scales with guidance: low alignment, making progress, high alignment or not applicable</li>
 <li>One click, or the keys 1, 2, 3 and 0</li>
 </ul>
 </div>
@@ -274,8 +355,8 @@ body.show-notes aside.notes { display: block; position: absolute; left: 0; right
 <div class="shot-row">
 <img class="tshot" src="t6.png" alt="An unfolded principle with its levels, ideas to improve and examples, and a star" style="width:1120px;height:756px">
 <div class="shot-text">
-<p class="eyebrow">Your POSI report · 6 of 7</p>
-<h2>Unfold a principle</h2>
+<p class="eyebrow">Your POSI report · 4 of 6</p>
+<h2>Unfold for rich guidance</h2>
 <ul class="steps">
 <li>What the principle means</li>
 <li>What each level looks like: drawn by the SPII working group from earlier POSI self-assessments</li>
@@ -286,6 +367,26 @@ body.show-notes aside.notes { display: block; position: absolute; left: 0; right
 </div>
 <aside class="notes">About 60 seconds. Click a principle and it unfolds. You read what the principle means, and what each level looks like. The SPII working group drew these descriptions from the POSI self-assessments published so far: which scales were used, and what the levels mean in practice. Plus ideas to improve, and examples of infrastructures that have this principle in order. And with the star you highlight a principle in your report.</aside>
 </section>
+<section id="t3" class="slide tour">
+<div class="shot-row">
+<div class="stack">
+<img class="tshot" src="t3.png" alt="The alignment summary: overall and per section" style="width:760px;height:420px">
+<img class="tshot" src="t4.png" alt="The radar of all principles and the Improve next suggestions" style="width:760px;height:332px">
+</div>
+<div class="shot-text">
+<p class="eyebrow">Your POSI report · 5 of 6</p>
+<h2>Summary, radar and improvement suggestions</h2>
+<ul class="steps">
+<li>Summary: Overall, and per section the average of its principles</li>
+<li>The radar: the further out, the more aligned</li>
+<li>Improve next: starred principles first, then the lowest level</li>
+<li>Fills in as you go</li>
+<li>Embed charts and data cards to support your narrative in your messages and posts.</li>
+</ul>
+</div>
+</div>
+<aside class="notes">About 20 seconds. The summary shows the overall alignment, and per section the average of its principles. It fills in as you go. Below it, the radar shows every principle at a glance: the further out, the more aligned. Next to the radar, suggestions for what to work on next: the principles you starred first, then those at the lowest level. And you can embed these charts and cards in your messages and posts.</aside>
+</section>
 <section id="t7" class="slide tour">
 <div class="shot-row">
 <div class="pair">
@@ -293,8 +394,8 @@ body.show-notes aside.notes { display: block; position: absolute; left: 0; right
 <img class="tshot" src="t7-word-report.png" alt="The first page of the Word report for OpenAIRE: description, research activities, the alignment summary per section, and the Governance principles with answers and notes" style="width:540px;height:764px">
 </div>
 <div class="shot-text">
-<p class="eyebrow">Your POSI report · 7 of 7</p>
-<h2>Save it to Word, for your NWO proposal</h2>
+<p class="eyebrow">Your POSI report · 6 of 6</p>
+<h2>Save it to .docx,&nbsp;<br>add it to your proposal</h2>
 <ul class="steps">
 <li>Export › Save to Word</li>
 <li>The summary per section, and every answer with your notes</li>
