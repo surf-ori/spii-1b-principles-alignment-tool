@@ -38,7 +38,7 @@ export default async function ({ check, ROOT }) {
 
     // Opens the page in a fresh context (fresh localStorage); returns { page, errors, ctx }.
     // `others`: start with "Show other alignment frameworks" on (most tests need the picker); `ds`: load the SPII top bar.
-    async function open(url = "index.html", width = 1280, height = 900, { others = true, ds = true, scheme, ready = "#app > *" } = {}) {
+    async function open(url = "old/index.html", width = 1280, height = 900, { others = true, ds = true, scheme, ready = "#app > *" } = {}) {
         const ctx = await browser.newContext({ viewport: { width, height }, acceptDownloads: true, colorScheme: scheme });
         await routeDS(ctx, ds);
         if (others) await ctx.addInitScript(() => { if (!localStorage.getItem("spii-principles-tool.prefs.v1")) localStorage.setItem("spii-principles-tool.prefs.v1", JSON.stringify({ showOtherFrameworks: true })); });
@@ -68,7 +68,7 @@ export default async function ({ check, ROOT }) {
         // ---- UI tests per task are added below ----
         {
             // POSI: adoption scale, intro accordion, complementary principles
-            const { page, errors, ctx } = await open("index.html#posi");
+            const { page, errors, ctx } = await open("old/index.html#posi");
             const panel = page.locator('.framework-panel:visible');
             const first = panel.locator('details[id^="principle-posi-"]').first();
             await first.locator("summary").click();
@@ -92,7 +92,7 @@ export default async function ({ check, ROOT }) {
         }
         {
             // Layout: intro, infrastructure accordion, selected framework; dropdown + sidebar accordions
-            const { page, errors, ctx } = await open("index.html");
+            const { page, errors, ctx } = await open("old/index.html");
             check("no tab strip", (await page.locator('[role="tab"], [role="tablist"]').count()) === 0);
             const groups = await page.$$eval("#framework-select optgroup", (gs) => gs.map((g) => [g.label, [...g.querySelectorAll("option")].map((o) => o.value)]));
             check("dropdown groups: Default / Other alignment frameworks", groups.length === 2 && groups[0][0] === "Default" && groups[0][1].join() === "posi" && groups[1][0] === "Other alignment frameworks", JSON.stringify(groups));
@@ -124,7 +124,7 @@ export default async function ({ check, ROOT }) {
             await ctx.close();
         }
         {
-            const { page, ctx } = await open("index.html#gorc");
+            const { page, ctx } = await open("old/index.html#gorc");
             check("#gorc selects GORC", (await page.inputValue("#framework-select")) === "gorc" && (await page.locator("#framework-panel-gorc:visible").count()) === 1);
             await page.evaluate(() => { location.hash = "#fair"; });
             await page.waitForTimeout(200);
@@ -132,20 +132,20 @@ export default async function ({ check, ROOT }) {
             await ctx.close();
         }
         {
-            const { page, ctx } = await open("index.html?framework=data/frameworks/cris-tender-v0.1.json#cris-tender");
+            const { page, ctx } = await open("old/index.html?framework=data/frameworks/cris-tender-v0.1.json#cris-tender");
             await page.waitForTimeout(800);
             check("runtime-loaded framework opens from the hash and lands under Other", (await page.inputValue("#framework-select")) === "cris-tender" && (await page.locator('optgroup[label="Other alignment frameworks"] option[value="cris-tender"]').count()) === 1);
             await ctx.close();
         }
         for (const width of [412, 375, 320]) {
-            const { page, ctx } = await open("index.html#forest", width, 800);
+            const { page, ctx } = await open("old/index.html#forest", width, 800);
             const [sw, iw] = await page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth]);
             check("no horizontal overflow at " + width + "px", sw <= iw, sw + "/" + iw);
             await ctx.close();
         }
         {
             // Settings button, the Settings dialog and the badge overlay
-            const { page, errors, ctx } = await open("index.html");
+            const { page, errors, ctx } = await open("old/index.html");
             check("Settings button with a cog icon", (await page.locator("#sidebar-footer #settings-btn svg path").evaluate((p) => p.getAttribute("d").length > 400)) && /Settings/.test(await page.locator("#settings-btn").innerText()));
             check("no theme toggle in the sidebar any more", (await page.locator('#sidebar-footer [role="radiogroup"], #sidebar-footer input').count()) === 0);
             await page.locator("#framework-panel-posi details[id^=principle-posi-]").first().locator("summary").click();
@@ -172,7 +172,7 @@ export default async function ({ check, ROOT }) {
         }
         {
             // Show other alignment frameworks: off by default, POSI only
-            const { page, errors, ctx } = await open("index.html", 1280, 900, { others: false });
+            const { page, errors, ctx } = await open("old/index.html", 1280, 900, { others: false });
             check("by default only POSI: the framework picker is hidden", await page.locator("#framework-picker").isHidden());
             await page.click("#settings-btn");
             check("the switch is off by default", !(await page.isChecked("#toggle-other-frameworks")));
@@ -186,13 +186,13 @@ export default async function ({ check, ROOT }) {
             check("scale button above the principles", (await page.locator("#framework-panel-posi .customize-scale-btn").innerText()).trim() === "Customize and define your own alignment scale");
             check("no console or page errors (other frameworks)", errors.length === 0, JSON.stringify(errors));
             await ctx.close();
-            const g = await open("index.html#gorc", 1280, 900, { others: false });
+            const g = await open("old/index.html#gorc", 1280, 900, { others: false });
             check("a link to another framework still opens it, with the picker to go back", (await g.page.locator("#framework-panel-gorc:visible").count()) === 1 && (await g.page.locator("#framework-picker").isVisible()));
             await g.ctx.close();
         }
         {
             // Alignment level descriptions above the POSI principles
-            const { page, errors, ctx } = await open("index.html");
+            const { page, errors, ctx } = await open("old/index.html");
             const first = page.locator("#principle-posi-coverage");
             await first.locator("summary").click();
             const sw = page.locator("#toggle-descriptions-posi");
@@ -220,7 +220,7 @@ export default async function ({ check, ROOT }) {
         }
         {
             // Priority star
-            const { page, errors, ctx } = await open("index.html");
+            const { page, errors, ctx } = await open("old/index.html");
             const p = page.locator("#principle-posi-coverage");
             const star = p.locator("summary .priority-star");
             check("each principle has a star, off by default", (await page.locator("#framework-panel-posi .priority-star").count()) === 23 && (await star.getAttribute("aria-pressed")) === "false");
@@ -240,75 +240,76 @@ export default async function ({ check, ROOT }) {
         }
         {
             // Proof of concept (poc/): loads, examples, overview charts, an infrastructure page
-            const { page, errors, ctx } = await open("poc/index.html", 1280, 900, { ready: "#view > *" });
+            const { page, errors, ctx } = await open("index.html", 1280, 900, { ready: "#view > *" });
             page.on("dialog", (d) => d.accept());
-            check("POC: welcome screen when nothing is saved", (await page.locator(".welcome h1").count()) === 1);
+            check("Tool: welcome screen when nothing is saved", (await page.locator(".welcome h1").count()) === 1);
             await page.click("#w-examples");
             await page.waitForSelector("#circle svg");
-            check("POC: three examples, the circle, the scatter plot and the table", (await page.locator(".tab").count()) === 5 && (await page.locator("#circle .dot").count()) > 5 && (await page.locator("#scatter .dot").count()) === 3 && (await page.locator("#o-table tbody tr").count()) === 3);
-            check("POC: activity icons from the design system on the circle", (await page.locator("#circle g svg").count()) === 12);
+            check("Tool: three examples, the circle, the scatter plot and the table", (await page.locator(".tab").count()) === 5 && (await page.locator("#circle .dot").count()) > 5 && (await page.locator("#scatter .dot").count()) === 3 && (await page.locator("#o-table tbody tr").count()) === 3);
+            check("Tool: activity icons from the design system on the circle", (await page.locator("#circle g svg").count()) === 12);
             const allDots = await page.locator("#circle .dot").count();
             await page.click('.seg [data-group="admin"]');
             const adminSlices = await page.locator("#circle path[data-activity]").count();
-            check("POC: the circle switches to the research-administration activities only", adminSlices === 5 && (await page.locator("#circle .dot").count()) < allDots, adminSlices + " slices");
+            check("Tool: the circle switches to the research-administration activities only", adminSlices === 5 && (await page.locator("#circle .dot").count()) < allDots, adminSlices + " slices");
             await page.click('.seg [data-group="both"]');
             await page.locator(".tab", { hasText: "OpenAIRE" }).click();
-            check("POC: infrastructure page with radar and 23 principles", (await page.locator("#i-radar svg").count()) === 1 && (await page.locator(".p-row").count()) === 23);
+            check("Tool: infrastructure page with radar and 23 principles", (await page.locator("#i-radar svg").count()) === 1 && (await page.locator(".p-row").count()) === 23);
             await page.locator("#p-coverage .p-title").click();
-            check("POC: the rating buttons show the scale icons", (await page.locator("#p-coverage .levels .lvl svg").count()) === 4 && (await page.locator("#p-coverage .levels .lvl").first().innerText()).trim() === "Low");
-            check("POC: a principle unfolds its level descriptions", (await page.locator("#p-coverage .rubric > div").count()) === 3 && /demonstrable evidence/.test(await page.locator("#p-coverage .rubric").innerText()));
+            check("Tool: the rating buttons show the scale icons", (await page.locator("#p-coverage .levels .lvl svg").count()) === 4 && (await page.locator("#p-coverage .levels .lvl").first().innerText()).trim() === "Low");
+            check("Tool: a principle unfolds its level descriptions", (await page.locator("#p-coverage .rubric > div").count()) === 3 && /demonstrable evidence/.test(await page.locator("#p-coverage .rubric").innerText()));
             // export menu: the options of the current tool, for the open infrastructure
             await page.click("#btn-export");
-            check("POC: export menu with GitHub, JSON, print, Word and framework", (await page.locator("#export-menu [data-export]").count()) === 5 && /openaire/i.test(await page.locator("#export-scope").innerText()));
+            await page.waitForFunction(() => /openaire/i.test(document.querySelector("#export-scope").textContent));
+            check("Tool: export menu with GitHub, JSON, print, Word and framework", (await page.locator("#export-menu [data-export]").count()) === 5 && /openaire/i.test(await page.locator("#export-scope").innerText()));
             let dl = page.waitForEvent("download");
             await page.click('#export-menu [data-export="word"]');
             const docx = fs.readFileSync(await (await dl).path());
-            check("POC: Word export is a zip with a document", docx[0] === 0x50 && docx[1] === 0x4b && docx.includes(Buffer.from("word/document.xml")));
+            check("Tool: Word export is a zip with a document", docx[0] === 0x50 && docx[1] === 0x4b && docx.includes(Buffer.from("word/document.xml")));
             await page.click("#btn-export");
             dl = page.waitForEvent("download");
             await page.click('#export-menu [data-export="json"]');
             const ej = JSON.parse(fs.readFileSync(await (await dl).path(), "utf8"));
-            check("POC: JSON export of the open infrastructure, answers per framework", ej.infras.length === 1 && Object.keys(ej.infras[0].alignments.posi || {}).length > 0);
+            check("Tool: JSON export of the open infrastructure, answers per framework", ej.infras.length === 1 && Object.keys(ej.infras[0].alignments.posi || {}).length > 0);
             // import dialog with drag and drop
             await page.click("#btn-import");
-            check("POC: import opens a dialog with a drop zone", (await page.$eval("#dlg-import", (d) => d.open)) && (await page.locator("#drop input[type=file]").count()) === 1);
+            check("Tool: import opens a dialog with a drop zone", (await page.$eval("#dlg-import", (d) => d.open)) && (await page.locator("#drop input[type=file]").count()) === 1);
             await page.setInputFiles("#drop-input", { name: "r.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify(ej)) });
             await page.waitForFunction(() => !document.querySelector("#dlg-import").open);
-            check("POC: importing the file adds an infrastructure", (await page.locator(".tab").count()) === 6);
+            check("Tool: importing the file adds an infrastructure", (await page.locator(".tab").count()) === 6);
             // framework catalogue and editor
             await page.locator(".tab", { hasText: "OpenAIRE" }).first().click();
             await page.click("#btn-framework");
             const opts = await page.locator("#fw-select option").evaluateAll((os) => os.map((o) => o.value));
-            check("POC: catalogue lists the frameworks, approved first, POSI selected", opts.length >= 8 && opts[0] === "posi" && (await page.$eval("#fw-select", (s) => s.value)) === "posi", opts.join());
-            check("POC: id, title, short name and approved are editable", (await page.locator('#fw-body [data-top="id"]').count()) === 1 && (await page.locator('#fw-body [data-top="shortName"]').count()) === 1 && (await page.locator('#fw-body [data-top="approved"]').isChecked()));
-            check("POC: scale and sections are closed accordions, with a warning", !(await page.$eval("#acc-scale", (d) => d.open)) && !(await page.$eval("#acc-sections", (d) => d.open)) && (await page.locator("#acc-scale .warn").count()) === 1);
+            check("Tool: catalogue lists the frameworks, approved first, POSI selected", opts.length >= 8 && opts[0] === "posi" && (await page.$eval("#fw-select", (s) => s.value)) === "posi", opts.join());
+            check("Tool: id, title, short name and approved are editable", (await page.locator('#fw-body [data-top="id"]').count()) === 1 && (await page.locator('#fw-body [data-top="shortName"]').count()) === 1 && (await page.locator('#fw-body [data-top="approved"]').isChecked()));
+            check("Tool: scale and sections are closed accordions, with a warning", !(await page.$eval("#acc-scale", (d) => d.open)) && !(await page.$eval("#acc-sections", (d) => d.open)) && (await page.locator("#acc-scale .warn").count()) === 1);
             await page.click("#acc-scale summary");
-            check("POC: the scale editor has 3 levels with icon, colour and title", (await page.locator(".lvl-row").count()) === 3 && (await page.locator('.lvl-row input[type="color"]').count()) === 3);
+            check("Tool: the scale editor has 3 levels with icon, colour and title", (await page.locator(".lvl-row").count()) === 3 && (await page.locator('.lvl-row input[type="color"]').count()) === 3);
             await page.locator('.lvl-row [data-f="label"]').nth(2).fill("Fully aligned");
             await page.click("#acc-sections summary");
             await page.locator("details.sec-ed summary").first().click();
             await page.locator("details.sec-ed").first().locator(".pr-ed").first().waitFor();
             const before = await page.locator("details.sec-ed").first().locator(".pr-ed").count();
             await page.locator("details.sec-ed").first().locator("[data-padd]").click();
-            check("POC: a principle can be added to a section", (await page.locator("details.sec-ed").first().locator(".pr-ed").count()) === before + 1, before + " -> " + (await page.locator("details.sec-ed").first().locator(".pr-ed").count()) + " open " + (await page.$eval("details.sec-ed", (d) => d.open)));
+            check("Tool: a principle can be added to a section", (await page.locator("details.sec-ed").first().locator(".pr-ed").count()) === before + 1, before + " -> " + (await page.locator("details.sec-ed").first().locator(".pr-ed").count()) + " open " + (await page.$eval("details.sec-ed", (d) => d.open)));
             await page.locator("details.sec-ed").first().locator(".pr-ed").last().locator('[data-p="title"]').fill("Test principle");
             await page.click("#fw-save");
-            check("POC: Save and use applies the edited framework", !(await page.$eval("#dlg-framework", (d) => d.open)) && (await page.locator(".p-row").count()) === 24 && /Fully aligned/.test(await page.locator(".p-row").first().innerText()));
+            check("Tool: Save and use applies the edited framework", !(await page.$eval("#dlg-framework", (d) => d.open)) && (await page.locator(".p-row").count()) === 24 && /Fully aligned/.test(await page.locator(".p-row").first().innerText()));
             await page.click("#btn-framework");
             await page.selectOption("#fw-select", "gorc");
             await page.click("#fw-save");
-            check("POC: switching to another framework from the catalogue", (await page.locator(".p-row").count()) > 0 && (await page.locator(".p-row").count()) !== 24);
+            check("Tool: switching to another framework from the catalogue", (await page.locator(".p-row").count()) > 0 && (await page.locator(".p-row").count()) !== 24);
             await page.click("#btn-framework");
             await page.selectOption("#fw-select", "posi");
             await page.click("#fw-reset");
             await page.click("#fw-save");
-            check("POC: reset brings back the original POSI", (await page.locator(".p-row").count()) === 23);
+            check("Tool: reset brings back the original POSI", (await page.locator(".p-row").count()) === 23);
             check("no console or page errors (POC)", errors.length === 0, JSON.stringify(errors));
             await ctx.close();
         }
         {
             // Customize scales
-            const { page, errors, ctx } = await open("index.html");
+            const { page, errors, ctx } = await open("old/index.html");
             const rows = () => page.locator("#scales-dialog .scale-row");
             const cards = () => page.locator("#framework-panel-posi details[id^=principle-posi-]").first().locator(".status-card");
             await page.click(".framework-panel:not([hidden]) .customize-scale-btn");
@@ -368,7 +369,7 @@ export default async function ({ check, ROOT }) {
         }
         {
             // Reordering, legacy frameworks, scoring frameworks, mobile
-            const { page, ctx } = await open("index.html#gorc");
+            const { page, ctx } = await open("old/index.html#gorc");
             const rows = () => page.locator("#scales-dialog .scale-row");
             await page.click(".framework-panel:not([hidden]) .customize-scale-btn");
             check("legacy framework lists worst to best", (await rows().locator(".scale-title").evaluateAll((els) => els.map((e) => e.value))).join() === "Not compliant,Making progress,Compliant");
@@ -383,13 +384,13 @@ export default async function ({ check, ROOT }) {
             await ctx.close();
         }
         {
-            const { page, ctx } = await open("index.html?framework=data/frameworks/cris-tender-v0.1.json#cris-tender");
+            const { page, ctx } = await open("old/index.html?framework=data/frameworks/cris-tender-v0.1.json#cris-tender");
             await page.waitForTimeout(800);
             check("scales cannot be customised for points-based frameworks", await page.$eval("#framework-panel-cris-tender .customize-scale-btn", (e) => e.disabled));
             await ctx.close();
         }
         {
-            const { page, ctx } = await open("index.html", 375, 800);
+            const { page, ctx } = await open("old/index.html", 375, 800);
             await page.click(".framework-panel:not([hidden]) .customize-scale-btn");
             const [sw, iw] = await page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth]);
             const fits = await page.$eval("#scales-dialog", (d) => d.getBoundingClientRect().right <= window.innerWidth + 1 && d.scrollWidth <= d.clientWidth + 1);
@@ -400,7 +401,7 @@ export default async function ({ check, ROOT }) {
         }
         {
             // Every framework opens without errors; example reports load on the new POSI scale
-            const { page, errors, ctx } = await open("index.html");
+            const { page, errors, ctx } = await open("old/index.html");
             const values = await page.$$eval("#framework-select option", (os) => os.map((o) => o.value));
             for (const v of values) {
                 await page.selectOption("#framework-select", v);
@@ -410,7 +411,7 @@ export default async function ({ check, ROOT }) {
             check("all " + values.length + " frameworks open", true);
             check("no console or page errors across frameworks", errors.length === 0, JSON.stringify(errors));
             await ctx.close();
-            const ex = await open("index.html?report=data/examples/openaire-posi-assessment-report-2026.json#posi");
+            const ex = await open("old/index.html?report=data/examples/openaire-posi-assessment-report-2026.json#posi");
             await ex.page.waitForTimeout(800);
             const opt = await ex.page.locator('#framework-select option[value="posi"]').innerText();
             check("OpenAIRE example loads its POSI scores", /\(20\/23 scored\)$/.test(opt) || /\(19\/23 scored\)$/.test(opt), opt);
@@ -419,7 +420,7 @@ export default async function ({ check, ROOT }) {
         }
         {
             // Classify: heading, stable stored values, cog icon
-            const { page, errors, ctx } = await open("index.html");
+            const { page, errors, ctx } = await open("old/index.html");
             const headings = await page.locator("#infra-description-section h4").allInnerTexts();
             check("Classify headings", headings.includes("Research life cycle activities") && headings.includes("Research administrative activities") && !headings.some((h) => /related/i.test(h)), headings.join("|"));
             check("checkbox values keep the stored key", (await page.locator('input[value="Research related activities > Manage & Organise"]').count()) === 1);
@@ -430,7 +431,7 @@ export default async function ({ check, ROOT }) {
             await ctx.close();
         }
         {
-            const { page, errors, ctx } = await open("index.html");
+            const { page, errors, ctx } = await open("old/index.html");
             const items = await page.$$eval("nav[data-topnav] > button, nav[data-topnav] > a", (els) => els.map((e) => e.textContent.trim()).filter((t) => /^(About|Changelog|Feedback)$/.test(t)));
             check("top menu: About, Changelog (Feedback moved to the floating button)", items.join() === "About,Changelog", items.join());
             check("the tool's logo is its 1B hexagon from the design system", (await page.getAttribute("nav[data-topnav] > img.tool-logo", "src")) === "https://surf-ori.github.io/spii-design-system/assets/hex/1b.svg" && (await page.locator("nav[data-topnav] > svg").count()) === 0);
@@ -447,7 +448,7 @@ export default async function ({ check, ROOT }) {
             check("no console or page errors (menu)", errors.length === 0, JSON.stringify(errors));
             await ctx.close();
             for (const width of [412, 375, 320]) {
-                const m = await open("index.html", width, 800);
+                const m = await open("old/index.html", width, 800);
                 const [sw, iw] = await m.page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth]);
                 check("no horizontal overflow at " + width + "px (menu)", sw <= iw, sw + "/" + iw);
                 await m.ctx.close();
@@ -458,7 +459,7 @@ export default async function ({ check, ROOT }) {
             const bg = (page) => page.evaluate(() => getComputedStyle(document.body).backgroundColor);
             const theme = (page) => page.evaluate(() => document.documentElement.dataset.theme);
             if (HAVE_DS) {
-                const { page, ctx, errors } = await open("index.html", 1280, 900, { scheme: "dark" });
+                const { page, ctx, errors } = await open("old/index.html", 1280, 900, { scheme: "dark" });
                 const links = await page.$$eval(".spii-topbar__nav a", (as) => as.map((a) => a.textContent.trim()));
                 check("SPII top bar: Overview and the six deliverables", links.length === 7 && links[0] === "Overview" && links[2] === "1BAlignment", links.join("|"));
                 check("no old back bar", (await page.locator(".back-bar").count()) === 0);
@@ -486,26 +487,26 @@ export default async function ({ check, ROOT }) {
                 check("the app shell fits under the top bar (Settings stays in view)", shell && (await page.locator("#settings-btn").isVisible()));
                 check("no page errors (theme)", errors.length === 0, errors.join("|"));
                 await ctx.close();
-                const old = await open("index.html", 1280, 900, { scheme: "light" });
+                const old = await open("old/index.html", 1280, 900, { scheme: "light" });
                 await old.page.evaluate(() => localStorage.setItem("spii-principles-tool.theme", "dark"));
                 await old.page.reload();
                 await old.page.waitForSelector("#app > *");
                 check("an older choice made in this tool moves to the SPII top bar", (await theme(old.page)) === "dark" && (await old.page.evaluate(() => localStorage.getItem("spii-theme"))) === "dark");
                 await old.ctx.close();
-                const mobile = await open("index.html", 320, 800, { scheme: "dark" });
+                const mobile = await open("old/index.html", 320, 800, { scheme: "dark" });
                 const [sw, iw] = await mobile.page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth]);
                 check("top bar fits at 320px", sw <= iw && (await mobile.page.locator("#spii-theme-btn").isVisible()), sw + "/" + iw);
                 await mobile.ctx.close();
             } else {
                 console.log("SKIP  SPII top bar tests: no design system clone at " + DS_DIR);
             }
-            const bare = await open("index.html", 1280, 900, { ds: false, scheme: "dark" });
+            const bare = await open("old/index.html", 1280, 900, { ds: false, scheme: "dark" });
             check("without the design system the page still works and follows the OS theme", (await theme(bare.page)) === "dark" && bare.errors.length === 0 && (await bare.page.locator(".spii-topbar").count()) === 0, bare.errors.join("|"));
             await bare.ctx.close();
         }
         {
             // Not applicable, the short printed report, copy changes
-            const { page, errors, ctx } = await open("index.html");
+            const { page, errors, ctx } = await open("old/index.html");
             check("no external PDF scripts any more", (await page.locator('script[src*="jspdf"], script[src*="html2canvas"]').count()) === 0);
             const intro = await page.locator("#intro-section").innerText();
             check("short intro pointing to the About", /^Self-assess how your Open Science infrastructure puts open science values and principles into practice\. For examples, read the About\./.test(intro), intro);
@@ -554,7 +555,7 @@ export default async function ({ check, ROOT }) {
         }
         {
             // Import/Export menus: icons, reports first, frameworks after a separator
-            const { page, errors, ctx } = await open("index.html");
+            const { page, errors, ctx } = await open("old/index.html");
             const menu = (id) => page.$$eval("#" + id + " > *", (els) => els.map((e) => e.getAttribute("role") === "separator" ? "---" : e.querySelector(".menuitem-title").textContent.trim()));
             const exp = await menu("export-menu");
             check("Export: GitHub tracker on top, frameworks last after a separator", exp.join("|") === "Save Report to GitHub Tracker|Save alignment to a file (JSON)|Print report / save as PDF|Save to Word (.docx)|---|Download Alignment Framework (JSON)", exp.join("|"));
@@ -570,7 +571,7 @@ export default async function ({ check, ROOT }) {
         }
         {
             // Export downloads: names and content
-            const { page, errors, ctx } = await open("index.html");
+            const { page, errors, ctx } = await open("old/index.html");
             await page.fill("#infra-name", "OpenAIRE");
             await page.fill("#infra-assessed-on", "2026-11-09");
             const dl = async (id) => {
@@ -602,7 +603,7 @@ export default async function ({ check, ROOT }) {
                 levels: [{ id: "a", label: "A", color: "red\" onload=\"window.__x=8" }, { id: "b", label: "B" }],
                 sections: [{ section: "S", sourceUrl: "javascript:window.__x=9", principles: [{ id: "p", title: "P", text: "T" }] }],
             };
-            const { page, errors, ctx } = await open("index.html");
+            const { page, errors, ctx } = await open("old/index.html");
             await page.evaluate((fw) => { import_custom_frameworks([fw]); }, evil);
             await page.selectOption("#framework-select", "import-alert-repro");
             const panel = page.locator("#framework-panel-import-alert-repro");
@@ -620,7 +621,7 @@ export default async function ({ check, ROOT }) {
         }
         {
             // built-in frameworks look the same after sanitizing
-            const { page, ctx } = await open("index.html");
+            const { page, ctx } = await open("old/index.html");
             const same = await page.evaluate(() => FRAMEWORKS.every((f) => {
                 const tmp = document.createElement("div");
                 tmp.appendChild(sanitized_fragment(f.aboutHtml));
@@ -633,7 +634,7 @@ export default async function ({ check, ROOT }) {
         }
         {
             // Nida: dropdown, score chart, embed, autosave
-            const { page, errors, ctx } = await open("index.html");
+            const { page, errors, ctx } = await open("old/index.html");
             const groups = await page.$$eval("#framework-select optgroup", (gs) => gs.map((g) => g.label + ":" + [...g.querySelectorAll("option")].map((o) => o.value).join(",")));
             check("dropdown: Default (POSI) and Other alignment frameworks without the SPII frameworks", groups.join("|") === "Default:posi|Other alignment frameworks:gorc,fair,bd,osr,7gpri,care,forest", groups.join("|"));
             const first = page.locator("#framework-panel-posi details[id^=principle-posi-]").first();
