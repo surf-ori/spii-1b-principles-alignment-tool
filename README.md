@@ -12,8 +12,8 @@ This repository hosts both the tool itself and its feedback/issue tracker.
 
 A self-assessment tool for Open Science infrastructures. Name your
 infrastructure, classify the activities it supports, and score it against
-one or more assessment frameworks — POSI scores low adoption / making
-progress / high adoption, most other frameworks compliant / making progress /
+one or more assessment frameworks — POSI scores low alignment / making
+progress / high alignment, most other frameworks compliant / making progress /
 not compliant, and a framework can define its own ordinal scale (see SPII
 Alignment below); you can also define your own scale for any framework
 ("Customize and define your own alignment scale", above the principles) — with
@@ -33,7 +33,7 @@ principles, criteria, or copy, no code changes needed:
   Governance, Sustainability, and Insurance. **The official, approved
   assessment framework** (marked with a seal icon in the tool), the only
   framework under "Default" in the framework dropdown.
-  Scored low adoption / making progress / high adoption. Three
+  Scored low alignment / making progress / high alignment. Three
   complementary SPII principles (Autonomy, and the Researcher-centric
   principles Seamless user-experience and Recognition and rewards) are
   added at the end as a section "Complementary Principles". On October 1,

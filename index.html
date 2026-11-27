@@ -583,7 +583,7 @@
         <button class="btn" id="o-import">Import</button><button class="btn primary" id="o-add">+ Add infrastructure</button></div>
       <div class="kpis">
         <div class="card kpi"><div class="label">Fully aligned</div><div class="value">${complete}<small> / ${db.infras.length}</small></div><div class="bar" style="margin-top:.5rem"><span style="width:${(complete / db.infras.length) * 100}%"></span></div></div>
-        <div class="card kpi"><div class="label">Average alignment</div><div class="value" style="color:${pctColour(avg)}">${avg == null ? "–" : avg + "%"}</div><div class="muted small">Low adoption 0%, high adoption 100%; N/A left out</div></div>
+        <div class="card kpi"><div class="label">Average alignment</div><div class="value" style="color:${pctColour(avg)}">${avg == null ? "–" : avg + "%"}</div><div class="muted small">Low alignment 0%, high alignment 100%; N/A left out</div></div>
         <div class="card kpi"><div class="label">All answers, all infrastructures</div><div class="stack">${stack}<span style="flex:1;background:transparent"></span></div>
           <div class="legend">${levels().concat([NA]).map((l) => `<span><i style="background:${levelColour(l.id)}"></i>${esc(l.label)} ${counts[l.id]}</span>`).join("")}<span><i style="background:var(--muted, #eeebdf)"></i>Not answered ${unanswered}</span></div></div>
       </div>
@@ -763,7 +763,7 @@
     const sc = score(inf);
     const band = sc.pct == null ? "Not aligned yet" : sc.pct >= 75 ? "Well aligned" : sc.pct >= 40 ? "Partly aligned" : "Little aligned";
     $("#i-status").innerHTML = `<span class="pct" style="background:color-mix(in srgb, ${pctColour(sc.pct)} 16%, transparent);color:${pctColour(sc.pct)}">${band}</span><div class="bar" style="width:9rem"><span style="width:${(sc.answered / sc.total) * 100}%"></span></div><span class="muted">${sc.answered}/${sc.total} principles</span>`;
-    $("#i-results").innerHTML = `<div class="card"><div class="field-label">Alignment</div><div class="score-big" style="color:${pctColour(sc.pct)}">${sc.pct == null ? "–" : sc.pct + "%"}</div><div class="muted small">Low adoption 0% … high adoption 100%</div></div>` +
+    $("#i-results").innerHTML = `<div class="card"><div class="field-label">Alignment</div><div class="score-big" style="color:${pctColour(sc.pct)}">${sc.pct == null ? "–" : sc.pct + "%"}</div><div class="muted small">Low alignment 0% … high alignment 100%</div></div>` +
       FW.sections.map((s, i) => { const v = sectionScore(inf, s); return `<div class="card sec-card" style="border-top:4px solid ${secColour(i)}"><div class="field-label">${esc(s.section)}</div><div class="value" style="color:${pctColour(v.pct)}">${v.pct == null ? "–" : v.pct + "%"}</div><div class="muted small">${v.answered}/${v.total} aligned</div></div>`; }).join("");
     $("#i-radar").innerHTML = radar(inf);
     $("#i-suggest").innerHTML = suggestions(inf);
@@ -809,7 +809,7 @@
       .sort((a, b) => (b.a.star ? 1 : 0) - (a.a.star ? 1 : 0) || levelValue(a.a.level) - levelValue(b.a.level)).slice(0, 3);
     if (!pick.length) {
       const todo = ps.filter((x) => !x.a.level).length;
-      return `<h3 style="margin:0 0 .4rem">Where to start</h3><p class="muted small">${todo ? `${todo} principles still to align. Star the ones that matter most to you; they come first here once aligned.` : "Every principle that applies is at high adoption."}</p>`;
+      return `<h3 style="margin:0 0 .4rem">Where to start</h3><p class="muted small">${todo ? `${todo} principles still to align. Star the ones that matter most to you; they come first here once aligned.` : "Every principle that applies is at high alignment."}</p>`;
     }
     return `<h3 style="margin:0 0 .4rem">Improve next</h3><p class="muted small" style="margin-top:0">Starred principles first, then those at the lowest level. Suggestions, not advice.</p><div class="suggest">${pick.map(({ p, a }) => {
       const g = p.guidance || null;

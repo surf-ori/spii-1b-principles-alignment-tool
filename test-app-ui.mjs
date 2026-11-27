@@ -73,7 +73,7 @@ export default async function ({ check, ROOT }) {
             const first = panel.locator('details[id^="principle-posi-"]').first();
             await first.locator("summary").click();
             const labels = await first.locator(".status-label").allInnerTexts();
-            check("POSI cards: Low adoption / Making progress / High adoption (+ Not applicable)", labels.join() === "Low adoption,Making progress,High adoption,Not applicable", labels.join());
+            check("POSI cards: Low alignment / Making progress / High alignment (+ Not applicable)", labels.join() === "Low alignment,Making progress,High alignment,Not applicable", labels.join());
             const detailsTitles = await panel.locator("#framework-posi > details > summary").allInnerTexts();
             check("About POSI is the only accordion above the principles, open, highlighted", detailsTitles.join("|") === "About POSI" && (await panel.locator("#framework-posi > details.framework-about").evaluate((d) => d.open && getComputedStyle(d).backgroundColor !== "rgba(0, 0, 0, 0)")), detailsTitles.join("|"));
             check("About POSI has no approved paragraph", !/Approved assessment framework/.test(await panel.locator("#framework-posi > details").first().innerText()));
@@ -85,7 +85,7 @@ export default async function ({ check, ROOT }) {
             check("cards show the criteria from SPII v0.1", /Data, infrastructure control, and critical decisions remain/.test(await aut.innerText()));
             await first.locator('.status-card[data-status="high-adoption"]').click();
             const heading = (await panel.locator('[id^="summary-heading-posi"]').first().innerText()).trim();
-            check("one High adoption answer gives 100% average score", heading === "Alignment summary: 100%", heading);
+            check("one High alignment answer gives 100% average score", heading === "Alignment summary: 100%", heading);
             check("the status chip colours follow the level", (await first.locator('.status-card[data-status="high-adoption"]').evaluate((el) => getComputedStyle(el).getPropertyValue("--status-accent"))).trim() !== "");
             check("no console or page errors (POSI)", errors.length === 0, JSON.stringify(errors));
             await ctx.close();
@@ -328,7 +328,7 @@ export default async function ({ check, ROOT }) {
             const cards = () => page.locator("#framework-panel-posi details[id^=principle-posi-]").first().locator(".status-card");
             await page.click(".framework-panel:not([hidden]) .customize-scale-btn");
             check("switch opens the scales dialog with POSI's 3 options", (await page.$eval("#scales-dialog", (d) => d.open)) && (await rows().count()) === 3);
-            check("rows run worst to best", (await rows().locator(".scale-title").evaluateAll((els) => els.map((e) => e.value))).join() === "Low adoption,Making progress,High adoption");
+            check("rows run worst to best", (await rows().locator(".scale-title").evaluateAll((els) => els.map((e) => e.value))).join() === "Low alignment,Making progress,High alignment");
             const row0 = rows().first();
             check("a row has icon, colour, title, description, counts, move and remove controls", (await row0.locator("select.scale-icon option").count()) === 14 && (await row0.locator('input[type="color"]').count()) === 1 && (await row0.locator("input.scale-description").count()) === 1 && (await row0.locator("input.scale-counts").isChecked()) && (await row0.locator(".scale-up, .scale-down, .scale-remove").count()) === 3);
             check("footer: Save, Cancel and a labelled reset icon button", (await page.locator('#scales-dialog-footer button[aria-label="Reset to the default scale"]').count()) === 1 && (await page.locator("#scales-dialog-footer >> text=Save").count()) === 1 && (await page.locator("#scales-dialog-footer >> text=Cancel").count()) === 1);
@@ -532,7 +532,7 @@ export default async function ({ check, ROOT }) {
             const first = page.locator("#framework-panel-posi details[id^=principle-posi-]").first();
             await first.locator("summary").click();
             const labels = await first.locator(".status-label").allInnerTexts();
-            check("POSI cards end with Not applicable", labels.join() === "Low adoption,Making progress,High adoption,Not applicable", labels.join());
+            check("POSI cards end with Not applicable", labels.join() === "Low alignment,Making progress,High alignment,Not applicable", labels.join());
             await first.locator('.status-card[data-status="not-applicable"]').click();
             const second = page.locator("#framework-panel-posi details[id^=principle-posi-]").nth(1);
             await second.locator("summary").click();
@@ -655,11 +655,11 @@ export default async function ({ check, ROOT }) {
             await first.locator("summary").click();
             await first.locator('.status-card[data-status="high-adoption"]').click();
             check("summary heading: Self-assessment score", (await page.locator("#summary-heading-posi").innerText()).trim() === "Alignment summary: 100%");
-            check("the score is explained on the page", /from Low adoption \(0%\) to High adoption \(100%\)/.test(await page.locator("#framework-panel-posi .summary-explanation").innerText()));
+            check("the score is explained on the page", /from Low alignment \(0%\) to High alignment \(100%\)/.test(await page.locator("#framework-panel-posi .summary-explanation").innerText()));
             const chart = page.locator("#summary-chart-posi");
             check("chart: one bar per section with a legend", (await chart.innerText()).includes("Governance") && (await chart.innerText()).includes("Not answered") && (await chart.innerText()).includes("Complementary Principles"));
             check("relative is the default", (await page.locator('#framework-panel-posi .chart-mode[data-mode="relative"]').getAttribute("aria-pressed")) === "true");
-            const width = () => chart.locator('span[title^="High adoption"]').first().evaluate((el) => el.style.width);
+            const width = () => chart.locator('span[title^="High alignment"]').first().evaluate((el) => el.style.width);
             const rel = await width();
             await page.click('#framework-panel-posi .chart-mode[data-mode="absolute"]');
             const abs = await width();
