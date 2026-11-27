@@ -3,6 +3,13 @@
 SPII deliverable 1B, Tool for: Principles Alignment Tool. Part of the [SPII overview](https://surf-ori.github.io/spii-overview/).
 This repository hosts both the tool itself and its feedback/issue tracker.
 
+> **New interface (27 November 2026).** https://surf-ori.github.io/spii-1b-principles-alignment-tool/ now opens the
+> new interface: several infrastructures side by side, a research-landscape circle, radar charts, guided rating, a
+> framework catalogue and editor. What it does and why is in [`docs/interface.md`](docs/interface.md).
+> The previous version stays available at [`old/`](https://surf-ori.github.io/spii-1b-principles-alignment-tool/old/)
+> (`old/index.html`), with its own saved answers; links with `?report=` or `?framework=` open there.
+> The rest of this README describes that previous version.
+
 A self-assessment tool for Open Science infrastructures. Name your
 infrastructure, classify the activities it supports, and score it against
 one or more assessment frameworks — POSI scores low adoption / making

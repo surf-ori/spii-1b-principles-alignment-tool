@@ -1,12 +1,12 @@
-# Proof of concept: several infrastructures side by side
+# The new interface: several infrastructures side by side
 
-`poc/index.html` is a proof of concept for the next version of the Principles Alignment Tool. The current tool (`../index.html`) is untouched. Online (after merging): https://surf-ori.github.io/spii-1b-principles-alignment-tool/poc/
+Since 27 November 2026 `index.html` is the Principles Alignment Tool's new interface: https://surf-ori.github.io/spii-1b-principles-alignment-tool/. It started as a proof of concept in `poc/` (that address now redirects here). The previous version is in `old/index.html`: https://surf-ori.github.io/spii-1b-principles-alignment-tool/old/
 
-It takes its user experience cues from the [Digital Autonomy Assessment Tool](https://utrechtuniversity.github.io/digital-autonomy-assessment-tool/) (DAAF, Utrecht University). None of DAAF's code is used: its licence (CC BY-NC-SA 4.0) does not allow turning it into another framework. It works on the real POSI data (`../data/frameworks/posi-v2.0.json`) and on the example reports in `../data/examples/`.
+It takes its user experience cues from the [Digital Autonomy Assessment Tool](https://utrechtuniversity.github.io/digital-autonomy-assessment-tool/) (DAAF, Utrecht University). None of DAAF's code is used: its licence (CC BY-NC-SA 4.0) does not allow turning it into another framework. It works on the real POSI data (`data/frameworks/`) and on the example reports in `data/examples/`.
 
 ## What is in it
 
-| Idea | In the proof of concept |
+| Idea | In the new interface |
 | --- | --- |
 | DAAF starts with an explanation when nothing is saved yet | A welcome screen: what the tool does, three steps, and buttons to add an infrastructure, import, open the framework, or load the three examples (OpenAIRE, OpenAlex, HAL). |
 | An overview, and several applications side by side | An **overview** tab plus one tab per infrastructure. The overview has key figures, the research-landscape circle, a scatter plot and a sortable table. |
@@ -22,7 +22,7 @@ It takes its user experience cues from the [Digital Autonomy Assessment Tool](ht
 | Settings in the tool's own bar | A cog in the tool's bar opens Settings. Import, export and the framework button sit there too. |
 | Import and export as in the current tool | **Import** opens a dialog: drop JSON reports on it or choose them (this page's exports, or reports saved with the current tool, for all their frameworks). **Export** is a menu with the current tool's options: save report to the GitHub tracker, save alignment to a file (JSON), print report / save as PDF, save to Word (.docx), and download the framework. On an infrastructure's page it exports that one; on the overview all of them. |
 
-## Kevin's feedback, and what the proof of concept does with it
+## Kevin's feedback, and what the new interface does with it
 
 - **"The sidebar and the score at the top say the same thing."** There is no permanent sidebar any more. The contents drawer opens only when you want it, and the scores sit in one results row.
 - **"There is no payoff at the end."** When every principle is rated, a toast appears and a result card shows at the bottom of the page, with buttons to compare in the overview or export.
@@ -31,7 +31,7 @@ It takes its user experience cues from the [Digital Autonomy Assessment Tool](ht
 - **"Percentages and number of principles: do they serve a purpose?"** The overview keeps one percentage per infrastructure and per section, and drops the %/# switch.
 - **"Custom scales weaken comparisons."** The scale is the same for every infrastructure on the page. Your own level descriptions switch off the POSI descriptions per principle, so the two never contradict each other.
 
-## Not in the proof of concept (yet)
+## Not in it (yet)
 
 The badge; comparing infrastructures across different frameworks; the bar chart in the Word report. The research activities of the three examples are a demo choice, not part of the published reports.
 

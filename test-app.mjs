@@ -13,7 +13,7 @@ export const check = (name, ok, detail = "") => {
     console.log((ok ? "PASS  " : "FAIL  ") + name + (ok ? "" : "  -> " + detail));
 };
 
-const html = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
+const html = fs.readFileSync(path.join(ROOT, "old/index.html"), "utf8");
 const storage = new Map();
 export const clearStorage = () => storage.clear();
 export const storageGet = (key) => (storage.has(key) ? storage.get(key) : null);
@@ -30,7 +30,7 @@ export function loadLogic() {
     });
     vm.runInContext(html.match(/<script id="app-logic">([\s\S]*?)<\/script>/)[1], ctx);
     const files = vm.runInContext("BUILTIN_FRAMEWORK_FILES", ctx);
-    ctx.__frameworks = files.map((f) => JSON.parse(fs.readFileSync(path.join(ROOT, f), "utf8")));
+    ctx.__frameworks = files.map((f) => JSON.parse(fs.readFileSync(path.join(ROOT, "old", f), "utf8")));
     vm.runInContext("FRAMEWORKS = __frameworks;", ctx);
     return ctx;
 }
@@ -152,7 +152,7 @@ export const run = (ctx, code) => vm.runInContext(code, ctx);
     } else {
         console.log("SKIP  activity icons vs design system: no clone at " + dsData);
     }
-    check("activity icons: the POC uses the design system, no copy", !/ACTIVITY_ICONS\s*=/.test(fs.readFileSync(path.join(ROOT, "poc/index.html"), "utf8")));
+    check("activity icons: the POC uses the design system, no copy", !/ACTIVITY_ICONS\s*=/.test(fs.readFileSync(path.join(ROOT, "index.html"), "utf8")));
 }
 
 {
