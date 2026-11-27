@@ -24,8 +24,8 @@ It takes its user experience cues from the [Digital Autonomy Assessment Tool](ht
 
 ## Kevin's feedback, and what the new interface does with it
 
-- **"The sidebar and the score at the top say the same thing."** There is no permanent sidebar any more. The contents drawer opens only when you want it, and the scores sit in one results row.
-- **"There is no payoff at the end."** When every principle is rated, a toast appears and a result card shows at the bottom of the page, with buttons to compare in the overview or export.
+- **"The sidebar and the score at the top say the same thing."** There is no permanent sidebar any more. The contents drawer opens only when you want it, and the summaries sit in one results row.
+- **"There is no payoff at the end."** When every principle is rated, a toast appears and a result card shows at the bottom of the page, with buttons to see it on the map in the overview or export.
 - **"Folding questions in and out seems unnecessary."** Rating works on the compact row, without unfolding. Unfolding is only for when you want the explanation. After you rate a principle, the keyboard focus moves to the next unrated one (keys 1, 2, 3, and 0 for not applicable).
 - **"The questions are a copy of the principles."** Each principle now has a short question under its title. These 23 questions are a **first draft (AI-assisted) and need review**. Settings can hide them.
 - **"Percentages and number of principles: do they serve a purpose?"** The overview keeps one percentage per infrastructure and per section, and drops the %/# switch.
@@ -33,7 +33,7 @@ It takes its user experience cues from the [Digital Autonomy Assessment Tool](ht
 
 ## Not in it (yet)
 
-The badge; comparing infrastructures across different frameworks; the bar chart in the Word report. The research activities of the three examples are a demo choice, not part of the published reports.
+The badge; mapping infrastructures assessed with different frameworks together; the bar chart in the Word report. The research activities of the three examples are a demo choice, not part of the published reports.
 
 ## Data
 
@@ -42,3 +42,7 @@ Everything is kept in this browser (`localStorage`, key `spii-alignment-poc.v1`)
 ## Icons
 
 The research-activity icons (on the circle, the chips and the table) come from the [SPII design system](https://surf-ori.github.io/spii-design-system/) (`SPII.activityIcon`). The current tool uses them from there too, and keeps the same set as a fallback for when the design system does not load; a test checks that the two stay equal.
+
+## Wording
+
+The tool helps researchers find the right infrastructure on their research journey; infrastructures are not in competition. So the interface speaks of a **summary** (not a score) and of **mapping** infrastructures on the landscape (not comparing them).
