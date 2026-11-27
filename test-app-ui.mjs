@@ -255,6 +255,7 @@ export default async function ({ check, ROOT }) {
             await page.locator(".tab", { hasText: "OpenAIRE" }).click();
             check("POC: infrastructure page with radar and 23 principles", (await page.locator("#i-radar svg").count()) === 1 && (await page.locator(".p-row").count()) === 23);
             await page.locator("#p-coverage .p-title").click();
+            check("POC: the rating buttons show the scale icons", (await page.locator("#p-coverage .levels .lvl svg").count()) === 4 && (await page.locator("#p-coverage .levels .lvl").first().innerText()).trim() === "Low");
             check("POC: a principle unfolds its level descriptions", (await page.locator("#p-coverage .rubric > div").count()) === 3 && /demonstrable evidence/.test(await page.locator("#p-coverage .rubric").innerText()));
             // export menu: the options of the current tool, for the open infrastructure
             await page.click("#btn-export");
@@ -286,6 +287,7 @@ export default async function ({ check, ROOT }) {
             await page.locator('.lvl-row [data-f="label"]').nth(2).fill("Fully aligned");
             await page.click("#acc-sections summary");
             await page.locator("details.sec-ed summary").first().click();
+            await page.locator("details.sec-ed").first().locator(".pr-ed").first().waitFor();
             const before = await page.locator("details.sec-ed").first().locator(".pr-ed").count();
             await page.locator("details.sec-ed").first().locator("[data-padd]").click();
             check("POC: a principle can be added to a section", (await page.locator("details.sec-ed").first().locator(".pr-ed").count()) === before + 1, before + " -> " + (await page.locator("details.sec-ed").first().locator(".pr-ed").count()) + " open " + (await page.$eval("details.sec-ed", (d) => d.open)));
