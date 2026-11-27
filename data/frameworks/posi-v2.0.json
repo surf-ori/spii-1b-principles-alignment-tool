@@ -8,7 +8,7 @@
   "levels": [
     {
       "id": "low-adoption",
-      "label": "Low adoption",
+      "label": "Low alignment",
       "icon": "cross",
       "color": "--destructive"
     },
@@ -20,7 +20,7 @@
     },
     {
       "id": "high-adoption",
-      "label": "High adoption",
+      "label": "High alignment",
       "icon": "check",
       "color": "--compliant"
     }
