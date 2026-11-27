@@ -125,6 +125,14 @@ body.show-notes aside.notes { display: block; position: absolute; left: 0; right
 
 /* work-in-progress note */
 .wip { font-size: 24px; line-height: 1.35; color: var(--muted); border-left: 4px solid #9a5b00; padding-left: 16px; }
+/* the POSI report tour and the extras */
+.tour .shot-row { gap: 56px; }
+.tour .shot-text h2 { font-size: 52px; }
+.tshot { object-fit: contain; border-radius: 16px; border: 2px solid var(--line); background: #ffffff; flex: none; }
+.pair { display: flex; flex-direction: row; align-items: flex-start; gap: 24px; flex: none; }
+.extras-row { flex: 1; display: flex; flex-direction: row; justify-content: center; align-items: flex-start; gap: 48px; }
+.extra { display: flex; flex-direction: column; gap: 18px; }
+.extra .cap { font-size: 30px; color: var(--ink); max-width: 832px; }
 </style>
 </head>
 <body>
@@ -188,70 +196,127 @@ body.show-notes aside.notes { display: block; position: absolute; left: 0; right
 <p class="closing">Self-assess your infrastructure, and align it to these principles.</p>
 <aside class="notes">About 45 seconds. The tool is based on POSI, the Principles of Open Scholarly Infrastructure, version 2.0: governance, sustainability and insurance. Through community consultations, SPII identified three more principles, based on autonomy and researcher-centricity: autonomy, a seamless user experience, and recognition and rewards. With the tool you self-assess your infrastructure against these principles, and see where to align it.</aside>
 </section>
-<section id="how" class="slide">
+<section id="t1" class="slide tour">
 <div class="shot-row">
-<img class="shot" src="principle.png" alt="The tool showing the principle Coverage across the scholarly enterprise for OpenAIRE: level buttons with icons, High alignment chosen, unfolded to what each adoption level looks like, ideas to improve, examples and a note" style="--i:0">
+<img class="tshot" src="t1.png" alt="The report page of the OpenAIRE example in the tool" style="width:1120px;height:700px">
 <div class="shot-text">
-<p class="eyebrow">How it works</p>
-<h2>Align each principle</h2>
-<ol class="steps">
-<li>Add your infrastructure and the research activities it supports</li>
-<li>Align each principle: low, progress, high or not applicable</li>
-<li>Star your priorities</li>
-<li>Unfold a principle: what each level looks like, ideas to improve, examples</li>
-</ol>
-</div>
-</div>
-<aside class="notes">About 45 seconds. How does it work? You add your infrastructure, describe it, and pick the research activities it supports. Then you align each principle with one click, or with the keys 1, 2, 3 and 0: low alignment, making progress, high alignment, or not applicable. Each principle has a short question to help you. You can star the principles that matter most to you. And when you want guidance, you unfold a principle: what each level looks like, ideas to improve and examples from organisations that do it well. These come from the reports of POSI adopters.</aside>
-</section>
-<section id="word" class="slide">
-<div class="shot-row">
-<img class="shot" src="word.png" alt="The Export menu of the tool for OpenAIRE, with Save to Word (.docx) highlighted, under Save report to GitHub tracker, Save alignment to a file and Print report" style="--i:0">
-<div class="shot-text">
-<p class="eyebrow">Your report</p>
-<h2>Attach it to your NWO proposal</h2>
-<ol class="steps">
-<li>Export › Save to Word (.docx)</li>
-<li>Summaries per section and every answer, ready to edit</li>
-<li>Attach the report to the proposal you send to NWO</li>
-<li>Also send it to the GitHub tracker: it joins the examples and the landscape overview</li>
-</ol>
-</div>
-</div>
-<aside class="notes">About 45 seconds. This is the most important step. When you are done, open the export menu and choose Save to Word. You get a Word document with the summaries per section and every answer, which you can edit. Attach it to the proposal you send to NWO. And please also send it to our GitHub issue tracker, with the first option in the same menu: then we add it to the examples on the start screen, and build a shared overview of all infrastructures on the landscape.</aside>
-</section>
-<section id="scale" class="slide">
-<div class="shot-row">
-<img class="shot" src="framework.png" alt="The Framework and scale dialog: a catalogue with POSI v2.0 marked approved, every field of the framework editable, and the scale in a closed section" style="--i:0">
-<div class="shot-text">
-<p class="eyebrow">Frameworks</p>
-<h2>Choose a framework, or make it yours</h2>
+<p class="eyebrow">Your POSI report · 1 of 7</p>
+<h2>A filled-in POSI report</h2>
 <ul class="steps">
-<li>A catalogue: POSI first, then GORC, FAIR, CARE, FOREST and more</li>
-<li>Edit the scale: icons, colours, titles and descriptions</li>
-<li>Edit, add and reorder the principles themselves</li>
-<li>Import or download a framework as JSON</li>
+<li>One page per infrastructure, here the OpenAIRE example</li>
+<li>Seven parts, from top to bottom</li>
+<li>Take the same tour in the tool: the ? button</li>
 </ul>
 </div>
 </div>
-<aside class="notes">About 45 seconds. POSI plus the complementary principles is the default, but the tool has a catalogue of frameworks: approved ones first, then others such as GORC, FAIR, CARE and FOREST. Everything about a framework is open for full disclosure, and you can change it: the scale, with its icons, colours and the text for each level, and the principles themselves, which you can edit, add, remove and reorder. You can import your own framework and download it again to share.</aside>
+<aside class="notes">About 30 seconds. This is what a filled-in POSI report looks like in the tool, here the OpenAIRE example. One page per infrastructure. I will walk you through its seven parts, from top to bottom. You can take exactly the same tour in the tool yourself, with the question-mark button.</aside>
 </section>
-<section id="report" class="slide">
+<section id="t2" class="slide tour">
 <div class="shot-row">
-<img class="shot square" src="overview.png" alt="The research-landscape circle with three example infrastructures: each slice is a research activity, and the further out a dot sits, the more aligned the infrastructure is" style="--i:0">
+<img class="tshot" src="t2.png" alt="The infrastructure details and the research activities it supports" style="width:1120px;height:741px">
 <div class="shot-text">
-<p class="eyebrow">Overview and report</p>
-<h2>Map infrastructures on the landscape</h2>
+<p class="eyebrow">Your POSI report · 2 of 7</p>
+<h2>Describe the infrastructure and map it</h2>
 <ul class="steps">
-<li>The research-landscape circle: further out means more aligned</li>
-<li>A scatter plot with the axes you choose</li>
-<li>Saved in your browser; try the OpenAIRE, OpenAlex and HAL examples</li>
-<li>Export to JSON, PDF or Word, or share via GitHub</li>
+<li>Name, landing page, date and a short description</li>
+<li>Choose the research activities it supports: its place on the research landscape</li>
 </ul>
-<p class="wip">Work in progress: the research activities are not final. We are looking at an international convention of terms, also adopted by EOSC.</p>
 </div>
 </div>
-<aside class="notes">About 60 seconds. You can assess several infrastructures and map them in one overview, to help researchers find the right infrastructure on their research journey. The circle shows the research landscape: each slice is a research activity, and the further out an infrastructure sits, the more aligned it is. You can switch between the research life cycle and research administration. Next to it, a scatter plot where you choose what goes on each axis. A note: the research activities you see here are not final; we are looking at a new international convention of terms, also adopted by EOSC. Your answers are saved automatically in your browser, and you can load the examples for OpenAIRE, OpenAlex and HAL to see how it was done.</aside>
+<aside class="notes">About 30 seconds. First you describe the infrastructure: its name, landing page, date and a short description. Then you choose the research activities it supports. That maps it on the research landscape, so researchers can find the right infrastructure for each step of their journey. These activities are still work in progress: we are looking at an international convention of terms, also adopted by EOSC.</aside>
+</section>
+<section id="t3" class="slide tour">
+<div class="shot-row">
+<img class="tshot" src="t3.png" alt="The alignment summary: overall and per section" style="width:1120px;height:618px">
+<div class="shot-text">
+<p class="eyebrow">Your POSI report · 3 of 7</p>
+<h2>The alignment summary</h2>
+<ul class="steps">
+<li>Overall, and per section the average of its principles</li>
+<li>Fills in as you go</li>
+</ul>
+</div>
+</div>
+<aside class="notes">About 20 seconds. The summary shows the overall alignment, and per section the average of its principles. It fills in as you go.</aside>
+</section>
+<section id="t4" class="slide tour">
+<div class="shot-row">
+<img class="tshot" src="t4.png" alt="The radar of all principles and the Improve next suggestions" style="width:1120px;height:489px">
+<div class="shot-text">
+<p class="eyebrow">Your POSI report · 4 of 7</p>
+<h2>Alignment per principle, and what to improve next</h2>
+<ul class="steps">
+<li>The radar: the further out, the more aligned</li>
+<li>Improve next: starred principles first, then the lowest level</li>
+</ul>
+</div>
+</div>
+<aside class="notes">About 30 seconds. The radar shows every principle at a glance: the further out, the more aligned. Next to it, suggestions for what to work on next: the principles you starred first, then those at the lowest level.</aside>
+</section>
+<section id="t5" class="slide tour">
+<div class="shot-row">
+<img class="tshot" src="t5.png" alt="A section of principles with the level buttons" style="width:1120px;height:632px">
+<div class="shot-text">
+<p class="eyebrow">Your POSI report · 5 of 7</p>
+<h2>The alignment itself</h2>
+<ul class="steps">
+<li>Principles in sections: Governance, Sustainability, Insurance, plus complementary principles</li>
+<li>For each principle: low alignment, making progress, high alignment or not applicable</li>
+<li>One click, or the keys 1, 2, 3 and 0</li>
+</ul>
+</div>
+</div>
+<aside class="notes">About 60 seconds. Let me stop here for a moment, because this is the core. The principles come in sections: for POSI, Governance, Sustainability and Insurance, plus the complementary principles. For each principle you choose a level: low alignment, making progress, high alignment, or not applicable. One click, or the keys 1, 2, 3 and 0. Under each principle a short question helps you.</aside>
+</section>
+<section id="t6" class="slide tour">
+<div class="shot-row">
+<img class="tshot" src="t6.png" alt="An unfolded principle with its levels, ideas to improve and examples, and a star" style="width:1120px;height:756px">
+<div class="shot-text">
+<p class="eyebrow">Your POSI report · 6 of 7</p>
+<h2>Unfold a principle</h2>
+<ul class="steps">
+<li>What the principle means</li>
+<li>What each level looks like: drawn by the SPII working group from earlier POSI self-assessments</li>
+<li>Ideas to improve, and examples of infrastructures doing it well</li>
+<li>★ Star it to highlight it in your report</li>
+</ul>
+</div>
+</div>
+<aside class="notes">About 60 seconds. Click a principle and it unfolds. You read what the principle means, and what each level looks like. The SPII working group drew these descriptions from the POSI self-assessments published so far: which scales were used, and what the levels mean in practice. Plus ideas to improve, and examples of infrastructures that have this principle in order. And with the star you highlight a principle in your report.</aside>
+</section>
+<section id="t7" class="slide tour">
+<div class="shot-row">
+<div class="pair">
+<img class="tshot" src="word.png" alt="The Export menu with Save to Word (.docx) highlighted" style="width:560px;height:350px">
+<img class="tshot" src="t7-word-report.png" alt="The first page of the Word report for OpenAIRE: description, research activities, the alignment summary per section, and the Governance principles with answers and notes" style="width:540px;height:764px">
+</div>
+<div class="shot-text">
+<p class="eyebrow">Your POSI report · 7 of 7</p>
+<h2>Save it to Word, for your NWO proposal</h2>
+<ul class="steps">
+<li>Export › Save to Word</li>
+<li>The summary per section, and every answer with your notes</li>
+<li>Attach it to your proposal for NWO</li>
+<li>Also send it to the GitHub tracker: it joins the examples and the map</li>
+</ul>
+</div>
+</div>
+<aside class="notes">About 45 seconds. This is the most important step. Open the export menu and choose Save to Word. You get a Word document with the summary per section, and every answer with your notes, which you can still edit. Attach it to the proposal you send to NWO. And please also send it to our GitHub issue tracker, with the first option in the same menu: then we add it to the examples on the start screen, and build a shared map of all infrastructures on the landscape.</aside>
+</section>
+<section id="extras" class="slide">
+<p class="eyebrow">Extra functionality</p>
+<h2>Beyond the POSI report</h2>
+<div class="extras-row">
+<div class="extra">
+<img class="tshot" src="framework.png" alt="The Alignment Frameworks dialog with the catalogue of frameworks" style="width:832px;height:520px">
+<p class="cap"><b>Customization:</b> edit and add other assessment frameworks, and scales yourself</p>
+</div>
+<div class="extra">
+<img class="tshot" src="overview.png" alt="The research-landscape circle with three example infrastructures" style="width:520px;height:520px">
+<p class="cap"><b>Map other infrastructures</b> on the researcher activities landscape</p>
+</div>
+</div>
+<aside class="notes">About 45 seconds. Two extras, briefly. On the left: you can edit and add other assessment frameworks, and their scales, yourself; POSI is the default. On the right: when you align several infrastructures, you can map them on the landscape of researcher activities. Each slice is a research activity, and the further out, the more aligned. The research activities are work in progress: we are looking at an international convention of terms, also adopted by EOSC.</aside>
 </section>
 <section id="next" class="slide">
 <p class="eyebrow">What is coming next</p>
