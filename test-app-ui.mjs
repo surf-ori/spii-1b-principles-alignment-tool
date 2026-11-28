@@ -304,7 +304,7 @@ export default async function ({ check, ROOT }) {
             // export menu: the options of the current tool, for the open infrastructure
             await page.click("#btn-export");
             await page.waitForFunction(() => /openaire/i.test(document.querySelector("#export-scope").textContent));
-            check("Tool: export menu with GitHub, JSON, print, Word and framework", (await page.locator("#export-menu [data-export]").count()) === 5 && /openaire/i.test(await page.locator("#export-scope").innerText()));
+            check("Tool: export menu with GitHub, JSON, print and Word, no framework", (await page.locator("#export-menu [data-export]").count()) === 4 && /openaire/i.test(await page.locator("#export-scope").innerText()));
             let dl = page.waitForEvent("download");
             await page.click('#export-menu [data-export="word"]');
             const docx = fs.readFileSync(await (await dl).path());
