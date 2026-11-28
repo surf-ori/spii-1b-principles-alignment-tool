@@ -278,6 +278,21 @@ export default async function ({ check, ROOT }) {
             await page.click('.info-i[data-info="summary"]');
             check("Tool: an (i) button explains its part", /average of its principles/.test(await page.locator("#info-pop").innerText()));
             await page.keyboard.press("Escape");
+            {
+                // started live from a presentation: present mode, clicker keys, and back to the given slide
+                const live = await ctx.newPage(); live.on("dialog", (d) => d.accept());
+                await live.goto(base + "index.html?tour=1&present=1&return=" + encodeURIComponent("docs/presentation/2026-12-02-osnl/#slide-5"));
+                await live.waitForSelector("#tour-card:not([hidden])");
+                for (let i = 1; i < 9; i++) await live.keyboard.press("PageDown");
+                check("Tool: a live tour ends with Back to the presentation", (await live.locator("#tour-next").innerText()) === "Back to the presentation");
+                await live.keyboard.press("PageDown"); await live.waitForURL(/presentation\/2026-12-02-osnl\/#slide-5/);
+                check("Tool: it returns to the next slide", true);
+                const foreign = await ctx.newPage();
+                await foreign.goto(base + "index.html?tour=1&return=" + encodeURIComponent("https://example.org/"));
+                await foreign.waitForSelector("#tour-card:not([hidden])");
+                check("Tool: a return address on another site is ignored", (await foreign.evaluate(() => { for (let i = 0; i < 8; i++) document.querySelector("#tour-next").click(); return document.querySelector("#tour-next").textContent; })) === "Done");
+                await live.close(); await foreign.close();
+            }
             // embed a chart: a snapshot in the link, only that chart, nothing saved
             await page.locator("#i-radar").locator("xpath=ancestor::div[contains(@class,'card')][1]").locator(".embed-btn").click();
             const embUrl = (await page.locator("#em-code").inputValue()).match(/src="([^"]+)"/)[1].replace(/^https?:\/\/[^/]+\//, "");
