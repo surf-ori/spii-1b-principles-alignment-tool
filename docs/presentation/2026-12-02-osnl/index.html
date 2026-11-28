@@ -102,7 +102,7 @@ p { font-size: 32px; line-height: 1.4; margin: 0; color: var(--muted); }
 html, body { margin: 0; height: 100%; background: #0b0e0a; overflow: hidden; }
 #stage { position: fixed; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; }
 /* phone held upright: all slides under each other, as wide as the screen; scroll, and pinch to zoom */
-body.list { overflow: auto; height: auto; }
+html.list, html.list body { overflow: auto; height: auto; }
 body.list #stage { position: static; transform: none; width: auto; height: auto; }
 body.list section.slide, body.list section.slide:not(.current) { display: flex; position: relative; margin-bottom: 12px; }
 body.list section.slide * { animation: none !important; }
@@ -505,7 +505,7 @@ p { font-size: 32px; line-height: 1.4; margin: 0; color: var(--muted); }
   function fit() {
     // upright on a phone: one long page of slides; otherwise one slide at a time, centred and scaled to fit
     list = innerWidth < 700 && innerHeight > innerWidth;
-    document.body.classList.toggle("list", list);
+    document.body.classList.toggle("list", list); document.documentElement.classList.toggle("list", list);   // html clips too
     var z = innerWidth / 1920;
     slides.forEach(function (s) { s.style.zoom = list ? z : ""; });
     if (list) { stage.style.transform = ""; return; }
