@@ -222,6 +222,9 @@
   body.tour-present #tour-card p { font-size: 1.25rem; }
   body.tour-present #tour-step { font-size: 1rem; }
   body.tour-present #tour-card .btn { font-size: 1.05rem; padding: .55rem 1rem; }
+  #tour-also { position: fixed; z-index: 62; border-radius: 999px; border: 3px solid #e8702a; pointer-events: none; animation: tour-pulse 1.2s ease-in-out infinite; }
+  #tour-also span { position: absolute; left: 50%; top: calc(100% + 6px); transform: translateX(-50%); white-space: nowrap; padding: .2rem .55rem; border-radius: .4rem; background: #e8702a; color: #fff; font-size: .8rem; font-weight: 700; }
+  @keyframes tour-pulse { 50% { box-shadow: 0 0 0 6px rgba(232,112,42,.35); } }
   #tour-card.side { left: auto; right: 1.25rem; bottom: 1.25rem; transform: none; width: min(26rem, 40vw) !important; }
   #tour-card { position: fixed; z-index: 61; left: 50%; bottom: 1.25rem; transform: translateX(-50%); width: min(30rem, calc(100vw - 1.5rem)); padding: 1rem 1.1rem; border-radius: .8rem; background: var(--card, #fff); color: inherit; box-shadow: 0 10px 36px rgba(0,0,0,.25); }
   #tour-card h3 { margin: .15rem 0 .35rem; font-size: 1.1rem; }
@@ -310,6 +313,7 @@
   </div>
 </div>
 <div id="tour-ring" hidden></div>
+<div id="tour-also" hidden><span>▲ you are here</span></div>
 <div id="tour-card" role="dialog" aria-live="polite" hidden><div class="muted small" id="tour-step"></div><h3 id="tour-title"></h3><p id="tour-text"></p><div class="row"><button class="btn ghost" id="tour-close">Close</button><span class="grow"></span><button class="btn" id="tour-prev">Back</button><button class="btn primary" id="tour-next">Next</button></div></div>
 <div id="info-pop" popover class="info-pop" role="note"></div>
 <div id="export-menu" popover class="menu" role="menu">
@@ -1382,17 +1386,20 @@
 
   // ---------- guided tour: how to make your POSI report ----------
   const TOUR = [
-    { sel: () => $("#view .card"), title: "Your POSI report", text: "This is a report for one infrastructure, here the OpenAIRE example. In nine steps we walk through its parts, from top to bottom, and end in the overview." },
-    { sel: () => $("#i-name") && $("#i-name").closest(".card"), title: "Describe the infrastructure and map it", text: "Give its name, landing page and a short description, and choose the research activities it supports. That places it on the research landscape, so researchers can find it." },
-    { sel: () => $("#i-fw") && $("#i-fw").closest("div"), title: "Choose the framework", text: "POSI v2.0 plus the complementary principles is the default. Here, or with the layers button in the bar, you choose another framework from the catalogue, or customise one: its scale (icons, colours, titles, descriptions) and its principles." },
-    { sel: () => $("#sec-0"), after: true, title: "The alignment itself", text: "The principles come in sections (for POSI: Governance, Sustainability, Insurance, plus complementary principles). For each principle, choose low alignment, making progress, high alignment, or not applicable; the keys 1, 2, 3 and 0 work too." },
-    { sel: () => $(".p-row"), before: () => { const r = $(".p-row"); if (r && !r.querySelector(".p-more")) { r.querySelector(".p-title").click(); tourOpened = r.id.replace(/^p-/, ""); } }, title: "Unfold a principle", text: "Click a principle to read what it means, what each level looks like (drawn by the SPII working group from earlier POSI self-assessments), ideas to improve, and examples of infrastructures doing it well. Use the star to highlight a principle in your report." },
-    { sel: () => $("#i-summary"), title: "The result: the alignment summary", text: "What you chose adds up here: the overall alignment, and per section the average of its principles. Low alignment counts as 0%, making progress as 50%, high alignment as 100%." },
-    { sel: () => $("#i-radar") && $("#i-radar").closest(".card"), title: "Alignment per principle, and what to improve next", text: "The radar shows every principle: the further out, the more aligned. Next to it, suggestions for what to work on next." },
-    { sel: () => $("#export-menu"), menu: true, before: () => { const m = $("#export-menu"); if (!m.matches(":popover-open")) m.showPopover(); }, title: "Save your alignment reports", text: "The export menu saves your report in several formats: JSON, to import it again later or on another device; PDF, to print it; Word (.docx), to edit it further. And save it to the GitHub tracker, so your infrastructure is placed on the landscape, next to the others." },
-    { sel: () => $("#circle") && $("#circle").closest(".card"), side: true, before: () => { if (view.name !== "overview") go("overview"); }, title: "See all infrastructures in the overview", text: "The Overview tab maps all your infrastructures together: key figures, the research-landscape circle, a map on two principles and a table. Each infrastructure appears in the research activities it supports; the further out, the more aligned." },
+    { view: "overview", sel: () => $("#o-add"), title: "Start here", text: "On the overview you add an infrastructure with + Add infrastructure, and then align it with the principles. For this tour we open one that is already filled in: the OpenAIRE example. Nine steps, ending back in the overview." },
+    { view: "infra", also: () => $('.tab[aria-current="page"]'), sel: () => $("#i-name") && $("#i-name").closest(".card"), title: "Describe the infrastructure and map it", text: "We are now in the report of one infrastructure: see its tab in the bar. Here it is already filled in. Give its name, landing page and a short description, and choose the research activities it supports. That places it on the research landscape, so researchers can find it." },
+    { view: "infra", sel: () => $("#i-fw") && $("#i-fw").closest("div"), title: "Choose the framework", text: "POSI v2.0 plus the complementary principles is the default. Here, or with the layers button in the bar, you choose another framework from the catalogue, or customise one: its scale (icons, colours, titles, descriptions) and its principles." },
+    { view: "infra", top: true, sel: () => $("#sec-1"), after: true, title: "The alignment itself", text: "The principles come in sections (for POSI: Governance, Sustainability, Insurance, plus complementary principles). For each principle, choose low alignment, making progress, high alignment, or not applicable; the keys 1, 2, 3 and 0 work too." },
+    { view: "infra", top: true, sel: () => tourRow(), before: () => { const r = tourRow(); if (r && !r.querySelector(".p-more")) { r.querySelector(".p-title").click(); tourOpened = r.id.replace(/^p-/, ""); } }, title: "Unfold for rich guidance", text: "Click a principle to read what it means, what each level looks like (drawn by the SPII working group from earlier POSI self-assessments), ideas to improve, and examples of infrastructures doing it well. Use the star to highlight a principle in your report." },
+    { view: "infra", sel: () => $("#i-summary"), title: "The result: the alignment summary", text: "What you chose adds up here: the overall alignment, and per section the average of its principles. Low alignment counts as 0%, making progress as 50%, high alignment as 100%." },
+    { view: "infra", sel: () => $("#i-radar") && $("#i-radar").closest(".card"), title: "Alignment per principle, and what to improve next", text: "The radar shows every principle: the further out, the more aligned. Next to it, suggestions for what to work on next." },
+    { view: "infra", sel: () => $("#export-menu"), menu: true, before: () => { const m = $("#export-menu"); if (!m.matches(":popover-open")) m.showPopover(); }, title: "Save your alignment reports", text: "The export menu saves your report in several formats: JSON, to import it again later or on another device; PDF, to print it; Word (.docx), to edit it further. And save it to the GitHub tracker, so your infrastructure is placed on the landscape, next to the others." },
+    { sel: () => $("#circle") && $("#circle").closest(".card"), side: true, view: "overview", also: () => $(".tab"), title: "See all infrastructures in the overview", text: "We switched to the Overview: see its tab in the bar. It maps all your infrastructures together: key figures, the research-landscape circle, a map on two principles and a table. Each infrastructure appears in the research activities it supports; the further out, the more aligned." },
   ];
   let tourAt = -1;
+  // step 5 unfolds the first complementary principle (the last section), else the first principle
+  function tourRow() { const s = FW.sections[FW.sections.length - 1]; return (s && $("#p-" + s.principles[0].id)) || $(".p-row"); }
+  const tourInfra = () => (db.infras.find((i) => /openaire/i.test(i.name || "")) || db.infras[0]).id;
   let tourAdded = [], tourOpened = null;
   // Live from a presentation: ?tour=1 starts the tour, &present=1 makes it readable on a projector and lets a
   // clicker or the arrow keys step through it, &return=<address on this site> goes back there when it ends.
@@ -1402,11 +1409,12 @@
   async function startTour() {
     tourAdded = [];
     if (!db.infras.length) { await loadExamples(); tourAdded = db.infras.map((i) => i.id); }
-    if (view.name !== "infra") go("infra", (db.infras.find((i) => /openaire/i.test(i.name || "")) || db.infras[0]).id);
     tourAt = 0; showTour();
   }
   function showTour() {
     const s = TOUR[tourAt]; if (!s) return endTour(true);
+    if (s.view === "overview" && view.name !== "overview") go("overview");
+    if (s.view === "infra" && view.name !== "infra") go("infra", tourInfra());
     const em = $("#export-menu"); if (!s.menu && em.matches(":popover-open")) em.hidePopover();
     if (s.before) s.before();
     const el = s.sel(); const ring = $("#tour-ring"), card = $("#tour-card");
@@ -1418,16 +1426,19 @@
     if (!el) { ring.hidden = true; return; }
     // narrow screens: the card covers the lower half, so bring the part to the top, under the sticky bars
     if (s.menu) { /* the menu hangs from the bar: no scrolling */ }
-    else if (innerWidth < 700 || el.getBoundingClientRect().height > innerHeight * .6) { const bar = $(".toolbar"); window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - (bar ? bar.getBoundingClientRect().bottom : 0) - 12, behavior: "instant" }); }
+    else if (s.top || innerWidth < 700 || el.getBoundingClientRect().height > innerHeight * .6) { const bar = $(".toolbar"); window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - (bar ? bar.getBoundingClientRect().bottom : 0) - 12, behavior: "instant" }); }
     else el.scrollIntoView({ block: "center", behavior: "instant" });
     window.scrollBy(0, Math.min(140, Math.max(0, el.getBoundingClientRect().height - innerHeight * .5)) ? 0 : 0);
     const place = () => { const r = s.after && el.parentElement ? (() => { const a = el.getBoundingClientRect(), n = el.nextElementSibling ? el.nextElementSibling.getBoundingClientRect() : a; return { left: a.left, top: a.top, width: a.width, height: n.bottom - a.top }; })() : el.getBoundingClientRect();
       ring.hidden = false; Object.assign(ring.style, { left: r.left + scrollX - 6 + "px", top: r.top + scrollY - 6 + "px", width: r.width + 12 + "px", height: Math.max(40, Math.min(r.height, innerHeight - Math.max(r.top, 0) - 16)) + 12 + "px" }); };
-    if (s.menu) setTimeout(place, 60); else requestAnimationFrame(place);   // the menu places itself when it opens
+    if (s.menu) setTimeout(place, 60); else requestAnimationFrame(place);
+    const also = s.also && s.also(), pt = $("#tour-also");
+    pt.hidden = !also;
+    if (also) requestAnimationFrame(() => { const r = also.getBoundingClientRect(); Object.assign(pt.style, { left: r.left - 5 + "px", top: r.top - 5 + "px", width: r.width + 10 + "px", height: r.height + 10 + "px" }); });   // the menu places itself when it opens
   }
   function endTour(done) {
     if ($("#export-menu").matches(":popover-open")) $("#export-menu").hidePopover();
-    tourAt = -1; $("#tour-ring").hidden = true; $("#tour-card").hidden = true; document.body.classList.remove("tour-on");
+    tourAt = -1; $("#tour-also").hidden = true; $("#tour-ring").hidden = true; $("#tour-card").hidden = true; document.body.classList.remove("tour-on");
     if (tourOpened) { open.delete(tourOpened); tourOpened = null; if (view.name === "infra") render(); }   // fold the principle the tour unfolded
     // the tour loaded the examples into an empty tool: take them out again, unless the person wants to keep them
     if (tourAdded.length) {
@@ -1441,7 +1452,7 @@
     if (TOUR_RETURN) location.href = TOUR_RETURN;
   }
   $("#tour-next").onclick = () => { tourAt++; if (tourAt >= TOUR.length) endTour(true); else showTour(); };
-  $("#tour-prev").onclick = () => { tourAt = Math.max(0, tourAt - 1); if (view.name !== "infra" && tourAt < TOUR.length - 1) go("infra", (db.infras.find((i) => /openaire/i.test(i.name || "")) || db.infras[0]).id); showTour(); };
+  $("#tour-prev").onclick = () => { tourAt = Math.max(0, tourAt - 1); showTour(); };
   $("#tour-close").onclick = () => endTour(false);
   document.addEventListener("keydown", (e) => {
     if (tourAt < 0) return;
