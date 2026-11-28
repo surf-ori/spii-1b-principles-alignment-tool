@@ -6,3 +6,11 @@ Twelve slides (about 9 minutes) introducing the Principles Alignment Tool, based
 - Keys: ← → (or click) to browse, N shows the speaker notes, F full screen, P print (one slide per page, also to PDF).
 - `#slide-3` in the address opens slide 3.
 - One self-contained file (slides are 1920×1080, scaled to the window); the screenshots are the PNG files next to it (t1–t6.png, t7-word-report.png, word.png, framework.png, overview.png), the Outfit font comes from `../../../fonts/`, and the favicon from the SPII design system.
+
+## Live demo (28 November 2026)
+
+Slide 4 has a button **Show it live in the tool**. It opens the tool with the tour running in presentation mode
+(`?tour=1&present=1&return=…#slide-5`): a larger card, a presenter clicker or the arrow keys step through it, and the
+last step, *Back to the presentation*, returns to slide 5 and removes the examples the tour loaded. Press **F** again
+for full screen. If the live demo is not possible, the tour is also in the backup slides at the end, and as a video
+(`tour.webm`, 1:41).
