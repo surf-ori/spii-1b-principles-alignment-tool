@@ -20,7 +20,7 @@ It takes its user experience cues from the [Digital Autonomy Assessment Tool](ht
 | Wider, smaller type | A 15 px base and an 84 rem page. |
 | The DURF position paper's contents | A **Contents** drawer (bottom left) with all sections and principles, a coloured dot for each answer, ★ for priorities, and the principle in view highlighted. |
 | Settings in the tool's own bar | A cog in the tool's bar opens Settings. Import, export and the framework button sit there too. |
-| Import and export as in the current tool | **Import** opens a dialog: drop JSON reports on it or choose them (this page's exports, or reports saved with the current tool, for all their frameworks). **Export** is a menu with the current tool's options: save report to the GitHub tracker, save alignment to a file (JSON), print report / save as PDF, save to Word (.docx), and download the framework. On an infrastructure's page it exports that one; on the overview all of them. |
+| Import and export as in the current tool | **Import** opens a dialog: drop JSON reports on it or choose them (this page's exports, or reports saved with the current tool, for all their frameworks). **Export** is a menu with the current tool's options: save report to the GitHub tracker, save alignment to a file (JSON), print report / save as PDF, save to Word (.docx). Downloading or importing a framework is in the Alignment Frameworks dialog. On an infrastructure's page it exports that one; on the overview all of them. |
 
 ## Kevin's feedback, and what the new interface does with it
 
