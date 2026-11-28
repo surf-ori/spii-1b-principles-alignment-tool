@@ -215,6 +215,13 @@
   .land-head { display: flex; gap: .55rem; align-items: flex-start; margin: .9rem 0 .2rem; font-size: .9rem; }
   .land-head .hex-ic { margin-top: .1rem; }
   #tour-ring { position: absolute; z-index: 60; border-radius: .8rem; box-shadow: 0 0 0 4px var(--spii-green, #1f5c43), 0 0 0 9999px rgba(16,20,15,.45); pointer-events: none; transition: all .25s ease; }
+  body.tour-present .toast { display: none; }
+  body.tour-on #spii-feedback { display: none; }
+  body.tour-present #tour-card { width: min(46rem, calc(100vw - 2rem)); padding: 1.4rem 1.6rem; }
+  body.tour-present #tour-card h3 { font-size: 1.7rem; }
+  body.tour-present #tour-card p { font-size: 1.25rem; }
+  body.tour-present #tour-step { font-size: 1rem; }
+  body.tour-present #tour-card .btn { font-size: 1.05rem; padding: .55rem 1rem; }
   #tour-card { position: fixed; z-index: 61; left: 50%; bottom: 1.25rem; transform: translateX(-50%); width: min(30rem, calc(100vw - 1.5rem)); padding: 1rem 1.1rem; border-radius: .8rem; background: var(--card, #fff); color: inherit; box-shadow: 0 10px 36px rgba(0,0,0,.25); }
   #tour-card h3 { margin: .15rem 0 .35rem; font-size: 1.1rem; }
   #tour-card p { margin: 0 0 .8rem; font-size: .9rem; line-height: 1.45; }
@@ -1386,6 +1393,11 @@
   ];
   let tourAt = -1;
   let tourAdded = [], tourOpened = null;
+  // Live from a presentation: ?tour=1 starts the tour, &present=1 makes it readable on a projector and lets a
+  // clicker or the arrow keys step through it, &return=<address on this site> goes back there when it ends.
+  const TP = new URLSearchParams(location.search);
+  const TOUR_AUTO = TP.get("tour") === "1", PRESENT = TP.get("present") === "1";
+  const TOUR_RETURN = (() => { try { const u = new URL(TP.get("return") || "", location.href); return TP.get("return") && u.origin === location.origin ? u.href : null; } catch (e) { return null; } })();
   async function startTour() {
     tourAdded = [];
     if (!db.infras.length) { await loadExamples(); tourAdded = db.infras.map((i) => i.id); }
@@ -1398,31 +1410,43 @@
     const el = s.sel(); const ring = $("#tour-ring"), card = $("#tour-card");
     $("#tour-step").textContent = "Step " + (tourAt + 1) + " of " + TOUR.length;
     $("#tour-title").textContent = s.title; $("#tour-text").textContent = s.text;
-    $("#tour-prev").disabled = tourAt === 0; $("#tour-next").textContent = tourAt === TOUR.length - 1 ? "Done" : "Next";
-    card.hidden = false;
+    $("#tour-prev").disabled = tourAt === 0; $("#tour-next").textContent = tourAt === TOUR.length - 1 ? (TOUR_RETURN ? "Back to the presentation" : "Done") : "Next";
+    card.hidden = false; document.body.classList.add("tour-on");
     if (!el) { ring.hidden = true; return; }
-    el.scrollIntoView({ block: "center", behavior: "instant" });
+    // narrow screens: the card covers the lower half, so bring the part to the top, under the sticky bars
+    if (innerWidth < 700) { const bar = $(".toolbar"); window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - (bar ? bar.getBoundingClientRect().bottom : 0) - 12, behavior: "instant" }); }
+    else el.scrollIntoView({ block: "center", behavior: "instant" });
     window.scrollBy(0, Math.min(140, Math.max(0, el.getBoundingClientRect().height - innerHeight * .5)) ? 0 : 0);
     const place = () => { const r = s.after && el.parentElement ? (() => { const a = el.getBoundingClientRect(), n = el.nextElementSibling ? el.nextElementSibling.getBoundingClientRect() : a; return { left: a.left, top: a.top, width: a.width, height: n.bottom - a.top }; })() : el.getBoundingClientRect();
       ring.hidden = false; Object.assign(ring.style, { left: r.left + scrollX - 6 + "px", top: r.top + scrollY - 6 + "px", width: r.width + 12 + "px", height: Math.min(r.height, innerHeight * .8) + 12 + "px" }); };
     requestAnimationFrame(place);
   }
   function endTour(done) {
-    tourAt = -1; $("#tour-ring").hidden = true; $("#tour-card").hidden = true;
+    tourAt = -1; $("#tour-ring").hidden = true; $("#tour-card").hidden = true; document.body.classList.remove("tour-on");
     if (tourOpened) { open.delete(tourOpened); tourOpened = null; if (view.name === "infra") render(); }   // fold the principle the tour unfolded
     // the tour loaded the examples into an empty tool: take them out again, unless the person wants to keep them
     if (tourAdded.length) {
       const ids = tourAdded; tourAdded = [];
-      if (confirm("The tour loaded three examples (OpenAIRE, OpenAlex, HAL). Remove them again?\n\nOK removes them; Cancel keeps them to explore.")) {
+      if (TOUR_RETURN) { db.infras = db.infras.filter((i) => !ids.includes(i.id)); save(); }   // from a presentation: tidy up quietly
+      else if (confirm("The tour loaded three examples (OpenAIRE, OpenAlex, HAL). Remove them again?\n\nOK removes them; Cancel keeps them to explore.")) {
         db.infras = db.infras.filter((i) => !ids.includes(i.id));
         save(); go("overview"); toast("Examples removed.");
       }
     }
+    if (TOUR_RETURN) location.href = TOUR_RETURN;
   }
   $("#tour-next").onclick = () => { tourAt++; if (tourAt >= TOUR.length) endTour(true); else showTour(); };
   $("#tour-prev").onclick = () => { tourAt = Math.max(0, tourAt - 1); if (view.name !== "infra" && tourAt < TOUR.length - 1) go("infra", (db.infras.find((i) => /openaire/i.test(i.name || "")) || db.infras[0]).id); showTour(); };
   $("#tour-close").onclick = () => endTour(false);
-  document.addEventListener("keydown", (e) => { if (tourAt >= 0 && e.key === "Escape") endTour(); });
+  document.addEventListener("keydown", (e) => {
+    if (tourAt < 0) return;
+    if (e.key === "Escape") return endTour();
+    if (!PRESENT || e.target.closest("input, textarea, select")) return;
+    // a presenter clicker sends PageDown/PageUp or the arrow keys
+    if (["ArrowRight", "PageDown", " ", "Enter"].includes(e.key)) { e.preventDefault(); $("#tour-next").click(); }
+    else if (["ArrowLeft", "PageUp"].includes(e.key)) { e.preventDefault(); $("#tour-prev").click(); }
+  });
+  if (PRESENT) document.body.classList.add("tour-present");
   window.addEventListener("resize", () => { if (tourAt >= 0) showTour(); });
   $("#btn-tour").onclick = startTour;
   $("#st-tour").onclick = () => { $("#dlg-settings").close(); startTour(); };
@@ -1505,6 +1529,7 @@
     FW = fwById(db.activeFw || "posi") || BUILTIN[0];
     save();
     if (EMBED) { if (EMBED_DATA.view) view = { name: "infra", id: EMBED_DATA.view }; render(); return; }
+    if (TOUR_AUTO) { render(); startTour(); return; }
     const fromHash = infraFromHash(location.hash.slice(1));
     if (fromHash) view = { name: "infra", id: fromHash.id };
     render(); setHash();
