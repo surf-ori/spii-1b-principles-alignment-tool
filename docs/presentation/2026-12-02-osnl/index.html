@@ -100,7 +100,15 @@ p { font-size: 32px; line-height: 1.4; margin: 0; color: var(--muted); }
 
 /* ---- viewer: one 1920x1080 slide at a time, scaled to the window ---- */
 html, body { margin: 0; height: 100%; background: #0b0e0a; overflow: hidden; }
-#stage { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; transform-origin: 0 0; }
+#stage { position: fixed; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; }
+/* phone held upright: all slides under each other, as wide as the screen; scroll, and pinch to zoom */
+body.list { overflow: auto; height: auto; }
+body.list #stage { position: static; transform: none; width: auto; height: auto; }
+body.list section.slide, body.list section.slide:not(.current) { display: flex; position: relative; margin-bottom: 12px; }
+body.list section.slide * { animation: none !important; }
+#turn { display: none; }
+body.list #turn { display: block; position: sticky; top: 0; z-index: 5; padding: 10px 14px; background: #1f5c43; color: #f3f7f1; font: 14px/1.4 system-ui, sans-serif; text-align: center; }
+body.list #hud { display: none; }
 section.slide { position: absolute; inset: 0; width: 1920px; height: 1080px; }
 section.slide:not(.current) { display: none; }
 aside.notes { display: none; }
@@ -250,6 +258,7 @@ p { font-size: 32px; line-height: 1.4; margin: 0; color: var(--muted); }
 </style>
 </head>
 <body>
+<div id="turn">Turn your phone sideways to see one slide at a time, larger.</div>
 <div id="stage">
 <section id="cover" class="slide dark" data-transition="fade">
 <div class="cover-row">
@@ -492,9 +501,16 @@ p { font-size: 32px; line-height: 1.4; margin: 0; color: var(--muted); }
   var slides = [].slice.call(document.querySelectorAll("section.slide"));
   var stage = document.getElementById("stage");
   var i = Math.max(0, Math.min(slides.length - 1, (parseInt((location.hash.match(/slide-(\d+)/) || [])[1], 10) || 1) - 1));
+  var list = false;
   function fit() {
+    // upright on a phone: one long page of slides; otherwise one slide at a time, centred and scaled to fit
+    list = innerWidth < 700 && innerHeight > innerWidth;
+    document.body.classList.toggle("list", list);
+    var z = innerWidth / 1920;
+    slides.forEach(function (s) { s.style.zoom = list ? z : ""; });
+    if (list) { stage.style.transform = ""; return; }
     var s = Math.min(innerWidth / 1920, innerHeight / 1080);
-    stage.style.transform = "scale(" + s + ") translate(-50%, -50%)";
+    stage.style.transform = "translate(" + (innerWidth - 1920 * s) / 2 + "px," + (innerHeight - 1080 * s) / 2 + "px) scale(" + s + ")";
   }
   function show(n) {
     i = Math.max(0, Math.min(slides.length - 1, n));
@@ -513,7 +529,7 @@ p { font-size: 32px; line-height: 1.4; margin: 0; color: var(--muted); }
     else return;
     e.preventDefault();
   });
-  addEventListener("click", function (e) { if (!e.target.closest("a")) show(e.clientX < innerWidth / 3 ? i - 1 : i + 1); });
+  addEventListener("click", function (e) { if (!list && !e.target.closest("a")) show(e.clientX < innerWidth / 3 ? i - 1 : i + 1); });
   fit(); show(i);
 })();
 </script>
